@@ -1,0 +1,5 @@
+#ifndef SOUNDRESOURCE_H
+#define SOUNDRESOURCE_H
+
+
+#endif SOUNDRESOURCE_H

@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+K:/dev/Alpha/Source/3rdParty/openal-soft-1.16.0/utils/alsoft-config/CMakeLists.txt
+C:/Program Files (x86)/CMake/share/cmake-3.1/Modules/FindQt4.cmake
+C:/Program Files (x86)/CMake/share/cmake-3.1/Modules/CheckCXXSymbolExists.cmake
+C:/Program Files (x86)/CMake/share/cmake-3.1/Modules/CheckSymbolExists.cmake
+C:/Program Files (x86)/CMake/share/cmake-3.1/Modules/MacroAddFileDependencies.cmake
+C:/Program Files (x86)/CMake/share/cmake-3.1/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files (x86)/CMake/share/cmake-3.1/Modules/FindPackageMessage.cmake
+C:/Program Files (x86)/CMake/share/cmake-3.1/Modules/CMakeParseArguments.cmake
+C:/Program Files (x86)/CMake/share/cmake-3.1/Modules/CMakePushCheckState.cmake

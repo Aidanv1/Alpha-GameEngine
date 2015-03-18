@@ -1,0 +1,6 @@
+K:/dev/Alpha/Source/3rdParty/openal-soft-1.16.0/build/CMakeFiles/OpenAL32.dir
+K:/dev/Alpha/Source/3rdParty/openal-soft-1.16.0/build/CMakeFiles/openal-info.dir
+K:/dev/Alpha/Source/3rdParty/openal-soft-1.16.0/build/utils/alsoft-config/CMakeFiles/ALL_BUILD.dir
+K:/dev/Alpha/Source/3rdParty/openal-soft-1.16.0/build/CMakeFiles/common.dir
+K:/dev/Alpha/Source/3rdParty/openal-soft-1.16.0/build/CMakeFiles/makehrtf.dir
+K:/dev/Alpha/Source/3rdParty/openal-soft-1.16.0/build/CMakeFiles/ZERO_CHECK.dir

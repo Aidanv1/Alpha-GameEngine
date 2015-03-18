@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AlphaMain.cpp" />
+    <ClCompile Include="Time\Clock.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Time\ClockManager.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Time\SystemTime.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\StringUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory\MemoryPool.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Resource.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\ResourceManager.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Time">
+      <UniqueIdentifier>{3f8235f7-89c0-45c3-92d1-8fc900b0ae40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Maths">
+      <UniqueIdentifier>{9808d7d9-d961-47f2-8133-ffe3a7cd6c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{81f6cf54-c523-4098-bcb4-bf5098b9d7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{3588060a-9fc1-4d84-86e7-c6daaaebc263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{eb8fd43e-c5d1-4fea-b5ed-a693dbdfdabd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{8071a3ef-22a9-4ee2-86f2-d425908a69f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio\OpenAL">
+      <UniqueIdentifier>{8d6c79b7-2e28-4ca3-8b9d-1232e442be62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager">
+      <UniqueIdentifier>{ea1f3515-bfbe-4d65-8c27-0315d19fc2b9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Time\Clock.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Time\ClockManager.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Time\SystemTime.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\SoundResource.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AlphaStd.h" />
+    <ClInclude Include="Util\StringUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory\IMemoryManager.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory\MemoryPool.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\DefaultResourceLoader.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\IResourceLoader.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Resource.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\ResourceManager.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
