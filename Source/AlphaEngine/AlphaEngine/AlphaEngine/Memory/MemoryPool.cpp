@@ -1,5 +1,5 @@
 #include "MemoryPool.h"
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 MemoryPool::MemoryPool() :
 m_ppMemoryBlock(NULL),
 m_pHead(NULL),
@@ -10,12 +10,12 @@ m_memoryArraySize(0),
 m_numChunks(0)
 {
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 MemoryPool::~MemoryPool()
 {
 	delete[] m_ppMemoryBlock;
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 bool MemoryPool::Init(int chunkSize, int numChunks)
 {
 	m_totalChunkSize = chunkSize + CHUNK_HEADER_SIZE;
@@ -37,7 +37,7 @@ bool MemoryPool::Init(int chunkSize, int numChunks)
 	m_pHead = (unsigned char*)m_ppMemoryBlock;
 	return true;
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 void* MemoryPool::Alloc()
 {
 	if (!m_pHead)
@@ -49,7 +49,7 @@ void* MemoryPool::Alloc()
 	m_pHead = pNext;
 	return pCurr + CHUNK_HEADER_SIZE;
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 void MemoryPool::Free(void* pChunk)
 {
 	if (pChunk != NULL)
@@ -60,7 +60,7 @@ void MemoryPool::Free(void* pChunk)
 		pChunk = NULL;
 	}
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 unsigned char* MemoryPool::GetNext(unsigned char* pCurr)
 { 
 	int index = ((int)pCurr - (int)m_ppMemoryBlock);
@@ -68,9 +68,9 @@ unsigned char* MemoryPool::GetNext(unsigned char* pCurr)
 	return newPtr;
 
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 unsigned int MemoryPool::GetSize()
 {
 	return m_memoryArraySize;
 }
-//======================================================================
+//========================================================================

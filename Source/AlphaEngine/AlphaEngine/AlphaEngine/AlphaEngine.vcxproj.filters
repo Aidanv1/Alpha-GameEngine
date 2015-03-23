@@ -11,9 +11,6 @@
     <ClCompile Include="Time\SystemTime.cpp">
       <Filter>Time</Filter>
     </ClCompile>
-    <ClCompile Include="Util\StringUtil.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
     <ClCompile Include="Memory\MemoryPool.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
@@ -25,6 +22,15 @@
     </ClCompile>
     <ClCompile Include="ResourceManager\ResourceManager.cpp">
       <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager\IEventManager.cpp">
+      <Filter>EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager\EventManager.cpp">
+      <Filter>EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager\Events\Events.cpp">
+      <Filter>EventManager\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,12 @@
     <Filter Include="ResourceManager">
       <UniqueIdentifier>{ea1f3515-bfbe-4d65-8c27-0315d19fc2b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EventManager">
+      <UniqueIdentifier>{d3e5af39-d1cc-4dec-9629-392b69b496f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventManager\Events">
+      <UniqueIdentifier>{146aca92-4725-4992-8d1c-259af087d081}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Time\Clock.h">
@@ -67,9 +79,6 @@
       <Filter>Audio</Filter>
     </ClInclude>
     <ClInclude Include="AlphaStd.h" />
-    <ClInclude Include="Util\StringUtil.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="Memory\IMemoryManager.h">
       <Filter>Memory</Filter>
     </ClInclude>
@@ -87,6 +96,21 @@
     </ClInclude>
     <ClInclude Include="ResourceManager\ResourceManager.h">
       <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\IEventListener.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\IEvent.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\IEventManager.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\EventManager.h">
+      <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager\Events\Events.h">
+      <Filter>EventManager\Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

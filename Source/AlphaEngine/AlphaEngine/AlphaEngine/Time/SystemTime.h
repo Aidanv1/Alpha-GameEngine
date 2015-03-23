@@ -7,13 +7,13 @@
 #include <chrono>
 using namespace std::chrono;
 #endif
-//======================================================================
+//========================================================================
 class SystemTime
 {
 
 public:
 	
-	static SystemTime& Instance();
+	static SystemTime& Get();
 
 	float GetTimeInMicroSeconds()
 	{
@@ -32,4 +32,4 @@ private:
 	static bool init;
 };
 #endif
-//======================================================================
+//========================================================================

@@ -4,13 +4,13 @@
 #include <string>
 using namespace std;
 //------------
-//======================================================================
+//========================================================================
 class IResourceLoader
 {
 public:
-	virtual string GetPattern() = 0;
-	virtual bool LoadResource(string resName, unsigned char* pBuffer, unsigned int& size) = 0;
-	virtual int GetSize(string resName) = 0;
+	virtual string VGetPattern() = 0;
+	virtual bool VLoadResource(string resName, unsigned char* pBuffer, unsigned int& size) = 0;
+	virtual int VGetSize(string resName) = 0;
 };
 #endif
-//======================================================================
+//========================================================================

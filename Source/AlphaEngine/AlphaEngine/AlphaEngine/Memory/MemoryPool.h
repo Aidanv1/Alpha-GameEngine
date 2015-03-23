@@ -10,7 +10,7 @@ MemoryPool implements a simple memory pool which uses a singly linked list data 
 #include <iostream>
 using namespace std;
 //---
-//======================================================================
+//========================================================================
 class MemoryPool
 {
 	const static int CHUNK_HEADER_SIZE = sizeof(unsigned char*);	
@@ -36,4 +36,4 @@ private:
 
 
 #endif
-//======================================================================
+//========================================================================

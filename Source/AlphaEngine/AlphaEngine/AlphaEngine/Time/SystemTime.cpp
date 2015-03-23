@@ -1,8 +1,8 @@
 #include "SystemTime.h"
 high_resolution_clock::time_point SystemTime::start;
 bool SystemTime::init;
-//----------------------------------------------------------------------
-SystemTime& SystemTime::Instance()
+// -----------------------------------------------------------------------
+SystemTime& SystemTime::Get()
 {
 
 	static SystemTime* instance = new SystemTime();
@@ -13,4 +13,4 @@ SystemTime& SystemTime::Instance()
 	init = true;
 	return *instance;
 }
-//======================================================================
+//========================================================================

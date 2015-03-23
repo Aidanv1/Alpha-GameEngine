@@ -48,7 +48,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\FastDelegate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -63,7 +63,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\FastDelegate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -75,6 +75,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AlphaMain.cpp" />
+    <ClCompile Include="EventManager\EventManager.cpp" />
+    <ClCompile Include="EventManager\Events\Events.cpp" />
+    <ClCompile Include="EventManager\IEventManager.cpp" />
     <ClCompile Include="Memory\MemoryPool.cpp" />
     <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Resource.cpp" />
@@ -82,11 +85,15 @@
     <ClCompile Include="Time\Clock.cpp" />
     <ClCompile Include="Time\ClockManager.cpp" />
     <ClCompile Include="Time\SystemTime.cpp" />
-    <ClCompile Include="Util\StringUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\SoundResource.h" />
     <ClInclude Include="AlphaStd.h" />
+    <ClInclude Include="EventManager\EventManager.h" />
+    <ClInclude Include="EventManager\Events\Events.h" />
+    <ClInclude Include="EventManager\IEventManager.h" />
+    <ClInclude Include="EventManager\IEvent.h" />
+    <ClInclude Include="EventManager\IEventListener.h" />
     <ClInclude Include="Memory\IMemoryManager.h" />
     <ClInclude Include="Memory\MemoryPool.h" />
     <ClInclude Include="ResourceManager\DefaultResourceLoader.h" />
@@ -96,7 +103,6 @@
     <ClInclude Include="Time\Clock.h" />
     <ClInclude Include="Time\ClockManager.h" />
     <ClInclude Include="Time\SystemTime.h" />
-    <ClInclude Include="Util\StringUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

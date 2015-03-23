@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 ResourceManager::ResourceManager() :
 m_sizeAllocated(0),
 m_sizeTotal(0),
@@ -9,13 +9,13 @@ m_resIDCount(1)
 {
 
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 ResourceManager::~ResourceManager()
 {
 	m_resourceLoaderList.clear();
 	m_resourceListLRU.clear();
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 bool ResourceManager::Init(int sizeInMB)
 {
 	m_sizeTotal = sizeInMB;
@@ -25,13 +25,13 @@ bool ResourceManager::Init(int sizeInMB)
 	m_resourceLoaderList.push_back(spDefaultLoader);
 	return true;
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 
 void ResourceManager::AddResourceLoader(shared_ptr<IResourceLoader> spResLoader)
 {
 	m_resourceLoaderList.push_back(spResLoader);
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 bool ResourceManager::AddResource(shared_ptr<Resource> spResource)
 {
 	//get resource type and intialiaze with appropriate loader
@@ -46,13 +46,13 @@ bool ResourceManager::AddResource(shared_ptr<Resource> spResource)
 	m_resourceListLRU.push_front(spResource);
 	return true;
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 void ResourceManager::FreeOneResource()
 {
 	list <shared_ptr<Resource>>::iterator lastResource = m_resourceListLRU.end();
 	(*lastResource)->SetLoaded(false);
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 
 void ResourceManager::Update()
 {
@@ -74,7 +74,7 @@ void ResourceManager::Update()
 		}
 	}
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 void ResourceManager::Promote(shared_ptr<Resource> spRes)
 {
 	//move resource to the front of the list
@@ -82,4 +82,4 @@ void ResourceManager::Promote(shared_ptr<Resource> spRes)
 	m_resourceListLRU.remove(spRes);
 	m_resourceListLRU.push_front(spRes);
 }
-//----------------------------------------------------------------------
+// -----------------------------------------------------------------------

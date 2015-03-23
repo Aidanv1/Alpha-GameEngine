@@ -3,17 +3,18 @@
 ClockManager::ClockManager()
 {
 }
-ClockManager& ClockManager::Instance()
+ClockManager& ClockManager::Get()
 {
 	static ClockManager* instance = new ClockManager();
 	return *instance;
 }
-
+// -----------------------------------------------------------------------
 void ClockManager::AddClock(Clock* clock)
 {
 	m_ClockList.push_back(clock);
 
 }
+// -----------------------------------------------------------------------
 void ClockManager::RemoveClock(Clock* clock)
 {
 	vector<Clock*>::iterator clockIt = m_ClockList.begin();
@@ -28,6 +29,7 @@ void ClockManager::RemoveClock(Clock* clock)
 		
 	}
 }
+// -----------------------------------------------------------------------
 void ClockManager::UpdateClocks(float deltaSeconds)
 {
 	vector<Clock*>::iterator clockIt = m_ClockList.begin();
@@ -37,8 +39,9 @@ void ClockManager::UpdateClocks(float deltaSeconds)
 		m_ClockList.at(i)->Update(deltaSeconds);
 	}
 }
-
+// -----------------------------------------------------------------------
 int ClockManager::GetNumberOfClocks() const
 {
 	return m_ClockList.size();
 }
+// -----------------------------------------------------------------------
