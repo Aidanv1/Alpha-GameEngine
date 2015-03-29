@@ -18,32 +18,30 @@ const char* EventManager::GetName() const
 }
 bool EventManager::VRegisterListener(EventType eventType, IEventListener* listener)
 {
-	shared_ptr<IEventListener> pListener(listener);
 	EventListenerList* listenerList = &m_eventListeners[eventType];
 
 	//check if the listener is already registered for this type of event
 	for (auto it = (*listenerList).begin(); it != (*listenerList).end(); it++)
 	{
-		if (pListener == (*it))
+		if (listener == (*it))
 		{
 			//already registered
 			return false;
 		}
 	}
 	//add listener to appropriate list
-	m_eventListeners[eventType].push_back(pListener);
+	m_eventListeners[eventType].push_back(listener);
 	return true;
 }
 
 bool EventManager::VDeregisterListener(EventType eventType, IEventListener* listener)
 {
-	shared_ptr<IEventListener> pListener(listener);
 	EventListenerList* listenerList = &m_eventListeners[eventType];
 
 	//check if the listener is registered for this type of event
 	for (auto it = (*listenerList).begin(); it != (*listenerList).end(); it++)
 	{
-		if (pListener == (*it))
+		if (listener == (*it))
 		{
 			//remove listener from this list
 			m_eventListeners[eventType].erase(it);

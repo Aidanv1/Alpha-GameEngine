@@ -11,7 +11,8 @@
 #include "EventManager\IEvent.h"
 #include "EventManager\EventManager.h"
 
-
+#include "GameObject\GameObjectFactory.h"
+#include "GameObject\TestComponentCreator.h"
 using namespace std;
 
 
@@ -23,6 +24,10 @@ class TestClass: public IEventListener
 	TestClass()
 	{
 		VRegisterListener();
+	}
+	~TestClass()
+	{
+		VDeregisterListener();
 	}
 	virtual bool VOnEvent(shared_ptr<IEvent> event)
 	{
@@ -38,6 +43,7 @@ class TestClass: public IEventListener
 	//used to enforce deregistration of listener
 	virtual bool VDeregisterListener()
 	{
+		IEventManager::Get()->VDeregisterListener(BaseEvent::sEventType, this);
 		return true;
 	}
 };
@@ -46,15 +52,33 @@ class TestClass: public IEventListener
 int main(void)
 {
 
-	EventManager EM("test", true);
-	TestClass test;
-	IEvent* be = new BaseEvent();
-	shared_ptr<IEvent> pbe(new BaseEvent());
-	IEventManager::Get()->VQueueEvent(pbe);
-	IEventManager::Get()->VQueueEvent(pbe);
-	IEventManager::Get()->VQueueEvent(pbe);
+	//EventManager EM("test", true);
+	//TestClass* test = new TestClass();
 
-	IEventManager::Get()->VUpdate();
+	//IEvent* be = new BaseEvent();
+	//shared_ptr<IEvent> pbe(new BaseEvent());
+	//IEventManager::Get()->VQueueEvent(pbe);
+	//IEventManager::Get()->VQueueEvent(pbe);
+	//IEventManager::Get()->VQueueEvent(pbe);
+	//delete test;
+	//IEventManager::Get()->VUpdate();
+	//cout << endl;
+	//IEventManager::Get()->VQueueEvent(pbe);
+	//IEventManager::Get()->VUpdate();
+
+	GameObjectFactory gf;
+	IComponentCreator* tc = new TestComponentCreator();
+	gf.AddComponentCreator(tc, "test");
+	TiXmlDocument doc("test.xml");
+	bool loadOkay = doc.LoadFile();
+	TiXmlElement* ele = doc.RootElement()->FirstChildElement();
+
+	shared_ptr<GameObject> go = gf.CreateGameObject(ele);
+	TestComponent* t = (TestComponent*)go->GetComponent(1);
+	cout << t->GetName()<< endl;
+	cout << t->GetOwnerId() << endl;
+
+	go->Destroy();
 	system("pause");
 
 }

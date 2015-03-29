@@ -13,6 +13,10 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CDF20188-5449-44CA-98FF-6CF631E741C8}</ProjectGuid>
     <RootNamespace>AlphaEngine</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -48,12 +52,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\FastDelegate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -63,14 +67,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\FastDelegate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -78,6 +82,8 @@
     <ClCompile Include="EventManager\EventManager.cpp" />
     <ClCompile Include="EventManager\Events\Events.cpp" />
     <ClCompile Include="EventManager\IEventManager.cpp" />
+    <ClCompile Include="GameObject\GameObject.cpp" />
+    <ClCompile Include="GameObject\GameObjectFactory.cpp" />
     <ClCompile Include="Memory\MemoryPool.cpp" />
     <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Resource.cpp" />
@@ -94,6 +100,12 @@
     <ClInclude Include="EventManager\IEventManager.h" />
     <ClInclude Include="EventManager\IEvent.h" />
     <ClInclude Include="EventManager\IEventListener.h" />
+    <ClInclude Include="GameObject\GameObject.h" />
+    <ClInclude Include="GameObject\GameObjectFactory.h" />
+    <ClInclude Include="GameObject\IComponentCreator.h" />
+    <ClInclude Include="GameObject\IGameObjectComponent.h" />
+    <ClInclude Include="GameObject\TestComponent.h" />
+    <ClInclude Include="GameObject\TestComponentCreator.h" />
     <ClInclude Include="Memory\IMemoryManager.h" />
     <ClInclude Include="Memory\MemoryPool.h" />
     <ClInclude Include="ResourceManager\DefaultResourceLoader.h" />

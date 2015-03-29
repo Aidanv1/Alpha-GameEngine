@@ -7,7 +7,7 @@ class IEventManager
 	static IEventManager* globalManager;
 
 protected:
-	typedef vector<shared_ptr<IEventListener>> EventListenerList;
+	typedef vector<IEventListener*> EventListenerList;
 	typedef map<EventType, EventListenerList> EventListenerMap;
 	typedef list<shared_ptr<IEvent>> EventQueue;
 

@@ -32,6 +32,12 @@
     <ClCompile Include="EventManager\Events\Events.cpp">
       <Filter>EventManager\Events</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\GameObjectFactory.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\GameObject.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -63,6 +69,12 @@
     </Filter>
     <Filter Include="EventManager\Events">
       <UniqueIdentifier>{146aca92-4725-4992-8d1c-259af087d081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{d9738a7e-40c5-4606-8a88-37971cf24faf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\ComponentCreator">
+      <UniqueIdentifier>{ac19d582-b2c5-4aca-bafd-35768f7d70b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +123,24 @@
     </ClInclude>
     <ClInclude Include="EventManager\Events\Events.h">
       <Filter>EventManager\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\GameObject.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\IGameObjectComponent.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\GameObjectFactory.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\IComponentCreator.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TestComponentCreator.h">
+      <Filter>GameObject\ComponentCreator</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TestComponent.h">
+      <Filter>GameObject\ComponentCreator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
