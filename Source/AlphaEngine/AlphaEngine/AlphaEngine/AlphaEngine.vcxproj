@@ -52,12 +52,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;K:\dev\Alpha\Source\3rdParty\opengl\glm;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\include;K:\dev\Alpha\Source\3rdParty\DevIL\include;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\include;K:\dev\Alpha\Source\3rdParty\freeglut-2.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;K:\dev\Alpha\Source\3rdParty\DevIL\lib;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\lib;K:\dev\Alpha\Source\3rdParty\freeglut-2.8.1\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <AdditionalOptions>/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -67,14 +69,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;K:\dev\Alpha\Source\3rdParty\opengl\glm;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\include;K:\dev\Alpha\Source\3rdParty\DevIL\include;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\include;K:\dev\Alpha\Source\3rdParty\freeglut-2.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>tinyxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;K:\dev\Alpha\Source\3rdParty\DevIL\lib;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\lib;K:\dev\Alpha\Source\3rdParty\freeglut-2.8.1\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <AdditionalOptions>/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -84,13 +88,28 @@
     <ClCompile Include="EventManager\IEventManager.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GameObject\GameObjectFactory.cpp" />
+    <ClCompile Include="Graphics\GraphicsSystem.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Data\Handler\TextureHandler.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Data\Material.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Data\Mesh.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Data\Texture.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLRenderer.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Shader\BaseShaderProgram.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Shader\ShaderHelper.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Shader\MeshShaderProgram.cpp" />
+    <ClCompile Include="Graphics\Scene.cpp" />
+    <ClCompile Include="Graphics\SceneNode.cpp" />
     <ClCompile Include="Memory\MemoryPool.cpp" />
     <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp" />
+    <ClCompile Include="ResourceManager\Loaders\BitmapResourceLoader.cpp" />
+    <ClCompile Include="ResourceManager\Loaders\MeshResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Resource.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Time\Clock.cpp" />
     <ClCompile Include="Time\ClockManager.cpp" />
     <ClCompile Include="Time\SystemTime.cpp" />
+    <ClCompile Include="Window\GLWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\SoundResource.h" />
@@ -106,15 +125,35 @@
     <ClInclude Include="GameObject\IGameObjectComponent.h" />
     <ClInclude Include="GameObject\TestComponent.h" />
     <ClInclude Include="GameObject\TestComponentCreator.h" />
-    <ClInclude Include="Memory\IMemoryManager.h" />
+    <ClInclude Include="Graphics\GraphicsSystem.h" />
+    <ClInclude Include="Graphics\IDrawable.h" />
+    <ClInclude Include="Graphics\IRenderer.h" />
+    <ClInclude Include="Graphics\OpenGL\Data\Handler\TextureHandler.h" />
+    <ClInclude Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.h" />
+    <ClInclude Include="Graphics\OpenGL\Data\Material.h" />
+    <ClInclude Include="Graphics\OpenGL\Data\Mesh.h" />
+    <ClInclude Include="Graphics\OpenGL\Data\Texture.h" />
+    <ClInclude Include="Graphics\OpenGL\GLRenderer.h" />
+    <ClInclude Include="Graphics\OpenGL\Shader\BaseShaderProgram.h" />
+    <ClInclude Include="Graphics\OpenGL\Shader\IShaderProgram.h" />
+    <ClInclude Include="Graphics\OpenGL\Shader\ShaderHelper.h" />
+    <ClInclude Include="Graphics\OpenGL\Shader\MeshShaderProgram.h" />
+    <ClInclude Include="Graphics\Scene.h" />
+    <ClInclude Include="Graphics\SceneNode.h" />
     <ClInclude Include="Memory\MemoryPool.h" />
     <ClInclude Include="ResourceManager\DefaultResourceLoader.h" />
     <ClInclude Include="ResourceManager\IResourceLoader.h" />
+    <ClInclude Include="ResourceManager\Loaders\BitmapResourceLoader.h" />
+    <ClInclude Include="ResourceManager\Loaders\MeshResourceLoader.h" />
     <ClInclude Include="ResourceManager\Resource.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
+    <ClInclude Include="ResourceManager\Resources\Raw.h" />
     <ClInclude Include="Time\Clock.h" />
     <ClInclude Include="Time\ClockManager.h" />
     <ClInclude Include="Time\SystemTime.h" />
+    <ClInclude Include="Util\FileIO.h" />
+    <ClInclude Include="Window\GLWindow.h" />
+    <ClInclude Include="Window\IWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

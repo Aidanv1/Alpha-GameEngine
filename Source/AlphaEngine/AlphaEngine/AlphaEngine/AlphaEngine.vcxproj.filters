@@ -14,9 +14,6 @@
     <ClCompile Include="Memory\MemoryPool.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp">
-      <Filter>ResourceManager</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager\Resource.cpp">
       <Filter>ResourceManager</Filter>
     </ClCompile>
@@ -37,6 +34,54 @@
     </ClCompile>
     <ClCompile Include="GameObject\GameObject.cpp">
       <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\GLWindow.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Loaders\BitmapResourceLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\GraphicsSystem.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Loaders\MeshResourceLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Data\Material.cpp">
+      <Filter>Graphics\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Data\Mesh.cpp">
+      <Filter>Graphics\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Data\Texture.cpp">
+      <Filter>Graphics\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Data\Handler\TextureHandler.cpp">
+      <Filter>Graphics\OpenGL\Data\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.cpp">
+      <Filter>Graphics\OpenGL\Data\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Shader\ShaderHelper.cpp">
+      <Filter>Graphics\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLRenderer.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Scene.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SceneNode.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Shader\BaseShaderProgram.cpp">
+      <Filter>Graphics\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Shader\MeshShaderProgram.cpp">
+      <Filter>Graphics\OpenGL\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +121,27 @@
     <Filter Include="GameObject\ComponentCreator">
       <UniqueIdentifier>{ac19d582-b2c5-4aca-bafd-35768f7d70b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\OpenGL">
+      <UniqueIdentifier>{534e54fe-d108-428b-9127-2273882e7cc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{0b83a6e0-1c22-4673-bf01-70a3fc7b1599}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\Loaders">
+      <UniqueIdentifier>{ed3d7dfc-446c-4863-aa18-81112bf998f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\Resources">
+      <UniqueIdentifier>{2070b129-06f3-4fc5-9941-840fceb78332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\OpenGL\Data">
+      <UniqueIdentifier>{0ef8cc3d-71cf-4eab-ae4f-8d6bfd2d56fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\OpenGL\Data\Handler">
+      <UniqueIdentifier>{53fec6d0-bfb8-4eb3-91ab-d01ab141654c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\OpenGL\Shader">
+      <UniqueIdentifier>{e551f9f7-a206-4b33-ae2d-842b1e13b9d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Time\Clock.h">
@@ -91,14 +157,8 @@
       <Filter>Audio</Filter>
     </ClInclude>
     <ClInclude Include="AlphaStd.h" />
-    <ClInclude Include="Memory\IMemoryManager.h">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Memory\MemoryPool.h">
       <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager\DefaultResourceLoader.h">
-      <Filter>ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager\IResourceLoader.h">
       <Filter>ResourceManager</Filter>
@@ -141,6 +201,72 @@
     </ClInclude>
     <ClInclude Include="GameObject\TestComponent.h">
       <Filter>GameObject\ComponentCreator</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IRenderer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\IWindow.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\GLWindow.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\DefaultResourceLoader.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Loaders\BitmapResourceLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\GraphicsSystem.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Loaders\MeshResourceLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\FileIO.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Data\Material.h">
+      <Filter>Graphics\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Data\Mesh.h">
+      <Filter>Graphics\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Data\Texture.h">
+      <Filter>Graphics\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Data\Handler\TextureHandler.h">
+      <Filter>Graphics\OpenGL\Data\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.h">
+      <Filter>Graphics\OpenGL\Data\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Shader\ShaderHelper.h">
+      <Filter>Graphics\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Resources\Raw.h">
+      <Filter>ResourceManager\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IDrawable.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLRenderer.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Scene.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\SceneNode.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Shader\IShaderProgram.h">
+      <Filter>Graphics\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Shader\BaseShaderProgram.h">
+      <Filter>Graphics\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Shader\MeshShaderProgram.h">
+      <Filter>Graphics\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

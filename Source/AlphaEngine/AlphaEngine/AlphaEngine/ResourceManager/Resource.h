@@ -1,10 +1,10 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
-//temp includes----
-#include "IResourceLoader.h"
+
+#include "..\AlphaStd.h"
 #include "ResourceManager.h"
-#include <memory>
-#include <string>
+#include "IResourceLoader.h"
+
 using namespace std;
 //-----------------
 
@@ -13,22 +13,24 @@ class Resource
 {
 	//the resource manager needs access to the LoadBuffer and FreeBuffer
 	friend class ResourceManager;
+	typedef shared_ptr<ResourceManager> StrongResourceManagerPtr;
 public:
 	Resource(string name);
 	~Resource();
 	bool Init(unsigned int ID, shared_ptr<IResourceLoader> loader, ResourceManager* resM);
 	void SetName(string name);
-	void SetLoaded(bool loaded);
+	void RequestLoad();
+	void Unload();
 	bool IsLoaded();
 	string GetName();
-	unsigned int GetSize();
-	unsigned int GetID();
+	unsigned int GetSize() const;
+	unsigned int GetID() const;
 	unsigned char* Buffer();
-private:
+private:	
 	bool LoadBuffer(int availableSpace);
 	void FreeBuffer();
 private:	
-	unsigned int m_resID;
+	ResourceID m_resID;
 	unsigned char* m_pBuffer;
 	shared_ptr<IResourceLoader> m_loader;
 	unsigned int m_size;

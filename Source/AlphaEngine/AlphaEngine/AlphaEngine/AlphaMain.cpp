@@ -1,85 +1,66 @@
-#include <string>
-#include <iostream>
 #include "Time\Clock.h"
-#include "Time\ClockManager.h"
-#include "Time\SystemTime.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>	
+#include <glm/gtx/transform.hpp>//openGL maths class
+#include "Window\GLWindow.h"
+#include "Graphics\OpenGL\Data\Texture.h"
+#include "ResourceManager\Loaders\BitmapResourceLoader.h"
+#include "ResourceManager\Loaders\MeshResourceLoader.h"
+#include "Graphics\GraphicsSystem.h"
+#include "Graphics\OpenGL\GLRenderer.h"
+#include "Graphics\OpenGL\Data\Mesh.h"
+#include "Graphics\OpenGL\Data\Material.h"
+#include "Graphics\OpenGL\Data\Texture.h"
 
-#include "Memory\MemoryPool.h"
-#include "ResourceManager\ResourceManager.h"
-
-#include "EventManager\Events\Events.h"
-#include "EventManager\IEvent.h"
-#include "EventManager\EventManager.h"
-
-#include "GameObject\GameObjectFactory.h"
-#include "GameObject\TestComponentCreator.h"
-using namespace std;
-
-
-
-
-class TestClass: public IEventListener
+#define WINDOW_NAME "Alpha Engine"
+int main(int argc, char *argv[])
 {
-	public:
-	TestClass()
+	//Window
+	GLWindow glwin(WINDOW_NAME, 1280, 720);
+	glwin.VInit();
+	//Renderer
+	IRenderer* prend = new GLRenderer();
+	shared_ptr<IRenderer> renderer(prend);
+	//graphics system
+	GraphicsSystem::Get().Init(renderer, 100, 100);
+	//--------------------------------------------------------------
+
+	//scenenode
+	SceneNode* node = new SceneNode();
+	//drawable	
+	Material* mat = new Material;
+	Texture* tex = new Texture("../../../../Assets/mirage.bmp", GraphicsSystem::Get().GetTextureResourceManager());
+	shared_ptr<Texture> ptex(tex);
+	mat->SetTexture(ptex);
+
+	IDrawable* drawable = new Mesh("../../../../Assets/mirage.obj", shared_ptr<Material>(mat), GraphicsSystem::Get().GetMeshResourceManager());
+	shared_ptr<IDrawable> pd(drawable);
+	pd->VLoad();
+	pd->VInit(node);
+	
+	node->Init(pd);
+	//node prop
+	NodeProperties nP;
+	nP.LightVector = vec4(0.0f, 1.0f, 1.0f, 1.0f);
+	nP.RotationMatrix = mat4(1.0f);
+	nP.ModelMatrix = translate(mat4(1.0f), vec3(0.0f, 0.0f, -20.0f));
+	nP.ViewMatrix = mat4(1.0f);
+	nP.ProjectionMatrix = perspective(45.0f, 1.7778f, 0.1f, 1000.0f);
+
+	node->SetNodeProperties(nP);
+	GraphicsSystem::Get().GetScene()->SetRootNode(shared_ptr<SceneNode>(node));
+
+
+
+
+	//Game Loop
+	bool quit = false;
+	while (!quit)
 	{
-		VRegisterListener();
+		GraphicsSystem::Get().Update();
+		quit = !glwin.VUpdate();
 	}
-	~TestClass()
-	{
-		VDeregisterListener();
-	}
-	virtual bool VOnEvent(shared_ptr<IEvent> event)
-	{
-		cout << "hello";
-		return true;
-	}
-	//used to register for appropriate event types
-	virtual bool VRegisterListener()
-	{
-		IEventManager::Get()->VRegisterListener(BaseEvent::sEventType, this);
-		return true;
-	}
-	//used to enforce deregistration of listener
-	virtual bool VDeregisterListener()
-	{
-		IEventManager::Get()->VDeregisterListener(BaseEvent::sEventType, this);
-		return true;
-	}
-};
-
-
-int main(void)
-{
-
-	//EventManager EM("test", true);
-	//TestClass* test = new TestClass();
-
-	//IEvent* be = new BaseEvent();
-	//shared_ptr<IEvent> pbe(new BaseEvent());
-	//IEventManager::Get()->VQueueEvent(pbe);
-	//IEventManager::Get()->VQueueEvent(pbe);
-	//IEventManager::Get()->VQueueEvent(pbe);
-	//delete test;
-	//IEventManager::Get()->VUpdate();
-	//cout << endl;
-	//IEventManager::Get()->VQueueEvent(pbe);
-	//IEventManager::Get()->VUpdate();
-
-	GameObjectFactory gf;
-	IComponentCreator* tc = new TestComponentCreator();
-	gf.AddComponentCreator(tc, "test");
-	TiXmlDocument doc("test.xml");
-	bool loadOkay = doc.LoadFile();
-	TiXmlElement* ele = doc.RootElement()->FirstChildElement();
-
-	shared_ptr<GameObject> go = gf.CreateGameObject(ele);
-	TestComponent* t = (TestComponent*)go->GetComponent(1);
-	cout << t->GetName()<< endl;
-	cout << t->GetOwnerId() << endl;
-
-	go->Destroy();
-	system("pause");
-
+	return 0;
 }
 	
+

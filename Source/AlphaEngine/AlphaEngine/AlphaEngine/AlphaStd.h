@@ -1,7 +1,16 @@
 #ifndef ALPHASTD_H
 #define ALPHASTD_H
+//VALUE DEFINITIONS
+//time
+#define MS_PER_SECOND 1000
+#define US_PER_SECOND 1000000
+#define NS_PER_SECOND 1000000000
+#define IDEAL_FRAME_DT 1/60		//Deltatime for 60 FPS
 
-using namespace std;
+//storage
+#define BYTES_PER_KB 1024
+#define BYTES_PER_MB 1024 * 1024
+
 // C RunTime Header Files-------------------------------------------------
 #include <stdlib.h>
 #include <malloc.h>
@@ -16,12 +25,23 @@ using namespace std;
 #include <map>
 #include <cctype>
 #include <clocale>
+#include <fstream>
 // -----------------------------------------------------------------------
 //Global AlphaEngine includes---------------------------------------------
 #include "tinyxml.h"
 #include "tinystr.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Util\FileIO.h"
 // -----------------------------------------------------------------------
 
+
+
+//NAMESPACES
+using namespace std;
+using namespace glm;
 // MACROS-----------------------------------------------------------------
 #if defined(_DEBUG)
 #       define ALPHA_NEW new(_NORMAL_BLOCK,__FILE__, __LINE__)

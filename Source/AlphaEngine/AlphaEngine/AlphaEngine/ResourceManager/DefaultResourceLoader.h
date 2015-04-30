@@ -8,8 +8,8 @@ public:
 	DefaultResourceLoader();
 	~DefaultResourceLoader();
 	virtual string VGetPattern();
-	virtual bool VLoadResource(string resName, unsigned char* pBuffer, unsigned int& size);
-	virtual int VGetSize(string resName);
+	virtual bool VLoadResource(string resName, unsigned char*& pBuffer, unsigned int& size);
+	virtual unsigned int  VGetSize(string resName);
 };
 #endif
 //========================================================================

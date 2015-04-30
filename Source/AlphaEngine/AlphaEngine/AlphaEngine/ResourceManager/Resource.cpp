@@ -6,7 +6,8 @@ m_resID(0),
 m_pBuffer(NULL),
 m_isLoaded(false),
 m_loader(NULL),
-m_size(0)
+m_size(0),
+m_resManager(NULL)
 {
 
 }
@@ -39,9 +40,14 @@ void Resource::SetName(string name)
 	m_resName = name;
 }
 // -----------------------------------------------------------------------
-void Resource::SetLoaded(bool loaded)
+void Resource::RequestLoad()
 {
-	m_isLoaded = loaded;
+	m_isLoaded = true;
+}
+// -----------------------------------------------------------------------
+void Resource::Unload()
+{
+	m_isLoaded = false;
 }
 // -----------------------------------------------------------------------
 string Resource::GetName()
@@ -49,7 +55,7 @@ string Resource::GetName()
 	return m_resName;
 }
 // -----------------------------------------------------------------------
-unsigned int Resource::GetID()
+unsigned int Resource::GetID() const
 {
 	return m_resID;
 }
@@ -57,12 +63,11 @@ unsigned int Resource::GetID()
 unsigned char* Resource::Buffer()
 {
 	//promote this resource in the resource manager
-	shared_ptr<Resource> thisRes(this);
-	m_resManager->Promote(thisRes);
+	m_resManager->Promote(this);
 	return m_pBuffer;
 }
 // -----------------------------------------------------------------------
-unsigned int Resource::GetSize()
+unsigned int Resource::GetSize() const
 {
 	return m_size;
 }
@@ -73,8 +78,11 @@ bool Resource::LoadBuffer(int availableSpace)
 	{
 		if (availableSpace > m_loader->VGetSize(m_resName))
 		{
-			m_loader->VLoadResource(m_resName, m_pBuffer, m_size);
-			m_isLoaded = true;
+			if (!m_loader->VLoadResource(m_resName, m_pBuffer, m_size))
+			{
+				return false;
+			}
+			m_isLoaded = true;	
 		}
 		else
 		{
@@ -90,6 +98,7 @@ void Resource::FreeBuffer()
 	{
 		delete m_pBuffer;
 		m_pBuffer = NULL;
+		m_size = 0;
 	}
 }
 // -----------------------------------------------------------------------
