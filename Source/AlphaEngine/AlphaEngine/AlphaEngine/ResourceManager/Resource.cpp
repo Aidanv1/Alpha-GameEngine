@@ -72,7 +72,7 @@ unsigned int Resource::GetSize() const
 	return m_size;
 }
 // -----------------------------------------------------------------------
-bool Resource::LoadBuffer(int availableSpace)
+bool Resource::LoadBuffer(unsigned int availableSpace)
 {
 	if (!m_pBuffer)
 	{

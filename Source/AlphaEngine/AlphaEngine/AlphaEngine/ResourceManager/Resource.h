@@ -27,7 +27,7 @@ public:
 	unsigned int GetID() const;
 	unsigned char* Buffer();
 private:	
-	bool LoadBuffer(int availableSpace);
+	bool LoadBuffer(unsigned int availableSpace);
 	void FreeBuffer();
 private:	
 	ResourceID m_resID;
