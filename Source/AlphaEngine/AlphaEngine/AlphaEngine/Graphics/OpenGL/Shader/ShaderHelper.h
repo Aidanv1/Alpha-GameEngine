@@ -12,9 +12,6 @@ private:
 	static GLuint MakeVertexShader(const char* vertexShaderSourceCode);
 	static GLuint MakeFragmentShader(const char* fragmentShaderSourceCode);
 	static bool CompiledStatus(GLint shaderID);
-
-private:
-	static char* readFile(const char* filename);
 };
 //========================================================================
 #endif

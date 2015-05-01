@@ -10,11 +10,3 @@ struct BmpData
 	int size;
 };
 //========================================================================
-struct MeshData
-{
-	vector<GLfloat> m_vArray;
-	vector<GLfloat> m_nArray;
-	vector<GLfloat> m_tArray;
-	int m_numVertices;
-};
-//========================================================================

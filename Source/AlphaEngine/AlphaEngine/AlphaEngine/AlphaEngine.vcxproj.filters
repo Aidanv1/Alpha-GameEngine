@@ -83,6 +83,9 @@
     <ClCompile Include="Graphics\OpenGL\Shader\MeshShaderProgram.cpp">
       <Filter>Graphics\OpenGL\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="GameLoop\GameLoop.cpp">
+      <Filter>GameLoop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -141,6 +144,9 @@
     </Filter>
     <Filter Include="Graphics\OpenGL\Shader">
       <UniqueIdentifier>{e551f9f7-a206-4b33-ae2d-842b1e13b9d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLoop">
+      <UniqueIdentifier>{9385ab77-8ada-4c8e-9f63-0adb750ac2b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -247,9 +253,6 @@
     <ClInclude Include="ResourceManager\Resources\Raw.h">
       <Filter>ResourceManager\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IDrawable.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\OpenGL\GLRenderer.h">
       <Filter>Graphics\OpenGL</Filter>
     </ClInclude>
@@ -267,6 +270,12 @@
     </ClInclude>
     <ClInclude Include="Graphics\OpenGL\Shader\MeshShaderProgram.h">
       <Filter>Graphics\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoop\GameLoop.h">
+      <Filter>GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Camera.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

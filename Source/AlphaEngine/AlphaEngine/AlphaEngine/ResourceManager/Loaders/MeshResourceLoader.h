@@ -5,7 +5,7 @@
 #include "assimp/mesh.h"
 #include "assimp/Importer.hpp"
 #include "assimp/matrix4x4.h"
-#include "../Resources/Raw.h"
+
 class MeshResourceLoader : public IResourceLoader
 {
 public:
@@ -14,7 +14,9 @@ public:
 	string VGetPattern() override;
 	bool VLoadResource(string resName, unsigned char*& pBuffer, unsigned int& size) override;
 	unsigned int  VGetSize(string resName) override;
+private:
+	unsigned int SizeOf(aiScene* scene);
 };
 
-
+//========================================================================
 #endif MESHRESOURCELOADER_H

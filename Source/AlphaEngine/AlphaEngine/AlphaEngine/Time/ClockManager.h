@@ -11,7 +11,7 @@ public:
 	static ClockManager& Get();
 	void AddClock(Clock* clock);
 	void RemoveClock(Clock* clock);
-	void UpdateClocks(float deltaSeconds);
+	void UpdateClocks(float deltaMs);
 	int GetNumberOfClocks() const;
 
 private:

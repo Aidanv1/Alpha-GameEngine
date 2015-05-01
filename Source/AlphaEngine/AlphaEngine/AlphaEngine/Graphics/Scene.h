@@ -3,7 +3,7 @@
 #include "SceneNode.h"
 
 class Scene;
-typedef shared_ptr<SceneNode> StrongNodePtr;
+typedef shared_ptr<ISceneNode> StrongNodePtr;
 typedef shared_ptr<Scene> StrongScenePtr;
 //========================================================================
 class Scene

@@ -5,6 +5,7 @@
 #define MS_PER_SECOND 1000
 #define US_PER_SECOND 1000000
 #define NS_PER_SECOND 1000000000
+#define MS_PER_MICROSECOND 1000
 #define IDEAL_FRAME_DT 1/60		//Deltatime for 60 FPS
 
 //storage

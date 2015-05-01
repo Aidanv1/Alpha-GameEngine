@@ -4,6 +4,7 @@
 #include "..\Resources\Raw.h"
 #include "IL/il.h"
 #include "IL/ilu.h"
+//========================================================================
 class BitmapResourceLoader : public IResourceLoader
 {
 public:
@@ -13,4 +14,5 @@ public:
 	bool VLoadResource(string resName, unsigned char*& pBuffer, unsigned int& size) override;
 	unsigned int  VGetSize(string resName) override;
 };
+//========================================================================
 #endif

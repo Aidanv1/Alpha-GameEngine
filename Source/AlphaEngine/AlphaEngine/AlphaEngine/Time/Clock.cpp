@@ -33,11 +33,11 @@ bool Clock::IsPaused() const
 	return m_isPaused;
 }
 // -----------------------------------------------------------------------
-void Clock::Update(float dtRealSeconds)
+void Clock::Update(float dtRealUs)
 {
 	if (!m_isPaused)
 	{
-		unsigned __int64 dtScaledTime = dtRealSeconds * m_timeScale * US_PER_SECOND;
+		unsigned __int64 dtScaledTime = (unsigned __int64)dtRealUs * m_timeScale;
 		m_timeMicroSec += dtScaledTime;
 	}
 }
@@ -61,7 +61,7 @@ void Clock::SingleStep()
 {
 	if (m_isPaused)
 	{
-		unsigned __int64 dtScaledTime = (IDEAL_FRAME_DT * m_timeScale) * US_PER_SECOND;
+		unsigned __int64 dtScaledTime = (IDEAL_FRAME_DT * (unsigned __int64)m_timeScale) * US_PER_SECOND;
 		m_timeMicroSec += dtScaledTime;
 	}
 }

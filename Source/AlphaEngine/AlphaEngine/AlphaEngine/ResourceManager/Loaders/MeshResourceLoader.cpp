@@ -11,44 +11,55 @@ string MeshResourceLoader::VGetPattern()
 {
 	return ".obj";
 }
+
+//========================================================================
+//This is the definition of Assimp's aiScene constructor and destructor
+//which were not provided 
+aiScene::aiScene() {
+	mFlags = 0;
+	mRootNode = NULL;
+	mNumMeshes = 0;
+	mMeshes = NULL;
+	mNumMaterials = 0;
+	mMaterials = NULL;
+	mNumAnimations = 0;
+	mAnimations = NULL;
+	mNumTextures = 0;
+	mTextures = NULL;
+	mNumLights = 0;
+	mLights = NULL;
+	mNumCameras = 0;
+	mCameras = NULL;
+}
+aiScene::~aiScene() {
+	delete mRootNode;
+	delete mMeshes;
+	delete mMaterials;
+	delete mAnimations;
+	delete mTextures;
+	delete mLights;
+	delete mCameras;
+}
+
+
+//========================================================================
+
+unsigned int SizeOf(aiScene* scene)
+{
+	unsigned int size = sizeof(aiScene) +
+						_msize(scene->mRootNode) +
+						_msize(scene->mMeshes) +
+						_msize(scene->mMaterials) +
+						_msize(scene->mAnimations) +
+						_msize(scene->mTextures) +
+						_msize(scene->mLights) + 
+						_msize(scene->mCameras);
+	return size;
+}
 bool MeshResourceLoader::VLoadResource(string resName, unsigned char*& pBuffer, unsigned int& size)
 {
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(resName.c_str(), NULL);
-	if (!scene) {
-		//printf("Unable to laod mesh: %s\n", importer.GetErrorString());
-		ALPHA_ERROR("Unable to load mesh");
-		return false;
-	}
-	MeshData* meshData = new MeshData();
-
-	aiMesh* mesh = scene->mMeshes[0];
-	meshData->m_numVertices = mesh->mNumFaces * 3;
-	//extract vertex data
-	if (mesh->HasPositions()) {
-		for (unsigned int i = 0; i < mesh->mNumVertices; ++i)
-		{
-			meshData->m_vArray.push_back(mesh->mVertices[i].x);
-			meshData->m_vArray.push_back(mesh->mVertices[i].y);
-			meshData->m_vArray.push_back(mesh->mVertices[i].z);
-		}
-		for (unsigned int i = 0; i < mesh->mNumVertices; ++i)
-		{
-			meshData->m_nArray.push_back(mesh->mNormals[i].x);
-			meshData->m_nArray.push_back(mesh->mNormals[i].y);
-			meshData->m_nArray.push_back(mesh->mNormals[i].z);
-		}
-		for (unsigned int i = 0; i < mesh->mNumVertices; ++i)
-		{
-			meshData->m_tArray.push_back(mesh->mTextureCoords[0][i].x);
-			meshData->m_tArray.push_back(mesh->mTextureCoords[0][i].y);
-		}
-
-	}
-	size = 8 * meshData->m_numVertices * sizeof(GLfloat) + sizeof(MeshData);
-	pBuffer = (unsigned char*)meshData;
-	//size = FileSize(resName.c_str());
-	aiMesh* test = (aiMesh*)pBuffer;
+	size = FileSize(resName.c_str());
+	pBuffer = (unsigned char*)ReadFile(resName.c_str());
 	return true;
 }
 unsigned int  MeshResourceLoader::VGetSize(string resName)

@@ -1,7 +1,6 @@
 #ifndef SCENENODE_H
 #define SCENENODE_H
 #include"..\AlphaStd.h"
-#include "IDrawable.h"
 
 class IDrawable;
 typedef shared_ptr<IDrawable> StrongDrawablePtr;
@@ -23,18 +22,27 @@ struct NodeProperties
 	}
 };
 //========================================================================
-class SceneNode
+class ISceneNode
+{
+public:
+	virtual void VUpdate() = 0;
+	virtual bool VInit() = 0;
+	virtual void VRender() = 0;
+	virtual bool VLoad() = 0;
+};
+//========================================================================
+class SceneNode: public ISceneNode
 {
 public:
 	SceneNode();
 	~SceneNode();
-	bool Init(StrongDrawablePtr drawable);
-	void GetPosition(vec3& pos) const { pos = m_positionInWorld; }
-	void GetRotation(vec3& rot) const { rot = m_rotationInWorld; }
 	NodeProperties GetNodeProperties() const { return m_nodeProperties; }
 	void SetNodeProperties(NodeProperties &nodeProperties);
-	void Draw();
-private:
+	virtual bool VInit() override { return true; }
+	virtual void VUpdate() override {}
+	virtual void VRender() override {}
+	virtual bool VLoad(){ return true; }
+protected:
 	StrongDrawablePtr m_drawable;
 	vec3 m_positionInWorld;
 	vec3 m_rotationInWorld;

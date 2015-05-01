@@ -11,7 +11,7 @@ class ITexture
 public:
 	virtual int VGetTextureID() const = 0;
 };
-
+//========================================================================
 typedef shared_ptr<Resource> StrongBitmapPtr;
 class Texture : public ITexture
 {

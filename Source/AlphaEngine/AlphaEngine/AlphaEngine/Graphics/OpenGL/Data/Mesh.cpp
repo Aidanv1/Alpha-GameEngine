@@ -8,7 +8,6 @@ m_meshResource(NULL),
 m_material(material),
 m_shaderProgram(NULL),
 m_vertexInfo(),
-m_sceneNode(NULL),
 m_meshID(-1)
 {
 
@@ -21,44 +20,43 @@ Mesh::~Mesh()
 	glDeleteVertexArrays(1, &(m_vertexInfo.m_vertexArrayID));
 }
 // -----------------------------------------------------------------------
-bool Mesh::VInit(SceneNode* pSceneNode)
+bool Mesh::VInit()
 {
-
 	MeshShaderProgram* pShaderProgram = dynamic_cast<GLRenderer*>(GraphicsSystem::Get().GetRenderer())->GetMeshShaderProgram();
 	if (!pShaderProgram)
 	{
 		return false;
 	}
-	if (!pSceneNode)
-	{
-		return false;
-	}
 	m_shaderProgram = pShaderProgram;
-	m_sceneNode = pSceneNode;
-
-	//set position and rotation to that of the owner scenenode
+	
 	if (!m_material)
 	{
 		return false;
 	}
-	//attempt to load resource
-	
-
 	return true;
 }
 // -----------------------------------------------------------------------
-void Mesh::VDraw()
+void Mesh::VUpdate()
 {
+
+}
+// -----------------------------------------------------------------------
+void Mesh::VRender()
+{
+	if (!VLoad())
+	{
+		return;
+	}
 	if (m_meshID == -1)
 	{
 		return;
 	}
 	m_shaderProgram->VUseProgram();
-	m_shaderProgram->SetUniforms(	m_sceneNode->GetNodeProperties().ModelMatrix,
-									m_sceneNode->GetNodeProperties().ViewMatrix, 
-									m_sceneNode->GetNodeProperties().ProjectionMatrix, 
-									m_sceneNode->GetNodeProperties().RotationMatrix, 
-									m_sceneNode->GetNodeProperties().LightVector, 
+	m_shaderProgram->SetUniforms(	m_nodeProperties.ModelMatrix,
+									m_nodeProperties.ViewMatrix,
+									m_nodeProperties.ProjectionMatrix,
+									m_nodeProperties.RotationMatrix,
+									m_nodeProperties.LightVector,
 									m_material->Texture()->VGetTextureID());
 	BindData();
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
@@ -142,14 +140,25 @@ unsigned long Mesh::LoadMesh()
 	{
 		return -1;
 	}
+	//Load scene datastructure from file in memory
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFileFromMemory(m_meshResource->Buffer(), m_meshResource->GetSize(), NULL);
+	if (!scene)
+	{
+		ALPHA_ERROR("Assimp load error");
+		return false;
+	}
+	//convert the texture coords to 2D
+	vector<GLfloat> tarray;
+	for (unsigned int i = 0; i < scene->mMeshes[0]->mNumVertices; ++i)
+	{
+		tarray.push_back(scene->mMeshes[0]->mTextureCoords[0][i].x);
+		tarray.push_back(scene->mMeshes[0]->mTextureCoords[0][i].y);
+	}
+	GLfloat* textarr = &tarray[0];
+	//----------------------------------
+	m_numVertices = scene->mMeshes[0]->mNumVertices;
 
-	MeshData* mesh = (MeshData*)m_meshResource->Buffer();
-	
-
-	GLfloat* vertexarr = &(mesh->m_vArray[0]);
-	GLfloat* normarr = &(mesh->m_nArray[0]);
-	GLfloat* textarr = &(mesh->m_tArray[0]);
-	m_numVertices = mesh->m_numVertices;
 	//initialize vertex buffer
 	if (m_vertexInfo.m_vertexArrayID == -1)
 	{
@@ -160,13 +169,13 @@ unsigned long Mesh::LoadMesh()
 	//glGenBuffers(1, &m_vertexBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexInfo.m_vertexBufferID);
 	// Create the buffer, but don't load anything yet
-	glBufferData(GL_ARRAY_BUFFER, 8 * mesh->m_numVertices*sizeof(GLfloat), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 8 * m_numVertices*sizeof(GLfloat), NULL, GL_STATIC_DRAW);
 
-	// Load the vertex points ---THIS MUST BE CHANGED
-	glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * mesh->m_numVertices*sizeof(GLfloat), vertexarr);
+	// Load the vertex points
+	glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * m_numVertices*sizeof(GLfloat), scene->mMeshes[0]->mVertices);
 	// Load the colors right after that
-	glBufferSubData(GL_ARRAY_BUFFER, 3 * mesh->m_numVertices*sizeof(GLfloat), 3 * mesh->m_numVertices*sizeof(GLfloat), normarr);
-	glBufferSubData(GL_ARRAY_BUFFER, 6 * mesh->m_numVertices*sizeof(GLfloat), 2 * mesh->m_numVertices*sizeof(GLfloat), textarr);
+	glBufferSubData(GL_ARRAY_BUFFER, 3 * m_numVertices*sizeof(GLfloat), 3 * m_numVertices*sizeof(GLfloat), scene->mMeshes[0]->mNormals);
+	glBufferSubData(GL_ARRAY_BUFFER, 6 * m_numVertices*sizeof(GLfloat), 2 * m_numVertices*sizeof(GLfloat), textarr);
 	return m_vertexInfo.m_vertexBufferID;
 }
 // -----------------------------------------------------------------------

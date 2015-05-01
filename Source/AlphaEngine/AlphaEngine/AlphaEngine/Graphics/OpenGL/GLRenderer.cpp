@@ -31,8 +31,12 @@ void GLRenderer::VRender()
 		m_backGroundColour.y,
 		m_backGroundColour.z,
 		m_backGroundColour.w);
-
-	m_pScene->GetRootNode()->Draw();
+	if (!m_pScene->GetRootNode())
+	{
+		ALPHA_ERROR("Render Error. NULL root scene node.");
+		return;
+	}
+	m_pScene->GetRootNode()->VRender();
 }
 // -----------------------------------------------------------------------
 void GLRenderer::VOnRestore()

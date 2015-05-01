@@ -1,26 +1,25 @@
 #ifndef MESH_H
 #define MESH_H
 #include "Material.h"
-#include "../../IDrawable.h"
 #include "Handler\VertexBufferHandler.h"
 #include "../../../ResourceManager/Resource.h"
 #include "../../../ResourceManager/Resources/Raw.h"
 #include "../GLRenderer.h"
 #include "../Shader/MeshShaderProgram.h"
 #include "../../GraphicsSystem.h"
+#include "assimp/scene.h"
 typedef shared_ptr<Resource> StrongMeshPtr;
 typedef shared_ptr<Material> StrongMaterialPtr;
-
-
 //========================================================================
-class Mesh : public IDrawable
+class Mesh : public SceneNode
 {
 public:
 	Mesh(string meshFile, StrongMaterialPtr material, StrongResourceManagerPtr pResManager);
 	~Mesh();
-	bool VInit(SceneNode* pSceneNode) override;
-	virtual bool VLoad() override;
-	void VDraw() override;
+	bool VInit() override;
+	virtual bool VLoad();
+	virtual void VUpdate() override;
+	void VRender() override;
 private:
 	//loading methods
 	bool LoadResource();
@@ -47,7 +46,6 @@ private:
 	StrongMeshPtr m_meshResource;
 	StrongMaterialPtr m_material;
 	VertexBufferInfo m_vertexInfo;
-	SceneNode* m_sceneNode;
 	StrongResourceManagerPtr m_pMeshResourceManager;
 };
 //========================================================================
