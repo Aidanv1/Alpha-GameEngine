@@ -1,7 +1,7 @@
 #include "Clock.h"
 // -----------------------------------------------------------------------
 Clock::Clock(float startTimeSeconds) :
-m_timeMicroSec((unsigned __int64)(startTimeSeconds * US_PER_SECOND)),
+m_timeMilliSec((unsigned __int64)(startTimeSeconds * US_PER_SECOND)),
 m_timeScale(1.0f),
 m_isPaused(false)
 {
@@ -12,15 +12,9 @@ Clock::~Clock()
 	ClockManager::Get().RemoveClock(this);
 }
 // -----------------------------------------------------------------------
-unsigned __int64 Clock::GetTimeMicroSec() const
+unsigned __int64 Clock::GetTimeMilliSec() const
 {
-	return m_timeMicroSec;
-}
-// -----------------------------------------------------------------------
-float Clock::CalcDeltaSeconds(const Clock& other)
-{
-	unsigned __int64 dt = m_timeMicroSec - other.GetTimeMicroSec();
-	return (float)(dt / US_PER_SECOND);
+	return m_timeMilliSec;
 }
 // -----------------------------------------------------------------------
 void Clock::SetPaused(bool pause)
@@ -33,18 +27,18 @@ bool Clock::IsPaused() const
 	return m_isPaused;
 }
 // -----------------------------------------------------------------------
-void Clock::Update(float dtRealUs)
+void Clock::Update(float dtRealMs)
 {
 	if (!m_isPaused)
 	{
-		unsigned __int64 dtScaledTime = (unsigned __int64)dtRealUs * m_timeScale;
-		m_timeMicroSec += dtScaledTime;
+		unsigned __int64 dtScaledTime = (unsigned __int64)dtRealMs * m_timeScale;
+		m_timeMilliSec += dtScaledTime;
 	}
 }
 // -----------------------------------------------------------------------
 void Clock::Reset()
 {
-	m_timeMicroSec = 0;
+	m_timeMilliSec = 0;
 }
 // -----------------------------------------------------------------------
 void Clock::SetTimeScale(float scale)
@@ -62,7 +56,7 @@ void Clock::SingleStep()
 	if (m_isPaused)
 	{
 		unsigned __int64 dtScaledTime = (IDEAL_FRAME_DT * (unsigned __int64)m_timeScale) * US_PER_SECOND;
-		m_timeMicroSec += dtScaledTime;
+		m_timeMilliSec += dtScaledTime;
 	}
 }
 // -----------------------------------------------------------------------

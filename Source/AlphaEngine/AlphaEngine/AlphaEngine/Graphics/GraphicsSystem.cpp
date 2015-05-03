@@ -29,7 +29,15 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(new MeshResourceLoader));
 
 	m_pScene = shared_ptr<Scene>(new Scene());
-	m_renderer->VInit(m_pScene);
+
+	
+	TiXmlDocument doc;
+	if (!doc.LoadFile("Graphics.xml"))
+	{
+		ALPHA_ERROR("Grahpics.xml is missing");
+		return false;
+	}
+	m_renderer->VInit(m_pScene, doc.FirstChildElement());
 	return true;
 }
 void GraphicsSystem::Update()

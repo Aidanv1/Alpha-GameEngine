@@ -12,7 +12,7 @@ bool ShaderHelper::CompiledStatus(GLint shaderID){
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &logLength);
 		char* msgBuffer = ALPHA_NEW char[logLength];
 		glGetShaderInfoLog(shaderID, logLength, NULL, msgBuffer);
-		delete[] (msgBuffer);
+		SAFE_DELETE_ARRAY(msgBuffer);
 		return false;
 	}
 }

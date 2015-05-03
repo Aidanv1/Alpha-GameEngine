@@ -1,5 +1,6 @@
 #ifndef MESHRESOURCELOADER_H
 #define MESHRESOURCELOADER_H
+#include "../../AlphaStd.h"
 #include "..\IResourceLoader.h"
 #include "assimp/scene.h"
 #include "assimp/mesh.h"
@@ -15,7 +16,7 @@ public:
 	bool VLoadResource(string resName, unsigned char*& pBuffer, unsigned int& size) override;
 	unsigned int  VGetSize(string resName) override;
 private:
-	unsigned int SizeOf(aiScene* scene);
+
 };
 
 //========================================================================

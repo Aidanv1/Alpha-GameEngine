@@ -13,14 +13,14 @@ m_numChunks(0)
 // -----------------------------------------------------------------------
 MemoryPool::~MemoryPool()
 {
-	delete[] m_ppMemoryBlock;
+	SAFE_DELETE_ARRAY(m_ppMemoryBlock);
 }
 // -----------------------------------------------------------------------
 bool MemoryPool::Init(int chunkSize, int numChunks)
 {
 	m_totalChunkSize = chunkSize + CHUNK_HEADER_SIZE;
 	m_memoryArraySize = numChunks * (m_totalChunkSize);
-	m_ppMemoryBlock = new unsigned char*[m_memoryArraySize];
+	m_ppMemoryBlock = ALPHA_NEW unsigned char*[m_memoryArraySize];
 	if (!m_ppMemoryBlock)
 	{
 		return false;

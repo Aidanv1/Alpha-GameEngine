@@ -2,7 +2,6 @@
 #define GLWINDOW_H
 #include "..\AlphaStd.h"
 #include "IWindow.h"
-#include <SDL.h>
 #include <sstream>
 #include <GL/glew.h>
 #include "IL/il.h"

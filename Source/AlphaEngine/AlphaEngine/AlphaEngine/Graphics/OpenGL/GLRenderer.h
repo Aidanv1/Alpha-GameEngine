@@ -12,7 +12,7 @@ class GLRenderer : public IRenderer
 public:
 	GLRenderer();
 	~GLRenderer();
-	bool VInit(StrongScenePtr pScene) override;
+	bool VInit(StrongScenePtr pScene, TiXmlElement* pElement) override;
 	void VRender() override;
 	void VOnRestore() override;
 	void VSetBackGroundColour(vec4& backGroundColour) override;

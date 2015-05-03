@@ -3,11 +3,7 @@ MemoryPool implements a simple memory pool which uses a singly linked list data 
 */
 #ifndef MEMORYPOOL_H
 #define MEMORYPOOL_H
-
-
-//---Temp includes
-#include <stdlib.h>
-#include <iostream>
+#include "../AlphaStd.h"
 using namespace std;
 //---
 //========================================================================

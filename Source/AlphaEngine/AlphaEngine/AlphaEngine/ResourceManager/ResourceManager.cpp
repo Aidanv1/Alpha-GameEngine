@@ -79,19 +79,27 @@ void ResourceManager::Update()
 			while ((m_sizeTotal - m_sizeAllocated) > 0 &&
 					!allocated)
 			{
-				if (!(*resIt)->LoadBuffer(m_sizeTotal - m_sizeAllocated))
+				//if the resource size is zero, then it is currently not loaded
+				if ((*resIt)->GetSize() == 0)
 				{
-					FreeOneResource();
+					if (!(*resIt)->LoadBuffer(m_sizeTotal - m_sizeAllocated))
+					{
+						FreeOneResource();
+					}
+					else
+					{
+						m_sizeAllocated += (*resIt)->GetSize();
+						allocated = true;
+					}
 				}
 				else
 				{
-					m_sizeAllocated += (*resIt)->GetSize();
 					allocated = true;
 				}
 			}
 			if (!allocated)
 			{
-				ALPHA_ERROR("Resource Manager Error");
+				ALPHA_ERROR("Resource Manager Error.");
 				(*resIt)->Unload();
 			}
 			

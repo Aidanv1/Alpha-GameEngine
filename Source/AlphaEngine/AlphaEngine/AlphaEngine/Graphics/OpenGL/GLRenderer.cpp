@@ -11,17 +11,45 @@ GLRenderer::~GLRenderer()
 {
 }
 // -----------------------------------------------------------------------
-bool GLRenderer::VInit(StrongScenePtr pScene)
+bool GLRenderer::VInit(StrongScenePtr pScene, TiXmlElement* pElement)
 {
 	m_pScene = pScene;
-	//shaderprogram
-	m_meshShaderProgram = shared_ptr<MeshShaderProgram>(ALPHA_NEW MeshShaderProgram());
-	if (!m_meshShaderProgram->VInit("Shaders/vertexshader.glsl", "Shaders/fragmentshader.glsl"))
+	bool success = true;
+	TiXmlElement* pGraphicsElement = pElement->FirstChildElement();
+	while (pGraphicsElement != NULL)
 	{
-		return false;
-	}
+		string value = pGraphicsElement->Value();
+		//ShaderProgramList-------------------
+		if (value == "ShaderProgramList")
+		{
+			TiXmlElement* pShaderProgram = pGraphicsElement->FirstChildElement();
 
-	return true;
+			while (pShaderProgram != NULL)
+			{
+				value = pShaderProgram->Attribute("ShaderType");
+				if (value == "Mesh")
+				{
+					m_meshShaderProgram = shared_ptr<MeshShaderProgram>(ALPHA_NEW MeshShaderProgram());
+					const char* vertexShaderName = pShaderProgram->Attribute("vertexShaderFile");
+					const char* fragmentShaderName = pShaderProgram->Attribute("fragmentShaderFile");
+
+					if (!m_meshShaderProgram->VInit(vertexShaderName, fragmentShaderName))
+					{
+						success = false;
+					}
+				}
+				pShaderProgram = pShaderProgram->NextSiblingElement();
+			}			
+		}
+		// ---------------------------------
+		pGraphicsElement = pGraphicsElement->NextSiblingElement();
+	}
+	
+	if (!m_meshShaderProgram)
+	{
+		success = false;
+	}
+	return success;
 }
 // -----------------------------------------------------------------------
 void GLRenderer::VRender()
@@ -31,11 +59,7 @@ void GLRenderer::VRender()
 		m_backGroundColour.y,
 		m_backGroundColour.z,
 		m_backGroundColour.w);
-	if (!m_pScene->GetRootNode())
-	{
-		ALPHA_ERROR("Render Error. NULL root scene node.");
-		return;
-	}
+	ALPHA_ASSERT(m_pScene->GetRootNode());	
 	m_pScene->GetRootNode()->VRender();
 }
 // -----------------------------------------------------------------------

@@ -5,22 +5,19 @@ GameLoop::GameLoop()
 }
 GameLoop::~GameLoop()
 {
-	delete m_window;
-	delete m_gameClock;
+	SAFE_DELETE(m_window);
+	SAFE_DELETE(m_gameClock);
 }
-bool GameLoop::Init(string name)
+bool GameLoop::Init(IWindow* window)
 {
-	
-	#ifdef _WIN32
 	//Window
-	m_window = ALPHA_NEW GLWindow(name.c_str(), 1280, 720);
+	m_window = window;
 	if (!m_window->VInit())
 	{
 		return false;
 	}
 	//Renderer
-	shared_ptr<IRenderer> renderer(new GLRenderer());
-	#endif
+	shared_ptr<IRenderer> renderer(ALPHA_NEW GLRenderer());
 	//graphics system
 	if (!GraphicsSystem::Get().Init(renderer, 100, 100))
 	{
@@ -30,7 +27,7 @@ bool GameLoop::Init(string name)
 	//initialize gameclock
 	m_gameClock = ALPHA_NEW Clock();
 	ClockManager::Get().AddClock(m_gameClock);
-	m_systemTime = SystemTime::Get().GetTimeInMicroSeconds();
+	m_systemTime = SDL_GetTicks();
 	m_gameTime = 0;
 
 	return true;
@@ -48,10 +45,10 @@ void GameLoop::StartLoop()
 
 float GameLoop::GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int64& previousClockTime)
 {
-	unsigned __int64 timenext = SystemTime::Get().GetTimeInMicroSeconds();
+	unsigned __int64 timenext = SDL_GetTicks();
 	ClockManager::Get().UpdateClocks((timenext - previousSystemTime));
 	previousSystemTime = timenext;
-	unsigned __int64 nextime = m_gameClock->GetTimeMicroSec();
+	unsigned __int64 nextime = m_gameClock->GetTimeMilliSec();
 	float deltatime = nextime - previousClockTime;
 	previousClockTime = nextime;
 	return deltatime / MS_PER_MICROSECOND;

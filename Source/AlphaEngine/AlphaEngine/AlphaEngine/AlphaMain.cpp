@@ -12,9 +12,9 @@
 
 int main(int argc, char *argv[])
 {
-
+	IWindow* window = ALPHA_NEW GLWindow("AlphaEngine", 1280, 720);
 	GameLoop gameLoop;
-	gameLoop.Init();
+	gameLoop.Init(window);
 
 	//material	
 	Material* mat = new Material;
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 	shared_ptr<Texture> ptex(tex);
 	mat->SetTexture(ptex);
 	//scenenode
-	SceneNode* node = new Mesh("../../../../Assets/mirage.obj", shared_ptr<Material>(mat), GraphicsSystem::Get().GetMeshResourceManager());
+	Mesh* node = new Mesh("../../../../Assets/mirage.obj", shared_ptr<Material>(mat), GraphicsSystem::Get().GetMeshResourceManager());
 	node->VLoad();
 	node->VInit();
 	//node prop

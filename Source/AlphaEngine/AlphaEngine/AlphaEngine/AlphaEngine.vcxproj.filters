@@ -8,9 +8,6 @@
     <ClCompile Include="Time\ClockManager.cpp">
       <Filter>Time</Filter>
     </ClCompile>
-    <ClCompile Include="Time\SystemTime.cpp">
-      <Filter>Time</Filter>
-    </ClCompile>
     <ClCompile Include="Memory\MemoryPool.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
@@ -86,6 +83,15 @@
     <ClCompile Include="GameLoop\GameLoop.cpp">
       <Filter>GameLoop</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\StringUtil.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\FileIO.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ModelComponent.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -93,9 +99,6 @@
     </Filter>
     <Filter Include="Maths">
       <UniqueIdentifier>{9808d7d9-d961-47f2-8133-ffe3a7cd6c17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Util">
-      <UniqueIdentifier>{81f6cf54-c523-4098-bcb4-bf5098b9d7e0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Memory">
       <UniqueIdentifier>{3588060a-9fc1-4d84-86e7-c6daaaebc263}</UniqueIdentifier>
@@ -148,15 +151,18 @@
     <Filter Include="GameLoop">
       <UniqueIdentifier>{9385ab77-8ada-4c8e-9f63-0adb750ac2b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{81f6cf54-c523-4098-bcb4-bf5098b9d7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debugging">
+      <UniqueIdentifier>{3397fba5-70e0-4893-a22e-c0b19d97bd35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Time\Clock.h">
       <Filter>Time</Filter>
     </ClInclude>
     <ClInclude Include="Time\ClockManager.h">
-      <Filter>Time</Filter>
-    </ClInclude>
-    <ClInclude Include="Time\SystemTime.h">
       <Filter>Time</Filter>
     </ClInclude>
     <ClInclude Include="Audio\SoundResource.h">
@@ -229,9 +235,6 @@
     <ClInclude Include="ResourceManager\Loaders\MeshResourceLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
-    <ClInclude Include="Util\FileIO.h">
-      <Filter>Util</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\OpenGL\Data\Material.h">
       <Filter>Graphics\OpenGL\Data</Filter>
     </ClInclude>
@@ -275,6 +278,21 @@
       <Filter>GameLoop</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Camera.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\FileIO.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\StringUtil.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Debugging\Debugging.h">
+      <Filter>Debugging</Filter>
+    </ClInclude>
+    <ClInclude Include="Window\MessageWindow.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ModelComponent.h">
       <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>

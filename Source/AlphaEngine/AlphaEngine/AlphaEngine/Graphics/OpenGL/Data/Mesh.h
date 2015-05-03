@@ -11,14 +11,20 @@
 typedef shared_ptr<Resource> StrongMeshPtr;
 typedef shared_ptr<Material> StrongMaterialPtr;
 //========================================================================
-class Mesh : public SceneNode
+class IMesh
+{
+public:
+	virtual bool VInit() = 0;
+};
+
+//========================================================================
+class Mesh : public IMesh, public SceneNode
 {
 public:
 	Mesh(string meshFile, StrongMaterialPtr material, StrongResourceManagerPtr pResManager);
 	~Mesh();
-	bool VInit() override;
-	virtual bool VLoad();
-	virtual void VUpdate() override;
+	virtual bool VInit() override;
+	virtual bool VLoad() override;
 	void VRender() override;
 private:
 	//loading methods
@@ -48,5 +54,7 @@ private:
 	VertexBufferInfo m_vertexInfo;
 	StrongResourceManagerPtr m_pMeshResourceManager;
 };
+//========================================================================
+
 //========================================================================
 #endif

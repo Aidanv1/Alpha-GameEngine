@@ -30,13 +30,13 @@ void ClockManager::RemoveClock(Clock* clock)
 	}
 }
 // -----------------------------------------------------------------------
-void ClockManager::UpdateClocks(float deltaUs)
+void ClockManager::UpdateClocks(float deltaMs)
 {
 	auto clockIt = m_ClockList.begin();
 	int i = 0;
 	for (clockIt; clockIt < m_ClockList.end(); clockIt++, i++)
 	{
-		m_ClockList.at(i)->Update(deltaUs);
+		m_ClockList.at(i)->Update(deltaMs);
 	}
 }
 // -----------------------------------------------------------------------

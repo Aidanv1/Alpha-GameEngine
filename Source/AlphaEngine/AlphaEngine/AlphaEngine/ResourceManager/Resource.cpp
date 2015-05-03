@@ -96,8 +96,7 @@ void Resource::FreeBuffer()
 {
 	if (m_pBuffer)
 	{
-		delete m_pBuffer;
-		m_pBuffer = NULL;
+		SAFE_DELETE(m_pBuffer);
 		m_size = 0;
 	}
 }

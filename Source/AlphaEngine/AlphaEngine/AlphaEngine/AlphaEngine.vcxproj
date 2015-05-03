@@ -66,7 +66,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;K:\dev\Alpha\Source\3rdParty\DevIL\lib;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\lib;K:\dev\Alpha\Source\3rdParty\freeglut-2.8.1\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -86,7 +86,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;K:\dev\Alpha\Source\3rdParty\DevIL\lib;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -99,6 +99,7 @@
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GameObject\GameObjectFactory.cpp" />
     <ClCompile Include="Graphics\GraphicsSystem.cpp" />
+    <ClCompile Include="Graphics\ModelComponent.cpp" />
     <ClCompile Include="Graphics\OpenGL\Data\Handler\TextureHandler.cpp" />
     <ClCompile Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.cpp" />
     <ClCompile Include="Graphics\OpenGL\Data\Material.cpp" />
@@ -118,12 +119,14 @@
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="Time\Clock.cpp" />
     <ClCompile Include="Time\ClockManager.cpp" />
-    <ClCompile Include="Time\SystemTime.cpp" />
+    <ClCompile Include="Utilities\FileIO.cpp" />
+    <ClCompile Include="Utilities\StringUtil.cpp" />
     <ClCompile Include="Window\GLWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\SoundResource.h" />
     <ClInclude Include="AlphaStd.h" />
+    <ClInclude Include="Debugging\Debugging.h" />
     <ClInclude Include="EventManager\EventManager.h" />
     <ClInclude Include="EventManager\Events\Events.h" />
     <ClInclude Include="EventManager\IEventManager.h" />
@@ -139,6 +142,7 @@
     <ClInclude Include="Graphics\Camera.h" />
     <ClInclude Include="Graphics\GraphicsSystem.h" />
     <ClInclude Include="Graphics\IRenderer.h" />
+    <ClInclude Include="Graphics\ModelComponent.h" />
     <ClInclude Include="Graphics\OpenGL\Data\Handler\TextureHandler.h" />
     <ClInclude Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.h" />
     <ClInclude Include="Graphics\OpenGL\Data\Material.h" />
@@ -161,10 +165,11 @@
     <ClInclude Include="ResourceManager\Resources\Raw.h" />
     <ClInclude Include="Time\Clock.h" />
     <ClInclude Include="Time\ClockManager.h" />
-    <ClInclude Include="Time\SystemTime.h" />
-    <ClInclude Include="Util\FileIO.h" />
+    <ClInclude Include="Utilities\FileIO.h" />
+    <ClInclude Include="Utilities\StringUtil.h" />
     <ClInclude Include="Window\GLWindow.h" />
     <ClInclude Include="Window\IWindow.h" />
+    <ClInclude Include="Window\MessageWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

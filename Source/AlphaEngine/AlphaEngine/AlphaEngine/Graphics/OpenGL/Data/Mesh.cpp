@@ -36,11 +36,6 @@ bool Mesh::VInit()
 	return true;
 }
 // -----------------------------------------------------------------------
-void Mesh::VUpdate()
-{
-
-}
-// -----------------------------------------------------------------------
 void Mesh::VRender()
 {
 	if (!VLoad())
@@ -60,6 +55,8 @@ void Mesh::VRender()
 									m_material->Texture()->VGetTextureID());
 	BindData();
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
+
+	VRenderChildren();
 }
 // -----------------------------------------------------------------------
 void Mesh::BindData()

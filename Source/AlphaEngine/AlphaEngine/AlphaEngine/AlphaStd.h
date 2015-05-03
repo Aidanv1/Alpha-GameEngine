@@ -27,6 +27,7 @@
 #include <cctype>
 #include <clocale>
 #include <fstream>
+
 // -----------------------------------------------------------------------
 //Global AlphaEngine includes---------------------------------------------
 #include "tinyxml.h"
@@ -34,10 +35,10 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
-#include "Util\FileIO.h"
+#include <SDL.h>
+#include "Utilities\FileIO.h"
 // -----------------------------------------------------------------------
-
+#include "Debugging/Debugging.h"
 
 
 //NAMESPACES
@@ -52,15 +53,15 @@ using namespace glm;
 
 
 
-#if !defined(SAFE_DELETE)
+#ifndef SAFE_DELETE
 #define SAFE_DELETE(x) if(x) delete x; x = NULL;
 #endif
 
-#if !defined(SAFE_DELETE_ARRAY)
+#ifndef SAFE_DELETE_ARRAY
 #define SAFE_DELETE_ARRAY(x) if (x) delete [] x; x = NULL;
 #endif
 
-#if !defined(SAFE_RELEASE)
+#ifndef SAFE_RELEASE
 #define SAFE_RELEASE(x) if(x) x->Release(); x = NULL;
 #endif
 
@@ -71,10 +72,6 @@ using namespace glm;
 
 // -----------------------------------------------------------------------
 
-// DEBUGGING--------------------------------------------------------------
-#define ALPHA_ASSERT(expr){}//TODO: ADD DEFINITION
-#define ALPHA_ERROR(str){}
-#define ALPHA_LOG(tag, str){}
-// -----------------------------------------------------------------------
+
 #endif
 

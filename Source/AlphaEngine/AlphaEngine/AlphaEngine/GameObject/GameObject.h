@@ -1,7 +1,8 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
-#include "IGameObjectComponent.h"
 #include "..\AlphaStd.h"
+#include "IGameObjectComponent.h"
+
 class GameObject;
 typedef unsigned long GameObjectID;
 typedef shared_ptr<GameObject> SharedGameObjectPtr;

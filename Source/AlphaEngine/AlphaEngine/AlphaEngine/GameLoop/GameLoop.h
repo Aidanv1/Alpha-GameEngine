@@ -1,18 +1,18 @@
 #ifndef GAMELOOP_H
 #define GAMELOOP_H
+#include "../AlphaStd.h"
 #include "..\Time\Clock.h"
 #include "..\Time\SystemTime.h"
 #include "..\Graphics\GraphicsSystem.h"
-#ifdef _WIN32
 #include "..\Window\GLWindow.h"
 #include "..\Graphics\OpenGL\GLRenderer.h"
-#endif
+
 class GameLoop
 {
 public:
 	GameLoop();
 	~GameLoop();
-	bool Init(string name = "AlphaEngine");
+	bool Init(IWindow* window);
 	void StartLoop();
 private:
 	float GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int64& previousClockTime);
