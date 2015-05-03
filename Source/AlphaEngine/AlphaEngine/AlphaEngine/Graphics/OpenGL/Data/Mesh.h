@@ -1,6 +1,6 @@
 #ifndef MESH_H
 #define MESH_H
-#include "Material.h"
+
 #include "Handler\VertexBufferHandler.h"
 #include "../../../ResourceManager/Resource.h"
 #include "../../../ResourceManager/Resources/Raw.h"
@@ -8,28 +8,23 @@
 #include "../Shader/MeshShaderProgram.h"
 #include "../../GraphicsSystem.h"
 #include "assimp/scene.h"
+#include "Material.h"
 typedef shared_ptr<Resource> StrongMeshPtr;
 typedef shared_ptr<Material> StrongMaterialPtr;
 //========================================================================
-class IMesh
+class Mesh : public SceneNode
 {
 public:
-	virtual bool VInit() = 0;
-};
-
-//========================================================================
-class Mesh : public IMesh, public SceneNode
-{
-public:
-	Mesh(string meshFile, StrongMaterialPtr material, StrongResourceManagerPtr pResManager);
+	Mesh(string meshFile);
 	~Mesh();
-	virtual bool VInit() override;
-	virtual bool VLoad() override;
+	virtual bool Init();
 	void VRender() override;
+	int LoadMesh(aiMesh* pMesh, aiMaterial* pMaterial);
+	StrongMaterialPtr GetMaterial() { return m_material; }
+	bool Validate();
 private:
 	//loading methods
-	bool LoadResource();
-	unsigned long LoadMesh();
+	bool LoadResource();	
 	//drawing methods
 	void BindData();
 	void SetVertexAttribPointer(GLuint attribID, int componentCount, int stride, const void* dataoffset);
@@ -51,10 +46,8 @@ private:
 	string m_textureFileName;
 	StrongMeshPtr m_meshResource;
 	StrongMaterialPtr m_material;
-	VertexBufferInfo m_vertexInfo;
-	StrongResourceManagerPtr m_pMeshResourceManager;
+	VertexBufferInfo m_vertexInfo;	
 };
-//========================================================================
 
 //========================================================================
 #endif

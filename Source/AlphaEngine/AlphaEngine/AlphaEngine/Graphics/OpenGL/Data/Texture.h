@@ -5,6 +5,7 @@
 #include "..\..\..\ResourceManager\Resources\Raw.h"
 #include "..\..\..\ResourceManager\Resource.h"
 #include "Handler/TextureHandler.h"
+#include "../../GraphicsSystem.h"
 //========================================================================
 class ITexture
 {
@@ -17,7 +18,7 @@ class Texture : public ITexture
 {
 	friend class Material;
 public:
-	Texture(string textureFileName, StrongResourceManagerPtr resManager);
+	Texture(string textureFileName);
 	~Texture();
 	virtual int VGetTextureID() const override { return m_textureID; }
 
@@ -25,7 +26,7 @@ private:
 	bool LoadResource();
 	int LoadTexture();
 	StrongBitmapPtr m_textureResource;
-	StrongResourceManagerPtr m_pTextureResourceManager;
+	StrongResourceManagerPtr m_textureResourceManager;
 	int m_textureID;
 	string m_textureFileName;
 };

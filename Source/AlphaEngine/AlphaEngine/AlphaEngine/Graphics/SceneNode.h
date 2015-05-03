@@ -26,7 +26,7 @@ class ISceneNode
 {
 public:
 	virtual void VRender() = 0;
-	virtual bool VLoad() = 0;
+	virtual void VAddChild(StrongSceneNodePtr sceneNode) = 0;
 protected:
 	virtual void VRenderChildren()= 0;
 };
@@ -39,8 +39,7 @@ public:
 	NodeProperties GetNodeProperties() const { return m_nodeProperties; }
 	void SetNodeProperties(NodeProperties &nodeProperties);
 	virtual void VRender() override {}
-	virtual bool VLoad(){ return true; }
-	virtual void AddChild(StrongSceneNodePtr sceneNode);
+	virtual void VAddChild(StrongSceneNodePtr sceneNode);
 protected:
 	virtual void VRenderChildren();
 protected:

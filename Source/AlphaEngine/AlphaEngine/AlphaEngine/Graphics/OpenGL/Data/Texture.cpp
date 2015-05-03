@@ -1,12 +1,11 @@
 #include "Texture.h"
 // -----------------------------------------------------------------------
-Texture::Texture(string texFileName, StrongResourceManagerPtr resManager) :
+Texture::Texture(string texFileName) :
 m_textureID(0),
 m_textureResource(NULL),
-m_textureFileName(texFileName),
-m_pTextureResourceManager(resManager)
+m_textureFileName(texFileName)
 {
-
+	m_textureResourceManager = GraphicsSystem::Get().GetTextureResourceManager();
 }
 // -----------------------------------------------------------------------
 Texture::~Texture()
@@ -24,7 +23,7 @@ bool Texture::LoadResource()
 		texResource->RequestLoad();
 		m_textureResource = StrongBitmapPtr(texResource);
 
-		if (!m_pTextureResourceManager->AddResource(m_textureResource))
+		if (!m_textureResourceManager->AddResource(m_textureResource))
 		{
 			return false;
 		}

@@ -28,7 +28,7 @@ void SceneNode::VRenderChildren()
 	}
 }
 
-void SceneNode::AddChild(StrongSceneNodePtr sceneNode)
+void SceneNode::VAddChild(StrongSceneNodePtr sceneNode)
 {
 	m_children.push_back(sceneNode);
 }

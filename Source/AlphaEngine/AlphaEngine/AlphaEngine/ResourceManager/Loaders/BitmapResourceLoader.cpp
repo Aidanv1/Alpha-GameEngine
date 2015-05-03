@@ -42,6 +42,13 @@ bool BitmapResourceLoader::VLoadResource(string resName, unsigned char*& pBuffer
 }
 unsigned int BitmapResourceLoader::VGetSize(string resName)
 {
+	ifstream f(resName.c_str());
+	if (!f.good())
+	{
+		stringstream ss;
+		ss << "File does not exist: " << resName;
+		ALPHA_ERROR(ss.str().c_str());
+	}
 	unsigned int size = FileSize(resName.c_str());
 	return size;
 }

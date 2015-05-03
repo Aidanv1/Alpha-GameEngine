@@ -1,16 +1,13 @@
 #include "Mesh.h"
 // -----------------------------------------------------------------------
-Mesh::Mesh(string meshFile, StrongMaterialPtr material, StrongResourceManagerPtr pResManager) :
+Mesh::Mesh(string meshFile) :
 m_numVertices(0),
-m_pMeshResourceManager(pResManager),
 m_meshFileName(meshFile),
-m_meshResource(NULL),
-m_material(material),
+m_material(NULL),
 m_shaderProgram(NULL),
 m_vertexInfo(),
 m_meshID(-1)
 {
-
 }
 // -----------------------------------------------------------------------
 Mesh::~Mesh()
@@ -20,7 +17,7 @@ Mesh::~Mesh()
 	glDeleteVertexArrays(1, &(m_vertexInfo.m_vertexArrayID));
 }
 // -----------------------------------------------------------------------
-bool Mesh::VInit()
+bool Mesh::Init()
 {
 	MeshShaderProgram* pShaderProgram = dynamic_cast<GLRenderer*>(GraphicsSystem::Get().GetRenderer())->GetMeshShaderProgram();
 	if (!pShaderProgram)
@@ -28,24 +25,11 @@ bool Mesh::VInit()
 		return false;
 	}
 	m_shaderProgram = pShaderProgram;
-	
-	if (!m_material)
-	{
-		return false;
-	}
 	return true;
 }
 // -----------------------------------------------------------------------
 void Mesh::VRender()
 {
-	if (!VLoad())
-	{
-		return;
-	}
-	if (m_meshID == -1)
-	{
-		return;
-	}
 	m_shaderProgram->VUseProgram();
 	m_shaderProgram->SetUniforms(	m_nodeProperties.ModelMatrix,
 									m_nodeProperties.ViewMatrix,
@@ -67,54 +51,20 @@ void Mesh::BindData()
 	SetVertexAttribPointer(m_shaderProgram->GetTextureID(), 2, 0, (const void*)(offset * 2));
 }
 // -----------------------------------------------------------------------
-bool Mesh::VLoad()
+bool Mesh::Validate()
 {
-	bool success = true;
-	if (!LoadResource())
+	if (m_vertexInfo.m_vertexBufferID != -1)
 	{
-		ALPHA_ERROR("Unable to load resource");
-		return false;
-	}
-	//attempt to load mesh	
-	m_meshID = LoadMesh();
-	if (m_meshID == -1)
-	{
-		success = false;
-	}
-	
-
-	//attempt to load texture
-	if (!m_material->LoadTexture())
-	{
-		success = false;
-	}
-
-	return success;
-}
-// -----------------------------------------------------------------------
-bool Mesh::LoadResource()
-{
-	//if no resource currently exists
-	if (!m_meshResource)
-	{
-		//Request load Resource
-		Resource* meshResource = new Resource(m_meshFileName);
-		meshResource->RequestLoad();
-		m_meshResource = StrongMeshPtr(meshResource);
-
-		if (!m_pMeshResourceManager->AddResource(m_meshResource))
+		//if the vertex buffer is still valid, return its ID.
+		if (VertexBufferHandler::Get().ValidateID(m_vertexInfo.m_vertexBufferID, m_meshFileName))
 		{
-			return false;
+			return true;
 		}
 	}
-	else if (!m_meshResource->IsLoaded())
-	{
-		m_meshResource->RequestLoad();
-	}
-	return true;
+	return false;
 }
 // -----------------------------------------------------------------------
-unsigned long Mesh::LoadMesh()
+int Mesh::LoadMesh(aiMesh* pMesh, aiMaterial* pMaterial)
 {
 	//first check if vertex buffer was already loaded in video memory
 	if (m_vertexInfo.m_vertexBufferID != -1)
@@ -125,36 +75,46 @@ unsigned long Mesh::LoadMesh()
 			return m_vertexInfo.m_vertexBufferID;
 		}
 	}
-	if (!m_meshResource)
-	{
-		return -1;
-	}
-	if (!m_meshResource->Buffer())
-	{
-		return -1;
-	}
-	if (!m_meshResource->IsLoaded())
-	{
-		return -1;
-	}
-	//Load scene datastructure from file in memory
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFileFromMemory(m_meshResource->Buffer(), m_meshResource->GetSize(), NULL);
-	if (!scene)
-	{
-		ALPHA_ERROR("Assimp load error");
-		return false;
-	}
+	//-----------------------------------------------
+	//-------------Create Material-------------------
+	aiColor4D color(0.f, 0.f, 0.f,0.f);
+
+	m_material = StrongMaterialPtr(ALPHA_NEW Material());
+	//Diffuse
+	pMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+	m_material->SetDiffuse(vec4(color.r, color.g, color.b , color.a));
+	//Specular
+	pMaterial->Get(AI_MATKEY_COLOR_SPECULAR, color);
+	float shininess;
+	pMaterial->Get(AI_MATKEY_SHININESS, shininess);
+	m_material->SetSpecular(vec4(color.r, color.g, color.b, color.a), shininess);
+	//Emissive
+	pMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, color);
+	m_material->SetEmissive(vec4(color.r, color.g, color.b, color.a));
+	//Ambient
+	pMaterial->Get(AI_MATKEY_COLOR_AMBIENT, color);
+	m_material->SetAmbient(vec4(color.r, color.g, color.b, color.a));
+	//Texture
+	aiString textureLoc;
+	pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &textureLoc);
+	string path = m_meshFileName;
+	int end = path.find_last_of("/");
+	path = path.substr(0, end + 1).append(textureLoc.C_Str());
+
+	Texture* tex = ALPHA_NEW Texture(path.c_str());
+	m_material->SetTexture(StrongTexturePtr(tex));
+	//-----------------------------------------------
+	//-------------Create VertexBuffer---------------
 	//convert the texture coords to 2D
 	vector<GLfloat> tarray;
-	for (unsigned int i = 0; i < scene->mMeshes[0]->mNumVertices; ++i)
+	for (unsigned int i = 0; i < pMesh->mNumVertices; ++i)
 	{
-		tarray.push_back(scene->mMeshes[0]->mTextureCoords[0][i].x);
-		tarray.push_back(scene->mMeshes[0]->mTextureCoords[0][i].y);
+		tarray.push_back(pMesh->mTextureCoords[0][i].x);
+		tarray.push_back(pMesh->mTextureCoords[0][i].y);
 	}
 	GLfloat* textarr = &tarray[0];
-	//----------------------------------
-	m_numVertices = scene->mMeshes[0]->mNumVertices;
+
+	m_numVertices = pMesh->mNumVertices;
 
 	//initialize vertex buffer
 	if (m_vertexInfo.m_vertexArrayID == -1)
@@ -169,10 +129,11 @@ unsigned long Mesh::LoadMesh()
 	glBufferData(GL_ARRAY_BUFFER, 8 * m_numVertices*sizeof(GLfloat), NULL, GL_STATIC_DRAW);
 
 	// Load the vertex points
-	glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * m_numVertices*sizeof(GLfloat), scene->mMeshes[0]->mVertices);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * m_numVertices*sizeof(GLfloat), pMesh->mVertices);
 	// Load the colors right after that
-	glBufferSubData(GL_ARRAY_BUFFER, 3 * m_numVertices*sizeof(GLfloat), 3 * m_numVertices*sizeof(GLfloat), scene->mMeshes[0]->mNormals);
+	glBufferSubData(GL_ARRAY_BUFFER, 3 * m_numVertices*sizeof(GLfloat), 3 * m_numVertices*sizeof(GLfloat), pMesh->mNormals);
 	glBufferSubData(GL_ARRAY_BUFFER, 6 * m_numVertices*sizeof(GLfloat), 2 * m_numVertices*sizeof(GLfloat), textarr);
+	//-----------------------------------------------
 	return m_vertexInfo.m_vertexBufferID;
 }
 // -----------------------------------------------------------------------
