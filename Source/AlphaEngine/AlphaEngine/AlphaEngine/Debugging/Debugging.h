@@ -19,10 +19,10 @@
 #define GCC_WARNING(str) {} //TODO add functionality
 #define ALPHA_LOG(tag, str){}
 #else
-#define GCC_ERROR(str) do { (void)sizeof(str); } while(0) 
-#define GCC_WARNING(str) do { (void)sizeof(str); } while(0) 
-#define GCC_LOG(tag, str) do { (void)sizeof(tag); (void)sizeof(str); } while(0) 
-#define GCC_ASSERT(expr) do { (void)sizeof(expr); } while(0) 
+#define ALPHA_ERROR(str) do { (void)sizeof(str); } while(0) 
+#define ALPHA_WARNING(str) do { (void)sizeof(str); } while(0) 
+#define ALPHA_LOG(tag, str) do { (void)sizeof(tag); (void)sizeof(str); } while(0) 
+#define ALPHA_ASSERT(expr) do { (void)sizeof(expr); } while(0) 
 #endif //_DEBUG
 // -----------------------------------------------------------------------
 #endif

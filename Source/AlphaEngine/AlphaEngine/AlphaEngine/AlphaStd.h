@@ -27,7 +27,7 @@
 #include <cctype>
 #include <clocale>
 #include <fstream>
-
+#include <sstream>
 // -----------------------------------------------------------------------
 //Global AlphaEngine includes---------------------------------------------
 #include "tinyxml.h"
