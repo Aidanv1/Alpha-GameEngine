@@ -44,7 +44,8 @@ protected:
 	virtual void VRenderChildren();
 protected:
 	vec3 m_positionInWorld;
-	vec3 m_rotationInWorld;
+	vec3 m_rotationAxis;
+	float  m_rotationAngle;
 	NodeProperties m_nodeProperties;
 	SceneNodeList m_children;
 };

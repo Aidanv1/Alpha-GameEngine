@@ -64,7 +64,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;$(DEV)\Alpha\Source\3rdParty\DevIL\lib;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\lib;$(DEV)\Alpha\Source\3rdParty\freeglut-2.8.1\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;$(DEV)\Alpha\Source\3rdParty\DevIL\lib;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>

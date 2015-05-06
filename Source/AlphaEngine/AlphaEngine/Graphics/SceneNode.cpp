@@ -2,7 +2,8 @@
 // -----------------------------------------------------------------------
 SceneNode::SceneNode() :
 m_positionInWorld(0),
-m_rotationInWorld(0),
+m_rotationAxis(0),
+m_rotationAngle(0),
 m_nodeProperties()
 {
 }

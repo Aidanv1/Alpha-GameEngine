@@ -1,0 +1,20 @@
+﻿Build started 5/1/2015 8:13:16 PM.
+     1>Project "K:\dev\Alpha\Source\3rdParty\tinyxml\tinyxml_lib.vcxproj" on node 3 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy- /D WIN32 /D NDEBUG /D _LIB /D _VC80_UPGRADE=0x0600 /D _MBCS /GF /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml\\" /Fd"K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt tinystr.cpp tinyxml.cpp tinyxmlerror.cpp tinyxmlparser.cpp
+         tinystr.cpp
+         tinyxml.cpp
+         tinyxmlerror.cpp
+         tinyxmlparser.cpp
+         Generating Code...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml\tinyxml.lib" /NOLOGO K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml\tinystr.obj
+         K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml\tinyxml.obj
+         K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml\tinyxmlerror.obj
+         K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml\tinyxmlparser.obj
+         tinyxml_lib.vcxproj -> K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml\tinyxml.lib
+     1>Done Building Project "K:\dev\Alpha\Source\3rdParty\tinyxml\tinyxml_lib.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.45
