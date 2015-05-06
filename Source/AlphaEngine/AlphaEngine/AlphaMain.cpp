@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 	nP->ProjectionMatrix = perspective(45.0f, 1.7778f, 0.1f, 10000.0f);
 	node->SetNodeProperties(*nP);
 
+	
 	GraphicsSystem::Get().GetScene()->SetRootNode(shared_ptr<SceneNode>(node));
 	gameLoop.StartLoop();
 
