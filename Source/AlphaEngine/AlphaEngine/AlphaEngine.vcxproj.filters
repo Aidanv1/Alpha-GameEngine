@@ -157,6 +157,9 @@
     <Filter Include="Debugging">
       <UniqueIdentifier>{3397fba5-70e0-4893-a22e-c0b19d97bd35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{faf1ba4c-a8ad-468e-aab3-f2a08fcecd3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Time\Clock.h">
