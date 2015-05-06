@@ -59,12 +59,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;K:\dev\Alpha\Source\3rdParty\opengl\glm;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\include;K:\dev\Alpha\Source\3rdParty\DevIL\include;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\include;K:\dev\Alpha\Source\3rdParty\freeglut-2.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\freeglut-2.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;K:\dev\Alpha\Source\3rdParty\DevIL\lib;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\lib;K:\dev\Alpha\Source\3rdParty\freeglut-2.8.1\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;$(DEV)\Alpha\Source\3rdParty\DevIL\lib;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\lib;$(DEV)\Alpha\Source\3rdParty\freeglut-2.8.1\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
@@ -77,7 +77,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;K:\dev\Alpha\Source\3rdParty\opengl\glm;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\include;K:\dev\Alpha\Source\3rdParty\DevIL\include;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\include;K:\dev\Alpha\Source\3rdParty\freeglut-2.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\freeglut-2.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
@@ -85,7 +85,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>K:\dev\Alpha\Source\3rdParty\tinyxml\Releasetinyxml;K:\dev\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;K:\dev\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;K:\dev\Alpha\Source\3rdParty\DevIL\lib;K:\dev\Alpha\Source\3rdParty\Assimp3.0.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml\Releasetinyxml;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;$(DEV)\Alpha\Source\3rdParty\DevIL\lib;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
     </Link>
