@@ -6,6 +6,7 @@
 #include <GL/glew.h>
 #include "IL/il.h"
 #include "IL/ilu.h"
+#include "../Graphics/GraphicsSystem.h"
 //========================================================================
 class GLWindow : public IWindow
 {

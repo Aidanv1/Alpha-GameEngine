@@ -4,7 +4,7 @@ GraphicsSystem::GraphicsSystem() :
 m_renderer(NULL),
 m_textureResourceManager(NULL),
 m_meshResourceManager(NULL),
-m_pScene(NULL)
+m_scene(NULL)
 {
 
 }
@@ -28,8 +28,11 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 	m_meshResourceManager->Init(meshResSize);
 	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(new MeshResourceLoader));
 
-	m_pScene = shared_ptr<Scene>(new Scene());
-
+	m_scene = shared_ptr<Scene>(new Scene());
+	if (!m_scene->Init())
+	{
+		return false;
+	}
 	
 	TiXmlDocument doc;
 	if (!doc.LoadFile("Graphics.xml"))
@@ -37,13 +40,14 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 		ALPHA_ERROR("Grahpics.xml is missing");
 		return false;
 	}
-	m_renderer->VInit(m_pScene, doc.FirstChildElement());
+	m_renderer->VInit(m_scene, doc.FirstChildElement());
 	return true;
 }
-void GraphicsSystem::Update()
+void GraphicsSystem::Update(float deltaMs)
 {
 	m_meshResourceManager->Update();
 	m_textureResourceManager->Update();
+	m_scene->Update(deltaMs);
 	m_renderer->VRender();
 }
 

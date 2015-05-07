@@ -59,8 +59,8 @@ void GLRenderer::VRender()
 		m_backGroundColour.y,
 		m_backGroundColour.z,
 		m_backGroundColour.w);
-	ALPHA_ASSERT(m_pScene->GetRootNode());	
-	m_pScene->GetRootNode()->VRender();
+
+	m_pScene->Render();
 }
 // -----------------------------------------------------------------------
 void GLRenderer::VOnRestore()

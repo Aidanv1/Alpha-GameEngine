@@ -28,19 +28,25 @@ bool Mesh::Init()
 	return true;
 }
 // -----------------------------------------------------------------------
-void Mesh::VRender()
+void Mesh::VRender(Scene* pScene)
 {
 	m_shaderProgram->VUseProgram();
-	m_shaderProgram->SetUniforms(	m_nodeProperties.ModelMatrix,
-									m_nodeProperties.ViewMatrix,
-									m_nodeProperties.ProjectionMatrix,
-									m_nodeProperties.RotationMatrix,
-									m_nodeProperties.LightVector,
+	//get view and projection matrix from main camera
+	mat4 viewMat;
+	mat4 projMat;
+	pScene->GetCamera()->GetViewMatrix(viewMat);
+	pScene->GetCamera()->GetProjectionMatrix(projMat);
+	//set shader uniforms
+	m_shaderProgram->SetUniforms(	m_nodeProperties.m_toWorld,
+									viewMat,
+									projMat,
+									m_nodeProperties.m_rotationMatrix,
+									m_nodeProperties.m_lightVector,
 									m_material->Texture()->VGetTextureID());
 	BindData();
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
 
-	VRenderChildren();
+	VRenderChildren(pScene);
 }
 // -----------------------------------------------------------------------
 void Mesh::BindData()

@@ -23,9 +23,14 @@ public:
 	virtual bool VInit(TiXmlElement* pElement) override;
 	virtual bool VPostInit() override;
 	//SceneNode functions
-	virtual void VRender() override;
+	virtual void VRender(Scene* pScene) override;
 	virtual bool Load();
 	bool LoadResource();
+	//16 byte alignment
+	//void* operator new(std::size_t sz)
+	//{
+	//	return _aligned_malloc(sz, 16);
+	//}
 private:
 	int m_modelID;
 	string m_modelFileName;

@@ -1,9 +1,12 @@
 #ifndef SCENE_H
 #define SCENE_H
-#include "SceneNode.h"
+#include "RootNode.h"
+#include "Camera.h"
 
 class Scene;
-typedef shared_ptr<ISceneNode> StrongNodePtr;
+typedef shared_ptr<RootNode> StrongRootNodePtr;
+typedef shared_ptr<SceneNode> StrongNodePtr;
+typedef shared_ptr<Camera> StrongCameraNodePtr;
 typedef shared_ptr<Scene> StrongScenePtr;
 //========================================================================
 class Scene
@@ -11,10 +14,15 @@ class Scene
 public:
 	Scene();
 	~Scene();
-	void SetRootNode(StrongNodePtr node);
-	StrongNodePtr GetRootNode() const { return m_rootNode; };
+	bool Init();
+	void Update(float deltaMs);
+	void SetCameraNode(StrongCameraNodePtr m_cameraNode);
+	void Render();
+	StrongCameraNodePtr GetCamera() const { return m_cameraNode; }
+	void AddChild(StrongNodePtr child);
 private:
-	StrongNodePtr m_rootNode;
+	StrongRootNodePtr m_rootNode;
+	StrongCameraNodePtr m_cameraNode;
 };
 //========================================================================
 #endif

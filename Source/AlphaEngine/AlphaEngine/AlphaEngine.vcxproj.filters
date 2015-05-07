@@ -92,6 +92,12 @@
     <ClCompile Include="Graphics\ModelComponent.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Camera.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\RootNode.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -296,6 +302,9 @@
       <Filter>Window</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\ModelComponent.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\RootNode.h">
       <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>

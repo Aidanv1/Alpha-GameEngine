@@ -2,8 +2,6 @@
 // -----------------------------------------------------------------------
 SceneNode::SceneNode() :
 m_positionInWorld(0),
-m_rotationAxis(0),
-m_rotationAngle(0),
 m_nodeProperties()
 {
 }
@@ -20,12 +18,12 @@ void SceneNode::SetNodeProperties(NodeProperties& nodeProperties)
 }
 
 // -----------------------------------------------------------------------
-void SceneNode::VRenderChildren()
+void SceneNode::VRenderChildren(Scene* pScene)
 {
 	//iterate through all children and call their render function
 	for (auto child = m_children.begin(); child != m_children.end(); child++)
 	{
-		(*child)->VRender();
+		(*child)->VRender(pScene);
 	}
 }
 

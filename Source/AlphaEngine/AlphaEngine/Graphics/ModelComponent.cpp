@@ -37,13 +37,13 @@ bool ModelComponent::VPostInit()
 //========================================================================
 // Scene Node Functions
 //========================================================================
-void ModelComponent::VRender()
+void ModelComponent::VRender(Scene* pScene)
 {
 	if (!Load())
 	{
 		return;
 	}
-	VRenderChildren();
+	VRenderChildren(pScene);
 }
 bool ModelComponent::Load()
 {
@@ -88,7 +88,7 @@ bool ModelComponent::Load()
 		vec3 T(m.a4, m.b4, m.c4);
 		mat4 trans = translate(mat4(1.0f), T);
 		NodeProperties n = mesh->GetNodeProperties();	
-		n.ModelMatrix = n.ModelMatrix* trans;
+		n.m_toWorld = n.m_toWorld* trans;
 		mesh->SetNodeProperties(n);
 		int meshID = mesh->LoadMesh(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
 		if (meshID == -1)

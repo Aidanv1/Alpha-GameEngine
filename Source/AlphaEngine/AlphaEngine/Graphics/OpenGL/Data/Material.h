@@ -25,6 +25,11 @@ public:
 	void SetTexture(StrongTexturePtr pTex);
 	//--
 	bool LoadTexture();
+	//16 byte alignment
+	//void* operator new(std::size_t sz)
+	//{
+	//	return _aligned_malloc(sz, 16);
+	//}
 private:
 	struct MatComponents
 	{

@@ -18,10 +18,15 @@ public:
 	Mesh(string meshFile);
 	~Mesh();
 	virtual bool Init();
-	void VRender() override;
+	void VRender(Scene* pScene) override;
 	int LoadMesh(aiMesh* pMesh, aiMaterial* pMaterial);
 	StrongMaterialPtr GetMaterial() { return m_material; }
 	bool Validate();
+	//16 byte alignment
+	//void* operator new(std::size_t sz)
+	//{
+	//	return _aligned_malloc(sz, 16);
+	//}
 private:
 	//loading methods
 	bool LoadResource();	

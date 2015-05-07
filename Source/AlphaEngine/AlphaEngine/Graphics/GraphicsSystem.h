@@ -14,8 +14,8 @@ class GraphicsSystem
 public:
 	~GraphicsSystem();
 	bool Init(StrongRendererPtr renderer, int textResSize, int meshResSize);
-	StrongScenePtr GetScene() const { return m_pScene; };
-	void Update();
+	StrongScenePtr GetScene() const { return m_scene; };
+	void Update(float deltaMs);
 	StrongResourceManagerPtr GetMeshResourceManager() { return m_meshResourceManager; }
 	StrongResourceManagerPtr GetTextureResourceManager() { return m_textureResourceManager; }
 	IRenderer* GetRenderer() { return m_renderer.get(); };
@@ -25,7 +25,7 @@ private:
 	StrongRendererPtr m_renderer;
 	StrongResourceManagerPtr m_textureResourceManager;
 	StrongResourceManagerPtr m_meshResourceManager;
-	StrongScenePtr m_pScene;
+	StrongScenePtr m_scene;
 	
 };
 //========================================================================

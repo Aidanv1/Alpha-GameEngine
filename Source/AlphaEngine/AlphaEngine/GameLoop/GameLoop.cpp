@@ -38,7 +38,7 @@ void GameLoop::StartLoop()
 	while (!quit)
 	{
 		float dt = GetDeltaMs(m_systemTime, m_gameTime);
-		GraphicsSystem::Get().Update();
+		GraphicsSystem::Get().Update(dt);
 		quit = !m_window->VUpdate();
 	}
 }
@@ -51,5 +51,5 @@ float GameLoop::GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int6
 	unsigned __int64 nextime = m_gameClock->GetTimeMilliSec();
 	float deltatime = nextime - previousClockTime;
 	previousClockTime = nextime;
-	return deltatime / MS_PER_MICROSECOND;
+	return deltatime;
 }
