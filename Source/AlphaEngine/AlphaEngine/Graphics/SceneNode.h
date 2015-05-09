@@ -32,6 +32,7 @@ class ISceneNode
 {
 public:
 	virtual void VRender(Scene* pScene) = 0;
+	virtual bool VInitNode() = 0;
 	virtual void VAddChild(StrongSceneNodePtr sceneNode) = 0;
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) = 0;
 protected:
@@ -45,15 +46,20 @@ public:
 	~SceneNode();
 	NodeProperties GetNodeProperties() const { return m_nodeProperties; }
 	void SetNodeProperties(NodeProperties &nodeProperties);
+	virtual bool VInitNode() override { return true; }
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) override {}
 	virtual void VRender(Scene* pScene) override {}
 	virtual void VAddChild(StrongSceneNodePtr sceneNode) override;
+	void GetPositionInWorld(vec3& pos) const { pos = m_positionInWorld; }
+	void SetPositionInWorld(vec3 pos);
+	float GetRadius() const { return m_radius; }
 protected:
 	virtual void VRenderChildren(Scene* pScene) override;
 protected:
 	vec3 m_positionInWorld;
 	NodeProperties m_nodeProperties;
 	SceneNodeList m_children;
+	float m_radius;
 };
 //========================================================================
 #endif

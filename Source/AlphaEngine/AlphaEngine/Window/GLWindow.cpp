@@ -69,9 +69,9 @@ bool GLWindow::VInit()
 	return true;
 }
 // -----------------------------------------------------------------------
-bool GLWindow::VUpdate()
+bool GLWindow::VUpdate(float deltaMs)
 {
-	if (!PollEvents())
+	if (!PollEvents(deltaMs))
 	{
 		return false;
 	}
@@ -81,11 +81,13 @@ bool GLWindow::VUpdate()
 	return true;
 }
 // -----------------------------------------------------------------------
-bool GLWindow::PollEvents()
+bool GLWindow::PollEvents(float deltaMs)
 {
 	//TEMP TEST CODE!!!
 	bool mousemoved = false;
 	SDL_Event mouseevent;
+	int mousescroll = 0;
+	bool eventOccured = false;
 	while (SDL_PollEvent(&m_event))
 	{
 		if (m_event.type == SDL_QUIT)
@@ -102,13 +104,12 @@ bool GLWindow::PollEvents()
 		{
 			mouseevent = m_event;
 			mousemoved = true;
+			eventOccured = true;
 		}
 		if (m_event.type == SDL_MOUSEWHEEL)
 		{
-			vec3 position;
-			GraphicsSystem::Get().GetScene()->GetCamera()->GetPosition(position);
-			position.y -= m_event.wheel.y * 0.5;
-			GraphicsSystem::Get().GetScene()->GetCamera()->SetPosition(position);
+			mousescroll = m_event.wheel.y;
+			eventOccured = true;
 		}
 
 		if (m_event.type == SDL_KEYDOWN)
@@ -116,42 +117,36 @@ bool GLWindow::PollEvents()
 			vec3 position;
 			if (m_event.key.keysym.sym == SDLK_w)
 			{			
-				GraphicsSystem::Get().GetScene()->GetCamera()->GetPosition(position);
-				position.z += 0.5;
-				GraphicsSystem::Get().GetScene()->GetCamera()->SetPosition(position);
+
 			}
 			if (m_event.key.keysym.sym == SDLK_a)
 			{
-				GraphicsSystem::Get().GetScene()->GetCamera()->GetPosition(position);
-				position.x += 0.5;
-				GraphicsSystem::Get().GetScene()->GetCamera()->SetPosition(position);
+
 			}
 			if (m_event.key.keysym.sym == SDLK_s)
 			{
-				GraphicsSystem::Get().GetScene()->GetCamera()->GetPosition(position);
-				position.z -=  0.5;
-				GraphicsSystem::Get().GetScene()->GetCamera()->SetPosition(position);
+
 			}
 			if (m_event.key.keysym.sym == SDLK_d)
 			{
-				GraphicsSystem::Get().GetScene()->GetCamera()->GetPosition(position);
-				position.x -=  0.5;
-				GraphicsSystem::Get().GetScene()->GetCamera()->SetPosition(position);
+
 			}
 		}
 	}
 
-
-	if (mousemoved)
+	if (eventOccured)
 	{
-		vec3 rot;
-		rot = vec3(0.0f);
-		GraphicsSystem::Get().GetScene()->GetCamera()->GetRotation(rot);
-		rot.y += -mouseevent.motion.xrel * 0.001;
-		rot.x += -mouseevent.motion.yrel * 0.001;
-		rot.z = 0;
-		GraphicsSystem::Get().GetScene()->GetCamera()->SetRotation(rot);
-
+		float lookSensitivity = 0.0006;
+		float adjust = lookSensitivity * deltaMs;
+		LookEvent* lookEvent = ALPHA_NEW LookEvent();
+		float mousex = 0, mousey = 0;
+		if (mousemoved)
+		{
+			mousex = -mouseevent.motion.yrel * adjust;
+			mousey = -mouseevent.motion.xrel * adjust;
+		}
+		lookEvent->SetLook(mousex, mousey, 0, 0, mousescroll);
+		Queue_Event(lookEvent);
 	}
 	
 	return true;

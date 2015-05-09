@@ -2,7 +2,8 @@
 // -----------------------------------------------------------------------
 SceneNode::SceneNode() :
 m_positionInWorld(0),
-m_nodeProperties()
+m_nodeProperties(),
+m_radius(0)
 {
 }
 // -----------------------------------------------------------------------
@@ -26,8 +27,13 @@ void SceneNode::VRenderChildren(Scene* pScene)
 		(*child)->VRender(pScene);
 	}
 }
-
+// -----------------------------------------------------------------------
 void SceneNode::VAddChild(StrongSceneNodePtr sceneNode)
 {
 	m_children.push_back(sceneNode);
+}
+// -----------------------------------------------------------------------
+void SceneNode::SetPositionInWorld(vec3 pos)
+{
+	m_positionInWorld = pos;
 }

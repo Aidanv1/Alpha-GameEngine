@@ -5,21 +5,22 @@ m_name(name),
 m_isGlobal(setAsGlobal)
 {
 }
-
+// -----------------------------------------------------------------------
 EventManager::~EventManager()
 {
 	//release all
 	m_eventListeners.clear();
 	m_eventQueue.clear();
 }
+// -----------------------------------------------------------------------
 const char* EventManager::GetName() const
 {
 	return m_name;
 }
-bool EventManager::VRegisterListener(EventType eventType, IEventListener* listener)
+// -----------------------------------------------------------------------
+bool EventManager::VRegisterListener(EventType eventType, ListenerDelegate listener)
 {
 	EventListenerList* listenerList = &m_eventListeners[eventType];
-
 	//check if the listener is already registered for this type of event
 	for (auto it = (*listenerList).begin(); it != (*listenerList).end(); it++)
 	{
@@ -33,8 +34,8 @@ bool EventManager::VRegisterListener(EventType eventType, IEventListener* listen
 	m_eventListeners[eventType].push_back(listener);
 	return true;
 }
-
-bool EventManager::VDeregisterListener(EventType eventType, IEventListener* listener)
+// -----------------------------------------------------------------------
+bool EventManager::VDeregisterListener(EventType eventType, ListenerDelegate listener)
 {
 	EventListenerList* listenerList = &m_eventListeners[eventType];
 
@@ -50,7 +51,7 @@ bool EventManager::VDeregisterListener(EventType eventType, IEventListener* list
 	}
 	return false;
 }
-
+// -----------------------------------------------------------------------
 bool EventManager::VUpdate()
 {
 	while (!m_eventQueue.empty())
@@ -64,12 +65,13 @@ bool EventManager::VUpdate()
 		//call the "VOnEvent" for all listeners  in that list
 		for (auto it = (*listenerList).begin(); it != (*listenerList).end(); it++)
 		{
-			(*it)->VOnEvent(event);
+			//invoke listener delegate
+			(*it)(event);
 		}
 	}
 	return true;
 }
-
+// -----------------------------------------------------------------------
 bool EventManager::VQueueEvent(shared_ptr<IEvent> event)
 {
 	if (!event)
@@ -79,7 +81,7 @@ bool EventManager::VQueueEvent(shared_ptr<IEvent> event)
 	m_eventQueue.push_back(event);
 	return true;
 }
-
+// -----------------------------------------------------------------------
 bool EventManager::VAbortEvent(shared_ptr<IEvent> event)
 {
 	//remove event from queue if found
@@ -92,3 +94,4 @@ bool EventManager::VAbortEvent(shared_ptr<IEvent> event)
 	
 	return false;
 }
+// -----------------------------------------------------------------------

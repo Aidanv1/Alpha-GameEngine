@@ -15,11 +15,12 @@ typedef shared_ptr<Resource> StrongModelPtr;
 class ModelComponent :public SceneNode, public IGameObjectComponent
 {
 public:
-	ModelComponent(string modelFileName);
+	ModelComponent(string modelFileName, vec3 pos, vec3 rot);
 	~ModelComponent();
 	//IGameObjectComponent functions
 	virtual ComponentType VGetType() override;
 	virtual void VUpdate() override;
+	virtual void VUpdateNode(Scene* pScene, float deltaMS) override;
 	virtual bool VInit(TiXmlElement* pElement) override;
 	virtual bool VPostInit() override;
 	//SceneNode functions
@@ -32,7 +33,7 @@ public:
 	//	return _aligned_malloc(sz, 16);
 	//}
 private:
-	int m_modelID;
+	int m_modelID;	
 	string m_modelFileName;
 	StrongResourceManagerPtr m_modelResourceManager;
 	StrongModelPtr m_modelResource;

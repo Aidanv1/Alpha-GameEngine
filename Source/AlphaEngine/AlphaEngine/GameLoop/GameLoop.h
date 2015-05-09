@@ -6,7 +6,7 @@
 #include "..\Graphics\GraphicsSystem.h"
 #include "..\Window\GLWindow.h"
 #include "..\Graphics\OpenGL\GLRenderer.h"
-
+#include "../EventManager/EventManager.h"
 class GameLoop
 {
 public:
@@ -21,5 +21,6 @@ private:
 	unsigned __int64 m_systemTime;
 	unsigned __int64 m_gameTime;
 	IWindow* m_window;
+	EventManager m_globalEventManager;
 };
 #endif

@@ -1,3 +1,4 @@
+#include "EventManager\EventManager.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>	
 #include <glm/gtx/transform.hpp>
@@ -25,16 +26,10 @@ int main(int argc, char *argv[])
 	//first model----
 	TiXmlElement* elem = doc.FirstChildElement();
 	ModelComponent* node = (ModelComponent*)mcc.CreateComponent(elem);
-	//node prop
-	NodeProperties* nP = new NodeProperties();
-	nP->m_lightVector = vec4(0.0f, 1.0f, 1.0f, 1.0f);
-	nP->m_rotationMatrix = rotate(mat4(1.0f), -1.57f, vec3(1.0f, 0.0f, 0.0f));
-	nP->m_toWorld = translate(mat4(1.0f), vec3(0.0f, -2.0f, -4.0f));
-	nP->m_toWorld = nP->m_toWorld*nP->m_rotationMatrix;
-	node->SetNodeProperties(*nP);
 
 	//camera
-	Camera* camera = new Camera(45.0f, 1.7778f, 0.1f, 10000.0f);
+	Camera* camera = new Camera(45.0f, 1.7778f, 0.1f, 10000.0f, Orbital_Mode, node);
+	camera->VInitNode();
 	GraphicsSystem::Get().GetScene()->SetCameraNode(shared_ptr<Camera>(camera));
 	GraphicsSystem::Get().GetScene()->AddChild(shared_ptr<SceneNode>(node));
 	gameLoop.StartLoop();

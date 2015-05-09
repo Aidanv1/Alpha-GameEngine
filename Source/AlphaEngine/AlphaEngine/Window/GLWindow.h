@@ -6,7 +6,8 @@
 #include <GL/glew.h>
 #include "IL/il.h"
 #include "IL/ilu.h"
-#include "../Graphics/GraphicsSystem.h"
+#include "../EventManager/IEventManager.h"
+#include "../EventManager/Events/Events.h"
 //========================================================================
 class GLWindow : public IWindow
 {
@@ -14,9 +15,9 @@ public:
 	GLWindow(const char* name, int x, int y);
 	~GLWindow();
 	virtual bool VInit() override;
-	virtual bool VUpdate() override;
+	virtual bool VUpdate(float deltaMs) override;
 private:
-	bool PollEvents();
+	bool PollEvents(float deltaMs);
 private:
 	int m_xRes;
 	int m_yRes;

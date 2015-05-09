@@ -2,11 +2,12 @@
 //========================================================================
 // IGameObjectComponent Functions
 //========================================================================
-ModelComponent::ModelComponent(string modelFileName) :
+ModelComponent::ModelComponent(string modelFileName, vec3 pos, vec3 rot) :
 SceneNode(),
 m_modelFileName(modelFileName),
 m_modelID(-1)
 {
+	m_positionInWorld = pos;
 }
 // -----------------------------------------------------------------------
 ModelComponent::~ModelComponent()
@@ -45,6 +46,7 @@ void ModelComponent::VRender(Scene* pScene)
 	}
 	VRenderChildren(pScene);
 }
+// -----------------------------------------------------------------------
 bool ModelComponent::Load()
 {
 	bool success = true;
@@ -104,6 +106,7 @@ bool ModelComponent::Load()
 	m_modelID = 1;
 	return success;
 }
+// -----------------------------------------------------------------------
 bool ModelComponent::LoadResource()
 {
 	//if no resource currently exists
@@ -127,13 +130,48 @@ bool ModelComponent::LoadResource()
 
 	return true;
 }
+// -----------------------------------------------------------------------
+void ModelComponent::VUpdateNode(Scene* pScene, float deltaMS)
+{
+	m_nodeProperties.m_lightVector = vec4(0.0f, 1.0f, 1.0f, 1.0f);
+	m_nodeProperties.m_rotationMatrix = rotate(mat4(1.0f), -1.57f, vec3(1.0f, 0.0f, 0.0f));
+	m_nodeProperties.m_toWorld = translate(mat4(1.0f), m_positionInWorld);
+	m_nodeProperties.m_toWorld = m_nodeProperties.m_toWorld * m_nodeProperties.m_rotationMatrix;
+}
+// -----------------------------------------------------------------------
 //========================================================================
 // Component Creator Functions
 //========================================================================
 IGameObjectComponent* ModelComponentCreator::CreateComponent(TiXmlElement* pElement)
 {
 	string modelFileName = pElement->Attribute("modelFileName");
-	ModelComponent* modelComponent = ALPHA_NEW ModelComponent(modelFileName);
+	TiXmlElement* nextElem = pElement->FirstChildElement();
+
+	vec3 pos(0.0f);
+	vec3 rot(0.0f);
+	//loop through elements
+	while (nextElem)
+	{
+		string val = nextElem->Value();
+		if (val == "Position")
+		{
+			nextElem->QueryFloatAttribute("x", &pos.x);
+			nextElem->QueryFloatAttribute("y", &pos.y);
+			nextElem->QueryFloatAttribute("z", &pos.z);
+		}
+		if (val == "RotationInDegrees")
+		{
+			nextElem->QueryFloatAttribute("xAxis", &rot.x);
+			nextElem->QueryFloatAttribute("yAxis", &rot.y);
+			nextElem->QueryFloatAttribute("zAxis", &rot.z);
+			//convert to radians			
+			rot.x = radians<float>(rot.x);
+			rot.y = radians<float>(rot.y);
+			rot.z = radians<float>(rot.z);
+		}
+		nextElem = nextElem->NextSiblingElement();
+	}
+	ModelComponent* modelComponent = ALPHA_NEW ModelComponent(modelFileName, pos, rot);
 	modelComponent->VInit(pElement);
 	return modelComponent;
 }

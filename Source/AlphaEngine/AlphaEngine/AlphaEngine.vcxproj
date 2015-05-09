@@ -59,7 +59,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\freeglut-2.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\FastDelegate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
@@ -77,7 +77,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\freeglut-2.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\FastDelegate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
@@ -133,7 +133,6 @@
     <ClInclude Include="EventManager\Events\Events.h" />
     <ClInclude Include="EventManager\IEventManager.h" />
     <ClInclude Include="EventManager\IEvent.h" />
-    <ClInclude Include="EventManager\IEventListener.h" />
     <ClInclude Include="GameLoop\GameLoop.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GameObject\GameObjectFactory.h" />

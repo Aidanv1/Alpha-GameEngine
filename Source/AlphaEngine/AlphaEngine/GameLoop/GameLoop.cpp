@@ -1,6 +1,11 @@
 #include "GameLoop.h"
 
-GameLoop::GameLoop()
+GameLoop::GameLoop() :
+m_globalEventManager("Global", true),
+m_window(NULL),
+m_gameClock(NULL),
+m_systemTime(0),
+m_gameTime(0)
 {
 }
 GameLoop::~GameLoop()
@@ -29,17 +34,21 @@ bool GameLoop::Init(IWindow* window)
 	ClockManager::Get().AddClock(m_gameClock);
 	m_systemTime = SDL_GetTicks();
 	m_gameTime = 0;
-
 	return true;
 }
 void GameLoop::StartLoop()
 {
+	float dt = 0;
 	bool quit = false;
 	while (!quit)
-	{
-		float dt = GetDeltaMs(m_systemTime, m_gameTime);
+	{		
 		GraphicsSystem::Get().Update(dt);
-		quit = !m_window->VUpdate();
+		quit = !m_window->VUpdate(dt);
+		m_globalEventManager.VUpdate();		
+		while (dt == 0)
+		{
+			dt = GetDeltaMs(m_systemTime, m_gameTime);
+		}
 	}
 }
 

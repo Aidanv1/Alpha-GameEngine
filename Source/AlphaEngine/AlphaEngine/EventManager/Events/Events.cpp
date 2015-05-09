@@ -1,4 +1,4 @@
 #include "Events.h"
 
 //Unique Event IDs
-const EventType BaseEvent::sEventType = 0;
+const EventType LookEvent::sEventType = 0xfa52d07b;

@@ -190,9 +190,6 @@
     <ClInclude Include="ResourceManager\ResourceManager.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager\IEventListener.h">
-      <Filter>EventManager</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager\IEvent.h">
       <Filter>EventManager</Filter>
     </ClInclude>
