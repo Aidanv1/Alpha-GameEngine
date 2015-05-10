@@ -4,6 +4,8 @@
 #include "..\Resources\Raw.h"
 #include "IL/il.h"
 #include "IL/ilu.h"
+
+#include <IL/ilut.h>
 //========================================================================
 class BitmapResourceLoader : public IResourceLoader
 {

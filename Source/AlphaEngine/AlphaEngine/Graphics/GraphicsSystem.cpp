@@ -35,9 +35,9 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 	}
 	
 	TiXmlDocument doc;
-	if (!doc.LoadFile("Graphics.xml"))
+	if (!doc.LoadFile("Shaders/Shaders.xml"))
 	{
-		ALPHA_ERROR("Grahpics.xml is missing");
+		ALPHA_ERROR("Shaders.xml is missing");
 		return false;
 	}
 	m_renderer->VInit(m_scene, doc.FirstChildElement());

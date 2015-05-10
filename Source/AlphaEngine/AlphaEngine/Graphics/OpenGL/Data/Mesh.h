@@ -22,6 +22,7 @@ public:
 	int LoadMesh(aiMesh* pMesh, aiMaterial* pMaterial);
 	StrongMaterialPtr GetMaterial() { return m_material; }
 	bool Validate();
+	void FreeVertexBuffer();
 	//16 byte alignment
 	//void* operator new(std::size_t sz)
 	//{

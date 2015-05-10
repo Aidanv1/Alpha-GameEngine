@@ -98,6 +98,12 @@
     <ClCompile Include="Graphics\RootNode.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Shader\Text2DShaderProgram.cpp">
+      <Filter>Graphics\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Text\Text2D_GL.cpp">
+      <Filter>Graphics\OpenGL\Text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -165,6 +171,9 @@
     </Filter>
     <Filter Include="Input">
       <UniqueIdentifier>{faf1ba4c-a8ad-468e-aab3-f2a08fcecd3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\OpenGL\Text">
+      <UniqueIdentifier>{6e11803f-68ec-4688-ae25-efec805f9cee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -303,6 +312,15 @@
     </ClInclude>
     <ClInclude Include="Graphics\RootNode.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IText2D.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Shader\Text2DShaderProgram.h">
+      <Filter>Graphics\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Text\Text2D_GL.h">
+      <Filter>Graphics\OpenGL\Text</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

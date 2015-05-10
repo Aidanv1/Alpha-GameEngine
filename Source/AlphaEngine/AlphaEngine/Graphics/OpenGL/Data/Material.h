@@ -3,7 +3,7 @@
 #include "..\..\..\AlphaStd.h"
 #include "Texture.h"
 typedef vec4 Colour;
-typedef shared_ptr<Texture> StrongTexturePtr;
+
 //========================================================================
 class Material
 {

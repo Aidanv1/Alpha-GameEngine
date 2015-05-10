@@ -40,25 +40,42 @@ void GameLoop::StartLoop()
 {
 	float dt = 0;
 	bool quit = false;
+	unsigned int cycleCount = 0;
 	while (!quit)
-	{		
+	{
+
+		//display delta time
+		if (cycleCount%10 == 0)
+		{
+			stringstream printText;
+			printText << "FPS: " << to_string(MS_PER_SECOND / dt);
+			GraphicsSystem::Get().GetRenderer()->VPrintText(printText.str());
+		}
+		
 		GraphicsSystem::Get().Update(dt);
 		quit = !m_window->VUpdate(dt);
-		m_globalEventManager.VUpdate();		
-		while (dt == 0)
-		{
-			dt = GetDeltaMs(m_systemTime, m_gameTime);
-		}
+		m_globalEventManager.VUpdate();
+		
+		dt = GetDeltaMs(m_systemTime, m_gameTime);
+		cycleCount++;
 	}
 }
 
 float GameLoop::GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int64& previousClockTime)
 {
-	unsigned __int64 timenext = SDL_GetTicks();
-	ClockManager::Get().UpdateClocks((timenext - previousSystemTime));
+	float deltatime = 0;
+	unsigned __int64 timenext = 0;
+	unsigned __int64 nextime = 0;
+	//nothing will happen if dT is zero
+	while (deltatime < 10)
+	{
+		timenext = SDL_GetTicks();
+		ClockManager::Get().UpdateClocks((timenext - previousSystemTime));
+		nextime = m_gameClock->GetTimeMilliSec();
+		deltatime = nextime - previousClockTime;	
+	}
+
 	previousSystemTime = timenext;
-	unsigned __int64 nextime = m_gameClock->GetTimeMilliSec();
-	float deltatime = nextime - previousClockTime;
 	previousClockTime = nextime;
 	return deltatime;
 }

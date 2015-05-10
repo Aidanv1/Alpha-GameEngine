@@ -110,6 +110,8 @@
     <ClCompile Include="Graphics\OpenGL\Shader\BaseShaderProgram.cpp" />
     <ClCompile Include="Graphics\OpenGL\Shader\ShaderHelper.cpp" />
     <ClCompile Include="Graphics\OpenGL\Shader\MeshShaderProgram.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Shader\Text2DShaderProgram.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Text\Text2D_GL.cpp" />
     <ClCompile Include="Graphics\RootNode.cpp" />
     <ClCompile Include="Graphics\Scene.cpp" />
     <ClCompile Include="Graphics\SceneNode.cpp" />
@@ -143,6 +145,7 @@
     <ClInclude Include="Graphics\Camera.h" />
     <ClInclude Include="Graphics\GraphicsSystem.h" />
     <ClInclude Include="Graphics\IRenderer.h" />
+    <ClInclude Include="Graphics\IText2D.h" />
     <ClInclude Include="Graphics\ModelComponent.h" />
     <ClInclude Include="Graphics\OpenGL\Data\Handler\TextureHandler.h" />
     <ClInclude Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.h" />
@@ -154,6 +157,8 @@
     <ClInclude Include="Graphics\OpenGL\Shader\IShaderProgram.h" />
     <ClInclude Include="Graphics\OpenGL\Shader\ShaderHelper.h" />
     <ClInclude Include="Graphics\OpenGL\Shader\MeshShaderProgram.h" />
+    <ClInclude Include="Graphics\OpenGL\Shader\Text2DShaderProgram.h" />
+    <ClInclude Include="Graphics\OpenGL\Text\Text2D_GL.h" />
     <ClInclude Include="Graphics\RootNode.h" />
     <ClInclude Include="Graphics\Scene.h" />
     <ClInclude Include="Graphics\SceneNode.h" />

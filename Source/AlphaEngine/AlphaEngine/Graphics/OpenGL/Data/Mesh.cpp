@@ -72,16 +72,6 @@ bool Mesh::Validate()
 // -----------------------------------------------------------------------
 int Mesh::LoadMesh(aiMesh* pMesh, aiMaterial* pMaterial)
 {
-	//first check if vertex buffer was already loaded in video memory
-	if (m_vertexInfo.m_vertexBufferID != -1)
-	{
-		//if the vertex buffer is still valid, return its ID.
-		if (VertexBufferHandler::Get().ValidateID(m_vertexInfo.m_vertexBufferID, m_meshFileName))
-		{
-			return m_vertexInfo.m_vertexBufferID;
-		}
-	}
-	//-----------------------------------------------
 	//-------------Create Material-------------------
 	aiColor4D color(0.f, 0.f, 0.f,0.f);
 
@@ -150,5 +140,14 @@ void Mesh::SetVertexAttribPointer(GLuint attribID, int componentCount, int strid
 	glVertexAttribPointer(attribID, componentCount, GL_FLOAT, GL_FALSE, stride, dataoffset);
 	glEnableVertexAttribArray(attribID);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+// -----------------------------------------------------------------------
+void Mesh::FreeVertexBuffer()
+{
+	//free blocks in video memory
+	VertexBufferHandler::Get().FreeVertexBuffer(m_vertexInfo.m_vertexBufferID);
+	glDeleteVertexArrays(1, &(m_vertexInfo.m_vertexArrayID));
+	m_vertexInfo.m_vertexBufferID = -1;
+	m_vertexInfo.m_vertexArrayID = -1;
 }
 // -----------------------------------------------------------------------

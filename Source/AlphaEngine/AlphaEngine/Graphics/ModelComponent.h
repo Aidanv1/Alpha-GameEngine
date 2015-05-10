@@ -27,6 +27,9 @@ public:
 	virtual void VRender(Scene* pScene) override;
 	virtual bool Load();
 	bool LoadResource();
+private:
+	virtual void VRenderChildren(Scene* pScene) override;
+	bool ValidateBuffers();
 	//16 byte alignment
 	//void* operator new(std::size_t sz)
 	//{
@@ -37,6 +40,7 @@ private:
 	string m_modelFileName;
 	StrongResourceManagerPtr m_modelResourceManager;
 	StrongModelPtr m_modelResource;
+	SceneNodeList m_meshChildren;
 };
 //========================================================================
 //Model Component Creator

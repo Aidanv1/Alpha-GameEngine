@@ -55,17 +55,26 @@ bool ModelComponent::Load()
 		ALPHA_ERROR("Unable to load resource");
 		return false;
 	}
+	//check if system memory buffer is loaded
 	if (!m_modelResource->Buffer())
 	{
 		return false;
 	}
+	//check if video memory buffers are loaded
+	if (!ValidateBuffers() && 
+		m_modelID != -1)
+	{
+		m_modelID = -1;
+	}
 	if (m_modelID != -1)
 	{
-		for (auto it = m_children.begin(); it != m_children.end();it++)
+		for (auto it = m_meshChildren.begin(); it != m_meshChildren.end();it++)
 		{
 			Mesh* mesh = dynamic_cast<Mesh*>((*it).get());
 			if (mesh)
+			{
 				success = mesh->GetMaterial()->LoadTexture();
+			}
 		}
 		return success;
 	}
@@ -101,7 +110,7 @@ bool ModelComponent::Load()
 		mesh->Init();		
 		//attempt to load textures
 		success = mesh->GetMaterial()->LoadTexture();
-		VAddChild(StrongSceneNodePtr(mesh));
+		m_meshChildren.push_back(StrongSceneNodePtr(mesh));
 	}
 	m_modelID = 1;
 	return success;
@@ -126,6 +135,10 @@ bool ModelComponent::LoadResource()
 	{
 		m_modelResource->RequestLoad();
 	}
+	else if (!m_modelResource->Buffer())
+	{
+		return false;
+	}
 
 
 	return true;
@@ -137,6 +150,58 @@ void ModelComponent::VUpdateNode(Scene* pScene, float deltaMS)
 	m_nodeProperties.m_rotationMatrix = rotate(mat4(1.0f), -1.57f, vec3(1.0f, 0.0f, 0.0f));
 	m_nodeProperties.m_toWorld = translate(mat4(1.0f), m_positionInWorld);
 	m_nodeProperties.m_toWorld = m_nodeProperties.m_toWorld * m_nodeProperties.m_rotationMatrix;
+}
+// -----------------------------------------------------------------------
+void ModelComponent::VRenderChildren(Scene* pScene)
+{
+	//render mesh children
+	for (auto child = m_meshChildren.begin(); child != m_meshChildren.end(); child++)
+	{
+		(*child)->VRender(pScene);
+	}
+	//base class render children
+	SceneNode::VRenderChildren(pScene);
+}
+// -----------------------------------------------------------------------
+bool ModelComponent::ValidateBuffers()
+{
+	bool validCheck = true;
+	bool* validArray = ALPHA_NEW bool[m_meshChildren.size()];
+	//consider all meshes as valid initially
+	for (int i = 0; i < m_meshChildren.size(); i++)
+	{
+		validArray[i] = true;
+	}
+	//check if all meshes are still valid in vram
+	int i = 0;
+	for (auto it = m_meshChildren.begin(); it != m_meshChildren.end(); it++, i++)
+	{
+		shared_ptr<Mesh> mesh = dynamic_pointer_cast<Mesh>(*it);
+		if (!mesh->Validate())
+		{
+			validArray[i] = false;
+			validCheck = false;
+		}
+	}
+
+	if (validCheck)
+	{
+		SAFE_DELETE_ARRAY(validArray);
+		return true;
+	}
+	//if one mesh is not valid, free all valid mesh buffers
+	//(invalid mesh buffers are in use by other mesh objects)
+	i = 0;
+	for (auto it = m_meshChildren.begin(); it != m_meshChildren.end(); it++, i++)
+	{
+		if (validArray[i] == true)
+		{
+			shared_ptr<Mesh> mesh = dynamic_pointer_cast<Mesh>(*it);
+			mesh->FreeVertexBuffer();
+		}
+	}
+	SAFE_DELETE_ARRAY(validArray);
+	return false;
 }
 // -----------------------------------------------------------------------
 //========================================================================

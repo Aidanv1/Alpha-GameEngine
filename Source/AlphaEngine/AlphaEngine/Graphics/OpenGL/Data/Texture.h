@@ -14,17 +14,18 @@ public:
 };
 //========================================================================
 typedef shared_ptr<Resource> StrongBitmapPtr;
+class Texture;
+typedef shared_ptr<Texture> StrongTexturePtr;
+//========================================================================
 class Texture : public ITexture
 {
-	friend class Material;
 public:
 	Texture(string textureFileName);
 	~Texture();
 	virtual int VGetTextureID() const override { return m_textureID; }
-
-private:
 	bool LoadResource();
 	int LoadTexture();
+private:
 	StrongBitmapPtr m_textureResource;
 	StrongResourceManagerPtr m_textureResourceManager;
 	int m_textureID;

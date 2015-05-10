@@ -33,19 +33,29 @@ void ResourceManager::AddResourceLoader(shared_ptr<IResourceLoader> spResLoader)
 	m_resourceLoaderList.push_back(spResLoader);
 }
 // -----------------------------------------------------------------------
-bool ResourceManager::AddResource(shared_ptr<Resource> spResource)
+bool ResourceManager::AddResource(shared_ptr<Resource>& spResource)
 {
 	//get resource type and intialiaze with appropriate loader
 	//need to add check to find correct loader
 	shared_ptr<IResourceLoader> pResLoader =  m_resourceLoaderList.back();
 	
-	spResource->Init(m_resIDCount++, pResLoader, this);
-	if (!spResource)
+	shared_ptr<Resource> res = spResource;
+	
+	//check if resource already exists
+	auto findIt = m_resIDMap.find(spResource->GetID());
+	if (findIt != m_resIDMap.end())
+	{
+		spResource.reset();
+		spResource = findIt->second;
+		return true;
+	}
+	res->Init(m_resIDCount++, pResLoader, this);
+	if (!res)
 	{
 		return false;
 	}
-	m_resourceListLRU.push_front(spResource);
-	m_resIDMap[spResource->GetID()] = spResource;
+	m_resourceListLRU.push_front(res);
+	m_resIDMap[res->GetID()] = res;
 	return true;
 }
 // -----------------------------------------------------------------------

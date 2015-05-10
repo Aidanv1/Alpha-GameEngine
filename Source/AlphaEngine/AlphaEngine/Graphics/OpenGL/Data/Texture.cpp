@@ -31,6 +31,10 @@ bool Texture::LoadResource()
 	else if (!m_textureResource->IsLoaded())
 	{
 		m_textureResource->RequestLoad();
+	} 
+	else if (!m_textureResource->Buffer())
+	{
+		return false;
 	}
 	return true;
 	

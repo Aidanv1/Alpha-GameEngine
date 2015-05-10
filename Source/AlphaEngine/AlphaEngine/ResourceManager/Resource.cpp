@@ -1,6 +1,6 @@
 #include "Resource.h"
 // -----------------------------------------------------------------------
-Resource::Resource(string name) :
+Resource::Resource(ResourceID name) :
 m_resName(name),
 m_resID(0),
 m_pBuffer(NULL),
@@ -35,11 +35,6 @@ bool Resource::Init(unsigned int ID, shared_ptr<IResourceLoader> loader, Resourc
 
 }
 // -----------------------------------------------------------------------
-void Resource::SetName(string name)
-{
-	m_resName = name;
-}
-// -----------------------------------------------------------------------
 void Resource::RequestLoad()
 {
 	m_isLoaded = true;
@@ -50,14 +45,9 @@ void Resource::Unload()
 	m_isLoaded = false;
 }
 // -----------------------------------------------------------------------
-string Resource::GetName()
+ResourceID Resource::GetID() const
 {
 	return m_resName;
-}
-// -----------------------------------------------------------------------
-unsigned int Resource::GetID() const
-{
-	return m_resID;
 }
 // -----------------------------------------------------------------------
 unsigned char* Resource::Buffer()

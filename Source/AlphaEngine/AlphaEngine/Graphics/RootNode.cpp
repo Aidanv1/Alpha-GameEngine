@@ -12,3 +12,8 @@ void RootNode::VRender(Scene* pScene)
 {
 	VRenderChildren(pScene);
 }
+
+bool RootNode::VInitNode()
+{
+	return true;
+}

@@ -17,7 +17,11 @@ bool BitmapResourceLoader::VLoadResource(string resName, unsigned char*& pBuffer
 	BmpData* pBmpBuffer = new BmpData();
 	if (!ilLoadImage(resName.c_str()))
 	{
-		ALPHA_ERROR("Error reading texture file");
+		//auto errorEnum = ilGetError();
+		//iluErrorString(errorEnum);
+		stringstream ss;
+		ss << "Error reading texture file: ";
+		ALPHA_ERROR(ss.str().c_str());
 		return false;
 	}
 	size = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);

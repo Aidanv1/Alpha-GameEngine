@@ -12,7 +12,7 @@ using namespace std;
 
 //forward declaration---------------------------------------------------
 class Resource;
-typedef unsigned int ResourceID;
+typedef string ResourceID;
 #include "Resource.h"
 //========================================================================
 class ResourceManager
@@ -22,7 +22,7 @@ public:
 	~ResourceManager();
 	bool Init(int sizeInMB);
 	void AddResourceLoader(shared_ptr<IResourceLoader> spResLoader);
-	bool AddResource(shared_ptr<Resource> spResource);
+	bool AddResource(shared_ptr<Resource>& spResource);
 	void FreeOneResource();
 	void Update();//update once per regular time frame
 	void Promote(Resource* spRes);
