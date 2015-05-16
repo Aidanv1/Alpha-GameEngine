@@ -67,15 +67,14 @@ float GameLoop::GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int6
 	unsigned __int64 timenext = 0;
 	unsigned __int64 nextime = 0;
 	//nothing will happen if dT is zero
-	while (deltatime < 10)
+	while (deltatime < MIN_DELTA_MS)
 	{
 		timenext = SDL_GetTicks();
 		ClockManager::Get().UpdateClocks((timenext - previousSystemTime));
 		nextime = m_gameClock->GetTimeMilliSec();
 		deltatime = nextime - previousClockTime;	
-	}
-
-	previousSystemTime = timenext;
+		previousSystemTime = timenext;
+	}	
 	previousClockTime = nextime;
 	return deltatime;
 }

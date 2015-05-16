@@ -18,7 +18,7 @@ GLWindow::~GLWindow()
 bool GLWindow::VInit()
 {
 	//Initialize SDL's Video subsystem
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) 
+	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK) < 0)
 	{
 		ALPHA_ERROR("Unable to initialize SDL");
 	}
@@ -65,6 +65,7 @@ bool GLWindow::VInit()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 
 	return true;
 }
@@ -84,28 +85,26 @@ bool GLWindow::VUpdate(float deltaMs)
 bool GLWindow::PollEvents(float deltaMs)
 {
 	//TEMP TEST CODE!!!
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	bool mousemoved = false;
 	SDL_Event mouseevent;
 	int mousescroll = 0;
+	float mousex = 0, mousey = 0;
 	bool eventOccured = false;
 	while (SDL_PollEvent(&m_event))
 	{
 		if (m_event.type == SDL_QUIT)
 		{
 			return false;
-		}
-		if (SDL_SetRelativeMouseMode(SDL_TRUE) != 0)
-		{
-			ALPHA_ERROR("Shit");
-		}
-		
+		}		
 		//Test camera motion
 		if (m_event.type == SDL_MOUSEMOTION)
 		{
-			mouseevent = m_event;
-			mousemoved = true;
 			eventOccured = true;
+			mousex -= m_event.motion.yrel;
+			mousey -= m_event.motion.xrel;
 		}
+
 		if (m_event.type == SDL_MOUSEWHEEL)
 		{
 			mousescroll = m_event.wheel.y;
@@ -116,7 +115,7 @@ bool GLWindow::PollEvents(float deltaMs)
 		{
 			vec3 position;
 			if (m_event.key.keysym.sym == SDLK_w)
-			{			
+			{	
 
 			}
 			if (m_event.key.keysym.sym == SDLK_a)
@@ -136,16 +135,10 @@ bool GLWindow::PollEvents(float deltaMs)
 
 	if (eventOccured)
 	{
-		float lookSensitivity = 0.0006;
-		float adjust = lookSensitivity * deltaMs;
+		float lookSensitivity = 0.0004f;
+		float adjust = lookSensitivity;
 		LookEvent* lookEvent = ALPHA_NEW LookEvent();
-		float mousex = 0, mousey = 0;
-		if (mousemoved)
-		{
-			mousex = -mouseevent.motion.yrel * adjust;
-			mousey = -mouseevent.motion.xrel * adjust;
-		}
-		lookEvent->SetLook(mousex, mousey, 0, 0, mousescroll);
+		lookEvent->SetLook(mousex* adjust, mousey* adjust, 0, 0, mousescroll);
 		Queue_Event(lookEvent);
 	}
 	

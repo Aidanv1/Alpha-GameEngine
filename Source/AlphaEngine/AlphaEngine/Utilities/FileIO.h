@@ -1,12 +1,28 @@
 #ifndef FILEIO_H
 #define FILEIO_H
+
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <string>
+#include <fstream>
+#include <sstream>
+#include "../Debugging/Debugging.h"
+using namespace std;
 // -----------------------------------------------------------------------
+inline void CheckFile(const char* filename)
+{
+	ifstream f(filename);
+	if (!f.good())
+	{
+		stringstream ss;
+		ss << "File does not exist: " << filename;
+		ALPHA_ERROR(ss.str().c_str());
+	}
+}
+// ----------------------------------------------------------------------
 //return filesize in bytes
 inline int FileSize(const char* str)
 {	
+	CheckFile(str);
 	struct stat filestatus; 						
 	stat(str, &filestatus); 
 	return filestatus.st_size; 
@@ -14,6 +30,7 @@ inline int FileSize(const char* str)
 // -----------------------------------------------------------------------
 inline char* ReadFile(const char* filename)
 {
+	CheckFile(filename);
 	// Open the file
 	FILE* fp;
 	fopen_s(&fp, filename, "r");
@@ -35,4 +52,5 @@ inline char* ReadFile(const char* filename)
 	fclose(fp);
 	return contents;
 }
+
 #endif

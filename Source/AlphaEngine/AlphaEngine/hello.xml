@@ -1,20 +1,18 @@
-<Model modelFileName = "../../../Assets/Ironman/Ironman.dae">
-  <Position x ="0.0" y ="-2.0" z ="-4.0" />
-  <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-</Model>
-<Model modelFileName = "../../../Assets/Ironman/Ironman.dae">
-  <Position x ="5.0" y ="-2.0" z ="-4.0" />
-  <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-</Model>
-<Model modelFileName = "../../../Assets/Ironman/Ironman.dae">
-  <Position x ="-5.0" y ="-2.0" z ="-4.0" />
-  <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-</Model>
-<Model modelFileName = "../../../Assets/Ironman/Ironman.dae">12:30 AM 5/10/2015
-  <Position x ="0.0" y ="-2.0" z ="-8.0" />
-  <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-</Model>
-<Model modelFileName = "../../../Assets/Ironman/Ironman.dae">
-  <Position x ="0.0" y ="-2.0" z ="0.0" />
-  <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-</Model>
+<World>  
+  <Model modelFileName = "../../../Assets/Ironman/Ironman.dae">
+    <Position x ="0.0" y ="-2.0" z ="-4.0" />
+    <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
+  </Model>
+
+  <Sky>
+    <Properties name = "SkyBox" />
+    <TextureCube
+      left =    "../../../Assets/Sky/left.png"
+			right =		"../../../Assets/Sky/right.png"
+			top =			"../../../Assets/Sky/top.png"
+			bottom =	"../../../Assets/Sky/bottom.png"
+			front =		"../../../Assets/Sky/front.png"
+			back =		"../../../Assets/Sky/back.png"
+     />
+  </Sky>
+</World>

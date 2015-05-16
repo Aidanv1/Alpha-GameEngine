@@ -3,10 +3,12 @@
 #include "../AlphaStd.h"
 #include "..\Time\Clock.h"
 #include "..\Time\SystemTime.h"
-#include "..\Graphics\GraphicsSystem.h"
+#include "..\Graphics3D\GraphicsSystem.h"
 #include "..\Window\GLWindow.h"
-#include "..\Graphics\OpenGL\GLRenderer.h"
+#include "..\Graphics3D\OpenGL\GLRenderer.h"
 #include "../EventManager/EventManager.h"
+
+#define MIN_DELTA_MS 8
 class GameLoop
 {
 public:

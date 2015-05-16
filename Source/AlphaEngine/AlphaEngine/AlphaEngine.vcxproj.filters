@@ -26,12 +26,6 @@
     <ClCompile Include="EventManager\Events\Events.cpp">
       <Filter>EventManager\Events</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\GameObjectFactory.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\GameObject.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Window\GLWindow.cpp">
       <Filter>Window</Filter>
     </ClCompile>
@@ -41,44 +35,8 @@
     <ClCompile Include="ResourceManager\Loaders\BitmapResourceLoader.cpp">
       <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\GraphicsSystem.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager\Loaders\MeshResourceLoader.cpp">
       <Filter>ResourceManager\Loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Data\Material.cpp">
-      <Filter>Graphics\OpenGL\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Data\Mesh.cpp">
-      <Filter>Graphics\OpenGL\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Data\Texture.cpp">
-      <Filter>Graphics\OpenGL\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Data\Handler\TextureHandler.cpp">
-      <Filter>Graphics\OpenGL\Data\Handler</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.cpp">
-      <Filter>Graphics\OpenGL\Data\Handler</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Shader\ShaderHelper.cpp">
-      <Filter>Graphics\OpenGL\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLRenderer.cpp">
-      <Filter>Graphics\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Scene.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\SceneNode.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Shader\BaseShaderProgram.cpp">
-      <Filter>Graphics\OpenGL\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Shader\MeshShaderProgram.cpp">
-      <Filter>Graphics\OpenGL\Shader</Filter>
     </ClCompile>
     <ClCompile Include="GameLoop\GameLoop.cpp">
       <Filter>GameLoop</Filter>
@@ -89,20 +47,74 @@
     <ClCompile Include="Utilities\FileIO.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\ModelComponent.cpp">
-      <Filter>Graphics</Filter>
+    <ClCompile Include="Actor\Actor.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Camera.cpp">
-      <Filter>Graphics</Filter>
+    <ClCompile Include="Actor\ActorFactory.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\RootNode.cpp">
-      <Filter>Graphics</Filter>
+    <ClCompile Include="Actor\RoleSystem.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Shader\Text2DShaderProgram.cpp">
-      <Filter>Graphics\OpenGL\Shader</Filter>
+    <ClCompile Include="Graphics3D\OpenGL\Buffers\VertexBuffer.cpp">
+      <Filter>Graphics3D\OpenGL\Data\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\Text\Text2D_GL.cpp">
-      <Filter>Graphics\OpenGL\Text</Filter>
+    <ClCompile Include="Graphics3D\OpenGL\Data\Handler\TextureHandler.cpp">
+      <Filter>Graphics3D\OpenGL\Data\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\Handler\VertexBufferHandler.cpp">
+      <Filter>Graphics3D\OpenGL\Data\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\Material.cpp">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\Mesh.cpp">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\SkyBox.cpp">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\Texture.cpp">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\BaseShaderProgram.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\MeshShaderProgram.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\ShaderHelper.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\SkyShaderProgram.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\Text2DShaderProgram.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\GLRenderer.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\Camera.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\Model.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\RootNode.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\Scene.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\SceneNode.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\GraphicsSystem.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Text\Text2D_GL.cpp">
+      <Filter>Graphics3D\OpenGL\Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +126,6 @@
     </Filter>
     <Filter Include="Memory">
       <UniqueIdentifier>{3588060a-9fc1-4d84-86e7-c6daaaebc263}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{eb8fd43e-c5d1-4fea-b5ed-a693dbdfdabd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Audio">
       <UniqueIdentifier>{8071a3ef-22a9-4ee2-86f2-d425908a69f3}</UniqueIdentifier>
@@ -133,15 +142,6 @@
     <Filter Include="EventManager\Events">
       <UniqueIdentifier>{146aca92-4725-4992-8d1c-259af087d081}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject">
-      <UniqueIdentifier>{d9738a7e-40c5-4606-8a88-37971cf24faf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\ComponentCreator">
-      <UniqueIdentifier>{ac19d582-b2c5-4aca-bafd-35768f7d70b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\OpenGL">
-      <UniqueIdentifier>{534e54fe-d108-428b-9127-2273882e7cc2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Window">
       <UniqueIdentifier>{0b83a6e0-1c22-4673-bf01-70a3fc7b1599}</UniqueIdentifier>
     </Filter>
@@ -150,15 +150,6 @@
     </Filter>
     <Filter Include="ResourceManager\Resources">
       <UniqueIdentifier>{2070b129-06f3-4fc5-9941-840fceb78332}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\OpenGL\Data">
-      <UniqueIdentifier>{0ef8cc3d-71cf-4eab-ae4f-8d6bfd2d56fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\OpenGL\Data\Handler">
-      <UniqueIdentifier>{53fec6d0-bfb8-4eb3-91ab-d01ab141654c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\OpenGL\Shader">
-      <UniqueIdentifier>{e551f9f7-a206-4b33-ae2d-842b1e13b9d6}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameLoop">
       <UniqueIdentifier>{9385ab77-8ada-4c8e-9f63-0adb750ac2b2}</UniqueIdentifier>
@@ -172,8 +163,32 @@
     <Filter Include="Input">
       <UniqueIdentifier>{faf1ba4c-a8ad-468e-aab3-f2a08fcecd3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\OpenGL\Text">
+    <Filter Include="Actor">
+      <UniqueIdentifier>{d9738a7e-40c5-4606-8a88-37971cf24faf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D">
+      <UniqueIdentifier>{eb8fd43e-c5d1-4fea-b5ed-a693dbdfdabd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL">
+      <UniqueIdentifier>{534e54fe-d108-428b-9127-2273882e7cc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Data">
+      <UniqueIdentifier>{0ef8cc3d-71cf-4eab-ae4f-8d6bfd2d56fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Data\Handler">
+      <UniqueIdentifier>{53fec6d0-bfb8-4eb3-91ab-d01ab141654c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Data\Buffers">
+      <UniqueIdentifier>{00be5e17-722b-46eb-b87a-ec1f1b70d131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Shader">
+      <UniqueIdentifier>{e551f9f7-a206-4b33-ae2d-842b1e13b9d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Text">
       <UniqueIdentifier>{6e11803f-68ec-4688-ae25-efec805f9cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\Scene">
+      <UniqueIdentifier>{80b26344-7856-4d98-8948-62a910c06a2f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -211,27 +226,6 @@
     <ClInclude Include="EventManager\Events\Events.h">
       <Filter>EventManager\Events</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\GameObject.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\IGameObjectComponent.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\GameObjectFactory.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\IComponentCreator.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\TestComponentCreator.h">
-      <Filter>GameObject\ComponentCreator</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\TestComponent.h">
-      <Filter>GameObject\ComponentCreator</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\IRenderer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Window\IWindow.h">
       <Filter>Window</Filter>
     </ClInclude>
@@ -244,56 +238,14 @@
     <ClInclude Include="ResourceManager\Loaders\BitmapResourceLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\GraphicsSystem.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager\Loaders\MeshResourceLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Data\Material.h">
-      <Filter>Graphics\OpenGL\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Data\Mesh.h">
-      <Filter>Graphics\OpenGL\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Data\Texture.h">
-      <Filter>Graphics\OpenGL\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Data\Handler\TextureHandler.h">
-      <Filter>Graphics\OpenGL\Data\Handler</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Data\Handler\VertexBufferHandler.h">
-      <Filter>Graphics\OpenGL\Data\Handler</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Shader\ShaderHelper.h">
-      <Filter>Graphics\OpenGL\Shader</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager\Resources\Raw.h">
       <Filter>ResourceManager\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLRenderer.h">
-      <Filter>Graphics\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Scene.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\SceneNode.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Shader\IShaderProgram.h">
-      <Filter>Graphics\OpenGL\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Shader\BaseShaderProgram.h">
-      <Filter>Graphics\OpenGL\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Shader\MeshShaderProgram.h">
-      <Filter>Graphics\OpenGL\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="GameLoop\GameLoop.h">
       <Filter>GameLoop</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Camera.h">
-      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\FileIO.h">
       <Filter>Utilities</Filter>
@@ -307,20 +259,89 @@
     <ClInclude Include="Window\MessageWindow.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\ModelComponent.h">
-      <Filter>Graphics</Filter>
+    <ClInclude Include="Actor\Actor.h">
+      <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\RootNode.h">
-      <Filter>Graphics</Filter>
+    <ClInclude Include="Actor\ActorFactory.h">
+      <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IText2D.h">
-      <Filter>Graphics</Filter>
+    <ClInclude Include="Actor\IActorComponent.h">
+      <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Shader\Text2DShaderProgram.h">
-      <Filter>Graphics\OpenGL\Shader</Filter>
+    <ClInclude Include="Actor\IComponentCreator.h">
+      <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\Text\Text2D_GL.h">
-      <Filter>Graphics\OpenGL\Text</Filter>
+    <ClInclude Include="Actor\RoleSystem.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Buffers\VertexBuffer.h">
+      <Filter>Graphics3D\OpenGL\Data\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\Handler\TextureHandler.h">
+      <Filter>Graphics3D\OpenGL\Data\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\Handler\VertexBufferHandler.h">
+      <Filter>Graphics3D\OpenGL\Data\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\Material.h">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\Mesh.h">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\SkyBox.h">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\Texture.h">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\BaseShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\IShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\MeshShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\ShaderHelper.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\SkyShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\Text2DShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\GLRenderer.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\Camera.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\Model.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\RootNode.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\Scene.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\SceneNode.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\IRenderer.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\GraphicsSystem.h">
+      <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\IText2D.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Text\Text2D_GL.h">
+      <Filter>Graphics3D\OpenGL\Text</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

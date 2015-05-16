@@ -1,5 +1,10 @@
 #ifndef ALPHASTD_H
 #define ALPHASTD_H
+//Disable warnings in release
+#ifndef _DEBUG
+
+#endif
+
 //VALUE DEFINITIONS
 //time
 #define MS_PER_SECOND 1000

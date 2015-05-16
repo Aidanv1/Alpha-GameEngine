@@ -8,6 +8,7 @@
 #include "IL/ilu.h"
 #include "../EventManager/IEventManager.h"
 #include "../EventManager/Events/Events.h"
+#include "../Graphics3D/GraphicsSystem.h"
 //========================================================================
 class GLWindow : public IWindow
 {
