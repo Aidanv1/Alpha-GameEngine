@@ -74,6 +74,6 @@ void GraphicsSystem::LoadScene()
 // -----------------------------------------------------------------------
 GraphicsSystem& GraphicsSystem::Get()
 {
-	static GraphicsSystem* instance = new GraphicsSystem();
+	static GraphicsSystem* instance = ALPHA_NEW GraphicsSystem();
 	return *instance;
 }

@@ -1,7 +1,7 @@
 #ifndef IActorCOMPONENT
 #define IActorCOMPONENT
 #include "..\AlphaStd.h"
-#include "Actor.h"
+
 
 typedef unsigned long ComponentType;
 class Actor;

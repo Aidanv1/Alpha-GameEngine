@@ -26,6 +26,7 @@ private:
 private:
 	ActorID m_ID;
 	ComponentMap m_components;
+	string m_name;
 };
 //========================================================================
 #endif

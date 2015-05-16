@@ -149,7 +149,7 @@ void SkyBox::VUpdate()
 // -----------------------------------------------------------------------
 bool SkyBox::VInitComponent(TiXmlElement* pElement)
 {
-	TiXmlElement* skyBoxElement = pElement;
+	TiXmlElement* skyBoxElement = pElement->FirstChildElement();
 
 	while (skyBoxElement)
 	{

@@ -116,6 +116,9 @@
     <ClCompile Include="Graphics3D\OpenGL\Text\Text2D_GL.cpp">
       <Filter>Graphics3D\OpenGL\Text</Filter>
     </ClCompile>
+    <ClCompile Include="Actor\ComponentCreators\GraphicsComponentCreator.cpp">
+      <Filter>Actor\ComponentCreators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -189,6 +192,9 @@
     </Filter>
     <Filter Include="Graphics3D\Scene">
       <UniqueIdentifier>{80b26344-7856-4d98-8948-62a910c06a2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\ComponentCreators">
+      <UniqueIdentifier>{101f7809-a4d6-458c-844d-8cc50df33394}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -342,6 +348,9 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\Text\Text2D_GL.h">
       <Filter>Graphics3D\OpenGL\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\ComponentCreators\GraphicsComponentCreator.h">
+      <Filter>Actor\ComponentCreators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

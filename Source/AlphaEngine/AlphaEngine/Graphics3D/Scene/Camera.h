@@ -11,7 +11,7 @@ enum CameraMode
 	Orbital_Mode
 };
 //========================================================================
-class Camera : public SceneNode
+class Camera : public SceneNode, public IActorComponent
 {
 	struct CameraParameters
 	{
@@ -26,23 +26,37 @@ class Camera : public SceneNode
 			m_nearClip(near),
 			m_farClip(far)
 		{
-
+		}
+		CameraParameters() :
+			m_fieldOfView(0),
+			m_aspectRatio(0),
+			m_nearClip(0),
+			m_farClip(0)
+		{
 		}
 	};
 public:
 	//Set camera parameters and optional target
-	Camera(float fovy, float aspectR, float near, float far, CameraMode mode = FlyAround_Mode, SceneNode* targetNode = NULL);
+	Camera();
 	~Camera();
 	void SetParameters(float fovy, float aspectR, float near, float far);
-	virtual bool VInitNode() override;
+
 	SceneNode* GetCameraTarget() const { return m_targetNode; }
 	void GetProjectionMatrix(mat4& projMat) const { projMat = m_projectionMatrix; }
 	void GetViewMatrix(mat4& viewMat) const { viewMat = m_viewMatrix; };
 	void SetCameraTarget(SceneNode* targetNode);
-	void VUpdateNode(Scene* scene, float deltaMs) override;
 	CameraMode GetMode() const { return m_mode; }
-	void SetMode(CameraMode mode);	
+	void SetMode(CameraMode mode);
 	CameraParameters GetCameraParameters() const{ return m_camParam; }
+
+	//Scene Node functions
+	virtual bool VInitNode() override;
+	void VUpdateNode(Scene* scene, float deltaMs) override;
+	//Actor component funcions
+	virtual ComponentType VGetType() override;
+	virtual void VUpdate() override;
+	virtual bool VInitComponent(TiXmlElement* pElement) override;
+	virtual bool VPostInit() override;
 
 	//Look event delegate listens reacts to lookevents ie. any camera movement
 	void LookEventDelegate(StrongEventPtr event);

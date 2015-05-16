@@ -1,15 +1,14 @@
 #include "Model.h"
 
 // -----------------------------------------------------------------------
-Model::Model(string modelFileName, vec3 pos, vec3 rot) :
+Model::Model() :
 SceneNode(),
-m_modelFileName(modelFileName),
+m_modelFileName(""),
 m_modelID(-1),
 m_modelResourceManager(NULL),
 m_modelResource(NULL),
 m_meshChildren()
 {
-	m_positionInWorld = pos;
 }
 // -----------------------------------------------------------------------
 Model::~Model()
@@ -30,6 +29,34 @@ void Model::VUpdate()
 // -----------------------------------------------------------------------
 bool Model::VInitComponent(TiXmlElement* pElement)
 {
+	TiXmlElement* nextElem = pElement->FirstChildElement();
+	//loop through elements
+	while (nextElem)
+	{
+		string val = nextElem->Value();
+		if (val == "Properties")
+		{
+			m_modelFileName = nextElem->Attribute("modelFileName");
+
+		}
+		if (val == "Position")
+		{
+			nextElem->QueryFloatAttribute("x", &m_positionInWorld.x);
+			nextElem->QueryFloatAttribute("y", &m_positionInWorld.y);
+			nextElem->QueryFloatAttribute("z", &m_positionInWorld.z);
+		}
+		if (val == "RotationInDegrees")
+		{
+			nextElem->QueryFloatAttribute("xAxis", &m_rotationInWorld.x);
+			nextElem->QueryFloatAttribute("yAxis", &m_rotationInWorld.y);
+			nextElem->QueryFloatAttribute("zAxis", &m_rotationInWorld.z);
+			//convert to radians			
+			m_rotationInWorld.x = radians<float>(m_rotationInWorld.x);
+			m_rotationInWorld.y = radians<float>(m_rotationInWorld.y);
+			m_rotationInWorld.z = radians<float>(m_rotationInWorld.z);
+		}
+		nextElem = nextElem->NextSiblingElement();
+	}
 	m_modelResourceManager = GraphicsSystem::Get().GetMeshResourceManager();
 	return true;
 }
@@ -271,7 +298,7 @@ IActorComponent* ModelComponentCreator::CreateComponent(TiXmlElement* pElement)
 		nextElem = nextElem->NextSiblingElement();
 	}
 	Model* model;
-	model = ALPHA_NEW Model(modelFileName, pos, rot);
+	model = ALPHA_NEW Model();
 	model->VInitComponent(pElement);
 	return model;
 }

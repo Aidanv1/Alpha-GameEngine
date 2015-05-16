@@ -14,6 +14,8 @@ ActorFactory::~ActorFactory()
 StrongActorPtr ActorFactory::CreateActor(TiXmlElement* pElement)
 {
 	StrongActorPtr pActor(ALPHA_NEW Actor());
+	string attrib = pElement->Attribute("name");
+	pActor->m_name = attrib;
 	TiXmlElement* componentElement = pElement->FirstChildElement();
 	if (!componentElement)
 	{
@@ -49,24 +51,22 @@ StrongActorComponentPtr ActorFactory::CreateComponent(TiXmlElement* pElement)
 {
 	string componentType = pElement->Value();
 	IComponentCreator* pCreator = m_componentCreatorMap[componentType].get();
-	if (!pCreator)
-	{
-		//Error
-	}
+	ALPHA_ASSERT(pCreator);
 	IActorComponent* pComponent = pCreator->CreateComponent(pElement);
+	ALPHA_ASSERT(pComponent);
 	//Initialize component
 	if (!pComponent->VInitComponent(pElement))
 	{
-		//Error
+		ALPHA_ERROR("Failed to intialize component");
 	}
 	 
 	StrongActorComponentPtr newComponent(pComponent);
 	return newComponent;
 }
 // -----------------------------------------------------------------------
-bool ActorFactory::AddComponentCreator(IComponentCreator* pComponentCreator, string id)
+bool ActorFactory::AddComponentCreator(StrongComponentCreatorPtr pComponentCreator, string id)
 {
-	m_componentCreatorMap[id] = StrongComponentCreatorPtr(pComponentCreator);
+	m_componentCreatorMap[id] = pComponentCreator;
 	return true;
 }
 // -----------------------------------------------------------------------

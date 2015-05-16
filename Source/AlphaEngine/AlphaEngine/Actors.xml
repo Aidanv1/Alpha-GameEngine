@@ -1,0 +1,34 @@
+<World>
+  <Actor name = "Test Model">
+    <Graphics type ="Model">
+      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"/>
+      <Position x ="0.0" y ="-2.0" z ="-4.0" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />    
+    </Graphics>
+  </Actor>
+
+  <Actor name = "Sky Box">
+    <Graphics type ="Sky">      
+      <Properties name = "SkyBox" />
+      <TextureCube
+        left =    "../../../Assets/Sky/left.png"
+        right =		"../../../Assets/Sky/right.png"
+        top =			"../../../Assets/Sky/top.png"
+        bottom =	"../../../Assets/Sky/bottom.png"
+        front =		"../../../Assets/Sky/front.png"
+        back =		"../../../Assets/Sky/back.png"/>    
+    </Graphics>
+  </Actor>
+
+  <Actor name = "Main Camera">
+    <Graphics type ="Camera">
+      <Properties mode = "Orbital_Mode" targetName ="Test Model"/>
+      <Parameters
+        FielOfView ="45"
+        AspectRatio ="1.7778"
+        NearClip ="0.1"
+        FarClip ="10000"/>
+    </Graphics>
+  </Actor>
+
+</World>

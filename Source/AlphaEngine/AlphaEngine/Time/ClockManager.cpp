@@ -3,9 +3,10 @@
 ClockManager::ClockManager()
 {
 }
+// -----------------------------------------------------------------------
 ClockManager& ClockManager::Get()
 {
-	static ClockManager* instance = new ClockManager();
+	static ClockManager* instance = ALPHA_NEW ClockManager();
 	return *instance;
 }
 // -----------------------------------------------------------------------

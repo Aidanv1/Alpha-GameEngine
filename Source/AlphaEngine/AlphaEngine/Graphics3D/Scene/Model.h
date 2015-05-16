@@ -16,8 +16,7 @@ typedef shared_ptr<Resource> StrongModelPtr;
 class Model :public SceneNode, public IActorComponent
 {
 public:
-	Model(string modelFileName, vec3 pos, vec3 rot);
-	Model(Model* ModelComponent);
+	Model();
 	~Model();
 	//IActorComponent functions
 	virtual ComponentType VGetType() override;

@@ -51,12 +51,15 @@ public:
 	virtual void VRender(Scene* pScene) override {}
 	virtual void VAddChild(StrongSceneNodePtr sceneNode) override;
 	void GetPositionInWorld(vec3& pos) const { pos = m_positionInWorld; }
-	void SetPositionInWorld(vec3 pos);
+	void SetPositionInWorld(vec3& pos);
+	void GetRotationInWorld(vec3& rot) const { rot = m_rotationInWorld; }
+	void SetRotationInWorld(vec3& rot);
 	float GetRadius() const { return m_radius; }
 protected:
 	virtual void VRenderChildren(Scene* pScene) override;
 protected:
 	vec3 m_positionInWorld;
+	vec3 m_rotationInWorld;
 	NodeProperties m_nodeProperties;
 	SceneNodeList m_children;
 	float m_radius;

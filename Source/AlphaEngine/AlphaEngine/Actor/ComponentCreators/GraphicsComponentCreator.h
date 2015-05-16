@@ -1,0 +1,12 @@
+#ifndef GRAPHICSCOMPONENTCREATOR_H
+#define GRAPHICSCOMPONENTCREATOR_H
+#include "../IComponentCreator.h"
+#include "../../Graphics3D/Scene/Model.h"
+#include "../../Graphics3D/OpenGL/Data/SkyBox.h"
+#include "../../Graphics3D/Scene/Camera.h"
+class GraphicsComponentCreator : public IComponentCreator
+{
+public:
+	virtual IActorComponent* CreateComponent(TiXmlElement* pElement) override;
+};
+#endif

@@ -12,7 +12,7 @@ public:
 	ActorFactory();
 	~ActorFactory();
 	StrongActorPtr CreateActor(TiXmlElement* pElement);
-	bool AddComponentCreator(IComponentCreator* pComponentCreator, string id);
+	bool AddComponentCreator(StrongComponentCreatorPtr pComponentCreator, string id);
 private:
 	ActorID GetNextActorID();
 	StrongActorComponentPtr CreateComponent(TiXmlElement* pElement);

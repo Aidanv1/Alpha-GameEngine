@@ -33,9 +33,14 @@ void SceneNode::VAddChild(StrongSceneNodePtr sceneNode)
 	m_children.push_back(sceneNode);
 }
 // -----------------------------------------------------------------------
-void SceneNode::SetPositionInWorld(vec3 pos)
+void SceneNode::SetPositionInWorld(vec3& pos)
 {
 	m_positionInWorld = pos;
+}
+// -----------------------------------------------------------------------
+void SceneNode::SetRotationInWorld(vec3& rot)
+{
+	m_rotationInWorld = rot;
 }
 // -----------------------------------------------------------------------
 bool SceneNode::VInitNode()

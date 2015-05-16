@@ -1,6 +1,7 @@
 #include "Actor.h"
 Actor::Actor() :
 m_ID(0),
+m_name(""),
 m_components()
 {
 

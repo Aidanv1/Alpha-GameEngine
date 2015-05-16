@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClCompile Include="Actor\Actor.cpp" />
     <ClCompile Include="Actor\ActorFactory.cpp" />
+    <ClCompile Include="Actor\ComponentCreators\GraphicsComponentCreator.cpp" />
     <ClCompile Include="Actor\RoleSystem.cpp" />
     <ClCompile Include="AlphaMain.cpp" />
     <ClCompile Include="EventManager\EventManager.cpp" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Actor\Actor.h" />
     <ClInclude Include="Actor\ActorFactory.h" />
+    <ClInclude Include="Actor\ComponentCreators\GraphicsComponentCreator.h" />
     <ClInclude Include="Actor\IActorComponent.h" />
     <ClInclude Include="Actor\IComponentCreator.h" />
     <ClInclude Include="Actor\RoleSystem.h" />
