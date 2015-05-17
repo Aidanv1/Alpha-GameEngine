@@ -185,17 +185,3 @@ bool SkyBox::VPostInit()
 {
 	return true;
 }
-//========================================================================
-//SkyBox Creator
-//========================================================================
-IActorComponent* SkyBoxComponentCreator::CreateComponent(TiXmlElement* pElement)
-{
-	TiXmlElement* skyBoxElement = pElement->FirstChildElement();
-	
-	SkyBox* component = ALPHA_NEW SkyBox();
-	if (!component->VInitComponent(skyBoxElement))
-	{
-		ALPHA_ERROR("Failed to create skybox component");
-	}
-	return component;
-}

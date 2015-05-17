@@ -27,6 +27,13 @@ IActorComponent* GraphicsComponentCreator::CreateComponent(TiXmlElement* pElemen
 		GraphicsSystem::Get().GetScene()->SetCameraNode(shared_ptr<Camera>(component));
 		return component;
 	}
+	if (type == "HeightMap")
+	{
+		HeightMap* component = ALPHA_NEW HeightMap();
+		//add to scene
+		GraphicsSystem::Get().GetScene()->AddChild(shared_ptr<SceneNode>(component));
+		return component;
+	}
 	graphicsElement = graphicsElement->NextSiblingElement();
 
 	return NULL;

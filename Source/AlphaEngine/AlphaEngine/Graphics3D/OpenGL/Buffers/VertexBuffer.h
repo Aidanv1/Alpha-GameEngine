@@ -14,6 +14,7 @@ public:
 	int Init(int numvertices, GLfloat vertices[], int compSizeV, string name);
 	void BindSubData(int numVertices, int componentSize, int offsetSize, GLfloat textures[]);
 	bool Validate();
+	int GetID() const { return m_vertexInfo.m_vertexBufferID; }
 	void FreeVertexBuffer();
 	void SetVertexAttribPointer(GLuint attribID, int componentCount, int stride, const void* dataoffset);
 private:

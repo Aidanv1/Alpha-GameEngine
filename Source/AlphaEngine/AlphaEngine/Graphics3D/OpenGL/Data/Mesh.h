@@ -11,7 +11,6 @@
 #include "Material.h"
 #include "../Buffers/VertexBuffer.h"
 typedef shared_ptr<Resource> StrongMeshPtr;
-typedef shared_ptr<Material> StrongMaterialPtr;
 //========================================================================
 class Mesh : public SceneNode
 {

@@ -34,6 +34,16 @@ bool GameLoop::Init(IWindow* window)
 	ClockManager::Get().AddClock(m_gameClock);
 	m_systemTime = SDL_GetTicks();
 	m_gameTime = 0;
+
+
+	//Populate Actors
+	TiXmlDocument doc;
+	doc.LoadFile("Actors.xml");
+	TiXmlElement* elem = doc.FirstChildElement();	
+	RoleSystem::Get().Populate(elem);
+
+	//Load Graphics
+	GraphicsSystem::Get().LoadScene();
 	return true;
 }
 void GameLoop::StartLoop()

@@ -30,6 +30,7 @@ bool Text2DShaderProgram::VInit(const char* vertexShaderSourceCode, const char* 
 		m_texCoordID == -1 ||		
 		m_texID == -1)
 	{
+		ALPHA_ASSERT(false);
 		return false;
 	}
 	return true;

@@ -27,6 +27,7 @@ bool SkyShaderProgram::VInit(const char* vertexShaderSourceCode, const char* fra
 		m_matrixID == -1 ||
 		m_texID == -1)
 	{
+		ALPHA_ASSERT(false);
 		return false;
 	}
 	return true;

@@ -265,40 +265,4 @@ bool Model::ValidateBuffers()
 	return false;
 }
 // -----------------------------------------------------------------------
-//========================================================================
-// Component Creator Functions
-//========================================================================
-IActorComponent* ModelComponentCreator::CreateComponent(TiXmlElement* pElement)
-{
-	string modelFileName = pElement->Attribute("modelFileName");
-	TiXmlElement* nextElem = pElement->FirstChildElement();
 
-	vec3 pos(0.0f);
-	vec3 rot(0.0f);
-	//loop through elements
-	while (nextElem)
-	{
-		string val = nextElem->Value();
-		if (val == "Position")
-		{
-			nextElem->QueryFloatAttribute("x", &pos.x);
-			nextElem->QueryFloatAttribute("y", &pos.y);
-			nextElem->QueryFloatAttribute("z", &pos.z);
-		}
-		if (val == "RotationInDegrees")
-		{
-			nextElem->QueryFloatAttribute("xAxis", &rot.x);
-			nextElem->QueryFloatAttribute("yAxis", &rot.y);
-			nextElem->QueryFloatAttribute("zAxis", &rot.z);
-			//convert to radians			
-			rot.x = radians<float>(rot.x);
-			rot.y = radians<float>(rot.y);
-			rot.z = radians<float>(rot.z);
-		}
-		nextElem = nextElem->NextSiblingElement();
-	}
-	Model* model;
-	model = ALPHA_NEW Model();
-	model->VInitComponent(pElement);
-	return model;
-}

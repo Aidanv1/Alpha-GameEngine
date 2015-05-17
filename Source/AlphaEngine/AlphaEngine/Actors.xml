@@ -2,12 +2,12 @@
   <Actor name = "Test Model">
     <Graphics type ="Model">
       <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"/>
-      <Position x ="0.0" y ="-2.0" z ="-4.0" />
+      <Position x ="0.0" y ="0.0" z ="-4.0" />
       <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />    
     </Graphics>
   </Actor>
 
-  <Actor name = "Sky Box">
+  <Actor name = "Sky">
     <Graphics type ="Sky">      
       <Properties name = "SkyBox" />
       <TextureCube
@@ -17,6 +17,13 @@
         bottom =	"../../../Assets/Sky/bottom.png"
         front =		"../../../Assets/Sky/front.png"
         back =		"../../../Assets/Sky/back.png"/>    
+    </Graphics>
+  </Actor>
+
+  <Actor name = "Terrain">
+    <Graphics type ="HeightMap">
+      <Properties mapFileName = "../../../Assets/Terrain/heightmap.png"
+                  textureFileName = "../../../Assets/Terrain/terrain.jpg"/>   
     </Graphics>
   </Actor>
 

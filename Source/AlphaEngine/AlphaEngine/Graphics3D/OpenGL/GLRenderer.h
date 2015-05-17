@@ -6,6 +6,7 @@
 #include "Shader/MeshShaderProgram.h"
 #include "Shader/Text2DShaderProgram.h"
 #include "Shader/SkyShaderProgram.h"
+#include "Shader/HeightMapShaderProgram.h"
 #include "Text/Text2D_GL.h"
 typedef shared_ptr<Scene> StrongScenePtr;
 //========================================================================
@@ -24,6 +25,7 @@ public:
 	MeshShaderProgram* GetMeshShaderProgram() { return m_meshShaderProgram.get(); }
 	Text2DShaderProgram* GetText2DShaderProgram() { return m_text2DShaderProgram.get(); }
 	SkyShaderProgram* GetSkyShaderProgram() { return m_skyShaderProgram.get(); }
+	HeightMapShaderProgram* GetHeightMapShaderProgram() { return m_heightMapShaderProgram.get(); }
 private:
 	
 private:
@@ -33,6 +35,7 @@ private:
 	shared_ptr<MeshShaderProgram> m_meshShaderProgram;
 	shared_ptr<Text2DShaderProgram> m_text2DShaderProgram;
 	shared_ptr<SkyShaderProgram> m_skyShaderProgram;
+	shared_ptr<HeightMapShaderProgram> m_heightMapShaderProgram;
 };
 //========================================================================
 #endif

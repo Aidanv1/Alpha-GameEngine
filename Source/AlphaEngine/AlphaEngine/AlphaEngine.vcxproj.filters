@@ -119,6 +119,12 @@
     <ClCompile Include="Actor\ComponentCreators\GraphicsComponentCreator.cpp">
       <Filter>Actor\ComponentCreators</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\HeightMap.cpp">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -351,6 +357,12 @@
     </ClInclude>
     <ClInclude Include="Actor\ComponentCreators\GraphicsComponentCreator.h">
       <Filter>Actor\ComponentCreators</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\HeightMap.h">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

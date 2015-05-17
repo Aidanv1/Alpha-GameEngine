@@ -7,7 +7,6 @@
 #include "../Shader/SkyShaderProgram.h"
 #include "../GLRenderer.h"
 #include "../../../Actor/IActorComponent.h"
-#include "../../../Actor/IComponentCreator.h"
 //========================================================================
 class SkyBox : public SceneNode, public IActorComponent
 {
@@ -36,14 +35,5 @@ private:
 	StrongTexturePtr	m_skyTexture;
 	VertexBuffer		m_vertexBuffer;
 };
-//========================================================================
-//SkyBox Creator
-//========================================================================
-class SkyBoxComponentCreator : public IComponentCreator
-{
-public:
-	virtual IActorComponent* CreateComponent(TiXmlElement* pElement) override;
-};
-
 
 #endif

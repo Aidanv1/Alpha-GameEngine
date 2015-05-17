@@ -51,8 +51,24 @@ bool GLRenderer::VInit(TiXmlElement* pElement)
 				success = false;
 			}
 		}
+		if (value == "HeightMap")
+		{
+			m_heightMapShaderProgram = shared_ptr<HeightMapShaderProgram>(ALPHA_NEW HeightMapShaderProgram());
+			const char* vertexShaderName = pShaderProgram->Attribute("vertexShaderFile");
+			const char* fragmentShaderName = pShaderProgram->Attribute("fragmentShaderFile");
+
+			if (!m_heightMapShaderProgram->VInit(vertexShaderName, fragmentShaderName))
+			{
+				success = false;
+			}
+		}
+
 		pShaderProgram = pShaderProgram->NextSiblingElement();
-	}					
+	}		
+	ALPHA_ASSERT(m_meshShaderProgram);
+	ALPHA_ASSERT(m_text2DShaderProgram);
+	ALPHA_ASSERT(m_skyShaderProgram);
+	ALPHA_ASSERT(m_heightMapShaderProgram);
 	// ---------------------------------
 	//basic text renderer for dev
 	Text2D_GL* t2d = new Text2D_GL();

@@ -41,13 +41,6 @@ private:
 	StrongModelPtr m_modelResource;
 	SceneNodeList m_meshChildren;
 };
-//========================================================================
-//Model Component Creator
-//========================================================================
-class ModelComponentCreator : public IComponentCreator
-{
-public:
-	virtual IActorComponent* CreateComponent(TiXmlElement* pElement) override;
-};
+
 
 #endif
