@@ -33,15 +33,11 @@ bool RoleSystem::Populate(TiXmlElement* pRoot)
 		{
 			StrongActorPtr actor = m_actorFactory.CreateActor(pElement);
 			m_actorRegistry[actor->GetID()] = actor;
+			m_actorNameMap[actor->GetName()] = actor;
 		}
 		pElement = pElement->NextSiblingElement();
 	}
 	return true;
-}
-// -----------------------------------------------------------------------
-StrongActorPtr RoleSystem::GetActor(ActorID id)
-{
-	return NULL;
 }
 // -----------------------------------------------------------------------
 RoleSystem& RoleSystem::Get()
@@ -53,5 +49,23 @@ RoleSystem& RoleSystem::Get()
 	}
 	m_initialized = true;
 	return *instance;
+}
+// -----------------------------------------------------------------------
+StrongActorPtr RoleSystem::GetActor(ActorID id) const
+{
+	auto findIt = m_actorRegistry.find(id);
+	if (findIt != m_actorRegistry.end())
+	{
+		return (*findIt).second;
+	}
+}
+// -----------------------------------------------------------------------
+StrongActorPtr RoleSystem::GetActor(string name) const
+{
+	auto findIt = m_actorNameMap.find(name);
+	if (findIt != m_actorNameMap.end())
+	{
+		return (*findIt).second;
+	}
 }
 // -----------------------------------------------------------------------

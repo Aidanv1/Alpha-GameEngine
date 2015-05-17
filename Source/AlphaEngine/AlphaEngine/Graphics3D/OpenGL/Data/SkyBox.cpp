@@ -64,6 +64,10 @@ void SkyBox::VRender(Scene* pScene)
 // -----------------------------------------------------------------------
 int SkyBox::Load()
 {
+	if (m_vertexBuffer.GetID() != -1)
+	{
+		return m_vertexBuffer.GetID();
+	}
 	float vectarr[] = 
 	{
 		-1.0f, 1.0f, -1.0f,

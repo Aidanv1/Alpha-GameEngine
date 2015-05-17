@@ -28,10 +28,6 @@ bool Mesh::Init()
 // -----------------------------------------------------------------------
 void Mesh::VRender(Scene* pScene)
 {
-	if (!Validate())
-	{
-		return;
-	}
 	m_shaderProgram->VUseProgram();
 	//get view and projection matrix from main camera
 	mat4 viewMat;

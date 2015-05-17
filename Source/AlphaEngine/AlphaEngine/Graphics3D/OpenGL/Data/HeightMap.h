@@ -14,7 +14,7 @@ class HeightMap : public SceneNode, public IActorComponent
 	const float X_SCALE = 500;
 	const float Y_SCALE = 50;
 	const float Z_SCALE = 500;
-	const float TILESCALE = 5;
+	
 public:
 	HeightMap();
 	~HeightMap();
@@ -31,6 +31,7 @@ private:
 	bool VLoadResource();
 	void BindData();
 private:
+	float m_tileScale;
 	string m_textureFileName;
 	int m_numVertices;
 	HeightMapShaderProgram* m_shaderProgram;

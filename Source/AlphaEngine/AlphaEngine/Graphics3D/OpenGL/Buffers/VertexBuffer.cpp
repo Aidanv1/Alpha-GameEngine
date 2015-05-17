@@ -118,6 +118,7 @@ void VertexBuffer::FreeVertexBuffer()
 // -----------------------------------------------------------------------
 void VertexBuffer::SetVertexAttribPointer(GLuint attribID, int componentCount, int stride, const void* dataoffset)
 {
+	Validate();
 	glBindVertexArray(m_vertexInfo.m_vertexArrayID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexInfo.m_vertexBufferID);
 	glVertexAttribPointer(attribID, componentCount, GL_FLOAT, GL_FALSE, stride, dataoffset);

@@ -23,7 +23,8 @@
   <Actor name = "Terrain">
     <Graphics type ="HeightMap">
       <Properties mapFileName = "../../../Assets/Terrain/heightmap.png"
-                  textureFileName = "../../../Assets/Terrain/terrain.jpg"/>   
+                  textureFileName = "../../../Assets/Terrain/terrain.jpg"
+                  tileScale ="5"/>   
     </Graphics>
   </Actor>
 

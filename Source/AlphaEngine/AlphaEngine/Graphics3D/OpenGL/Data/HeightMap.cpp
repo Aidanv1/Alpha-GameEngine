@@ -92,7 +92,7 @@ int HeightMap::Load()
 			float zPosition = ((float)row / (float)(height - 1)) - 0.5f;
 			vec3 vertex(xPosition, yPosition, zPosition);
 			vertexData.push_back(vertex);
-			textureData.push_back(vec2(xPosition * X_SCALE / TILESCALE, zPosition* Z_SCALE / TILESCALE));
+			textureData.push_back(vec2(xPosition * X_SCALE / m_tileScale, zPosition* Z_SCALE / m_tileScale));
 
 		}
 	}
@@ -292,9 +292,13 @@ bool HeightMap::VInitComponent(TiXmlElement* pElement)
 		{
 			m_textureFileName = hMapElement->Attribute("mapFileName");
 
+			//create material
 			string texture = hMapElement->Attribute("textureFileName");
 			Texture* tex = ALPHA_NEW Texture(texture.c_str());
 			m_material->SetTexture(StrongTexturePtr(tex));
+
+			hMapElement->QueryFloatAttribute("tileScale", &m_tileScale);
+		
 		}
 		hMapElement = hMapElement->NextSiblingElement();
 	}

@@ -23,7 +23,7 @@ class Texture : public ITexture
 public:
 	Texture(string textureFileName);
 	~Texture();
-	virtual int VGetTextureID() const override { return m_textureID; }
+	virtual int VGetTextureID() const override { TextureHandler::Get().ValidateID(m_textureID, m_textureFileName); return m_textureID; }
 	bool VLoadResource();
 	int VLoadTexture();
 private:

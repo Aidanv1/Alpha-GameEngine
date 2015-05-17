@@ -20,6 +20,7 @@ public:
 	void Update();
 	void Destroy();
 	ActorID GetID() const { return m_ID; }
+	string GetName() const { return m_name; }
 	IActorComponent* GetComponent(ComponentType);
 private:
 	bool AddComponent(StrongActorComponentPtr);
