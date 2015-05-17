@@ -2,24 +2,22 @@
 #define MODEL_H
 #include "../../Actor/Actor.h" 
 #include "SceneNode.h"
-#include "../../Actor/IActorComponent.h"
+#include "../../Actor/Components/GraphicsComponent.h"
 #include "../../Actor/IComponentCreator.h"
 #include "../../ResourceManager/Resource.h"
 #include "assimp/scene.h"
 #include "assimp/Importer.hpp"
 #include "../OpenGL/Data/Mesh.h"
- 
 class Model;
 typedef shared_ptr<Resource> StrongModelPtr;
 //Model Component
 //========================================================================
-class Model :public SceneNode, public IActorComponent
+class Model :public SceneNode, public GraphicsComponent
 {
 public:
 	Model();
 	~Model();
 	//IActorComponent functions
-	virtual ComponentType VGetType() override;
 	virtual void VUpdate() override;
 	virtual bool VInitComponent(TiXmlElement* pElement) override;
 	virtual bool VPostInit() override;

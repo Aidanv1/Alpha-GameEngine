@@ -202,6 +202,9 @@
     <Filter Include="Actor\ComponentCreators">
       <UniqueIdentifier>{101f7809-a4d6-458c-844d-8cc50df33394}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Components">
+      <UniqueIdentifier>{c36addf0-b335-4dbd-a354-a48daaef139c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Time\Clock.h">
@@ -363,6 +366,9 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.h">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Components\GraphicsComponent.h">
+      <Filter>Actor\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

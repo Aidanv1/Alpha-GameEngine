@@ -1,4 +1,5 @@
 #include "GraphicsComponentCreator.h"
+// -----------------------------------------------------------------------
 IActorComponent* GraphicsComponentCreator::CreateComponent(TiXmlElement* pElement)
 {
 	TiXmlElement* graphicsElement = pElement;
@@ -38,3 +39,4 @@ IActorComponent* GraphicsComponentCreator::CreateComponent(TiXmlElement* pElemen
 
 	return NULL;
 }
+// -----------------------------------------------------------------------

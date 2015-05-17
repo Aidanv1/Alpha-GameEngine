@@ -1,9 +1,7 @@
 #ifndef IActorCOMPONENT
 #define IActorCOMPONENT
 #include "..\AlphaStd.h"
-
-
-typedef unsigned long ComponentType;
+typedef string ComponentType;
 class Actor;
 //========================================================================
 class IActorComponent
@@ -12,7 +10,7 @@ class IActorComponent
 protected:
 	shared_ptr<Actor> m_pOwner;
 public:
-	virtual ComponentType VGetType() = 0;
+	virtual ComponentType VGetType() const = 0;
 	virtual void VUpdate() = 0;
 	virtual bool VInitComponent(TiXmlElement* pElement) = 0;
 	virtual bool VPostInit() = 0;

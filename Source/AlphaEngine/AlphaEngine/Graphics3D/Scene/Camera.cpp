@@ -1,4 +1,5 @@
 #include "Camera.h"
+
 // -----------------------------------------------------------------------
 Camera::Camera() :
 m_camParam(),
@@ -41,6 +42,15 @@ void Camera::VUpdateNode(Scene* scene, float deltaMs)
 		m_viewMatrix = translate(m_viewMatrix, m_positionInWorld);
 		break;
 	case Orbital_Mode:
+		//clamp xaxis rotation
+		if (m_rotation.x > half_pi<float>() * 0.98)
+		{
+			m_rotation.x = half_pi<float>() * 0.98;
+		}
+		if (m_rotation.x < 0.2)
+		{
+			m_rotation.x = 0.2;
+		}
 		mat4 rotMat = rotate(mat4(1.0f), m_rotation.x - half_pi<float>(), vec3(-1.0f, 0.0f, 0.0f));
 		vec4 vectorPos = rotMat * vec4(0, 1.0f, 0, 0);
 		rotMat = rotate(mat4(1.0f), m_rotation.y, vec3(0.0f, -1.0f, 0.0f));
@@ -96,26 +106,12 @@ void Camera::LookEventDelegate(StrongEventPtr event)
 		{
 			m_orbitalRadius = m_orbitalMin;
 		}
-		//clamp xaxis rotation
-		if (m_rotation.x > half_pi<float>() * 0.98)
-		{
-			m_rotation.x = half_pi<float>() * 0.98;
-		}
-		if (m_rotation.x < -half_pi<float>() * 0.98)
-		{
-			m_rotation.x = -half_pi<float>() * 0.98;
-		}
-
 	}
 }
 //========================================================================
 // IActorComponent Functions
 //========================================================================
-ComponentType Camera::VGetType()
-{
-	return 1;
-}
-// -----------------------------------------------------------------------
+
 void Camera::VUpdate()
 {
 
@@ -139,17 +135,22 @@ bool Camera::VInitComponent(TiXmlElement* pElement)
 			{
 				m_mode = FlyAround_Mode;
 			}
+			//target
 			attrib = nextElem->Attribute("targetName");
-			//add functionality for target 
+
+			SceneNode* targetNode = dynamic_cast<SceneNode*>(RoleSystem::Get().GetActor(attrib)->GetComponent("Graphics"));
+			if (targetNode)
+			{
+				m_targetNode = targetNode;
+			}
 		}		
 
 		if (val == "Parameters")
 		{
-			nextElem->QueryFloatAttribute("FielOfView", &m_camParam.m_fieldOfView);
+			nextElem->QueryFloatAttribute("FieldOfView", &m_camParam.m_fieldOfView);
 			nextElem->QueryFloatAttribute("AspectRatio", &m_camParam.m_aspectRatio);
 			nextElem->QueryFloatAttribute("NearClip", &m_camParam.m_nearClip);
 			nextElem->QueryFloatAttribute("FarClip", &m_camParam.m_farClip);
-			//add functionality for target 
 		}
 		nextElem = nextElem->NextSiblingElement();
 	}

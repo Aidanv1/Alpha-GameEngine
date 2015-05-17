@@ -3,8 +3,6 @@
 #include "../AlphaStd.h"
 #include "Actor.h"
 #include "ActorFactory.h"
-
-#include "ComponentCreators\GraphicsComponentCreator.h"
 typedef map<ActorID, StrongActorPtr> ActorMap;
 typedef map<string, StrongActorPtr> ActorNameMap;
 //========================================================================

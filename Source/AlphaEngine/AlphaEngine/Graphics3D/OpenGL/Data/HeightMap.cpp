@@ -271,11 +271,6 @@ void HeightMap::VUpdateNode(Scene* pScene, float deltaMS)
 //========================================================================
 // IActorComponent Functions
 //========================================================================
-ComponentType HeightMap::VGetType()
-{
-	return 1;
-}
-// -----------------------------------------------------------------------
 void HeightMap::VUpdate()
 {
 

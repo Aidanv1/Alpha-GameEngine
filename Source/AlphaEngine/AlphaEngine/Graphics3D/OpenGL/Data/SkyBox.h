@@ -6,16 +6,15 @@
 #include "Texture.h"
 #include "../Shader/SkyShaderProgram.h"
 #include "../GLRenderer.h"
-#include "../../../Actor/IActorComponent.h"
+#include "../../../Actor/Components/GraphicsComponent.h"
 //========================================================================
-class SkyBox : public SceneNode, public IActorComponent
+class SkyBox : public SceneNode, public GraphicsComponent
 {
 public:
 	SkyBox();
 	~SkyBox();	
 	void VRender(Scene* pScene) override;
 	//IActorComponent functions
-	virtual ComponentType VGetType() override;
 	virtual void VUpdate() override;
 	virtual bool VInitComponent(TiXmlElement* pElement) override;
 	virtual bool VPostInit() override;

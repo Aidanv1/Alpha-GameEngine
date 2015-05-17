@@ -139,6 +139,7 @@
     <ClInclude Include="Actor\Actor.h" />
     <ClInclude Include="Actor\ActorFactory.h" />
     <ClInclude Include="Actor\ComponentCreators\GraphicsComponentCreator.h" />
+    <ClInclude Include="Actor\Components\GraphicsComponent.h" />
     <ClInclude Include="Actor\IActorComponent.h" />
     <ClInclude Include="Actor\IComponentCreator.h" />
     <ClInclude Include="Actor\RoleSystem.h" />

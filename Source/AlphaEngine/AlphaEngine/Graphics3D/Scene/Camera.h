@@ -4,6 +4,8 @@
 #include "SceneNode.h"
 #include "../../EventManager/EventManager.h"
 #include "../../EventManager/Events/Events.h"
+#include "../../Actor/Components/GraphicsComponent.h"
+#include "../../Actor/RoleSystem.h"
 //========================================================================
 enum CameraMode
 {
@@ -11,7 +13,7 @@ enum CameraMode
 	Orbital_Mode
 };
 //========================================================================
-class Camera : public SceneNode, public IActorComponent
+class Camera : public SceneNode, public GraphicsComponent
 {
 	struct CameraParameters
 	{
@@ -53,7 +55,6 @@ public:
 	virtual bool VInitNode() override;
 	void VUpdateNode(Scene* scene, float deltaMs) override;
 	//Actor component funcions
-	virtual ComponentType VGetType() override;
 	virtual void VUpdate() override;
 	virtual bool VInitComponent(TiXmlElement* pElement) override;
 	virtual bool VPostInit() override;

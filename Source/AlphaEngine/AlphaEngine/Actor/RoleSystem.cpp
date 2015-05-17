@@ -1,4 +1,6 @@
 #include "RoleSystem.h"
+//Include component creators
+#include "ComponentCreators\GraphicsComponentCreator.h"
 bool RoleSystem::m_initialized = false;
 // -----------------------------------------------------------------------
 RoleSystem::RoleSystem() :
@@ -58,6 +60,7 @@ StrongActorPtr RoleSystem::GetActor(ActorID id) const
 	{
 		return (*findIt).second;
 	}
+	return NULL;
 }
 // -----------------------------------------------------------------------
 StrongActorPtr RoleSystem::GetActor(string name) const
@@ -67,5 +70,6 @@ StrongActorPtr RoleSystem::GetActor(string name) const
 	{
 		return (*findIt).second;
 	}
+	return NULL;
 }
 // -----------------------------------------------------------------------
