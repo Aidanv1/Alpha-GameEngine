@@ -1,5 +1,5 @@
-#ifndef IWINDOW_H
-#define IWINDOW_H
+#pragma once
+
 //========================================================================
 class IWindow
 {
@@ -8,4 +8,3 @@ public:
 	virtual bool VUpdate(float deltaMs) = 0;
 };
 //========================================================================
-#endif

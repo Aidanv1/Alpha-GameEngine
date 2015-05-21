@@ -1,5 +1,4 @@
-#ifndef ActorFACTORY_H
-#define ActorFACTORY_H
+#pragma once
 #include "..\AlphaStd.h"
 #include "Actor.h"
 #include "IComponentCreator.h"
@@ -22,4 +21,3 @@ private:
 
 };
 //========================================================================
-#endif

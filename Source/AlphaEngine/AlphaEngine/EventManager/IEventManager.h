@@ -1,5 +1,4 @@
-#ifndef IEVENTMANAGER_H
-#define IEVENTMANAGER_H
+#pragma once
 #include "IEvent.h"
 #include "..\AlphaStd.h"
 #include "FastDelegate.h"
@@ -60,4 +59,3 @@ inline void Abort_Event(IEvent* event)
 	IEventManager::Get()->VAbortEvent(StrongEventPtr(event));
 }
 //========================================================================
-#endif

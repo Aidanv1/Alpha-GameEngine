@@ -1,5 +1,5 @@
-#ifndef CLOCK_H
-#define CLOCK_H
+#pragma once
+
 #include "ClockManager.h"
 
 
@@ -27,6 +27,4 @@ private:
 	bool m_isPaused;
 
 };
-
-#endif
 //========================================================================

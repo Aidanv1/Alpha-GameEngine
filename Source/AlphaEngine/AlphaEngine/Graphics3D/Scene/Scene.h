@@ -1,5 +1,4 @@
-#ifndef SCENE_H
-#define SCENE_H
+#pragma once
 #include "RootNode.h"
 #include "Camera.h"
 #include "../../Memory/MemoryPool.h"
@@ -37,4 +36,3 @@ private:
 	bool m_isAlphaPass;
 };
 //========================================================================
-#endif

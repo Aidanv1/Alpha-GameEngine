@@ -1,5 +1,4 @@
-#ifndef BITMAP_RESOURCE_LOADER_H
-#define BITMAP_RESOURCE_LOADER_H
+#pragma once
 #include "..\IResourceLoader.h"
 #include "..\Resources\Raw.h"
 #include "IL/il.h"
@@ -17,4 +16,3 @@ public:
 	unsigned int  VGetSize(string resName) override;
 };
 //========================================================================
-#endif

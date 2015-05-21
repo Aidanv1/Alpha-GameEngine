@@ -1,5 +1,4 @@
-#ifndef ROLESYSTEM_H
-#define ROLESYSTEM_H
+#pragma once
 #include "../AlphaStd.h"
 #include "Actor.h"
 #include "ActorFactory.h"
@@ -23,4 +22,3 @@ private:
 	static bool m_initialized;
 };
 //========================================================================
-#endif

@@ -1,5 +1,4 @@
-#ifndef MESHRESOURCELOADER_H
-#define MESHRESOURCELOADER_H
+#pragma once
 #include "../../AlphaStd.h"
 #include "..\IResourceLoader.h"
 #include "assimp/scene.h"
@@ -20,4 +19,3 @@ private:
 };
 
 //========================================================================
-#endif MESHRESOURCELOADER_H

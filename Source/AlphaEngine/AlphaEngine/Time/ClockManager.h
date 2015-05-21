@@ -1,5 +1,5 @@
-#ifndef CLOCKMANAGER_H
-#define CLOCKMANAGER_H
+#pragma once
+
 #include "..\AlphaStd.h"
 #include "Clock.h"
 using namespace std;
@@ -20,5 +20,4 @@ private:
 private:
 	vector <Clock*>  m_ClockList;	
 };
-#endif
 //========================================================================

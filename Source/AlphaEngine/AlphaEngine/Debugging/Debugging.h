@@ -1,5 +1,4 @@
-#ifndef DEBUGGING_H
-#define DEBUGGING_H
+#pragma once
 // DEBUGGING--------------------------------------------------------------
 #if defined(_DEBUG)
 #include "../Window/MessageWindow.h"
@@ -25,4 +24,3 @@
 #define ALPHA_ASSERT(expr) do { (void)sizeof(expr); } while(0) 
 #endif //_DEBUG
 // -----------------------------------------------------------------------
-#endif

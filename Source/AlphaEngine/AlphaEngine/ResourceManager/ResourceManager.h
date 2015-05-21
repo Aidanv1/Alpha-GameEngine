@@ -1,5 +1,4 @@
-#ifndef RESOURCEMANAGER_H
-#define RESOURCEMANAGER_H
+#pragma once
 
 #include "..\AlphaStd.h"
 
@@ -38,5 +37,4 @@ private:
 	unsigned int m_resIDCount;
 
 };
-#endif
 //========================================================================

@@ -1,5 +1,4 @@
-#ifndef Actor_H
-#define Actor_H
+#pragma once
 #include "..\AlphaStd.h"
 #include "IActorComponent.h"
 
@@ -30,4 +29,3 @@ private:
 	string m_name;
 };
 //========================================================================
-#endif

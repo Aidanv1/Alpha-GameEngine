@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 #include "../../AlphaStd.h"
 #include "SceneNode.h"
 #include "../../EventManager/EventManager.h"
@@ -75,4 +74,3 @@ private:
 	CameraMode m_mode;
 };
 //========================================================================
-#endif

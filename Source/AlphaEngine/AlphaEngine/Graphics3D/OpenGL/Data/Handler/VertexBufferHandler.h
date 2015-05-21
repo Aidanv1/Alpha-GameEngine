@@ -1,8 +1,8 @@
 //VertexBufferHandler serves a similar purpose to ResourceManager. It is different
 //in that it manages the texture buffers currently stored in video memory (VRAM)
 //whereas the ResourseManager deals only with system memory.
-#ifndef VERTEXBUFFER_HANDLER_H
-#define VERTEXBUFFER_HANDLER_H
+#pragma once
+
 #include "../../../../AlphaStd.h"
 #include <GL/glew.h>
 typedef GLuint VertexBufferID;
@@ -49,4 +49,3 @@ private:
 	int m_sizeTotal;
 	int m_sizeAllocated;
 };
-#endif

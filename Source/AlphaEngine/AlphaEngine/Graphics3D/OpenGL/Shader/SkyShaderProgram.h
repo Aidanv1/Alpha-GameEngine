@@ -1,5 +1,4 @@
-#ifndef SKYSHADERPROGRAM_H
-#define SKYSHADERPROGRAM_H
+#pragma once
 #include "..\..\..\AlphaStd.h"
 #include <GL/glew.h>
 #include "BaseShaderProgram.h"
@@ -19,4 +18,3 @@ private:
 	GLuint m_texID;
 };
 //========================================================================
-#endif

@@ -1,5 +1,4 @@
-#ifndef TEXT2DSHADERPROGRAM_H
-#define TEXT2DSHADERPROGRAM_H
+#pragma once
 #include "..\..\..\AlphaStd.h"
 #include <GL/glew.h>
 #include "BaseShaderProgram.h"
@@ -21,4 +20,3 @@ private:
 	GLuint m_texID;
 };
 //========================================================================
-#endif

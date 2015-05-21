@@ -1,5 +1,4 @@
-#ifndef TEXT2D_GL_H
-#define TEXT2D_GL_H
+#pragma once
 #include "../../../AlphaStd.h"
 #include "../../Scene/IText2D.h"
 #include "../Data/Texture.h"
@@ -41,4 +40,4 @@ private:
 	VertexBuffer m_vertexBuffer;
 };
 //========================================================================
-#endif
+

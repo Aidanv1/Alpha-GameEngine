@@ -1,5 +1,4 @@
-#ifndef SCENENODE_H
-#define SCENENODE_H
+#pragma once
 #include"../..\AlphaStd.h"
 #include "../../Actor/Actor.h"
 class Scene;
@@ -87,4 +86,3 @@ protected:
 
 };
 //========================================================================
-#endif

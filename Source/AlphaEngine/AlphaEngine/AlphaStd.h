@@ -1,5 +1,5 @@
-#ifndef ALPHASTD_H
-#define ALPHASTD_H
+#pragma once
+
 //Disable warnings in release
 #ifndef _DEBUG
 
@@ -85,5 +85,5 @@ using namespace glm;
 // -----------------------------------------------------------------------
 
 
-#endif
+
 

@@ -1,5 +1,4 @@
-#ifndef ISHADERPROGRAM_H
-#define ISHADERPROGRAM_H
+#pragma once
 #include <GL/glew.h>
 //========================================================================
 class IShaderProgram
@@ -9,4 +8,3 @@ class IShaderProgram
 	virtual GLuint VGetShaderProgramID() = 0;
 };
 //========================================================================
-#endif

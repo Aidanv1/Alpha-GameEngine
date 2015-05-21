@@ -1,5 +1,4 @@
-#ifndef IActorCOMPONENT
-#define IActorCOMPONENT
+#pragma once
 #include "..\AlphaStd.h"
 typedef string ComponentType;
 class Actor;
@@ -18,4 +17,3 @@ private:
 	void SetOwner(shared_ptr<Actor> pOwner){ m_pOwner = pOwner; }
 };
 //========================================================================
-#endif

@@ -1,5 +1,4 @@
-#ifndef FILEIO_H
-#define FILEIO_H
+#pragma once
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -52,5 +51,3 @@ inline char* ReadFile(const char* filename)
 	fclose(fp);
 	return contents;
 }
-
-#endif

@@ -152,6 +152,7 @@
     <ClInclude Include="EventManager\IEventManager.h" />
     <ClInclude Include="EventManager\IEvent.h" />
     <ClInclude Include="GameLoop\GameLoop.h" />
+    <ClInclude Include="Graphics3D\Geometry\Geometry.h" />
     <ClInclude Include="Graphics3D\GraphicsSystem.h" />
     <ClInclude Include="Graphics3D\IRenderer.h" />
     <ClInclude Include="Graphics3D\OpenGL\Buffers\VertexBuffer.h" />

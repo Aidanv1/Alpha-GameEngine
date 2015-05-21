@@ -1,5 +1,4 @@
-#ifndef SHADERHELPER_H
-#define SHADERHELPER_H
+#pragma once
 #include "..\..\..\AlphaStd.h"
 #include <GL/glew.h>
 //========================================================================
@@ -14,4 +13,3 @@ private:
 	static bool CompiledStatus(GLint shaderID);
 };
 //========================================================================
-#endif

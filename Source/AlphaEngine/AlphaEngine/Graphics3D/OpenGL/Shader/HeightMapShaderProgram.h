@@ -1,5 +1,4 @@
-#ifndef HEIGHTSHADERPROGRAM_H
-#define HEIGHTSHADERPROGRAM_H
+#pragma once
 #include "..\..\..\AlphaStd.h"
 #include <GL/glew.h>
 #include "BaseShaderProgram.h"
@@ -28,4 +27,3 @@ private:
 	int m_texID;
 };
 //========================================================================
-#endif

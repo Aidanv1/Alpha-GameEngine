@@ -1,5 +1,4 @@
-#ifndef ITEXT2D_H
-#define ITEXT2D_H
+#pragma once
 
 class IText2D
 {
@@ -9,4 +8,3 @@ public:
 	virtual void VCleanUpText2D() = 0;
 };
 
-#endif

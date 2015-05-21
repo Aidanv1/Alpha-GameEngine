@@ -1,5 +1,4 @@
-#ifndef DEFAULTRESOURCELOADER_H
-#define DEFAULTRESOURCELOADER_H
+#pragma once
 #include "IResourceLoader.h"
 //========================================================================
 class DefaultResourceLoader : public IResourceLoader
@@ -11,5 +10,5 @@ public:
 	virtual bool VLoadResource(string resName, unsigned char*& pBuffer, unsigned int& size);
 	virtual unsigned int  VGetSize(string resName);
 };
-#endif
+
 //========================================================================

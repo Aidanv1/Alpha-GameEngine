@@ -1,5 +1,4 @@
-#ifndef MODEL_H
-#define MODEL_H
+#pragma once
 #include "../../Actor/Actor.h" 
 #include "SceneNode.h"
 #include "../../Actor/Components/GraphicsComponent.h"
@@ -39,6 +38,3 @@ private:
 	StrongModelPtr m_modelResource;
 	SceneNodeList m_meshChildren;
 };
-
-
-#endif

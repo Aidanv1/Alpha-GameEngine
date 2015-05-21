@@ -1,5 +1,4 @@
-#ifndef GRAPHICSCOMPONENT_H
-#define GRAPHICSCOMPONENT_H
+#pragma once
 #include "../IActorComponent.h"
 class GraphicsComponent : public IActorComponent
 {
@@ -8,4 +7,3 @@ public:
 	virtual bool VPostInit() override;
 };
 
-#endif

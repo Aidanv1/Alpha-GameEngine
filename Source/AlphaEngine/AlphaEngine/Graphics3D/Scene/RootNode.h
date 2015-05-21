@@ -1,5 +1,3 @@
-#ifndef ROOTNODE_H
-#define ROOTNODE_H
 #include "SceneNode.h"
 //========================================================================
 class RootNode : public SceneNode
@@ -15,4 +13,3 @@ private:
 	
 };
 //========================================================================
-#endif

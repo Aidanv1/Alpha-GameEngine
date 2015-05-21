@@ -208,6 +208,9 @@
     <Filter Include="Actor\Components">
       <UniqueIdentifier>{c36addf0-b335-4dbd-a354-a48daaef139c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics3D\Geometry">
+      <UniqueIdentifier>{3869d83b-7b14-4be8-8023-3c151ba00201}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Time\Clock.h">
@@ -372,6 +375,9 @@
     </ClInclude>
     <ClInclude Include="Actor\Components\GraphicsComponent.h">
       <Filter>Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Geometry\Geometry.h">
+      <Filter>Graphics3D\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

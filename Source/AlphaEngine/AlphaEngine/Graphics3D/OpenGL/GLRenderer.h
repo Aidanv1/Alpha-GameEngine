@@ -1,5 +1,4 @@
-#ifndef GLRENDERER_H
-#define GLRENDERER_H
+#pragma once
 #include "..\IRenderer.h"
 #include <GL/glew.h>
 #include "..\..\AlphaStd.h"
@@ -39,4 +38,3 @@ private:
 	shared_ptr<HeightMapShaderProgram> m_heightMapShaderProgram;
 };
 //========================================================================
-#endif

@@ -1,5 +1,4 @@
-#ifndef GRAPHICS_SYSTEM_H
-#define GRAPHICS_SYSTEM_H
+#pragma once
 #include "..\AlphaStd.h"
 #include "IRenderer.h"
 #include "..\ResourceManager\ResourceManager.h"
@@ -30,4 +29,3 @@ private:
 	bool m_Loaded;
 };
 //========================================================================
-#endif

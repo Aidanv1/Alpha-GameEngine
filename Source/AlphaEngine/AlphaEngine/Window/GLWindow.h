@@ -1,5 +1,5 @@
-#ifndef GLWINDOW_H
-#define GLWINDOW_H
+#pragma once
+
 #include "..\AlphaStd.h"
 #include "IWindow.h"
 #include <sstream>
@@ -28,4 +28,3 @@ private:
 	SDL_Event m_event;
 };
 //========================================================================
-#endif

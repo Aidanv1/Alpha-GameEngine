@@ -1,5 +1,4 @@
-#ifndef RESOURCE_H
-#define RESOURCE_H
+#pragma once
 
 #include "..\AlphaStd.h"
 #include "ResourceManager.h"
@@ -37,5 +36,4 @@ private:
 	bool m_isLoaded;
 };
 
-#endif
 //========================================================================

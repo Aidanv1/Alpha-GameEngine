@@ -1,5 +1,4 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
 #include "..\..\..\AlphaStd.h"
 #include <GL/glew.h>
 #include "..\..\..\ResourceManager\Resources\Raw.h"
@@ -48,4 +47,3 @@ private:
 	string m_textureFileName[6];
 };
 //========================================================================
-#endif

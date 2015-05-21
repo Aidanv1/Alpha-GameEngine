@@ -2,8 +2,7 @@
 //in that it manages the texture buffers currently stored in video memory (VRAM)
 //whereas the ResourseManager deals only with system memory.
 
-#ifndef TEXTUREHANDLER_H
-#define TEXTUREHANDLER_H
+#pragma once
 #include "../../../../AlphaStd.h"
 #include <GL/glew.h>
 typedef GLuint TextureID;
@@ -52,4 +51,3 @@ private:
 	int m_sizeAllocated;
 };
 //========================================================================
-#endif

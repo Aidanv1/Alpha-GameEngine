@@ -6,11 +6,6 @@ int main(int argc, char *argv[])
 	GameLoop gameLoop;
 	gameLoop.Init(window);
 	gameLoop.StartLoop();
-
-	//MemoryPool pool;
-	//pool.Init(sizeof(int), 200);
-	//int* i = pool.Alloc();
-
 	return 0;
 }
 	

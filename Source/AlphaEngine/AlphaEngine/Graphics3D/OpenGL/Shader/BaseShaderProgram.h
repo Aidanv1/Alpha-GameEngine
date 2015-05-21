@@ -1,5 +1,4 @@
-#ifndef BASESHADERPROGRAM_H
-#define BASESHADERPROGRAM_H
+#pragma once
 #include "IShaderProgram.h"
 #include "ShaderHelper.h"
 //========================================================================
@@ -17,4 +16,3 @@ protected:
 
 };
 //========================================================================
-#endif

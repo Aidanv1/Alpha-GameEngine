@@ -1,5 +1,5 @@
-#ifndef HEIGHTMAP_H
-#define HEIGHTMAP_H
+#pragma once
+
 #include "../../../AlphaStd.h"
 #include "../Data/Texture.h"
 #include "../../Scene/SceneNode.h"
@@ -40,5 +40,3 @@ private:
 	VertexBuffer m_vertexBuffer;
 };
 //========================================================================
-
-#endif

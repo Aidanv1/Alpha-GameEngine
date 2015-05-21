@@ -1,5 +1,4 @@
-#ifndef MESHSHADERPROGRAM_H
-#define MESHSHADERPROGRAM_H
+#pragma once
 #include "..\..\..\AlphaStd.h"
 #include <GL/glew.h>
 #include "BaseShaderProgram.h"
@@ -29,5 +28,3 @@ private:
 
 };
 //========================================================================
-
-#endif

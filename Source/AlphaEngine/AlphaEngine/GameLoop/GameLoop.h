@@ -1,5 +1,4 @@
-#ifndef GAMELOOP_H
-#define GAMELOOP_H
+#pragma once
 #include "../AlphaStd.h"
 #include "..\Time\Clock.h"
 #include "..\Time\SystemTime.h"
@@ -25,4 +24,3 @@ private:
 	IWindow* m_window;
 	EventManager m_globalEventManager;
 };
-#endif

@@ -1,5 +1,5 @@
-#ifndef MESSAGEWINDOW_H
-#define MESSAGEWINDOW_H
+#pragma once
+
 #include <sstream>
 #include "SDL.h"
 #include <intrin.h>
@@ -19,4 +19,3 @@ inline void AssertMessageWindow(const char* str1, const char* function, const ch
 	ss << str1 << "\nFunction:" << function << "\nFile: " << file << "\nLine:" << line << "\nClick OK to debug";
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Assert", ss.str().c_str(), NULL);
 }
-#endif

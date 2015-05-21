@@ -1,11 +1,8 @@
 /*Description:
 MemoryPool implements a simple memory pool which uses a singly linked list data structure
 */
-#ifndef MEMORYPOOL_H
-#define MEMORYPOOL_H
+#pragma once
 #include "../AlphaStd.h"
-using namespace std;
-//---
 //========================================================================
 class MemoryPool
 {
@@ -29,7 +26,4 @@ private:
 	int m_numChunks;
 	int m_memoryArraySize;
 };
-
-
-#endif
 //========================================================================

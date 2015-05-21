@@ -1,5 +1,4 @@
-#ifndef VERTEXBUFFER_H
-#define VERTEXBUFFER_H
+#pragma once
 #include "../../../AlphaStd.h"
 #include <GL/glew.h>
 #include "../Data/Handler/VertexBufferHandler.h"
@@ -32,4 +31,3 @@ private:
 	string m_name;
 };
 //========================================================================
-#endif

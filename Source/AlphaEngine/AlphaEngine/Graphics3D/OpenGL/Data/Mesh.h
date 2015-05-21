@@ -1,5 +1,4 @@
-#ifndef MESH_H
-#define MESH_H
+#pragma once
 
 #include "Handler\VertexBufferHandler.h"
 #include "../../../ResourceManager/Resource.h"
@@ -38,4 +37,3 @@ private:
 };
 
 //========================================================================
-#endif

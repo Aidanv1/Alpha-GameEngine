@@ -1,5 +1,4 @@
-#ifndef SKYBOX_H
-#define SKYBOX_H
+#pragma once
 #include "../../../AlphaStd.h"
 #include "../Buffers/VertexBuffer.h"
 #include <GL/glew.h>
@@ -35,4 +34,3 @@ private:
 	VertexBuffer		m_vertexBuffer;
 };
 
-#endif

@@ -1,5 +1,4 @@
-#ifndef IRENDERER_H
-#define IRENDERER_H
+#pragma once
 #include "Scene\Scene.h"
 #include "..\AlphaStd.h"
 enum DepthBufferCommand
@@ -22,4 +21,3 @@ public:
 	virtual void VDepthBuffer(DepthBufferCommand depthMode) = 0;
 };
 //========================================================================
-#endif
