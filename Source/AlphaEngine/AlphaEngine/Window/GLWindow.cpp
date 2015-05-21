@@ -61,12 +61,6 @@ bool GLWindow::VInit()
 		ALPHA_ERROR("Failed initialize Glew");
 		exit(1);
 	}
-	//opengl render settings
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-
 	return true;
 }
 // -----------------------------------------------------------------------

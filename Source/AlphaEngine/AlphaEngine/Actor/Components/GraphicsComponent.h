@@ -3,7 +3,9 @@
 #include "../IActorComponent.h"
 class GraphicsComponent : public IActorComponent
 {
-	virtual ComponentType VGetType() const override{ return "Graphics"; };
+public:
+	virtual ComponentType VGetType() const override{ return "Graphics"; }
+	virtual bool VPostInit() override;
 };
 
 #endif

@@ -4,7 +4,8 @@ GraphicsSystem::GraphicsSystem() :
 m_renderer(NULL),
 m_textureResourceManager(NULL),
 m_meshResourceManager(NULL),
-m_scene(NULL)
+m_scene(NULL),
+m_Loaded(false)
 {
 
 }
@@ -31,7 +32,7 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(new MeshResourceLoader));
 
 	m_scene = shared_ptr<Scene>(new Scene());
-	if (!m_scene->Init())
+	if (!m_scene->Init(m_renderer.get()))
 	{
 		return false;
 	}
@@ -70,6 +71,7 @@ void GraphicsSystem::LoadScene()
 			ALPHA_ERROR("Scene Load pass limit exceeded.");
 		}
 	} while (!m_scene->Load());
+	m_Loaded = true;
 }
 // -----------------------------------------------------------------------
 GraphicsSystem& GraphicsSystem::Get()

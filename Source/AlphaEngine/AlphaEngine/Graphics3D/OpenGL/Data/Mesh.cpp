@@ -43,7 +43,6 @@ void Mesh::VRender(Scene* pScene)
 									m_material->Texture()->VGetTextureID());
 	BindData();
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
-
 	VRenderChildren(pScene);
 }
 // -----------------------------------------------------------------------
@@ -83,6 +82,8 @@ int Mesh::LoadMesh(aiMesh* pMesh, aiMaterial* pMaterial)
 	//Texture
 	aiString textureLoc;
 	pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &textureLoc);
+	int op = 0;
+	pMaterial->Get(AI_MATKEY_BLEND_FUNC, op);
 	string path = m_meshFileName;
 	int end = path.find_last_of("/");
 	path = path.substr(0, end + 1).append(textureLoc.C_Str());

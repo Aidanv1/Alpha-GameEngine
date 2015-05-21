@@ -95,6 +95,7 @@
     <ClCompile Include="Actor\Actor.cpp" />
     <ClCompile Include="Actor\ActorFactory.cpp" />
     <ClCompile Include="Actor\ComponentCreators\GraphicsComponentCreator.cpp" />
+    <ClCompile Include="Actor\Components\GraphicsComponent.cpp" />
     <ClCompile Include="Actor\RoleSystem.cpp" />
     <ClCompile Include="AlphaMain.cpp" />
     <ClCompile Include="EventManager\EventManager.cpp" />

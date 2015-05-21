@@ -14,12 +14,12 @@ public:
 	SkyBox();
 	~SkyBox();	
 	void VRender(Scene* pScene) override;
+	virtual bool VInitNode() override;
 	//IActorComponent functions
 	virtual void VUpdate() override;
 	virtual bool VInitComponent(TiXmlElement* pElement) override;
 	virtual bool VPostInit() override;
 private:
-	virtual bool VInitNode() override;
 	//loading methods
 	int Load();
 	bool LoadTexture();

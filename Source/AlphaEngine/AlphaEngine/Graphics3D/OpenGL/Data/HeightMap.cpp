@@ -1,10 +1,13 @@
 #include "HeightMap.h"
 // -----------------------------------------------------------------------
 HeightMap::HeightMap() :
+SceneNode(),
+GraphicsComponent(),
 m_shaderProgram(NULL),
 m_vertexBuffer(),
 m_numVertices(0)
 {
+	m_nodeProperties.m_renderPass = RenderPass_Static;
 }
 // -----------------------------------------------------------------------
 HeightMap::~HeightMap()
@@ -44,7 +47,9 @@ void HeightMap::VRender(Scene* pScene)
 		m_nodeProperties.m_lightVector,
 		m_material->Texture()->VGetTextureID());
 	BindData();
+	glEnable(GL_CULL_FACE);
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
+	glDisable(GL_CULL_FACE);
 	VRenderChildren(pScene);
 }
 // -----------------------------------------------------------------------
@@ -210,14 +215,8 @@ int HeightMap::Load()
 
 			texCoordArray.push_back(textureData.at(bottomRightIndexNum).x);
 			texCoordArray.push_back(textureData.at(bottomRightIndexNum).y);
-
-
-
 		}
 	}
-
-
-
 
 	GLfloat* normals = &normalCoordArray[0];
 	GLfloat* vertices = &verticesCoordArray[0];
@@ -310,6 +309,7 @@ bool HeightMap::VInitComponent(TiXmlElement* pElement)
 // -----------------------------------------------------------------------
 bool HeightMap::VPostInit()
 {
+	GraphicsComponent::VPostInit();
 	return true;
 }
 

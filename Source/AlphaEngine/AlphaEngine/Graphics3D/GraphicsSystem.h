@@ -27,7 +27,7 @@ private:
 	StrongResourceManagerPtr m_textureResourceManager;
 	StrongResourceManagerPtr m_meshResourceManager;
 	StrongScenePtr m_scene;
-	
+	bool m_Loaded;
 };
 //========================================================================
 #endif

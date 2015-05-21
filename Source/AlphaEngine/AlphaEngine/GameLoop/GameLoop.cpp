@@ -55,7 +55,7 @@ void GameLoop::StartLoop()
 	{
 
 		//display delta time
-		if (cycleCount%10 == 0)
+		if (cycleCount%100 == 0)
 		{
 			stringstream printText;
 			printText << "FPS: " << to_string(MS_PER_SECOND / dt);

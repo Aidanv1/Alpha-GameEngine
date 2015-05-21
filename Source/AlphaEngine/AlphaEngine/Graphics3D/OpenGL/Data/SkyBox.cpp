@@ -1,11 +1,14 @@
 #include "SkyBox.h"
 SkyBox::SkyBox() :
+SceneNode(),
+GraphicsComponent(),
 m_shaderProgram(NULL),
 m_meshID(-1),
 m_numVertices(36),
 m_skyTexture(NULL),
 m_vertexBuffer()
 {
+	m_nodeProperties.m_renderPass = RenderPass_Sky;
 	m_textureFileName[0] = "";
 	m_textureFileName[1] = "";
 	m_textureFileName[2] = "";
@@ -57,7 +60,9 @@ void SkyBox::VRender(Scene* pScene)
 		m_skyTexture->VGetTextureID());
 	BindData();
 	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_CULL_FACE);
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
+	glDisable(GL_CULL_FACE);
 	glDepthFunc(GL_LESS);
 	VRenderChildren(pScene);
 }
@@ -182,5 +187,6 @@ bool SkyBox::VInitComponent(TiXmlElement* pElement)
 // -----------------------------------------------------------------------
 bool SkyBox::VPostInit()
 {
+	GraphicsComponent::VPostInit();
 	return true;
 }

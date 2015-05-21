@@ -15,6 +15,7 @@ m_verticesCoordArray(),
 m_vertexBuffer(),
 m_aspectR(0)
 {
+	m_nodeProperties.m_renderPass = RenderPass_Overlay;
 }
 // -----------------------------------------------------------------------
 Text2D_GL::~Text2D_GL()
@@ -86,10 +87,7 @@ void Text2D_GL::VRender(Scene* pScene)
 	m_shaderProgram->SetUniforms(	m_size,
 									m_fontTexture->VGetTextureID());
 	BindData();
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
-	glDisable(GL_BLEND);
 	VRenderChildren(pScene);
 }
 // -----------------------------------------------------------------------

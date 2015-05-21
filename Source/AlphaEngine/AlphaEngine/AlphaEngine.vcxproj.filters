@@ -125,6 +125,9 @@
     <ClCompile Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.cpp">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="Actor\Components\GraphicsComponent.cpp">
+      <Filter>Actor\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">

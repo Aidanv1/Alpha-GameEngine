@@ -1,7 +1,7 @@
 #include "GLRenderer.h"
 // -----------------------------------------------------------------------
 GLRenderer::GLRenderer():
-m_backGroundColour(1)
+m_backGroundColour(1,1,1,1)
 {
 
 }
@@ -89,6 +89,14 @@ bool GLRenderer::VInit(TiXmlElement* pElement)
 	{
 		success = false;
 	}
+
+	//opengl render settings
+	glCullFace(GL_BACK);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	return success;
 }
 // -----------------------------------------------------------------------
@@ -99,6 +107,8 @@ void GLRenderer::VRender(StrongScenePtr scene)
 		m_backGroundColour.y,
 		m_backGroundColour.z,
 		m_backGroundColour.w);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	scene->Render();
 }
@@ -119,5 +129,27 @@ void GLRenderer::VPrintText(string text)
 	{
 		m_text2DNode->VPrintText2D(text, 0, 0, 0.06f);
 	}	
+}
+// -----------------------------------------------------------------------
+void GLRenderer::VDepthBuffer(DepthBufferCommand depthMode)
+{
+	switch (depthMode)
+	{
+	case DepthBufferDisabled:
+		glDisable(GL_DEPTH_TEST);
+		break;
+	case DepthBufferEnabled:
+		glEnable(GL_DEPTH_TEST);
+		break;
+	case DepthBufferLess:
+		glDepthFunc(GL_LESS);
+		break;
+	case DepthBufferEqual:
+		glDepthFunc(GL_EQUAL);
+		break;
+	case DepthBufferAlways:
+		glDepthFunc(GL_ALWAYS);
+		break;
+	}
 }
 // -----------------------------------------------------------------------

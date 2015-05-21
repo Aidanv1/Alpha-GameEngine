@@ -8,7 +8,7 @@
 #include "..\Graphics3D\OpenGL\GLRenderer.h"
 #include "../EventManager/EventManager.h"
 #include "../Actor/RoleSystem.h"
-#define MIN_DELTA_MS 8
+#define MIN_DELTA_MS 1
 class GameLoop
 {
 public:

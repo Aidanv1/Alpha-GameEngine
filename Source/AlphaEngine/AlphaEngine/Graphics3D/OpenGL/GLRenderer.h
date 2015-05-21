@@ -19,6 +19,7 @@ public:
 	void VRender(StrongScenePtr scene) override;
 	void VOnRestore() override;
 	void VSetBackGroundColour(vec4& backGroundColour) override;
+	void VDepthBuffer(DepthBufferCommand depthMode) override;
 	//for developement
 	void VPrintText(string text) override;
 	//Shaders

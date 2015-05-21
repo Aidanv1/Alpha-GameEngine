@@ -1,14 +1,42 @@
 <World>
-  <Actor name = "Test Model">
+  <Actor name = "Grass1">
     <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"/>
-      <Position x ="0.0" y ="0.2" z ="-4.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />    
+      <Properties modelFileName = "../../../Assets/grass01.3ds"
+                  alphaType ="Transparent"
+                  />
+      <Position x ="-5.4" y ="0.2" z ="-4.5" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
     </Graphics>
   </Actor>
-
-  <Actor name = "Sky">
-    <Graphics type ="Sky">      
+  <Actor name = "Grass2">
+    <Graphics type ="Model">
+      <Properties modelFileName = "../../../Assets/grass01.3ds"
+                  alphaType ="Transparent"
+                  />
+      <Position x ="-4.4" y ="0.2" z ="-3.2" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
+    </Graphics>
+  </Actor>
+  <Actor name = "Grass3">
+    <Graphics type ="Model">
+      <Properties modelFileName = "../../../Assets/grass01.3ds"
+                  alphaType ="Transparent"
+                  />
+      <Position x ="-5.2" y ="0.2" z ="-3.5" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
+    </Graphics>
+  </Actor>
+  <Actor name = "Grass4">
+    <Graphics type ="Model">
+      <Properties modelFileName = "../../../Assets/grass01.3ds"
+                  alphaType ="Transparent"/>
+      <Position x ="-5.0" y ="0.2" z ="-4.0" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
+    </Graphics>
+  </Actor>
+  
+  <Actor name = "Sky">    
+    <Graphics type ="Sky">
       <Properties name = "SkyBox" />
       <TextureCube
         left =    "../../../Assets/Sky/left.png"
@@ -16,7 +44,7 @@
         top =			"../../../Assets/Sky/top.png"
         bottom =	"../../../Assets/Sky/bottom.png"
         front =		"../../../Assets/Sky/front.png"
-        back =		"../../../Assets/Sky/back.png"/>    
+        back =		"../../../Assets/Sky/back.png"/>
     </Graphics>
   </Actor>
 
@@ -24,13 +52,33 @@
     <Graphics type ="HeightMap">
       <Properties mapFileName = "../../../Assets/Terrain/heightmap.png"
                   textureFileName = "../../../Assets/Terrain/terrain.jpg"
-                  tileScale ="5"/>   
+                  tileScale ="5"/>
     </Graphics>
   </Actor>
 
+  <Actor name = "Ironman">
+    <Graphics type ="Model">
+      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"/>
+      <Position x ="0.0" y ="0.2" z ="-4.0" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />    
+    </Graphics>
+  </Actor>
+
+  <Actor name = "Batman">
+    <Graphics type ="Model">
+      <Properties modelFileName = "../../../Assets/Batman/Batman.dae"
+                  alphaType ="Transparent"/>
+      <Position x ="5.0" y ="0.2" z ="-4.0" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
+    </Graphics>
+  </Actor>
+
+
+
+  
   <Actor name = "Main Camera">
     <Graphics type ="Camera">
-      <Properties mode = "Orbital" targetName ="Test Model"/>
+      <Properties mode = "Orbital" targetName ="Ironman"/>
       <Parameters
         FieldOfView ="45"
         AspectRatio ="1.7778"
@@ -38,5 +86,6 @@
         FarClip ="10000"/>
     </Graphics>
   </Actor>
+
 
 </World>

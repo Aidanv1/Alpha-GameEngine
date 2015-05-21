@@ -1,5 +1,4 @@
 #include "Camera.h"
-
 // -----------------------------------------------------------------------
 Camera::Camera() :
 m_camParam(),
@@ -177,5 +176,6 @@ bool Camera::VInitComponent(TiXmlElement* pElement)
 // -----------------------------------------------------------------------
 bool Camera::VPostInit()
 {
+	GraphicsComponent::VPostInit();
 	return true;
 }

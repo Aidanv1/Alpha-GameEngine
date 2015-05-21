@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------------
 Model::Model() :
 SceneNode(),
+GraphicsComponent(),
 m_modelFileName(""),
 m_modelID(-1),
 m_modelResourceManager(NULL),
@@ -32,7 +33,37 @@ bool Model::VInitComponent(TiXmlElement* pElement)
 		if (val == "Properties")
 		{
 			m_modelFileName = nextElem->Attribute("modelFileName");
+			if (nextElem->Attribute("alphaType"))
+			{
+				string attrib = nextElem->Attribute("alphaType");
+				if (attrib == "Transparent")
+				{
+					m_nodeProperties.m_alphaType = tTRANSPARENT;
+				}
+				if (attrib == "Opaque")
+				{
+					m_nodeProperties.m_alphaType = tOPAQUE;
+				}
+			}
 
+			if (nextElem->Attribute("renderPass"))
+			{
+				string attrib = nextElem->Attribute("renderPass");
+				if (attrib == "Transparent")
+				{
+					m_nodeProperties.m_renderPass = RenderPass_Actor;
+				}
+				else if (attrib == "Opaque")
+				{
+					m_nodeProperties.m_renderPass = RenderPass_Static;
+				}
+			}
+			else
+			{
+				//default to actor render pass
+				m_nodeProperties.m_renderPass = RenderPass_Actor;
+			}
+			
 		}
 		if (val == "Position")
 		{
@@ -58,6 +89,7 @@ bool Model::VInitComponent(TiXmlElement* pElement)
 // -----------------------------------------------------------------------
 bool Model::VPostInit()
 {
+	GraphicsComponent::VPostInit();
 	return true;
 }
 //========================================================================
@@ -86,6 +118,25 @@ bool Model::VInitNode()
 // -----------------------------------------------------------------------
 void Model::VRender(Scene* pScene)
 {
+	//if the node is transparent and it is not currently the alpha pass,
+	//dont render it yet
+	if (	m_nodeProperties.m_alphaType == tTRANSPARENT && 
+			!pScene->isAlphaPass())
+	{
+		pScene->AddTransparentNode(this);
+		mat4 viewMat;
+		pScene->GetCamera()->GetViewMatrix(viewMat);
+		vec4 pos4 = viewMat*m_nodeProperties.m_toWorld*vec4(m_positionInWorld, 1.0f);
+		m_screenZ = pos4.z;
+	}
+	else
+	{
+		//render mesh children
+		for (auto child = m_meshChildren.begin(); child != m_meshChildren.end(); child++)
+		{
+			(*child)->VRender(pScene);
+		}
+	}
 	VRenderChildren(pScene);
 }
 // -----------------------------------------------------------------------
@@ -200,15 +251,11 @@ void Model::VUpdateNode(Scene* pScene, float deltaMS)
 	m_nodeProperties.m_rotationMatrix = rotate(mat4(1.0f), -1.57f, vec3(1.0f, 0.0f, 0.0f));
 	m_nodeProperties.m_toWorld = translate(mat4(1.0f), m_positionInWorld);
 	m_nodeProperties.m_toWorld = m_nodeProperties.m_toWorld * m_nodeProperties.m_rotationMatrix;
+
 }
 // -----------------------------------------------------------------------
 void Model::VRenderChildren(Scene* pScene)
-{
-	//render mesh children
-	for (auto child = m_meshChildren.begin(); child != m_meshChildren.end(); child++)
-	{
-		(*child)->VRender(pScene);
-	}
+{	
 	//base class render children
 	SceneNode::VRenderChildren(pScene);
 }
