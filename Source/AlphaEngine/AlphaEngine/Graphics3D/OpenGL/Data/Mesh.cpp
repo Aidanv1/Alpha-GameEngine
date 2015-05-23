@@ -54,6 +54,7 @@ void Mesh::BindData()
 	m_vertexBuffer.SetVertexAttribPointer(m_shaderProgram->GetTextureID(), 2, 0, (const void*)(offset * 2));
 }
 // -----------------------------------------------------------------------
+//The messh object's Validate function is called by the Model container class
 bool Mesh::Validate()
 {
 	return m_vertexBuffer.Validate();

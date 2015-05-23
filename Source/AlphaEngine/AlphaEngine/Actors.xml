@@ -73,12 +73,10 @@
     </Graphics>
   </Actor>
 
-
-
-  
+ 
   <Actor name = "Main Camera">
     <Graphics type ="Camera">
-      <Properties mode = "Orbital" targetName ="Ironman"/>
+      <Properties mode = "Orbital" targetName = "Ironman"/>
       <Parameters
         FieldOfView ="45"
         AspectRatio ="1.7778"

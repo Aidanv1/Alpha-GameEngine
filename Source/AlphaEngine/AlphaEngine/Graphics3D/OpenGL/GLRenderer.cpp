@@ -62,6 +62,17 @@ bool GLRenderer::VInit(TiXmlElement* pElement)
 				success = false;
 			}
 		}
+		if (value == "Basic")
+		{
+			m_basicShaderProgram = shared_ptr<BasicShaderProgram>(ALPHA_NEW BasicShaderProgram());
+			const char* vertexShaderName = pShaderProgram->Attribute("vertexShaderFile");
+			const char* fragmentShaderName = pShaderProgram->Attribute("fragmentShaderFile");
+
+			if (!m_basicShaderProgram->VInit(vertexShaderName, fragmentShaderName))
+			{
+				success = false;
+			}
+		}
 
 		pShaderProgram = pShaderProgram->NextSiblingElement();
 	}		
@@ -69,6 +80,7 @@ bool GLRenderer::VInit(TiXmlElement* pElement)
 	ALPHA_ASSERT(m_text2DShaderProgram);
 	ALPHA_ASSERT(m_skyShaderProgram);
 	ALPHA_ASSERT(m_heightMapShaderProgram);
+	ALPHA_ASSERT(m_basicShaderProgram);
 	// ---------------------------------
 	//basic text renderer for dev
 	Text2D_GL* t2d = new Text2D_GL();

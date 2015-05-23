@@ -1,4 +1,5 @@
 #include "Camera.h"
+
 // -----------------------------------------------------------------------
 Camera::Camera() :
 m_camParam(),
@@ -7,7 +8,10 @@ m_targetNode(NULL),
 m_mode(),
 m_orbitalRadius(10),
 m_orbitalMax(20),
-m_orbitalMin(0)
+m_orbitalMin(0),
+m_frustum(),
+m_translationMatrix(1.0f),
+m_rotationMatrix(1.0f)
 {
 
 }
@@ -17,13 +21,14 @@ Camera::~Camera()
 
 }
 // -----------------------------------------------------------------------
-void Camera::SetParameters(float fovy, float aspectR, float near, float far)
+void Camera::SetParameters(float fovy, float aspectR, float nearClip, float farClip)
 {
 	m_camParam.m_fieldOfView = fovy;
 	m_camParam.m_aspectRatio = aspectR;
-	m_camParam.m_nearClip = near;
-	m_camParam.m_farClip = far;
-	m_projectionMatrix = perspective( radians<float>(fovy), aspectR, near, far);
+	m_camParam.m_nearClip = nearClip;
+	m_camParam.m_farClip = farClip;
+	m_frustum = Frustum(2, 2, m_camParam.m_fieldOfView, m_camParam.m_nearClip, m_camParam.m_farClip);
+	m_projectionMatrix = perspective(radians<float>(fovy), aspectR, nearClip, farClip);
 }
 // -----------------------------------------------------------------------
 void Camera::SetCameraTarget(SceneNode* targetNode)
@@ -36,9 +41,12 @@ void Camera::VUpdateNode(Scene* scene, float deltaMs)
 	switch (m_mode)
 	{
 	case FlyAround_Mode:
-		m_viewMatrix = rotate(mat4(1.0f), m_rotation.x, vec3(-1.0f, 0.0f, 0.0f));
-		m_viewMatrix = rotate(m_viewMatrix, m_rotation.y, vec3(0.0f, -1.0f, 0.0f));
-		m_viewMatrix = translate(m_viewMatrix, m_positionInWorld);
+		m_rotationMatrix = rotate(mat4(1.0f), m_rotation.x, vec3(-1.0f, 0.0f, 0.0f));
+		m_rotationMatrix = rotate(m_rotationMatrix, m_rotation.y, vec3(0.0f, -1.0f, 0.0f));		
+		m_viewMatrix = m_rotationMatrix * translate(mat4(1.0f), -m_positionInWorld);
+
+		m_translationMatrix = translate(mat4(1.0f), m_positionInWorld);
+		
 		break;
 	case Orbital_Mode:
 		//clamp xaxis rotation
@@ -50,21 +58,18 @@ void Camera::VUpdateNode(Scene* scene, float deltaMs)
 		{
 			m_rotation.x = 0.2;
 		}
-		mat4 rotMat = rotate(mat4(1.0f), m_rotation.x - half_pi<float>(), vec3(-1.0f, 0.0f, 0.0f));
-		vec4 vectorPos = rotMat * vec4(0, 1.0f, 0, 0);
-		rotMat = rotate(mat4(1.0f), m_rotation.y, vec3(0.0f, -1.0f, 0.0f));
+		mat4 rotMat = rotate(mat4(1.0f), m_rotation.x, vec3(-1.0f, 0.0f, 0.0f));
+		vec4 vectorPos = rotMat * vec4(0, 0, 1.0f, 0);
+		rotMat = rotate(mat4(1.0f), m_rotation.y, vec3(0.0f, -1.0f, 0.0f));	
 		vectorPos = rotMat * vectorPos;
-		//mat4 rotMat = rotate(mat4(1.0f), m_rotation.y, vec3(0.0f, -1.0f, 0.0f));
 		vec3 targetPos;
 		m_targetNode->GetPositionInWorld(targetPos);
-
-
-		//vec4 vectorPos =  vec4(1.0f);
 		m_positionInWorld = vec3(vectorPos) * m_orbitalRadius + targetPos;
 		LookAtTarget();
-		m_positionInWorld = -m_positionInWorld;
+		
 		break;
-	}
+	}	
+	m_frustum.VTransform(m_translationMatrix, inverse(m_rotationMatrix));
 }
 // -----------------------------------------------------------------------
 void Camera::SetMode(CameraMode mode)
@@ -77,6 +82,8 @@ void Camera::LookAtTarget()
 	vec3 targetPos;
 	m_targetNode->GetPositionInWorld(targetPos);
 	m_viewMatrix = lookAt(m_positionInWorld, targetPos, vec3(0.0f, 1.0f, 0.0f));
+	m_rotationMatrix = translate(m_viewMatrix, m_positionInWorld);
+	m_translationMatrix = translate(mat4(1.0f), m_positionInWorld);
 }
 // -----------------------------------------------------------------------
 bool Camera::VInitNode()
@@ -135,13 +142,17 @@ bool Camera::VInitComponent(TiXmlElement* pElement)
 				m_mode = FlyAround_Mode;
 			}
 			//target
-			attrib = nextElem->Attribute("targetName");
-
-			SceneNode* targetNode = dynamic_cast<SceneNode*>(RoleSystem::Get().GetActor(attrib)->GetComponent("Graphics"));
-			if (targetNode)
+			if (nextElem->Attribute("targetName"))
 			{
-				m_targetNode = targetNode;
+				attrib = nextElem->Attribute("targetName");
+
+				SceneNode* targetNode = dynamic_cast<SceneNode*>(RoleSystem::Get().GetActor(attrib)->GetComponent("Graphics"));
+				if (targetNode)
+				{
+					m_targetNode = targetNode;
+				}
 			}
+
 		}		
 
 		if (val == "Parameters")
@@ -169,7 +180,7 @@ bool Camera::VInitComponent(TiXmlElement* pElement)
 	{
 		m_mode = FlyAround_Mode;
 	}
-	
+	m_frustum = Frustum(1 / m_camParam.m_aspectRatio, 1, m_camParam.m_fieldOfView, m_camParam.m_nearClip, m_camParam.m_farClip);
 	m_projectionMatrix = perspective(radians<float>(m_camParam.m_fieldOfView), m_camParam.m_aspectRatio, m_camParam.m_nearClip, m_camParam.m_farClip);	
 	return true;
 }

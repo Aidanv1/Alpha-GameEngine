@@ -118,6 +118,11 @@ bool Model::VInitNode()
 // -----------------------------------------------------------------------
 void Model::VRender(Scene* pScene)
 {
+	//dont render if the object is not within in the view frustum
+	if (!pScene->GetCamera()->GetFrustum().VInside(m_positionInWorld))
+	{
+		return;
+	}
 	//if the node is transparent and it is not currently the alpha pass,
 	//dont render it yet
 	if (	m_nodeProperties.m_alphaType == tTRANSPARENT && 
@@ -306,5 +311,5 @@ bool Model::ValidateBuffers()
 	SAFE_DELETE_ARRAY(validArray);
 	return false;
 }
-// -----------------------------------------------------------------------
+
 

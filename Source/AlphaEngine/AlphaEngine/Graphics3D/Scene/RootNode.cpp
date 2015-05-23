@@ -38,11 +38,8 @@ void RootNode::VRender(Scene* pScene)
 	//render passes
 	for (int pass = 0; pass < m_children.size(); pass++)
 	{
-		if (pass != RenderPass_NotRendered)
-		{
-			StrongSceneNodePtr node = m_children[pass];
-			node->VRender(pScene);
-		}
+		StrongSceneNodePtr node = m_children[pass];
+		node->VRender(pScene);		
 	}
 }
 // -----------------------------------------------------------------------

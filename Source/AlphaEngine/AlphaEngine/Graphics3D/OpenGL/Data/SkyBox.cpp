@@ -48,11 +48,9 @@ void SkyBox::VRender(Scene* pScene)
 	//get view and projection matrix from main camera
 	mat4 viewMat;
 	mat4 projMat;
-	pScene->GetCamera()->GetViewMatrix(viewMat);
+	pScene->GetCamera()->GetRotationMatrix(viewMat);
 	vec3 pos;
 	pScene->GetCamera()->GetPositionInWorld(pos);
-	viewMat = translate(viewMat, -pos);
-
 	pScene->GetCamera()->GetProjectionMatrix(projMat);
 	//set shader uniforms
 	mat4 M = projMat * viewMat;
@@ -69,9 +67,9 @@ void SkyBox::VRender(Scene* pScene)
 // -----------------------------------------------------------------------
 int SkyBox::Load()
 {
-	if (m_vertexBuffer.GetID() != -1)
+	if (int id = m_vertexBuffer.GetID() != -1)
 	{
-		return m_vertexBuffer.GetID();
+		return id;
 	}
 	float vectarr[] = 
 	{

@@ -76,6 +76,15 @@ bool Text2D_GL::VInitNode()
 // -----------------------------------------------------------------------
 void Text2D_GL::VRender(Scene* pScene)
 {
+	if (!pScene->isAlphaPass())
+	{
+		pScene->AddTransparentNode(this);
+		mat4 viewMat;
+		pScene->GetCamera()->GetViewMatrix(viewMat);
+		vec4 pos4 = viewMat*m_nodeProperties.m_toWorld*vec4(m_positionInWorld, 1.0f);
+		m_screenZ = pos4.z;
+		return;
+	}
 	//if the text has not been set, dont render it
 	if (m_text == "")
 	{

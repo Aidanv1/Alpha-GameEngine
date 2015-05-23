@@ -80,3 +80,7 @@ void SceneNode::VUpdateNode(Scene* pScene, float deltaMS)
 	}
 }
 // -----------------------------------------------------------------------
+void SceneNode::VSetTransform(mat4& ToWorld)
+{
+	m_nodeProperties.m_toWorld = ToWorld;
+}

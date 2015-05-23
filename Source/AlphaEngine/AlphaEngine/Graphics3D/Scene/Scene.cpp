@@ -22,8 +22,7 @@ bool Scene::Init(IRenderer* renderer)
 // -----------------------------------------------------------------------
 void Scene::SetCameraNode(StrongCameraNodePtr cameraNode)
 {
-	m_cameraNode = cameraNode;
-	m_rootNode->VAddChild(cameraNode);
+	m_cameraNode = cameraNode;	
 }
 
 // -----------------------------------------------------------------------

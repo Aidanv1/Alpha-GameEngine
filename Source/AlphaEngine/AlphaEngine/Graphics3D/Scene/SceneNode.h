@@ -50,6 +50,7 @@ public:
 	virtual void VAddChild(StrongSceneNodePtr sceneNode) = 0;
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) = 0;
 	virtual float VGetScreenZ() const = 0;
+	virtual void VSetTransform(mat4& ToWorld) = 0;
 protected:
 	virtual void VRenderChildren(Scene* pScene) = 0;
 };
@@ -70,6 +71,7 @@ public:
 	void SetPositionInWorld(vec3& pos);
 	void GetRotationInWorld(vec3& rot) const { rot = m_rotationInWorld; }
 	void SetRotationInWorld(vec3& rot);
+	void VSetTransform(mat4& ToWorld) override;
 	float GetRadius() const { return m_radius; }
 	float VGetScreenZ() const override { return m_screenZ; }
 protected:

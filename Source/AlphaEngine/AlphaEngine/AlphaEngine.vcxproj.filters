@@ -128,6 +128,15 @@
     <ClCompile Include="Actor\Components\GraphicsComponent.cpp">
       <Filter>Actor\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics3D\Geometry\Geometry.cpp">
+      <Filter>Graphics3D\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\LineMesh.cpp">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -378,6 +387,12 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\Geometry\Geometry.h">
       <Filter>Graphics3D\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\LineMesh.h">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
