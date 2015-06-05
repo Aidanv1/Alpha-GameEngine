@@ -1,5 +1,0 @@
-<Graphics>
-  <ShaderProgramList>
-    <ShaderProgram ShaderType ="Mesh" vertexShaderFile ="Shaders/vertexshader.glsl" fragmentShaderFile ="Shaders/fragmentshader.glsl"/>
-  </ShaderProgramList>
-</Graphics>
