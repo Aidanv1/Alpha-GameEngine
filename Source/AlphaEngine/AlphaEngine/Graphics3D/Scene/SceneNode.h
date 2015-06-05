@@ -2,8 +2,8 @@
 #include"../..\AlphaStd.h"
 #include "../../Actor/Actor.h"
 class Scene;
-class SceneNode;
-typedef shared_ptr<SceneNode> StrongSceneNodePtr;
+class ISceneNode;
+typedef shared_ptr<ISceneNode> StrongSceneNodePtr;
 typedef vector<StrongSceneNodePtr> SceneNodeList;
 //========================================================================
 enum AlphaType
@@ -24,16 +24,18 @@ struct NodeProperties
 	ActorID m_ActorID;	
 	string m_name;
 	mat4 m_toWorld;
+	mat4 m_relativeTransform;
 	mat4 m_rotationMatrix;
-	vec4 m_lightVector;
+	mat4 m_relativeRotation;
 	AlphaType m_alphaType;
 	RenderPass m_renderPass;
 	NodeProperties() :
 		m_ActorID(-1),
 		m_name(""),
-		m_toWorld(0),
-		m_rotationMatrix(0),
-		m_lightVector(0),
+		m_toWorld(1.0f),
+		m_relativeTransform(1.0f),
+		m_relativeRotation(1.0f),
+		m_rotationMatrix(1.0f),
 		m_alphaType(tOPAQUE),
 		m_renderPass(RenderPass_NotRendered)
 	{
@@ -51,6 +53,8 @@ public:
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) = 0;
 	virtual float VGetScreenZ() const = 0;
 	virtual void VSetTransform(mat4& ToWorld) = 0;
+	virtual NodeProperties VGetNodeProperties() const = 0;
+	virtual void VSetNodeProperties(NodeProperties &nodeProperties) = 0;
 protected:
 	virtual void VRenderChildren(Scene* pScene) = 0;
 };
@@ -61,8 +65,8 @@ public:
 	SceneNode();
 	SceneNode(string name);
 	~SceneNode();
-	NodeProperties GetNodeProperties() const { return m_nodeProperties; }
-	void SetNodeProperties(NodeProperties &nodeProperties);
+	NodeProperties VGetNodeProperties() const override{ return m_nodeProperties; }
+	void VSetNodeProperties(NodeProperties &nodeProperties) override;
 	virtual bool VInitNode() override;
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) override;
 	virtual void VRender(Scene* pScene) override;

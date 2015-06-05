@@ -4,6 +4,7 @@
 #include "..\ResourceManager\ResourceManager.h"
 #include "..\ResourceManager\Loaders\BitmapResourceLoader.h"
 #include "..\ResourceManager\Loaders\MeshResourceLoader.h"
+#include "GraphicsSettings.h"
 
 typedef shared_ptr<Scene> StrongScenePtr;
 //========================================================================

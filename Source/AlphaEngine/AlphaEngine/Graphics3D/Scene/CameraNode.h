@@ -13,7 +13,7 @@ enum CameraMode
 	Orbital_Mode
 };
 //========================================================================
-class Camera : public SceneNode, public GraphicsComponent
+class CameraNode : public SceneNode, public GraphicsComponent
 {
 	struct CameraParameters
 	{
@@ -39,8 +39,8 @@ class Camera : public SceneNode, public GraphicsComponent
 	};
 public:
 	//Set camera parameters and optional target
-	Camera();
-	~Camera();
+	CameraNode();
+	~CameraNode();
 	void SetParameters(float fovy, float aspectR, float nearClip, float farClip);
 
 	SceneNode* GetCameraTarget() const { return m_targetNode; }

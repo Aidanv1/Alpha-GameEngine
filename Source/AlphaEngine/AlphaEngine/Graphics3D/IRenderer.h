@@ -17,7 +17,6 @@ public:
 	virtual void VRender(StrongScenePtr scene) = 0;
 	virtual void VOnRestore() = 0;
 	virtual void VSetBackGroundColour(vec4& backGroundColour) = 0;
-	virtual void VPrintText(string text) = 0;
 	virtual void VDepthBuffer(DepthBufferCommand depthMode) = 0;
 };
 //========================================================================

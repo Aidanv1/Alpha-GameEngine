@@ -1,4 +1,5 @@
 #include "RootNode.h"
+#include "../GraphicsSettings.h"
 // -----------------------------------------------------------------------
 RootNode::RootNode()
 {
@@ -38,8 +39,14 @@ void RootNode::VRender(Scene* pScene)
 	//render passes
 	for (int pass = 0; pass < m_children.size(); pass++)
 	{
-		StrongSceneNodePtr node = m_children[pass];
-		node->VRender(pScene);		
+		if (!(pass == RenderPass_NotRendered && !GraphicsSettings::DevMode()) &&	// if Dev mode draw invisible objects
+			!(pass == RenderPass_Sky && GraphicsSettings::WireFrame())				// if wire frame mode, dont draw skybox
+			)
+		{
+			StrongSceneNodePtr node = m_children[pass];
+			node->VRender(pScene);
+		}
+
 	}
 }
 // -----------------------------------------------------------------------
@@ -58,7 +65,7 @@ bool RootNode::VInitNode()
 // -----------------------------------------------------------------------
 void RootNode::VAddChild(StrongSceneNodePtr sceneNode)
 {
-	RenderPass pass = sceneNode->GetNodeProperties().m_renderPass;
+	RenderPass pass = sceneNode->VGetNodeProperties().m_renderPass;
 	if ((unsigned)pass >= m_children.size() || !m_children[pass])
 	{
 		ALPHA_ERROR("There is no such render pass");		

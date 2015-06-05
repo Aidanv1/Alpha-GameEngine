@@ -4,10 +4,10 @@
 #include "..\Time\SystemTime.h"
 #include "..\Graphics3D\GraphicsSystem.h"
 #include "..\Window\GLWindow.h"
-#include "..\Graphics3D\OpenGL\GLRenderer.h"
+#include "..\Graphics3D\OpenGL\Renderer_GL.h"
 #include "../EventManager/EventManager.h"
 #include "../Actor/RoleSystem.h"
-#define MIN_DELTA_MS 1
+#define MIN_DELTA_MS 4
 class GameLoop
 {
 public:

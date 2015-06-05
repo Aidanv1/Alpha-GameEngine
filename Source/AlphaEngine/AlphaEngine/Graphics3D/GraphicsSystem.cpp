@@ -44,6 +44,12 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 		return false;
 	}
 	m_renderer->VInit(doc.FirstChildElement());
+	if (!doc.LoadFile("GraphicsSettings.xml"))
+	{
+		ALPHA_ERROR("GraphicsSettings.xml is missing");
+		return false;
+	}
+	GraphicsSettings::Init(doc.FirstChildElement());
 	return true;
 }
 // -----------------------------------------------------------------------

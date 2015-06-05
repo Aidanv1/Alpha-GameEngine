@@ -16,6 +16,7 @@ typedef string ResourceID;
 //========================================================================
 class ResourceManager
 {
+	static unsigned int s_totalMemoryUsed;
 public:
 	ResourceManager(string ID);
 	~ResourceManager();

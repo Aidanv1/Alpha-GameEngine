@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include "..\..\..\ResourceManager\Resources\Raw.h"
 #include "..\..\..\ResourceManager\Resource.h"
-#include "Handler/TextureHandler.h"
+#include "../Handler/TextureHandler.h"
 #include "../../GraphicsSystem.h"
 //========================================================================
 class ITexture
@@ -17,11 +17,11 @@ public:
 typedef shared_ptr<Resource> StrongBitmapPtr;
 typedef shared_ptr<ITexture> StrongTexturePtr;
 //========================================================================
-class Texture : public ITexture
+class Texture_GL : public ITexture
 {
 public:
-	Texture(string textureFileName);
-	~Texture();
+	Texture_GL(string textureFileName);
+	~Texture_GL();
 	virtual int VGetTextureID() const override { TextureHandler::Get().ValidateID(m_textureID, m_textureFileName); return m_textureID; }
 	bool VLoadResource();
 	int VLoadTexture();
@@ -32,11 +32,11 @@ private:
 	string m_textureFileName;
 };
 //========================================================================
-class TextureCubeMap : public ITexture
+class TextureCubeMap_GL : public ITexture
 {
 public:
-	TextureCubeMap(string textureFileName[]);
-	~TextureCubeMap();
+	TextureCubeMap_GL(string textureFileName[]);
+	~TextureCubeMap_GL();
 	virtual int VGetTextureID() const override { return m_textureID; }
 	bool VLoadResource();
 	int VLoadTexture();

@@ -41,7 +41,8 @@ inline char* ReadFile(const char* filename)
 	fseek(fp, 0, SEEK_SET);
 	char* contents = new char[file_length + 1];
 	// zero out memory
-	for (int i = 0; i < file_length + 1; i++) {
+	for (int i = 0; i < file_length + 1; i++) 
+	{
 		contents[i] = 0;
 	}
 	// Here's the actual read

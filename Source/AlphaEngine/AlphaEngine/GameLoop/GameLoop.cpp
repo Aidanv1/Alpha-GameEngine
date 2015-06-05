@@ -22,7 +22,7 @@ bool GameLoop::Init(IWindow* window)
 		return false;
 	}
 	//Renderer
-	shared_ptr<IRenderer> renderer(ALPHA_NEW GLRenderer());
+	shared_ptr<IRenderer> renderer(ALPHA_NEW Renderer_GL());
 	//graphics system
 	if (!GraphicsSystem::Get().Init(renderer, 100, 100))
 	{
@@ -55,12 +55,11 @@ void GameLoop::StartLoop()
 	{
 
 		//display delta time
-		if (cycleCount%100 == 0)
-		{
-			stringstream printText;
-			printText << "FPS: " << to_string(MS_PER_SECOND / dt);
-			GraphicsSystem::Get().GetRenderer()->VPrintText(printText.str());
-		}
+		//if (cycleCount%100 == 0)
+		//{
+		//	stringstream printText;
+		//	printText << "FPS: " << to_string(MS_PER_SECOND / dt);
+		//}
 		
 		GraphicsSystem::Get().Update(dt);
 		quit = !m_window->VUpdate(dt);

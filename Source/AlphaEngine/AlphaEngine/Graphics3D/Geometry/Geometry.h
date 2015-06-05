@@ -1,6 +1,7 @@
 #pragma once
 #include "../../AlphaStd.h"
 #include "../Scene/SceneNode.h"
+#include "../Scene/DrawableNode.h"
 //========================================================================
 class IGeometry
 {
@@ -41,5 +42,38 @@ public:
 private:
 	StrongSceneNodePtr m_lineMesh;
 	Plane m_planes[6];
+};
+//========================================================================
+class Sphere : public IGeometry
+{
+public:
+	Sphere(vec3 position, float radius, int accuracy = 10);
+	Sphere();
+	~Sphere();
+	bool VInside(vec3 point) const override;
+	bool VInside(vec3 point, float radius) const override;
+	void VTransform(mat4& trans, mat4& rot) override;
+private:
+	StrongSceneNodePtr m_lineMesh;
+	float m_radius;
+	vec3 m_position;
+
+};
+//========================================================================
+class Cone : public IGeometry
+{
+public:
+	Cone(vec3 position, float radius, float length, int accuracy = 10);
+	Cone();
+	~Cone();
+	bool VInside(vec3 point) const override;
+	bool VInside(vec3 point, float radius) const override;
+	void VTransform(mat4& trans, mat4& rot) override;
+private:
+	StrongSceneNodePtr m_lineMesh;
+	float m_radius;
+	vec3 m_position;
+	float m_length;
+
 };
 //========================================================================

@@ -1,31 +1,46 @@
 #include "GraphicsComponentCreator.h"
+#include "../../Graphics3D/Scene/DrawableNode.h"
 // -----------------------------------------------------------------------
 IActorComponent* GraphicsComponentCreator::CreateComponent(TiXmlElement* pElement)
 {
+	IActorComponent* component;
 	TiXmlElement* graphicsElement = pElement;
 	string type;
+	DrawableNodeFactory nodeFactory;
 	type = graphicsElement->Attribute("type");
 	if (type == "Model")
 	{
-		Model* component = ALPHA_NEW Model();
+		component = dynamic_cast<IActorComponent*>(ALPHA_NEW ModelNode());
+		ALPHA_ASSERT(component);
 		return component;
 	}
 	if (type == "Sky")
 	{
-		SkyBox* component = ALPHA_NEW SkyBox();
+		component = dynamic_cast<IActorComponent*>(nodeFactory.CreateDrawableNode(Node_Sky));
+		ALPHA_ASSERT(component);
 		return component;
 	}
 
 	if (type == "Camera")
 	{
-		Camera* component = ALPHA_NEW Camera();
-		GraphicsSystem::Get().GetScene()->SetCameraNode(shared_ptr<Camera>(component));
+		CameraNode* cameraNode = ALPHA_NEW CameraNode();
+		ALPHA_ASSERT(cameraNode);
+		GraphicsSystem::Get().GetScene()->SetCameraNode(shared_ptr<CameraNode>(cameraNode));
+		component = dynamic_cast<IActorComponent*>(cameraNode);
+		ALPHA_ASSERT(component);
 		return component;
 	}
 	if (type == "HeightMap")
 	{
-		HeightMap* component = ALPHA_NEW HeightMap();
-
+		component = dynamic_cast<IActorComponent*>(nodeFactory.CreateDrawableNode(Node_HeightMap));
+		ALPHA_ASSERT(component);
+		return component;		
+	}
+	if (type == "Light")
+	{
+		LightNode* light = ALPHA_NEW LightNode();
+		component = dynamic_cast<IActorComponent*>(light);
+		ALPHA_ASSERT(component);
 		return component;
 	}
 	graphicsElement = graphicsElement->NextSiblingElement();

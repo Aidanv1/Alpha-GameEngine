@@ -1,16 +1,17 @@
-#include "GLRenderer.h"
+#include "Renderer_GL.h"
+#include "../GraphicsSettings.h"
 // -----------------------------------------------------------------------
-GLRenderer::GLRenderer():
+Renderer_GL::Renderer_GL():
 m_backGroundColour(1,1,1,1)
 {
 
 }
 // -----------------------------------------------------------------------
-GLRenderer::~GLRenderer()
+Renderer_GL::~Renderer_GL()
 {
 }
 // -----------------------------------------------------------------------
-bool GLRenderer::VInit(TiXmlElement* pElement)
+bool Renderer_GL::VInit(TiXmlElement* pElement)
 {
 	bool success = true;
 	TiXmlElement* pShaderProgram = pElement->FirstChildElement();
@@ -81,12 +82,6 @@ bool GLRenderer::VInit(TiXmlElement* pElement)
 	ALPHA_ASSERT(m_skyShaderProgram);
 	ALPHA_ASSERT(m_heightMapShaderProgram);
 	ALPHA_ASSERT(m_basicShaderProgram);
-	// ---------------------------------
-	//basic text renderer for dev
-	Text2D_GL* t2d = new Text2D_GL();
-	t2d->VInitText2D("../../../Assets/fonts/dev_font.png", 12);	
-	GraphicsSystem::Get().GetScene()->AddChild(shared_ptr<SceneNode>(t2d));
-	m_text2DNode = shared_ptr<IText2D>(t2d);
 
 	if (!m_meshShaderProgram)
 	{
@@ -109,41 +104,40 @@ bool GLRenderer::VInit(TiXmlElement* pElement)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
 	return success;
 }
 // -----------------------------------------------------------------------
-void GLRenderer::VRender(StrongScenePtr scene)
+void Renderer_GL::VRender(StrongScenePtr scene)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(m_backGroundColour.x,
 		m_backGroundColour.y,
 		m_backGroundColour.z,
 		m_backGroundColour.w);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
+	//WireFrame mode
+	if (GraphicsSettings::WireFrame())
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 	scene->Render();
 }
 // -----------------------------------------------------------------------
-void GLRenderer::VOnRestore()
+void Renderer_GL::VOnRestore()
 {
 	
 }
 // -----------------------------------------------------------------------
-void GLRenderer::VSetBackGroundColour(vec4& backGroundColour)
+void Renderer_GL::VSetBackGroundColour(vec4& backGroundColour)
 {
 	m_backGroundColour = backGroundColour;
 }
 // -----------------------------------------------------------------------
-void GLRenderer::VPrintText(string text)
-{
-	if (m_text2DNode)
-	{
-		m_text2DNode->VPrintText2D(text, 0, 0, 0.06f);
-	}	
-}
-// -----------------------------------------------------------------------
-void GLRenderer::VDepthBuffer(DepthBufferCommand depthMode)
+void Renderer_GL::VDepthBuffer(DepthBufferCommand depthMode)
 {
 	switch (depthMode)
 	{

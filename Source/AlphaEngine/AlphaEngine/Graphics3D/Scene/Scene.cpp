@@ -32,13 +32,20 @@ void Scene::Update(float deltaMs)
 }
 
 // -----------------------------------------------------------------------
-void Scene::AddChild(StrongNodePtr child)
+void Scene::AddChild(StrongSceneNodePtr child)
 {
+	if (auto light = dynamic_pointer_cast<LightNode>(child))
+	{
+		AddLightToScene(light);
+	}
 	m_rootNode->VAddChild(child);
+	
 }
 // -----------------------------------------------------------------------
 void Scene::Render()
 {
+	//sort lights
+	m_lightManager.SortLights();
 	//render opaque objects
 	m_rootNode->VRender(this);
 	//sort transparent objects in ascending order of depth
@@ -80,3 +87,12 @@ void Scene::SortTransparentNodes()
 	});
 }
 // -----------------------------------------------------------------------
+void Scene::AddLightToScene(StrongLightPtr light)
+{
+	m_lightManager.AddLight(light);
+}
+// -----------------------------------------------------------------------
+void Scene::RemoveLighFromScene(LightNode* light)
+{
+	m_lightManager.RemoveLight(light);
+}

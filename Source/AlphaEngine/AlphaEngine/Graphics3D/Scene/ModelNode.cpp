@@ -1,7 +1,7 @@
-#include "Model.h"
+#include "ModelNode.h"
 
 // -----------------------------------------------------------------------
-Model::Model() :
+ModelNode::ModelNode() :
 SceneNode(),
 GraphicsComponent(),
 m_modelFileName(""),
@@ -12,18 +12,18 @@ m_meshChildren()
 {
 }
 // -----------------------------------------------------------------------
-Model::~Model()
+ModelNode::~ModelNode()
 {
 }
 //========================================================================
 // IActorComponent Functions
 //========================================================================
-void Model::VUpdate()
+void ModelNode::VUpdate()
 {
 
 }
 // -----------------------------------------------------------------------
-bool Model::VInitComponent(TiXmlElement* pElement)
+bool ModelNode::VInitComponent(TiXmlElement* pElement)
 {
 	TiXmlElement* nextElem = pElement->FirstChildElement();
 	//loop through elements
@@ -84,10 +84,17 @@ bool Model::VInitComponent(TiXmlElement* pElement)
 		nextElem = nextElem->NextSiblingElement();
 	}
 	m_modelResourceManager = GraphicsSystem::Get().GetMeshResourceManager();
+
+	// initial transforms
+	//m_nodeProperties.m_relativeRotation = rotate(mat4(1.0f), m_rotationInWorld.x, vec3(1.0f, 0.0f, 0.0f));
+	//m_nodeProperties.m_relativeRotation = rotate(m_nodeProperties.m_relativeRotation, m_rotationInWorld.y, vec3(0.0f, 1.0f, 0.0f));
+	//m_nodeProperties.m_relativeRotation = rotate(m_nodeProperties.m_relativeRotation, m_rotationInWorld.z, vec3(0.0f, 0.0f, 1.0f));
+
+	m_nodeProperties.m_relativeTransform = translate(mat4(1.0f), m_positionInWorld) * m_nodeProperties.m_relativeRotation;
 	return true;
 }
 // -----------------------------------------------------------------------
-bool Model::VPostInit()
+bool ModelNode::VPostInit()
 {
 	GraphicsComponent::VPostInit();
 	return true;
@@ -95,7 +102,7 @@ bool Model::VPostInit()
 //========================================================================
 // Scene Node Functions
 //========================================================================
-bool Model::VInitNode()
+bool ModelNode::VInitNode()
 {
 	bool success = Load();	
 	for (auto child = m_meshChildren.begin(); child != m_meshChildren.end(); child++)
@@ -116,10 +123,10 @@ bool Model::VInitNode()
 	return success;
 }
 // -----------------------------------------------------------------------
-void Model::VRender(Scene* pScene)
+void ModelNode::VRender(Scene* pScene)
 {
 	//dont render if the object is not within in the view frustum
-	if (!pScene->GetCamera()->GetFrustum().VInside(m_positionInWorld))
+	if (!pScene->GetCamera()->GetFrustum().VInside(m_positionInWorld, m_radius))
 	{
 		return;
 	}
@@ -145,7 +152,7 @@ void Model::VRender(Scene* pScene)
 	VRenderChildren(pScene);
 }
 // -----------------------------------------------------------------------
-bool Model::Load()
+bool ModelNode::Load()
 {
 	//Steps:
 	//1)	Request the resource manager to load the model resource. Fails if the request is denied
@@ -178,10 +185,10 @@ bool Model::Load()
 	{
 		for (auto it = m_meshChildren.begin(); it != m_meshChildren.end();it++)
 		{
-			Mesh* mesh = dynamic_cast<Mesh*>((*it).get());
+			IMesh* mesh = dynamic_cast<IMesh*>((*it).get());
 			if (mesh)
 			{
-				success = mesh->GetMaterial()->LoadTexture();
+				success = mesh->VLoadMaterial();
 			}
 		}
 		return success;
@@ -197,38 +204,41 @@ bool Model::Load()
 		ALPHA_ERROR(ss.str().c_str());
 		return false;
 	}
-
+	//node factory to instantiate mesh objects
+	DrawableNodeFactory nodeFactory;
 	m_meshChildren.clear(); // start from scratch
 	for (unsigned int i = 0; i < scene->mNumMeshes; i++)
 	{
 		stringstream meshName;
 		meshName << m_modelFileName <<"_"<< i; // create unique mesh ID
 		//opengl mesh
-		Mesh* mesh = ALPHA_NEW Mesh(meshName.str().c_str());
-		mesh->SetNodeProperties(m_nodeProperties);
+		IMesh* mesh = dynamic_cast<IMesh*>(nodeFactory.CreateDrawableNode(Node_Mesh)); 
+		ALPHA_ASSERT(mesh);
+		//init mesh
+		mesh->VInitMesh(meshName.str().c_str());
+		mesh->VSetNodeProperties(m_nodeProperties);
 		//get relative transformation for child
 		aiMatrix4x4 m = scene->mRootNode->mChildren[i]->mTransformation;
 		vec3 T(m.a4, m.b4, m.c4);
 		mat4 trans = translate(mat4(1.0f), T);
-		NodeProperties n = mesh->GetNodeProperties();	
-		n.m_toWorld = n.m_toWorld* trans;
-		mesh->SetNodeProperties(n);
-		int meshID = mesh->LoadMesh(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
+		//set relative transform
+		NodeProperties n = mesh->VGetNodeProperties();	
+		n.m_relativeTransform = trans;
+		mesh->VSetNodeProperties(n);
+		int meshID = mesh->VLoadMesh(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
 		if (meshID == -1)
 		{
 			success = false;
 		}
-		//init mesh
-		mesh->Init();		
 		//attempt to load textures
-		success = mesh->GetMaterial()->LoadTexture();
+		success = mesh->VLoadMaterial();
 		m_meshChildren.push_back(StrongSceneNodePtr(mesh));
 	}
 	m_modelID = 1;
 	return success;
 }
 // -----------------------------------------------------------------------
-bool Model::RequestLoadResource()
+bool ModelNode::RequestLoadResource()
 {
 	//if no resource currently exists
 	if (!m_modelResource)
@@ -250,22 +260,34 @@ bool Model::RequestLoadResource()
 	return true;
 }
 // -----------------------------------------------------------------------
-void Model::VUpdateNode(Scene* pScene, float deltaMS)
+void ModelNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
-	m_nodeProperties.m_lightVector = vec4(0.0f, 1.0f, 1.0f, 1.0f);
-	m_nodeProperties.m_rotationMatrix = rotate(mat4(1.0f), -1.57f, vec3(1.0f, 0.0f, 0.0f));
-	m_nodeProperties.m_toWorld = translate(mat4(1.0f), m_positionInWorld);
-	m_nodeProperties.m_toWorld = m_nodeProperties.m_toWorld * m_nodeProperties.m_rotationMatrix;
-
+	//update children transforms
+	//for (auto child = m_meshChildren.begin(); child != m_meshChildren.end(); child++)
+	//{
+	//	NodeProperties n = (*child)->GetNodeProperties();
+	//	n.m_toWorld = m_nodeProperties.m_toWorld * n.m_relativeTransform;
+	//	n.m_rotationMatrix = m_nodeProperties.m_rotationMatrix * n.m_relativeRotation;
+	//	(*child)->SetNodeProperties(n);
+	//	(*child)->VUpdateNode(pScene, deltaMS);		
+	//}
+	//for (auto child = m_children.begin(); child != m_children.end(); child++)
+	//{
+	//	NodeProperties n = (*child)->GetNodeProperties();
+	//	n.m_toWorld = m_nodeProperties.m_toWorld * n.m_relativeTransform;
+	//	n.m_rotationMatrix = m_nodeProperties.m_rotationMatrix * n.m_relativeRotation;
+	//	(*child)->SetNodeProperties(n);
+	//	(*child)->VUpdateNode(pScene, deltaMS);
+	//}
 }
 // -----------------------------------------------------------------------
-void Model::VRenderChildren(Scene* pScene)
+void ModelNode::VRenderChildren(Scene* pScene)
 {	
 	//base class render children
 	SceneNode::VRenderChildren(pScene);
 }
 // -----------------------------------------------------------------------
-bool Model::ValidateBuffers()
+bool ModelNode::ValidateBuffers()
 {
 	bool validCheck = true;
 	//if there are no meshes
@@ -283,8 +305,8 @@ bool Model::ValidateBuffers()
 	int i = 0;
 	for (auto it = m_meshChildren.begin(); it != m_meshChildren.end(); it++, i++)
 	{
-		shared_ptr<Mesh> mesh = dynamic_pointer_cast<Mesh>(*it);
-		if (!mesh->Validate())
+		shared_ptr<IMesh> mesh = dynamic_pointer_cast<IMesh>(*it);
+		if (!mesh->VValidate())
 		{
 			validArray[i] = false;
 			validCheck = false;
@@ -304,8 +326,8 @@ bool Model::ValidateBuffers()
 	{
 		if (validArray[i] == true)
 		{
-			shared_ptr<Mesh> mesh = dynamic_pointer_cast<Mesh>(*it);
-			mesh->FreeVertexBuffer();
+			shared_ptr<IMesh> mesh = dynamic_pointer_cast<IMesh>(*it);
+			mesh->VFreeBuffer();
 		}
 	}
 	SAFE_DELETE_ARRAY(validArray);

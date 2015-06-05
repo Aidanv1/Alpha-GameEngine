@@ -59,7 +59,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\FastDelegate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\FastDelegate;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
@@ -77,7 +77,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\FastDelegate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\FastDelegate;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
       <DisableSpecificWarnings>4244;4316;4101</DisableSpecificWarnings>
     </ClCompile>
@@ -103,31 +103,37 @@
     <ClCompile Include="EventManager\IEventManager.cpp" />
     <ClCompile Include="GameLoop\GameLoop.cpp" />
     <ClCompile Include="Graphics3D\Geometry\Geometry.cpp" />
+    <ClCompile Include="Graphics3D\GraphicsSettings.cpp" />
     <ClCompile Include="Graphics3D\GraphicsSystem.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Buffers\VertexBuffer.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Data\Handler\TextureHandler.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Data\Handler\VertexBufferHandler.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Data\HeightMap.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Data\LineMesh.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Data\Material.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Data\Mesh.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Data\SkyBox.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Data\Texture.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\GLRenderer.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\Data\Material_GL.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\Data\Texture_GL.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\HeightMap_GL.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\LineMesh_GL.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\Mesh_GL.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\SkyBox_GL.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\Text_GL.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\Renderer_GL.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\Handler\TextureHandler.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\Handler\VertexBufferHandler.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\BaseShaderProgram.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\Shader\LightShaderProgram.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\MeshShaderProgram.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\ShaderHelper.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\SkyShaderProgram.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\Text2DShaderProgram.cpp" />
-    <ClCompile Include="Graphics3D\OpenGL\Text\Text2D_GL.cpp" />
-    <ClCompile Include="Graphics3D\Scene\Camera.cpp" />
-    <ClCompile Include="Graphics3D\Scene\Model.cpp" />
+    <ClCompile Include="Graphics3D\Scene\CameraNode.cpp" />
+    <ClCompile Include="Graphics3D\Scene\DrawableNode.cpp" />
+    <ClCompile Include="Graphics3D\Scene\LightManager.cpp" />
+    <ClCompile Include="Graphics3D\Scene\LightNode.cpp" />
+    <ClCompile Include="Graphics3D\Scene\ModelNode.cpp" />
     <ClCompile Include="Graphics3D\Scene\RootNode.cpp" />
     <ClCompile Include="Graphics3D\Scene\Scene.cpp" />
     <ClCompile Include="Graphics3D\Scene\SceneNode.cpp" />
     <ClCompile Include="Memory\MemoryPool.cpp" />
+    <ClCompile Include="Physics\BulletPhysics.cpp" />
     <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Loaders\BitmapResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Loaders\MeshResourceLoader.cpp" />
@@ -156,34 +162,40 @@
     <ClInclude Include="EventManager\IEvent.h" />
     <ClInclude Include="GameLoop\GameLoop.h" />
     <ClInclude Include="Graphics3D\Geometry\Geometry.h" />
+    <ClInclude Include="Graphics3D\GraphicsSettings.h" />
     <ClInclude Include="Graphics3D\GraphicsSystem.h" />
     <ClInclude Include="Graphics3D\IRenderer.h" />
     <ClInclude Include="Graphics3D\OpenGL\Buffers\VertexBuffer.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Data\Handler\TextureHandler.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Data\Handler\VertexBufferHandler.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Data\HeightMap.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Data\LineMesh.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Data\Material.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Data\Mesh.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Data\SkyBox.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Data\Texture.h" />
-    <ClInclude Include="Graphics3D\OpenGL\GLRenderer.h" />
+    <ClInclude Include="Graphics3D\OpenGL\Data\Material_GL.h" />
+    <ClInclude Include="Graphics3D\OpenGL\Data\Texture_GL.h" />
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\HeightMap_GL.h" />
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\LineMesh_GL.h" />
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\Mesh_GL.h" />
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\SkyBox_GL.h" />
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\Text_GL.h" />
+    <ClInclude Include="Graphics3D\OpenGL\Renderer_GL.h" />
+    <ClInclude Include="Graphics3D\OpenGL\Handler\TextureHandler.h" />
+    <ClInclude Include="Graphics3D\OpenGL\Handler\VertexBufferHandler.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\BaseShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\IShaderProgram.h" />
+    <ClInclude Include="Graphics3D\OpenGL\Shader\LightShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\MeshShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\ShaderHelper.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\SkyShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\Text2DShaderProgram.h" />
-    <ClInclude Include="Graphics3D\OpenGL\Text\Text2D_GL.h" />
-    <ClInclude Include="Graphics3D\Scene\Camera.h" />
-    <ClInclude Include="Graphics3D\Scene\IText2D.h" />
-    <ClInclude Include="Graphics3D\Scene\Model.h" />
+    <ClInclude Include="Graphics3D\Scene\CameraNode.h" />
+    <ClInclude Include="Graphics3D\Scene\DrawableNode.h" />
+    <ClInclude Include="Graphics3D\Scene\LightManager.h" />
+    <ClInclude Include="Graphics3D\Scene\LightNode.h" />
+    <ClInclude Include="Graphics3D\Scene\ModelNode.h" />
     <ClInclude Include="Graphics3D\Scene\RootNode.h" />
     <ClInclude Include="Graphics3D\Scene\Scene.h" />
     <ClInclude Include="Graphics3D\Scene\SceneNode.h" />
     <ClInclude Include="Memory\MemoryPool.h" />
+    <ClInclude Include="Physics\BulletPhysics.h" />
+    <ClInclude Include="Physics\IGamePhysics.h" />
     <ClInclude Include="ResourceManager\DefaultResourceLoader.h" />
     <ClInclude Include="ResourceManager\IResourceLoader.h" />
     <ClInclude Include="ResourceManager\Loaders\BitmapResourceLoader.h" />

@@ -1,21 +1,22 @@
 #pragma once
 #include "../../Actor/Actor.h" 
 #include "SceneNode.h"
+#include "../GraphicsSystem.h"
 #include "../../Actor/Components/GraphicsComponent.h"
 #include "../../Actor/IComponentCreator.h"
 #include "../../ResourceManager/Resource.h"
 #include "assimp/scene.h"
 #include "assimp/Importer.hpp"
-#include "../OpenGL/Data/Mesh.h"
-class Model;
+#include "DrawableNode.h"
+class ModelNode;
 typedef shared_ptr<Resource> StrongModelPtr;
 //Model Component
 //========================================================================
-class Model :public SceneNode, public GraphicsComponent
+class ModelNode :public SceneNode, public GraphicsComponent
 {
 public:
-	Model();
-	~Model();
+	ModelNode();
+	~ModelNode();
 	//IActorComponent functions
 	virtual void VUpdate() override;
 	virtual bool VInitComponent(TiXmlElement* pElement) override;

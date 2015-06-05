@@ -1,7 +1,7 @@
 <World>
   <Actor name = "Grass1">
     <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass01.3ds"
+      <Properties modelFileName = "../../../Assets/grass.3ds"
                   alphaType ="Transparent"
                   />
       <Position x ="-5.4" y ="0.2" z ="-4.5" />
@@ -10,7 +10,7 @@
   </Actor>
   <Actor name = "Grass2">
     <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass01.3ds"
+      <Properties modelFileName = "../../../Assets/grass.3ds"
                   alphaType ="Transparent"
                   />
       <Position x ="-4.4" y ="0.2" z ="-3.2" />
@@ -19,7 +19,7 @@
   </Actor>
   <Actor name = "Grass3">
     <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass01.3ds"
+      <Properties modelFileName = "../../../Assets/grass.3ds"
                   alphaType ="Transparent"
                   />
       <Position x ="-5.2" y ="0.2" z ="-3.5" />
@@ -28,7 +28,7 @@
   </Actor>
   <Actor name = "Grass4">
     <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass01.3ds"
+      <Properties modelFileName = "../../../Assets/grass.3ds"
                   alphaType ="Transparent"/>
       <Position x ="-5.0" y ="0.2" z ="-4.0" />
       <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
@@ -39,22 +39,26 @@
     <Graphics type ="Sky">
       <Properties name = "SkyBox" />
       <TextureCube
-        left =    "../../../Assets/Sky/left.png"
-        right =		"../../../Assets/Sky/right.png"
-        top =			"../../../Assets/Sky/top.png"
-        bottom =	"../../../Assets/Sky/bottom.png"
-        front =		"../../../Assets/Sky/front.png"
-        back =		"../../../Assets/Sky/back.png"/>
+        left =    "../../../Assets/Sky/Sky2/left.png"
+        right =		"../../../Assets/Sky/Sky2/right.png"
+        top =			"../../../Assets/Sky/Sky2/top.png"
+        bottom =	"../../../Assets/Sky/Sky2/bottom.png"
+        front =		"../../../Assets/Sky/Sky2/front.png"
+        back =		"../../../Assets/Sky/Sky2/back.png"/>
     </Graphics>
   </Actor>
 
   <Actor name = "Terrain">
     <Graphics type ="HeightMap">
-      <Properties mapFileName = "../../../Assets/Terrain/heightmap.png"
-                  textureFileName = "../../../Assets/Terrain/terrain.jpg"
+      <Properties mapFileName = "../../../Assets/Terrain/heightmap.png"                  
                   tileScale ="5"/>
+      <Material textureFileName = "../../../Assets/Terrain/terrain.jpg"
+                shininess = "2"
+                specularColourR ="0.1" specularColourG ="0.1" specularColourB ="0.1"
+                />
     </Graphics>
   </Actor>
+
 
   <Actor name = "Ironman">
     <Graphics type ="Model">
@@ -64,24 +68,58 @@
     </Graphics>
   </Actor>
 
-  <Actor name = "Batman">
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/Batman/Batman.dae"
-                  alphaType ="Transparent"/>
-      <Position x ="5.0" y ="0.2" z ="-4.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
+  <Actor name = "Light1">
+    <Graphics type ="Light">
+      <Properties  dirX="0.0" dirY="0.0" dirZ="0.0"
+                   posX="10.0" posY="5.0" posZ="20.0"
+                   intenR="0" intenG="0" intenB="1"
+                   attenuation="10.0"                   
+                   type="Point"       
+        />      
+    </Graphics>
+  </Actor>
+  <Actor name = "Light2">
+    <Graphics type ="Light">
+      <Properties  dirX="0.0" dirY="0.0" dirZ="0.0"
+                   posX="-30.0" posY="6.0" posZ="-20.0"
+                   intenR="1" intenG="0" intenB="0"
+                   attenuation="20.0"
+                   type="Point"
+        />
     </Graphics>
   </Actor>
 
+  <Actor name = "Light3">
+    <Graphics type ="Light">
+      <Properties  dirX="0.4" dirY="-0.5" dirZ="1.0"
+                   intenR="0.4" intenG="0.4" intenB="0.4"
+                   ambientR ="0.1" ambientG ="0.1" ambientB ="0.1"
+                   attenuation="10.0"
+                   type="Sun"
+        />
+    </Graphics>
+  </Actor>
+  
+  <Actor name = "Light4">
+    <Graphics type ="Light">
+      <Properties  dirX="0.4" dirY="-1.0" dirZ="-1.0"
+                   posX="10.0" posY="5.0" posZ="-10.0"
+                   intenR="1" intenG="1" intenB="1"
+                   attenuation="100.0"
+                   theta ="60"
+                   type="SpotLight"
+        />
+    </Graphics>
+  </Actor>
  
   <Actor name = "Main Camera">
     <Graphics type ="Camera">
-      <Properties mode = "Orbital" targetName = "Ironman"/>
+      <Properties mode = "FlyAround" targetName = "Ironman"/>
       <Parameters
         FieldOfView ="45"
         AspectRatio ="1.7778"
         NearClip ="0.1"
-        FarClip ="10000"/>
+        FarClip ="2000"/>
     </Graphics>
   </Actor>
 

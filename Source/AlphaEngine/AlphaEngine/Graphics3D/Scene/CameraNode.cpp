@@ -1,7 +1,7 @@
-#include "Camera.h"
+#include "CameraNode.h"
 
 // -----------------------------------------------------------------------
-Camera::Camera() :
+CameraNode::CameraNode() :
 m_camParam(),
 m_viewMatrix(1.0f),
 m_targetNode(NULL),
@@ -16,12 +16,12 @@ m_rotationMatrix(1.0f)
 
 }
 // -----------------------------------------------------------------------
-Camera::~Camera()
+CameraNode::~CameraNode()
 {
 
 }
 // -----------------------------------------------------------------------
-void Camera::SetParameters(float fovy, float aspectR, float nearClip, float farClip)
+void CameraNode::SetParameters(float fovy, float aspectR, float nearClip, float farClip)
 {
 	m_camParam.m_fieldOfView = fovy;
 	m_camParam.m_aspectRatio = aspectR;
@@ -31,12 +31,12 @@ void Camera::SetParameters(float fovy, float aspectR, float nearClip, float farC
 	m_projectionMatrix = perspective(radians<float>(fovy), aspectR, nearClip, farClip);
 }
 // -----------------------------------------------------------------------
-void Camera::SetCameraTarget(SceneNode* targetNode)
+void CameraNode::SetCameraTarget(SceneNode* targetNode)
 {
 	m_targetNode = targetNode;
 }
 // -----------------------------------------------------------------------
-void Camera::VUpdateNode(Scene* scene, float deltaMs)
+void CameraNode::VUpdateNode(Scene* scene, float deltaMs)
 {
 	switch (m_mode)
 	{
@@ -72,12 +72,12 @@ void Camera::VUpdateNode(Scene* scene, float deltaMs)
 	m_frustum.VTransform(m_translationMatrix, inverse(m_rotationMatrix));
 }
 // -----------------------------------------------------------------------
-void Camera::SetMode(CameraMode mode)
+void CameraNode::SetMode(CameraMode mode)
 {
 	m_mode = mode;
 }
 // -----------------------------------------------------------------------
-void Camera::LookAtTarget()
+void CameraNode::LookAtTarget()
 {
 	vec3 targetPos;
 	m_targetNode->GetPositionInWorld(targetPos);
@@ -86,13 +86,13 @@ void Camera::LookAtTarget()
 	m_translationMatrix = translate(mat4(1.0f), m_positionInWorld);
 }
 // -----------------------------------------------------------------------
-bool Camera::VInitNode()
+bool CameraNode::VInitNode()
 {
-	Register_Listener(LookEvent::sEventType,this, &Camera::LookEventDelegate);
+	Register_Listener(LookEvent::sEventType, this, &CameraNode::LookEventDelegate);
 	return true;
 }
 // -----------------------------------------------------------------------
-void Camera::LookEventDelegate(StrongEventPtr event)
+void CameraNode::LookEventDelegate(StrongEventPtr event)
 {
 	LookEvent* lookEvent = dynamic_cast<LookEvent*>(event.get());
 	m_rotation.x += lookEvent->GetLookPos().m_dThetaX;
@@ -118,12 +118,12 @@ void Camera::LookEventDelegate(StrongEventPtr event)
 // IActorComponent Functions
 //========================================================================
 
-void Camera::VUpdate()
+void CameraNode::VUpdate()
 {
 
 }
 // -----------------------------------------------------------------------
-bool Camera::VInitComponent(TiXmlElement* pElement)
+bool CameraNode::VInitComponent(TiXmlElement* pElement)
 {
 	TiXmlElement* nextElem = pElement->FirstChildElement();
 	//loop through elements
@@ -145,12 +145,15 @@ bool Camera::VInitComponent(TiXmlElement* pElement)
 			if (nextElem->Attribute("targetName"))
 			{
 				attrib = nextElem->Attribute("targetName");
-
-				SceneNode* targetNode = dynamic_cast<SceneNode*>(RoleSystem::Get().GetActor(attrib)->GetComponent("Graphics"));
-				if (targetNode)
+				if (RoleSystem::Get().GetActor(attrib))
 				{
-					m_targetNode = targetNode;
+					SceneNode* targetNode = dynamic_cast<SceneNode*>(RoleSystem::Get().GetActor(attrib)->GetComponent("Graphics"));
+					if (targetNode)
+					{
+						m_targetNode = targetNode;
+					}
 				}
+
 			}
 
 		}		
@@ -180,12 +183,12 @@ bool Camera::VInitComponent(TiXmlElement* pElement)
 	{
 		m_mode = FlyAround_Mode;
 	}
-	m_frustum = Frustum(1 / m_camParam.m_aspectRatio, 1, m_camParam.m_fieldOfView, m_camParam.m_nearClip, m_camParam.m_farClip);
+	m_frustum = Frustum(1, 1 * m_camParam.m_aspectRatio, radians<float>(m_camParam.m_fieldOfView), m_camParam.m_nearClip, m_camParam.m_farClip);
 	m_projectionMatrix = perspective(radians<float>(m_camParam.m_fieldOfView), m_camParam.m_aspectRatio, m_camParam.m_nearClip, m_camParam.m_farClip);	
 	return true;
 }
 // -----------------------------------------------------------------------
-bool Camera::VPostInit()
+bool CameraNode::VPostInit()
 {
 	GraphicsComponent::VPostInit();
 	return true;

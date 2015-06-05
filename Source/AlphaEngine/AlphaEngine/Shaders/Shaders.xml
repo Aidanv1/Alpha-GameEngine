@@ -1,0 +1,7 @@
+<ShaderProgramList>
+  <ShaderProgram ShaderType ="Mesh" vertexShaderFile ="Shaders/meshVertexShader.glsl" fragmentShaderFile ="Shaders/meshFragmentShader.glsl"/>
+  <ShaderProgram ShaderType ="Text2D" vertexShaderFile ="Shaders/text2DVertexShader.glsl" fragmentShaderFile ="Shaders/text2DFragmentShader.glsl"/>
+  <ShaderProgram ShaderType ="Sky" vertexShaderFile ="Shaders/skyBoxVertexShader.glsl" fragmentShaderFile ="Shaders/skyboxFragmentShader.glsl"/>
+ <ShaderProgram ShaderType ="HeightMap" vertexShaderFile ="Shaders/heightMapVertexShader.glsl" fragmentShaderFile ="Shaders/heightMapFragmentShader.glsl"/>
+  <ShaderProgram ShaderType ="Basic" vertexShaderFile ="Shaders/basicVertexShader.glsl" fragmentShaderFile ="Shaders/basicFragmentShader.glsl"/>
+</ShaderProgramList>

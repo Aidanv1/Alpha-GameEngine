@@ -25,7 +25,7 @@ SceneNode::~SceneNode()
 }
 
 // -----------------------------------------------------------------------
-void SceneNode::SetNodeProperties(NodeProperties& nodeProperties)
+void SceneNode::VSetNodeProperties(NodeProperties& nodeProperties)
 {
 	m_nodeProperties = nodeProperties;
 }
@@ -76,6 +76,10 @@ void SceneNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
 	for (auto child = m_children.begin(); child != m_children.end(); child++)
 	{
+		NodeProperties n = (*child)->VGetNodeProperties();
+		n.m_toWorld = m_nodeProperties.m_toWorld * n.m_relativeTransform;
+		n.m_rotationMatrix = m_nodeProperties.m_rotationMatrix * n.m_relativeRotation;
+		(*child)->VSetNodeProperties(n);
 		(*child)->VUpdateNode(pScene, deltaMS);
 	}
 }

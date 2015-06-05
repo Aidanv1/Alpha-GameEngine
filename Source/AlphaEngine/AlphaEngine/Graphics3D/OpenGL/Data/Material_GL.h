@@ -1,16 +1,15 @@
-#ifndef MATERIAL_H
-#define MATERIAL_H
+#pragma once
 #include "..\..\..\AlphaStd.h"
-#include "Texture.h"
+#include "Texture_GL.h"
 typedef vec4 Colour;
-class Material;
-typedef shared_ptr<Material> StrongMaterialPtr;
+class Material_GL;
+typedef shared_ptr<Material_GL> StrongMaterialPtr;
 //========================================================================
-class Material
+class Material_GL
 {
 public:
-	Material();
-	~Material();
+	Material_GL();
+	~Material_GL();
 	//accessors
 	Colour GetAmbient() const { return m_matComponents.ambient; }
 	Colour GetDiffuse() const { return m_matComponents.diffuse; }
@@ -26,11 +25,6 @@ public:
 	void SetTexture(StrongTexturePtr pTex);
 	//--
 	bool LoadTexture();
-	//16 byte alignment
-	//void* operator new(std::size_t sz)
-	//{
-	//	return _aligned_malloc(sz, 16);
-	//}
 private:
 	struct MatComponents
 	{
@@ -42,10 +36,10 @@ private:
 		Colour emissive;
 
 		MatComponents() :
-			ambient(0),
-			diffuse(0),
+			ambient(1),
+			diffuse(1),
 			specular(0),
-			specpower(0),
+			specpower(1),
 			emissive(0)
 		{
 		}
@@ -56,4 +50,3 @@ private:
 	StrongTexturePtr m_diffuseTexture;
 };
 //========================================================================
-#endif

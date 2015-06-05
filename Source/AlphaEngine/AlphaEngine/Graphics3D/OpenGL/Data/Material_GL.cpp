@@ -1,43 +1,43 @@
-#include "Material.h"
+#include "Material_GL.h"
 // -----------------------------------------------------------------------
-Material::Material() :
+Material_GL::Material_GL() :
 m_matComponents(),
 m_diffuseTexture(NULL)
 {
 }
 // -----------------------------------------------------------------------
-Material::~Material()
+Material_GL::~Material_GL()
 {
 
 }
 // -----------------------------------------------------------------------
-void Material::SetAmbient(Colour& colour)
+void Material_GL::SetAmbient(Colour& colour)
 {
 	m_matComponents.ambient = colour;
 }
 // -----------------------------------------------------------------------
-void Material::SetDiffuse(Colour& colour)
+void Material_GL::SetDiffuse(Colour& colour)
 {
 	m_matComponents.diffuse = colour;
 }
 // -----------------------------------------------------------------------
-void Material::SetSpecular(Colour& colour, float power)
+void Material_GL::SetSpecular(Colour& colour, float power)
 {
 	m_matComponents.specular = colour;
 	m_matComponents.specpower = power;
 }
 // -----------------------------------------------------------------------
-void Material::SetEmissive(Colour& colour)
+void Material_GL::SetEmissive(Colour& colour)
 {
 	m_matComponents.emissive = colour;
 }
 // -----------------------------------------------------------------------
-void Material::SetTexture(StrongTexturePtr pTex)
+void Material_GL::SetTexture(StrongTexturePtr pTex)
 {
 	m_diffuseTexture = pTex;
 }
 // -----------------------------------------------------------------------
-bool Material::LoadTexture()
+bool Material_GL::LoadTexture()
 {
 	//this method takes at least two attempts to return true
 	if (m_diffuseTexture->VLoadResource())

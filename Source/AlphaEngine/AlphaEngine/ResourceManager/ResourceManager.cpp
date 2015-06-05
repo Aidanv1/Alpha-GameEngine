@@ -1,4 +1,5 @@
 #include "ResourceManager.h"
+unsigned int ResourceManager::s_totalMemoryUsed = 0;
 // -----------------------------------------------------------------------
 ResourceManager::ResourceManager(string ID) :
 m_sizeAllocated(0),
@@ -70,6 +71,8 @@ void ResourceManager::FreeOneResource()
 			//unload the resource and set size to 0
 			(*it)->Unload();
 			m_sizeAllocated -= (*it)->GetSize();
+			//decrement total memory used
+			s_totalMemoryUsed -= (*it)->GetSize();
 			(*it)->FreeBuffer();
 			return;
 		}
@@ -99,6 +102,8 @@ void ResourceManager::Update()
 					else
 					{
 						m_sizeAllocated += (*resIt)->GetSize();
+						//increment total memory usage
+						s_totalMemoryUsed += (*resIt)->GetSize();
 						allocated = true;
 					}
 				}

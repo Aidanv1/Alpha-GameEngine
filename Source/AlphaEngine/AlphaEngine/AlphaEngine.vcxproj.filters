@@ -57,25 +57,7 @@
       <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\Buffers\VertexBuffer.cpp">
-      <Filter>Graphics3D\OpenGL\Data\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Data\Handler\TextureHandler.cpp">
-      <Filter>Graphics3D\OpenGL\Data\Handler</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Data\Handler\VertexBufferHandler.cpp">
-      <Filter>Graphics3D\OpenGL\Data\Handler</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Data\Material.cpp">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Data\Mesh.cpp">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Data\SkyBox.cpp">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Data\Texture.cpp">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
+      <Filter>Graphics3D\OpenGL\Buffers</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\Shader\BaseShaderProgram.cpp">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
@@ -92,15 +74,6 @@
     <ClCompile Include="Graphics3D\OpenGL\Shader\Text2DShaderProgram.cpp">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\GLRenderer.cpp">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\Scene\Camera.cpp">
-      <Filter>Graphics3D\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\Scene\Model.cpp">
-      <Filter>Graphics3D\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\Scene\RootNode.cpp">
       <Filter>Graphics3D\Scene</Filter>
     </ClCompile>
@@ -113,14 +86,8 @@
     <ClCompile Include="Graphics3D\GraphicsSystem.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Text\Text2D_GL.cpp">
-      <Filter>Graphics3D\OpenGL\Text</Filter>
-    </ClCompile>
     <ClCompile Include="Actor\ComponentCreators\GraphicsComponentCreator.cpp">
       <Filter>Actor\ComponentCreators</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Data\HeightMap.cpp">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
     </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.cpp">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
@@ -128,14 +95,65 @@
     <ClCompile Include="Actor\Components\GraphicsComponent.cpp">
       <Filter>Actor\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\Geometry\Geometry.cpp">
-      <Filter>Graphics3D\Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.cpp">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Data\LineMesh.cpp">
+    <ClCompile Include="Physics\BulletPhysics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\LightNode.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Handler\TextureHandler.cpp">
+      <Filter>Graphics3D\OpenGL\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Handler\VertexBufferHandler.cpp">
+      <Filter>Graphics3D\OpenGL\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\Material_GL.cpp">
       <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Data\Texture_GL.cpp">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Renderer_GL.cpp">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\CameraNode.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\ModelNode.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Geometry\Geometry.cpp">
+      <Filter>Graphics3D\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\HeightMap_GL.cpp">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\LineMesh_GL.cpp">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\Mesh_GL.cpp">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\SkyBox_GL.cpp">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\DrawableNode.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\Text_GL.cpp">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\Scene\LightManager.cpp">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\LightShaderProgram.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\GraphicsSettings.cpp">
+      <Filter>Graphics3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,24 +208,6 @@
     <Filter Include="Graphics3D">
       <UniqueIdentifier>{eb8fd43e-c5d1-4fea-b5ed-a693dbdfdabd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics3D\OpenGL">
-      <UniqueIdentifier>{534e54fe-d108-428b-9127-2273882e7cc2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics3D\OpenGL\Data">
-      <UniqueIdentifier>{0ef8cc3d-71cf-4eab-ae4f-8d6bfd2d56fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics3D\OpenGL\Data\Handler">
-      <UniqueIdentifier>{53fec6d0-bfb8-4eb3-91ab-d01ab141654c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics3D\OpenGL\Data\Buffers">
-      <UniqueIdentifier>{00be5e17-722b-46eb-b87a-ec1f1b70d131}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics3D\OpenGL\Shader">
-      <UniqueIdentifier>{e551f9f7-a206-4b33-ae2d-842b1e13b9d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics3D\OpenGL\Text">
-      <UniqueIdentifier>{6e11803f-68ec-4688-ae25-efec805f9cee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics3D\Scene">
       <UniqueIdentifier>{80b26344-7856-4d98-8948-62a910c06a2f}</UniqueIdentifier>
     </Filter>
@@ -219,6 +219,27 @@
     </Filter>
     <Filter Include="Graphics3D\Geometry">
       <UniqueIdentifier>{3869d83b-7b14-4be8-8023-3c151ba00201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{b97b17b4-1fd5-40cd-8531-e877c8bc6f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL">
+      <UniqueIdentifier>{534e54fe-d108-428b-9127-2273882e7cc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Data">
+      <UniqueIdentifier>{0ef8cc3d-71cf-4eab-ae4f-8d6bfd2d56fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Shader">
+      <UniqueIdentifier>{e551f9f7-a206-4b33-ae2d-842b1e13b9d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Buffers">
+      <UniqueIdentifier>{00be5e17-722b-46eb-b87a-ec1f1b70d131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\Handler">
+      <UniqueIdentifier>{53fec6d0-bfb8-4eb3-91ab-d01ab141654c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics3D\OpenGL\DrawableNodes">
+      <UniqueIdentifier>{0a298474-0221-437b-9a95-02bc94f3180b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -305,25 +326,7 @@
       <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\Buffers\VertexBuffer.h">
-      <Filter>Graphics3D\OpenGL\Data\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Data\Handler\TextureHandler.h">
-      <Filter>Graphics3D\OpenGL\Data\Handler</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Data\Handler\VertexBufferHandler.h">
-      <Filter>Graphics3D\OpenGL\Data\Handler</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Data\Material.h">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Data\Mesh.h">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Data\SkyBox.h">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Data\Texture.h">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
+      <Filter>Graphics3D\OpenGL\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\Shader\BaseShaderProgram.h">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
@@ -343,15 +346,6 @@
     <ClInclude Include="Graphics3D\OpenGL\Shader\Text2DShaderProgram.h">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\GLRenderer.h">
-      <Filter>Graphics3D\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\Scene\Camera.h">
-      <Filter>Graphics3D\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\Scene\Model.h">
-      <Filter>Graphics3D\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\Scene\RootNode.h">
       <Filter>Graphics3D\Scene</Filter>
     </ClInclude>
@@ -367,17 +361,8 @@
     <ClInclude Include="Graphics3D\GraphicsSystem.h">
       <Filter>Graphics3D</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\Scene\IText2D.h">
-      <Filter>Graphics3D\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Text\Text2D_GL.h">
-      <Filter>Graphics3D\OpenGL\Text</Filter>
-    </ClInclude>
     <ClInclude Include="Actor\ComponentCreators\GraphicsComponentCreator.h">
       <Filter>Actor\ComponentCreators</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Data\HeightMap.h">
-      <Filter>Graphics3D\OpenGL\Data</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.h">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
@@ -385,14 +370,68 @@
     <ClInclude Include="Actor\Components\GraphicsComponent.h">
       <Filter>Actor\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\Geometry\Geometry.h">
-      <Filter>Graphics3D\Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.h">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Data\LineMesh.h">
+    <ClInclude Include="Physics\IGamePhysics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\BulletPhysics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\LightNode.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Handler\TextureHandler.h">
+      <Filter>Graphics3D\OpenGL\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Handler\VertexBufferHandler.h">
+      <Filter>Graphics3D\OpenGL\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\Material_GL.h">
       <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Data\Texture_GL.h">
+      <Filter>Graphics3D\OpenGL\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Renderer_GL.h">
+      <Filter>Graphics3D\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\CameraNode.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\ModelNode.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Geometry\Geometry.h">
+      <Filter>Graphics3D\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\HeightMap_GL.h">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\LineMesh_GL.h">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\Mesh_GL.h">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\SkyBox_GL.h">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\DrawableNode.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\Text_GL.h">
+      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\Scene\LightManager.h">
+      <Filter>Graphics3D\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\LightShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\GraphicsSettings.h">
+      <Filter>Graphics3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

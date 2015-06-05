@@ -5,7 +5,6 @@ HeightMapShaderProgram::HeightMapShaderProgram() :
 m_positionID(-1),
 m_normalID(-1),
 m_texCoordID(-1),
-m_lightID(-1),
 m_modelMatrixID(-1),
 m_perspectiveMatrixID(-1),
 m_viewMatrixID(-1),
@@ -20,14 +19,13 @@ HeightMapShaderProgram::~HeightMapShaderProgram()
 // -----------------------------------------------------------------------
 bool HeightMapShaderProgram::VInit(const char* vertexShaderSourceCode, const char* fragmentShaderSourceCode)
 {
-	if (!BaseShaderProgram::VInit(vertexShaderSourceCode, fragmentShaderSourceCode))
+	if (!LightShaderProgram::VInit(vertexShaderSourceCode, fragmentShaderSourceCode))
 	{
 		return false;
 	}
 	//attributes
 	m_positionID = glGetAttribLocation(m_shaderProgramID, "a_Position");
 	m_normalID = glGetAttribLocation(m_shaderProgramID, "a_Normal");
-	m_lightID = glGetUniformLocation(m_shaderProgramID, "vLight");
 	m_texCoordID = glGetAttribLocation(m_shaderProgramID, "a_TexCoord");
 	//uniforms
 	m_perspectiveMatrixID = glGetUniformLocation(m_shaderProgramID, "mP");
@@ -38,7 +36,6 @@ bool HeightMapShaderProgram::VInit(const char* vertexShaderSourceCode, const cha
 	//if any ID is equal to -1 initialization failed
 	if (m_positionID == -1 ||
 		m_normalID == -1 ||
-		m_lightID == -1 ||
 		m_texCoordID == -1 ||
 		m_perspectiveMatrixID == -1 ||
 		m_viewMatrixID == -1 ||
@@ -53,14 +50,20 @@ bool HeightMapShaderProgram::VInit(const char* vertexShaderSourceCode, const cha
 	return true;
 }
 // -----------------------------------------------------------------------
-void HeightMapShaderProgram::SetUniforms(mat4& M, mat4& V, mat4& P, mat4& R, vec4& light, GLuint textureid)
+void HeightMapShaderProgram::SetUniforms(mat4& M, mat4& V, mat4& P, mat4& R, GLuint textureid)
 {
 	glUniformMatrix4fv(m_modelMatrixID, 1, GL_FALSE, value_ptr(M));
 	glUniformMatrix4fv(m_viewMatrixID, 1, GL_FALSE, value_ptr(V));
 	glUniformMatrix4fv(m_perspectiveMatrixID, 1, GL_FALSE, value_ptr(P));
 	glUniformMatrix4fv(m_allRotsMatrixID, 1, GL_FALSE, value_ptr(R));
-	glUniform4fv(m_lightID, 1, value_ptr(light));
+
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureid);
+	//get maximum anisotropy
+	float anisoMax = 0.0f;
+	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &anisoMax);
+	float aniso = min(anisoMax,GraphicsSettings::Anisotropy());
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, aniso);
 	glUniform1i(m_texID, 0);
 }

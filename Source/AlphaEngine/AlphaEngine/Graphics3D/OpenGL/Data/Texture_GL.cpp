@@ -1,8 +1,8 @@
-#include "Texture.h"
+#include "Texture_GL.h"
 //========================================================================
 //Texture
 //========================================================================
-Texture::Texture(string texFileName) :
+Texture_GL::Texture_GL(string texFileName) :
 m_textureID(0),
 m_textureResource(NULL),
 m_textureFileName(texFileName)
@@ -10,12 +10,12 @@ m_textureFileName(texFileName)
 	m_textureResourceManager = GraphicsSystem::Get().GetTextureResourceManager();
 }
 // -----------------------------------------------------------------------
-Texture::~Texture()
+Texture_GL::~Texture_GL()
 {
 	TextureHandler::Get().FreeTextureBuffer(m_textureID);
 }
 // -----------------------------------------------------------------------
-bool Texture::VLoadResource()
+bool Texture_GL::VLoadResource()
 {
 	//if no resource currently exists
 	if (!m_textureResource)
@@ -42,7 +42,7 @@ bool Texture::VLoadResource()
 	
 }
 // -----------------------------------------------------------------------
-int Texture::VLoadTexture()
+int Texture_GL::VLoadTexture()
 {
 	//first check if texture was already loaded in video memory
 	if (m_textureID != -1)
@@ -85,7 +85,7 @@ int Texture::VLoadTexture()
 //Texture Cube Map
 //========================================================================
 
-TextureCubeMap::TextureCubeMap(string texFileName[]) :
+TextureCubeMap_GL::TextureCubeMap_GL(string texFileName[]) :
 m_textureID(0),
 m_textureResource(),
 m_textureFileName()
@@ -98,12 +98,12 @@ m_textureFileName()
 	m_textureResourceManager = GraphicsSystem::Get().GetTextureResourceManager();
 }
 // -----------------------------------------------------------------------
-TextureCubeMap::~TextureCubeMap()
+TextureCubeMap_GL::~TextureCubeMap_GL()
 {
 	TextureHandler::Get().FreeTextureBuffer(m_textureID);
 }
 // -----------------------------------------------------------------------
-bool TextureCubeMap::VLoadResource()
+bool TextureCubeMap_GL::VLoadResource()
 {
 	bool loaded = true;
 	//if no resource currently exists
@@ -134,7 +134,7 @@ bool TextureCubeMap::VLoadResource()
 
 }
 // -----------------------------------------------------------------------
-int TextureCubeMap::VLoadTexture()
+int TextureCubeMap_GL::VLoadTexture()
 {
 	//first check if texture was already loaded in video memory
 	if (m_textureID != -1)
