@@ -22,24 +22,28 @@ void LightNode::SetLightProperties(LightNodeProperties prop)
 // -----------------------------------------------------------------------
 void LightNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
+	m_lightProperties.m_positionVector = m_nodeProperties.m_toWorld.GetPosition();
+	m_lightProperties.m_directionVector = m_nodeProperties.m_toWorld.GetLookAtVector();
 	if (m_shape)
 	{
-		mat4 trans = translate(mat4(1.0f), m_lightProperties.m_positionVector);
+		Matrix4x4 trans = translate(mat4(1.0f), m_lightProperties.m_positionVector);
 		mat4 rot = mat4(1.0);
 		if (m_lightProperties.m_lightType != LightType_Point)
 		{
 			rot = inverse(lookAt(vec3(0.0), m_lightProperties.m_directionVector, vec3(0.0, 1.0, 0.0)));
 		}
-		m_shape->VTransform(trans, rot);
+		trans = trans * rot;
+		m_shape->VTransform(trans);
+		m_shape->VDraw(vec4(1.0f,1.0f,1.0f,1.0f));
 	}
 	//set distance to camera
-	mat4 viewMat;
+	Matrix4x4 viewMat;
 	pScene->GetCamera()->GetViewMatrix(viewMat);
-	vec4 pos4 = viewMat*m_nodeProperties.m_toWorld*vec4(m_positionInWorld, 1.0f);
+	vec4 pos4 = viewMat * vec4(m_nodeProperties.m_toWorld.GetPosition(),1.0f);
 	m_distanceToCamera = length(pos4);
 }
 // -----------------------------------------------------------------------
-bool LightNode::VInitComponent(TiXmlElement* pElement)
+bool LightNode::VConfigureXmlNodeData(TiXmlElement* pElement)
 {
 	TiXmlElement* nextElem = pElement->FirstChildElement();
 	//loop through elements
@@ -48,24 +52,6 @@ bool LightNode::VInitComponent(TiXmlElement* pElement)
 		string val = nextElem->Value();
 		if (val == "Properties")
 		{
-			if (nextElem->Attribute("dirX"))
-			{
-				float dirX = 0, dirY = 0, dirZ = 0;
-				nextElem->QueryFloatAttribute("dirX", &dirX);
-				nextElem->QueryFloatAttribute("dirY", &dirY);
-				nextElem->QueryFloatAttribute("dirZ", &dirZ);
-				m_lightProperties.m_directionVector = normalize(vec3(dirX, dirY, dirZ));
-			}
-
-			if (nextElem->Attribute("posX"))
-			{
-				float posX = 0, posY = 0, posZ = 0;
-				nextElem->QueryFloatAttribute("posX", &posX);
-				nextElem->QueryFloatAttribute("posY", &posY);
-				nextElem->QueryFloatAttribute("posZ", &posZ);
-				m_lightProperties.m_positionVector = vec3(posX, posY, posZ);
-			}
-
 			if (nextElem->Attribute("intenR"))
 			{
 				float intenR = 0, intenG = 0, intenB = 0;

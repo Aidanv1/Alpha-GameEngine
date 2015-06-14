@@ -2,7 +2,6 @@
 // -----------------------------------------------------------------------
 HeightMap_GL::HeightMap_GL() :
 SceneNode(),
-GraphicsComponent(),
 m_shaderProgram(NULL),
 m_vertexBuffer(),
 m_numVertices(0)
@@ -40,10 +39,9 @@ void HeightMap_GL::VRender(Scene* pScene)
 	pScene->GetCamera()->GetViewMatrix(viewMat);
 	pScene->GetCamera()->GetProjectionMatrix(projMat);
 	mat4 scaleMat = scale(mat4(1.0f), vec3(X_SCALE, Y_SCALE, Z_SCALE));
-	m_shaderProgram->SetUniforms((m_nodeProperties.m_toWorld*scaleMat),
+	m_shaderProgram->SetUniforms((*m_nodeProperties.m_toWorld.Get()),
 		viewMat,
-		projMat,
-		m_nodeProperties.m_rotationMatrix,
+		projMat,		
 		m_material->Texture()->VGetTextureID());
 	//set lighting uniforms
 	WeakLightArray lights;
@@ -101,7 +99,7 @@ int HeightMap_GL::Load()
 			float xPosition = (((float)col / (float)(width - 1)) - 0.5f);
 			float yPosition = (float)pixels.at(((row) * (height)) + col) / (float)255;
 			float zPosition = ((float)row / (float)(height - 1)) - 0.5f;
-			vec3 vertex(xPosition, yPosition, zPosition);
+			vec3 vertex(xPosition * X_SCALE, yPosition * Y_SCALE, zPosition * Z_SCALE);
 			vertexData.push_back(vertex);
 			textureData.push_back(vec2(xPosition * X_SCALE / m_tileScale, zPosition* Z_SCALE / m_tileScale));
 
@@ -118,10 +116,10 @@ int HeightMap_GL::Load()
 			vec3 right = vertexData.at(clamp((row), 0, width - 1)* width + clamp(col + 1, 0, height - 1));
 			vec3 bottom = vertexData.at(clamp((row + 1), 0, width - 1)* width + clamp(col, 0, height - 1));
 
-			top = vec3(top.x * X_SCALE, top.y * Y_SCALE, top.z * Z_SCALE);
-			left = vec3(left.x * X_SCALE, left.y * Y_SCALE, left.z * Z_SCALE);
-			right = vec3(right.x * X_SCALE, right.y * Y_SCALE, right.z * Z_SCALE);
-			bottom = vec3(bottom.x * X_SCALE, bottom.y * Y_SCALE, bottom.z * Z_SCALE);
+			top = vec3(top.x, top.y, top.z);
+			left = vec3(left.x, left.y , left.z);
+			right = vec3(right.x, right.y, right.z);
+			bottom = vec3(bottom.x, bottom.y, bottom.z);
 
 			vec3 rightToLeft = left - right;
 			vec3  topToBottom = bottom - top;
@@ -269,15 +267,9 @@ void HeightMap_GL::BindData()
 void HeightMap_GL::VUpdateNode(Scene* pScene, float deltaMS)
 {
 }
-//========================================================================
-// IActorComponent Functions
-//========================================================================
-void HeightMap_GL::VUpdate()
-{
 
-}
 // -----------------------------------------------------------------------
-bool HeightMap_GL::VInitComponent(TiXmlElement* pElement)
+bool HeightMap_GL::VConfigureXmlNodeData(TiXmlElement* pElement)
 {
 	TiXmlElement* hMapElement = pElement->FirstChildElement();
 	m_material = StrongMaterialPtr(ALPHA_NEW Material_GL());
@@ -318,10 +310,5 @@ bool HeightMap_GL::VInitComponent(TiXmlElement* pElement)
 	return true;
 }
 // -----------------------------------------------------------------------
-bool HeightMap_GL::VPostInit()
-{
-	GraphicsComponent::VPostInit();
-	return true;
-}
 
 

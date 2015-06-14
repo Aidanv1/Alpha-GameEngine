@@ -9,7 +9,7 @@ public:
 	HeightMapShaderProgram();
 	~HeightMapShaderProgram();
 	virtual bool VInit(const char* vertexShaderSourceCode, const char* fragmentShaderSourceCode) override;
-	void SetUniforms(mat4& M, mat4& V, mat4& P, mat4& R, GLuint textureid);
+	void SetUniforms(mat4& M, mat4& V, mat4& P, GLuint textureid);
 	//accessor methods for attribute locations
 	int GetPositionID() const { return m_positionID; }
 	int GetNormalID() const { return m_normalID; }
@@ -22,7 +22,6 @@ private:
 	int m_modelMatrixID;
 	int m_perspectiveMatrixID;
 	int m_viewMatrixID;
-	int m_allRotsMatrixID;
 	int m_texID;
 };
 //========================================================================

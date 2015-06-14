@@ -1,6 +1,8 @@
 #include "RoleSystem.h"
 //Include component creators
 #include "ComponentCreators\GraphicsComponentCreator.h"
+#include "ComponentCreators\TransformComponentCreator.h"
+#include "ComponentCreators\PhysicsComponentCreator.h"
 bool RoleSystem::m_initialized = false;
 // -----------------------------------------------------------------------
 RoleSystem::RoleSystem() :
@@ -20,6 +22,12 @@ bool RoleSystem::Init()
 	//add component creators
 	StrongComponentCreatorPtr graphicsComponentCreator(ALPHA_NEW GraphicsComponentCreator());
 	m_actorFactory.AddComponentCreator(graphicsComponentCreator, "Graphics");
+	//
+	StrongComponentCreatorPtr transformComponentCreator(ALPHA_NEW TransformComponentCreator());
+	m_actorFactory.AddComponentCreator(transformComponentCreator, "Transform");
+	//
+	StrongComponentCreatorPtr physicsComponentCreator(ALPHA_NEW PhysicsComponentCreator());
+	m_actorFactory.AddComponentCreator(physicsComponentCreator, "Physics");
 	return true;
 }
 // -----------------------------------------------------------------------
@@ -71,5 +79,13 @@ StrongActorPtr RoleSystem::GetActor(string name) const
 		return (*findIt).second;
 	}
 	return NULL;
+}
+// -----------------------------------------------------------------------
+void RoleSystem::Update(float deltaMs)
+{
+	for (auto actorIt = m_actorRegistry.begin(); actorIt != m_actorRegistry.end(); actorIt++)
+	{
+		(*actorIt).second->Update(deltaMs);
+	}
 }
 // -----------------------------------------------------------------------

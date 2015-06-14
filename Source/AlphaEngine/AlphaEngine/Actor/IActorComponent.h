@@ -10,7 +10,7 @@ protected:
 	shared_ptr<Actor> m_pOwner;
 public:
 	virtual ComponentType VGetType() const = 0;
-	virtual void VUpdate() = 0;
+	virtual void VUpdate(float deltaMs) = 0;
 	virtual bool VInitComponent(TiXmlElement* pElement) = 0;
 	virtual bool VPostInit() = 0;
 private:

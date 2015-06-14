@@ -1,7 +1,6 @@
 #include "SkyBox_GL.h"
 SkyBox_GL::SkyBox_GL() :
 SceneNode(),
-GraphicsComponent(),
 m_shaderProgram(NULL),
 m_meshID(-1),
 m_numVertices(36),
@@ -141,15 +140,8 @@ void SkyBox_GL::BindData()
 {
 	m_vertexBuffer.SetVertexAttribPointer(m_shaderProgram->GetPositionID(), 3, 0, 0);
 }
-//========================================================================
-// IActorComponent Functions
-//========================================================================
-void SkyBox_GL::VUpdate()
-{
-
-}
 // -----------------------------------------------------------------------
-bool SkyBox_GL::VInitComponent(TiXmlElement* pElement)
+bool SkyBox_GL::VConfigureXmlNodeData(TiXmlElement* pElement)
 {
 	TiXmlElement* skyBoxElement = pElement->FirstChildElement();
 
@@ -183,8 +175,3 @@ bool SkyBox_GL::VInitComponent(TiXmlElement* pElement)
 	return true;
 }
 // -----------------------------------------------------------------------
-bool SkyBox_GL::VPostInit()
-{
-	GraphicsComponent::VPostInit();
-	return true;
-}

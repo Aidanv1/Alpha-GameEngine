@@ -13,6 +13,7 @@ public:
 	static RoleSystem& Get();
 	StrongActorPtr GetActor(ActorID id) const;
 	StrongActorPtr GetActor(string name) const;
+	void Update(float deltaMs);
 private:
 	RoleSystem();
 	bool Init();

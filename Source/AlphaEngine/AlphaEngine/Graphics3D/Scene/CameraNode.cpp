@@ -1,5 +1,5 @@
 #include "CameraNode.h"
-
+#include "../../Actor/Components/GraphicsComponent.h"
 // -----------------------------------------------------------------------
 CameraNode::CameraNode() :
 m_camParam(),
@@ -43,9 +43,9 @@ void CameraNode::VUpdateNode(Scene* scene, float deltaMs)
 	case FlyAround_Mode:
 		m_rotationMatrix = rotate(mat4(1.0f), m_rotation.x, vec3(-1.0f, 0.0f, 0.0f));
 		m_rotationMatrix = rotate(m_rotationMatrix, m_rotation.y, vec3(0.0f, -1.0f, 0.0f));		
-		m_viewMatrix = m_rotationMatrix * translate(mat4(1.0f), -m_positionInWorld);
+		m_viewMatrix = m_rotationMatrix * translate(mat4(1.0f), - m_nodeProperties.m_toWorld.GetPosition());
 
-		m_translationMatrix = translate(mat4(1.0f), m_positionInWorld);
+		m_translationMatrix = translate(mat4(1.0f), m_nodeProperties.m_toWorld.GetPosition());
 		
 		break;
 	case Orbital_Mode:
@@ -64,12 +64,14 @@ void CameraNode::VUpdateNode(Scene* scene, float deltaMs)
 		vectorPos = rotMat * vectorPos;
 		vec3 targetPos;
 		m_targetNode->GetPositionInWorld(targetPos);
-		m_positionInWorld = vec3(vectorPos) * m_orbitalRadius + targetPos;
+		m_nodeProperties.m_toWorld.SetPosition(vec3(vectorPos) * m_orbitalRadius + targetPos);
 		LookAtTarget();
 		
 		break;
 	}	
-	m_frustum.VTransform(m_translationMatrix, inverse(m_rotationMatrix));
+	Matrix4x4 transform = m_translationMatrix * inverse(m_rotationMatrix);
+	m_frustum.VTransform(transform);
+	m_frustum.VDraw(vec4(1.0));
 }
 // -----------------------------------------------------------------------
 void CameraNode::SetMode(CameraMode mode)
@@ -81,9 +83,9 @@ void CameraNode::LookAtTarget()
 {
 	vec3 targetPos;
 	m_targetNode->GetPositionInWorld(targetPos);
-	m_viewMatrix = lookAt(m_positionInWorld, targetPos, vec3(0.0f, 1.0f, 0.0f));
-	m_rotationMatrix = translate(m_viewMatrix, m_positionInWorld);
-	m_translationMatrix = translate(mat4(1.0f), m_positionInWorld);
+	m_viewMatrix = lookAt(m_nodeProperties.m_toWorld.GetPosition(), targetPos, vec3(0.0f, 1.0f, 0.0f));
+	m_rotationMatrix = translate(m_viewMatrix, m_nodeProperties.m_toWorld.GetPosition());
+	m_translationMatrix = translate(mat4(1.0f), m_nodeProperties.m_toWorld.GetPosition());
 }
 // -----------------------------------------------------------------------
 bool CameraNode::VInitNode()
@@ -97,9 +99,14 @@ void CameraNode::LookEventDelegate(StrongEventPtr event)
 	LookEvent* lookEvent = dynamic_cast<LookEvent*>(event.get());
 	m_rotation.x += lookEvent->GetLookPos().m_dThetaX;
 	m_rotation.y += lookEvent->GetLookPos().m_dThetaY;
-	m_positionInWorld.x += lookEvent->GetLookPos().m_dX;
-	m_positionInWorld.y += lookEvent->GetLookPos().m_dY;
-	m_positionInWorld.z += lookEvent->GetLookPos().m_dZ;
+	vec3 pos;
+	pos.x = m_nodeProperties.m_toWorld.GetPosition().x;
+	pos.y = m_nodeProperties.m_toWorld.GetPosition().y;
+	pos.z = m_nodeProperties.m_toWorld.GetPosition().z;
+	pos.x += lookEvent->GetLookPos().m_dX;
+	pos.y += lookEvent->GetLookPos().m_dY;
+	pos.z += lookEvent->GetLookPos().m_dZ;
+	m_nodeProperties.m_toWorld.SetPosition(pos);
 	if (m_mode == Orbital_Mode)
 	{
 		m_orbitalRadius -= lookEvent->GetLookPos().m_dY;
@@ -114,16 +121,8 @@ void CameraNode::LookEventDelegate(StrongEventPtr event)
 		}
 	}
 }
-//========================================================================
-// IActorComponent Functions
-//========================================================================
-
-void CameraNode::VUpdate()
-{
-
-}
 // -----------------------------------------------------------------------
-bool CameraNode::VInitComponent(TiXmlElement* pElement)
+bool CameraNode::VConfigureXmlNodeData(TiXmlElement* pElement)
 {
 	TiXmlElement* nextElem = pElement->FirstChildElement();
 	//loop through elements
@@ -147,7 +146,8 @@ bool CameraNode::VInitComponent(TiXmlElement* pElement)
 				attrib = nextElem->Attribute("targetName");
 				if (RoleSystem::Get().GetActor(attrib))
 				{
-					SceneNode* targetNode = dynamic_cast<SceneNode*>(RoleSystem::Get().GetActor(attrib)->GetComponent("Graphics"));
+					GraphicsComponent* targetComponent = dynamic_cast<GraphicsComponent*>(RoleSystem::Get().GetActor(attrib)->GetComponent("Graphics"));
+					SceneNode* targetNode = dynamic_cast<SceneNode*>(targetComponent->GetSceneNode());
 					if (targetNode)
 					{
 						m_targetNode = targetNode;
@@ -188,8 +188,3 @@ bool CameraNode::VInitComponent(TiXmlElement* pElement)
 	return true;
 }
 // -----------------------------------------------------------------------
-bool CameraNode::VPostInit()
-{
-	GraphicsComponent::VPostInit();
-	return true;
-}

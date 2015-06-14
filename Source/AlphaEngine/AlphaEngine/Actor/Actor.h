@@ -16,7 +16,7 @@ public:
 	~Actor();
 	bool Init(ActorID id);
 	bool PostInit();
-	void Update();
+	void Update(float deltaMs);
 	void Destroy();
 	ActorID GetID() const { return m_ID; }
 	string GetName() const { return m_name; }

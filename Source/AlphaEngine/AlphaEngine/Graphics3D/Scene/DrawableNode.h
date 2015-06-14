@@ -4,7 +4,6 @@
 enum NodeType
 {
 	Node_Mesh,
-	Node_LineMesh,
 	Node_Sky,
 	Node_HeightMap,
 	Node_Text

@@ -34,7 +34,7 @@ struct LightNodeProperties
 	}
 };
 //========================================================================
-class LightNode : public SceneNode, public GraphicsComponent
+class LightNode : public SceneNode
 {
 public:
 	LightNode();
@@ -45,9 +45,7 @@ public:
 	float GetDistanceToCamera() const { return m_distanceToCamera; }
 	//SceneNode functions
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) override;
-	//IActorComponent functions
-	virtual void VUpdate() override {};
-	virtual bool VInitComponent(TiXmlElement* pElement) override;
+	virtual bool VConfigureXmlNodeData(TiXmlElement* pElement) override;
 private:
 	LightNodeProperties m_lightProperties;
 	LightID				m_lightID;

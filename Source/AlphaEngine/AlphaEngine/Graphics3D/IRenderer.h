@@ -18,5 +18,6 @@ public:
 	virtual void VOnRestore() = 0;
 	virtual void VSetBackGroundColour(vec4& backGroundColour) = 0;
 	virtual void VDepthBuffer(DepthBufferCommand depthMode) = 0;
+	virtual void VDrawLine(vec3& from, vec3& to, vec4& colour) = 0;
 };
 //========================================================================

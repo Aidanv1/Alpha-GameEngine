@@ -58,12 +58,12 @@
 using namespace std;
 using namespace glm;
 // MACROS-----------------------------------------------------------------
-#if defined(_DEBUG)
-#       define ALPHA_NEW new(_NORMAL_BLOCK,__FILE__, __LINE__)
-#else
-#       define ALPHA_NEW new
-#endif
-
+//#if defined(_DEBUG)
+//#       define ALPHA_NEW new(_NORMAL_BLOCK,__FILE__, __LINE__)
+//#else
+//#       define ALPHA_NEW new
+//#endif
+#define ALPHA_NEW new
 
 
 #ifndef SAFE_DELETE

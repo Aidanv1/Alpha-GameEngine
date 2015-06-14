@@ -2,7 +2,6 @@
 #include "../GraphicsSystem.h"
 #include "../OpenGL/Renderer_GL.h"
 #include "../OpenGL/DrawableNodes/Mesh_GL.h"
-#include "../OpenGL/DrawableNodes/LineMesh_GL.h"
 #include "../OpenGL/DrawableNodes/SkyBox_GL.h"
 #include "../OpenGL/DrawableNodes/HeightMap_GL.h"
 #include "../OpenGL/DrawableNodes/Text_GL.h"
@@ -29,11 +28,6 @@ ISceneNode* DrawableNodeFactory::CreateDrawableNode(NodeType type)
 		if (isOpenGL)
 		{
 			return ALPHA_NEW HeightMap_GL();
-		}
-	case Node_LineMesh:
-		if (isOpenGL)
-		{
-			return ALPHA_NEW LineMesh_GL();
 		}
 	case Node_Text:
 		if (isOpenGL)

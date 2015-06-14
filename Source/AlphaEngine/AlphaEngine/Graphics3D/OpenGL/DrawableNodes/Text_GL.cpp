@@ -79,9 +79,9 @@ void Text_GL::VRender(Scene* pScene)
 	if (!pScene->isAlphaPass())
 	{
 		pScene->AddTransparentNode(this);
-		mat4 viewMat;
+		Matrix4x4 viewMat;
 		pScene->GetCamera()->GetViewMatrix(viewMat);
-		vec4 pos4 = viewMat*m_nodeProperties.m_toWorld*vec4(m_positionInWorld, 1.0f);
+		vec4 pos4 = viewMat*m_nodeProperties.m_toWorld*vec4(m_nodeProperties.m_toWorld.GetPosition(), 1.0f);
 		m_screenZ = pos4.z;
 		return;
 	}

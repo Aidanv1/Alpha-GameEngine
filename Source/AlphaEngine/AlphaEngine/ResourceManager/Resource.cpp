@@ -2,7 +2,6 @@
 // -----------------------------------------------------------------------
 Resource::Resource(ResourceID name) :
 m_resName(name),
-m_resID(0),
 m_pBuffer(NULL),
 m_isLoaded(false),
 m_loader(NULL),
@@ -19,7 +18,6 @@ Resource::~Resource()
 // -----------------------------------------------------------------------
 bool Resource::Init(unsigned int ID, shared_ptr<IResourceLoader> loader, ResourceManager* resM)
 {
-	m_resID = ID;
 	m_loader = loader;
 	if (!m_loader)
 	{

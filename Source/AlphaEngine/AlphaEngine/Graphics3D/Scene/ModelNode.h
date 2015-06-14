@@ -12,16 +12,13 @@ class ModelNode;
 typedef shared_ptr<Resource> StrongModelPtr;
 //Model Component
 //========================================================================
-class ModelNode :public SceneNode, public GraphicsComponent
+class ModelNode :public SceneNode
 {
 public:
 	ModelNode();
 	~ModelNode();
-	//IActorComponent functions
-	virtual void VUpdate() override;
-	virtual bool VInitComponent(TiXmlElement* pElement) override;
-	virtual bool VPostInit() override;
 	//SceneNode functions
+	virtual bool VConfigureXmlNodeData(TiXmlElement* pElement) override;
 	virtual bool VInitNode() override;
 	virtual void VRender(Scene* pScene) override;
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) override;

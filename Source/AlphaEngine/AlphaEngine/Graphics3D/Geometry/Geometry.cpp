@@ -1,5 +1,20 @@
 #include "Geometry.h"
-#include "../OpenGL/DrawableNodes/LineMesh_GL.h"
+#include "../GraphicsSystem.h"
+// -----------------------------------------------------------------------
+void DrawableGeometry::VDraw(vec4& colour)
+{
+	for (int i = 0 ; i < m_lines.size(); i++)
+	{
+		vec3 from = vec3(*m_transform.Get() * vec4(m_lines.at(i).m_from, 1.0f));
+		vec3 to = vec3(*m_transform.Get() *  vec4(m_lines.at(i).m_to, 1.0f));
+		GraphicsSystem::Get().GetRenderer()->VDrawLine(from, to, colour);
+	}
+}
+// -----------------------------------------------------------------------
+void DrawableGeometry::VTransform(Matrix4x4& trans)
+{
+	m_transform = trans;
+}
 //========================================================================
 Plane::Plane(vec3 point1, vec3 point2, vec3 point3, string name) :
 m_name(name)
@@ -60,11 +75,10 @@ float Plane::DistanceToPlane(vec3 point) const
 	return abs(cosineTheta*hypot);
 }
 // -----------------------------------------------------------------------
-void Plane::VTransform(mat4& trans, mat4& rot)
+void Plane::VTransform(Matrix4x4& trans)
 {
-	m_normalWorld = vec3(rot * vec4(m_normal, 1.0f));
-	mat4 rt = trans*rot;
-	vec4 point = rt * vec4(m_point, 1.0f);
+	m_normalWorld = vec3(trans.GetRotation() * vec4(m_normal, 1.0f));
+	vec4 point = trans * vec4(m_point, 1.0f);
 	m_pointWorld = vec3(point);
 }
 //========================================================================
@@ -108,54 +122,20 @@ Frustum::Frustum(float height, float width, float fovDegreesY, float nearClip, f
 	//top plane
 	m_planes[5] = Plane(p1, p2, p2_2, "top");
 
-	float vertexArray[] =
-	{
-		//front face
-		p1.x, p1.y, p1.z,
-		p2.x, p2.y, p2.z,
-		//
-		p2.x, p2.y, p2.z,
-		p4.x, p4.y, p4.z,
-		//
-		p4.x, p4.y, p4.z,
-		p3.x, p3.y, p3.z,
-		//
-		p3.x, p3.y, p3.z,
-		p1.x, p1.y, p1.z,
-		//farClip face
-		p1_2.x, p1_2.y, p1_2.z,
-		p2_2.x, p2_2.y, p2_2.z,
-		//
-		p2_2.x, p2_2.y, p2_2.z,
-		p4_2.x, p4_2.y, p4_2.z,
-		//
-		p4_2.x, p4_2.y, p4_2.z,
-		p3_2.x, p3_2.y, p3_2.z,
-		//
-		p3_2.x, p3_2.y, p3_2.z,
-		p1_2.x, p1_2.y, p1_2.z,
-		//connecting lines
-		p1_2.x, p1_2.y, p1_2.z,
-		p1.x, p1.y, p1.z,
-		//
-		p2_2.x, p2_2.y, p2_2.z,
-		p2.x, p2.y, p2.z,
-		//
-		p4_2.x, p4_2.y, p4_2.z,
-		p4.x, p4.y, p4.z,
-		//
-		p3_2.x, p3_2.y, p3_2.z,
-		p3.x, p3.y, p3.z
+	m_lines.push_back(VectorPair(p1, p2));
+	m_lines.push_back(VectorPair(p2, p4));
+	m_lines.push_back(VectorPair(p4, p3));
+	m_lines.push_back(VectorPair(p3, p1));
 
+	m_lines.push_back(VectorPair(p1_2, p2_2));
+	m_lines.push_back(VectorPair(p2_2, p4_2));
+	m_lines.push_back(VectorPair(p4_2, p3_2));
+	m_lines.push_back(VectorPair(p3_2, p1_2));
 
-	};
-	DrawableNodeFactory nodeFactory;
-	ILineMesh* lineMesh = dynamic_cast<ILineMesh*>(nodeFactory.CreateDrawableNode(Node_LineMesh));
-	ALPHA_ASSERT(lineMesh);
-	lineMesh->VInitLineMesh();
-	lineMesh->VLoadLineMesh(vertexArray, 24);
-	m_lineMesh = StrongSceneNodePtr(lineMesh);
-	GraphicsSystem::Get().GetScene()->AddChild(m_lineMesh);
+	m_lines.push_back(VectorPair(p1_2, p1));
+	m_lines.push_back(VectorPair(p2_2, p2));
+	m_lines.push_back(VectorPair(p4_2, p4));
+	m_lines.push_back(VectorPair(p3_2, p3));
 }
 // -----------------------------------------------------------------------
 Frustum::Frustum()
@@ -192,15 +172,13 @@ bool Frustum::VInside(vec3 point, float radius) const
 	return true;
 }
 // -----------------------------------------------------------------------
-void Frustum::VTransform(mat4& trans, mat4& rot)
+void Frustum::VTransform(Matrix4x4& trans)
 {
 	for (int i = 0; i < 6; i++)
 	{
-		m_planes[i].VTransform(trans, rot);
+		m_planes[i].VTransform(trans);
 	}
-	//mat4 offset = translate(mat4(1.0f), vec3(0, 0, -2));
-	///m_lineMesh->VSetTransform(trans * rot *offset);
-	m_lineMesh->VSetTransform(trans * rot);
+	DrawableGeometry::VTransform(trans);
 }
 //========================================================================
 Sphere::Sphere() :
@@ -214,7 +192,7 @@ Sphere::Sphere(vec3 position, float radius, int accuracy) :
 m_radius(radius),
 m_position(position)
 {
-	vector <float> vertices;
+	//vector <float> vertices;
 	float revolution = 2 * pi < float >() ;
 	float startingAngle = -pi < float >() / 2;
 	vec3 previous;
@@ -234,12 +212,7 @@ m_position(position)
 
 			if (j !=0)
 			{
-				vertices.push_back(previous.x);
-				vertices.push_back(previous.y);
-				vertices.push_back(previous.z);
-				vertices.push_back(x);
-				vertices.push_back(y);
-				vertices.push_back(z);
+				m_lines.push_back(VectorPair(previous, vec3(x,y,z)));
 				count++;
 			}
 			else
@@ -249,12 +222,7 @@ m_position(position)
 			count++;
 			previous = vec3(x, y, z);
 		}
-		vertices.push_back(previous.x);
-		vertices.push_back(previous.y);
-		vertices.push_back(previous.z);
-		vertices.push_back(start.x);
-		vertices.push_back(start.y);
-		vertices.push_back(start.z);
+		m_lines.push_back(VectorPair(previous, start));
 		count++;
 	}
 	//--
@@ -272,12 +240,7 @@ m_position(position)
 
 			if (j != 0)
 			{
-				vertices.push_back(previous.x);
-				vertices.push_back(previous.y);
-				vertices.push_back(previous.z);
-				vertices.push_back(x);
-				vertices.push_back(y);
-				vertices.push_back(z);
+				m_lines.push_back(VectorPair(previous, vec3(x, y, z)));
 				count++;
 			}
 			else
@@ -287,24 +250,9 @@ m_position(position)
 			count++;
 			previous = vec3(x, y, z);
 		}
-		vertices.push_back(previous.x);
-		vertices.push_back(previous.y);
-		vertices.push_back(previous.z);
-		vertices.push_back(start.x);
-		vertices.push_back(start.y);
-		vertices.push_back(start.z);
+		m_lines.push_back(VectorPair(previous, start));
 		count++;
 	}
-	//--
-	int numvert = 4 * accuracy *(accuracy - 2);
-	DrawableNodeFactory nodeFactory;
-	ILineMesh* lineMesh = dynamic_cast<ILineMesh*>(nodeFactory.CreateDrawableNode(Node_LineMesh));
-	ALPHA_ASSERT(lineMesh);
-	lineMesh->VInitLineMesh();
-	float* vertexArray = &vertices[0];
-	lineMesh->VLoadLineMesh(vertexArray, numvert);
-	m_lineMesh = StrongSceneNodePtr(lineMesh);
-	GraphicsSystem::Get().GetScene()->AddChild(m_lineMesh);
 }
 // -----------------------------------------------------------------------
 Sphere::~Sphere()
@@ -332,12 +280,11 @@ bool Sphere::VInside(vec3 point, float radius) const
 	return false;
 }
 // -----------------------------------------------------------------------
-void Sphere::VTransform(mat4& trans, mat4& rot)
+void Sphere::VTransform(Matrix4x4& trans)
 {
-	mat4 rt = trans*rot;
-	vec4 point = rt * vec4(1.0);
+	vec4 point = trans * vec4(1.0);
 	m_position = vec3(point);
-	m_lineMesh->VSetTransform(trans * rot);
+	DrawableGeometry::VTransform(trans);
 }
 //========================================================================
 Cone::Cone() :
@@ -353,7 +300,6 @@ m_radius(radius),
 m_position(position),
 m_length(length)
 {
-	vector <float> vertices;
 	float revolution = 2 * pi < float >();
 	float startingAngle = -pi < float >() / 2;
 	vec3 previous;
@@ -373,12 +319,7 @@ m_length(length)
 		if (j != 0)
 		{
 			//circle
-			vertices.push_back(previous.x);
-			vertices.push_back(previous.y);
-			vertices.push_back(previous.z);
-			vertices.push_back(x);
-			vertices.push_back(y);
-			vertices.push_back(z);
+			m_lines.push_back(VectorPair(previous, vec3(x, y, z)));
 
 			count++;
 		}
@@ -387,34 +328,14 @@ m_length(length)
 			start = vec3(x, y, z);
 		}
 		//cone side
-		vertices.push_back(x);
-		vertices.push_back(y);
-		vertices.push_back(z);
-		vertices.push_back(point.x);
-		vertices.push_back(point.y);
-		vertices.push_back(point.z);
+		m_lines.push_back(VectorPair(point, vec3(x, y, z)));
 		count++;
 		previous = vec3(x, y, z);
 
 	}
-	vertices.push_back(previous.x);
-	vertices.push_back(previous.y);
-	vertices.push_back(previous.z);
-	vertices.push_back(start.x);
-	vertices.push_back(start.y);
-	vertices.push_back(start.z);
-
-	
+	m_lines.push_back(VectorPair(previous, start));
+		
 	//--
-	int numvert = 4 * (accuracy);
-	DrawableNodeFactory nodeFactory;
-	ILineMesh* lineMesh = dynamic_cast<ILineMesh*>(nodeFactory.CreateDrawableNode(Node_LineMesh));
-	ALPHA_ASSERT(lineMesh);
-	lineMesh->VInitLineMesh();
-	float* vertexArray = &vertices[0];
-	lineMesh->VLoadLineMesh(vertexArray, numvert);
-	m_lineMesh = StrongSceneNodePtr(lineMesh);
-	GraphicsSystem::Get().GetScene()->AddChild(m_lineMesh);
 }
 // -----------------------------------------------------------------------
 Cone::~Cone()
@@ -434,11 +355,10 @@ bool Cone::VInside(vec3 point, float radius) const
 	return false;
 }
 // -----------------------------------------------------------------------
-void Cone::VTransform(mat4& trans, mat4& rot)
+void Cone::VTransform(Matrix4x4& trans)
 {
-	mat4 rt = trans*rot;
-	vec4 point = rt * vec4(1.0);
+	vec4 point = trans * vec4(1.0);
 	m_position = vec3(point);
-	m_lineMesh->VSetTransform(trans * rot);
+	DrawableGeometry::VTransform(trans);
 }
 //========================================================================

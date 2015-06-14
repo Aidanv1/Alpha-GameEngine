@@ -1,39 +1,4 @@
 <World>
-  <Actor name = "Grass1">
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass.3ds"
-                  alphaType ="Transparent"
-                  />
-      <Position x ="-5.4" y ="0.2" z ="-4.5" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-    </Graphics>
-  </Actor>
-  <Actor name = "Grass2">
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass.3ds"
-                  alphaType ="Transparent"
-                  />
-      <Position x ="-4.4" y ="0.2" z ="-3.2" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-    </Graphics>
-  </Actor>
-  <Actor name = "Grass3">
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass.3ds"
-                  alphaType ="Transparent"
-                  />
-      <Position x ="-5.2" y ="0.2" z ="-3.5" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-    </Graphics>
-  </Actor>
-  <Actor name = "Grass4">
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass.3ds"
-                  alphaType ="Transparent"/>
-      <Position x ="-5.0" y ="0.2" z ="-4.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-    </Graphics>
-  </Actor>
   
   <Actor name = "Sky">    
     <Graphics type ="Sky">
@@ -57,18 +22,56 @@
                 specularColourR ="0.1" specularColourG ="0.1" specularColourB ="0.1"
                 />
     </Graphics>
+    <Physics>
+      <PhysicsMaterial>Normal</PhysicsMaterial>
+      <Density>infinite</Density>
+      <Shape type ="plane">
+        <Properties nX ="0" nY ="1.0" nZ ="0.0"/>
+      </Shape>
+    </Physics>
   </Actor>
-
 
   <Actor name = "Ironman">
+
+    <Transform>
+      <Position x ="0.0" y ="20" z ="-10.0" />
+      <RotationInDegrees xAxis ="-90" yAxis ="-30.0" zAxis ="-30.0" />
+    </Transform>
+    
     <Graphics type ="Model">
       <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"/>
-      <Position x ="0.0" y ="0.2" z ="-4.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />    
     </Graphics>
-  </Actor>
+    
+    <Physics>
+      <PhysicsMaterial>Normal</PhysicsMaterial>
+      <Density>aluminium</Density>
+      <Shape type ="sphere">
+        <Properties radius = "1.0" hasLocalInertia ="true"/>
+      </Shape>
+    </Physics>
 
-  <Actor name = "Light1">
+  </Actor>
+ 
+  <!--<Actor name = "Ironman">
+    <Transform>
+      <Position x ="0.0" y ="20" z ="-10.0" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
+    </Transform>
+
+    <Graphics type ="Model">
+      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"/>
+    </Graphics>
+
+    <Physics>
+      <PhysicsMaterial>Bouncy</PhysicsMaterial>
+      <Density>aluminium</Density>
+      <Shape type ="box">
+        <Properties halfX = "1.0" halfY = "1.0" halfZ = "1.0" hasLocalInertia ="true"/>
+      </Shape>
+    </Physics>
+  </Actor>-->
+
+  <!--<Actor name = "Light1">
     <Graphics type ="Light">
       <Properties  dirX="0.0" dirY="0.0" dirZ="0.0"
                    posX="10.0" posY="5.0" posZ="20.0"
@@ -77,44 +80,56 @@
                    type="Point"       
         />      
     </Graphics>
-  </Actor>
+  </Actor>-->
   <Actor name = "Light2">
+    <Transform>
+      <Position x ="0.2" y ="40" z ="-10.0" />
+      <RotationInDegrees xAxis ="-90" yAxis ="-30.0" zAxis ="-30.0" />
+    </Transform>
+
     <Graphics type ="Light">
-      <Properties  dirX="0.0" dirY="0.0" dirZ="0.0"
-                   posX="-30.0" posY="6.0" posZ="-20.0"
-                   intenR="1" intenG="0" intenB="0"
+      <Properties  intenR="1" intenG="0" intenB="0"
                    attenuation="20.0"
                    type="Point"
         />
     </Graphics>
+    <Physics>
+      <PhysicsMaterial>Normal</PhysicsMaterial>
+      <Density>aluminium</Density>
+      <Shape type ="sphere">
+        <Properties radius = "1.0" hasLocalInertia ="true"/>
+      </Shape>
+    </Physics>
   </Actor>
-
-  <Actor name = "Light3">
-    <Graphics type ="Light">
-      <Properties  dirX="0.4" dirY="-0.5" dirZ="1.0"
-                   intenR="0.4" intenG="0.4" intenB="0.4"
-                   ambientR ="0.1" ambientG ="0.1" ambientB ="0.1"
-                   attenuation="10.0"
-                   type="Sun"
-        />
-    </Graphics>
-  </Actor>
-  
   <Actor name = "Light4">
+    <Transform>
+      <Position x ="5.0" y ="5" z ="-10.0" />
+      <RotationInDegrees xAxis ="30" yAxis ="-60.0" zAxis ="-60.0" />
+    </Transform>
+    
     <Graphics type ="Light">
-      <Properties  dirX="0.4" dirY="-1.0" dirZ="-1.0"
-                   posX="10.0" posY="5.0" posZ="-10.0"
-                   intenR="1" intenG="1" intenB="1"
+      <Properties  intenR="1" intenG="1" intenB="1"
                    attenuation="100.0"
                    theta ="60"
                    type="SpotLight"
         />
     </Graphics>
   </Actor>
- 
+  
+  <Actor name = "Light3">
+    <Graphics type ="Light">
+      <Properties  ambientR ="0.0" ambientG ="0.0" ambientB ="0.0"
+                   attenuation="10.0"
+                   type="Sun"
+        />
+    </Graphics>
+  </Actor>
+
+
+
   <Actor name = "Main Camera">
     <Graphics type ="Camera">
-      <Properties mode = "FlyAround" targetName = "Ironman"/>
+      <Properties mode = "Orbital" targetName = "Ironman"/>
       <Parameters
         FieldOfView ="45"
         AspectRatio ="1.7778"

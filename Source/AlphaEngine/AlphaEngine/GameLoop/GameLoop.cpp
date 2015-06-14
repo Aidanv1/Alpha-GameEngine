@@ -1,18 +1,21 @@
 #include "GameLoop.h"
-
+// -----------------------------------------------------------------------
 GameLoop::GameLoop() :
 m_globalEventManager("Global", true),
+m_globalPhysics(true),
 m_window(NULL),
 m_gameClock(NULL),
 m_systemTime(0),
 m_gameTime(0)
 {
 }
+// -----------------------------------------------------------------------
 GameLoop::~GameLoop()
 {
 	SAFE_DELETE(m_window);
 	SAFE_DELETE(m_gameClock);
 }
+// -----------------------------------------------------------------------
 bool GameLoop::Init(IWindow* window)
 {
 	//Window
@@ -24,10 +27,16 @@ bool GameLoop::Init(IWindow* window)
 	//Renderer
 	shared_ptr<IRenderer> renderer(ALPHA_NEW Renderer_GL());
 	//graphics system
-	if (!GraphicsSystem::Get().Init(renderer, 100, 100))
+	if (!GraphicsSystem::Get().Init(renderer, 60, 60))
 	{
 		return false;
 	}
+	//Physics
+	m_globalPhysics.VInitPhysics();
+	TiXmlDocument physicsDoc;
+	physicsDoc.LoadFile("Physics.xml");
+	TiXmlElement* physicsElem = physicsDoc.FirstChildElement();
+	m_globalPhysics.VConfigureXmlData(physicsElem);
 
 	//initialize gameclock
 	m_gameClock = ALPHA_NEW Clock();
@@ -46,6 +55,7 @@ bool GameLoop::Init(IWindow* window)
 	GraphicsSystem::Get().LoadScene();
 	return true;
 }
+// -----------------------------------------------------------------------
 void GameLoop::StartLoop()
 {
 	float dt = 0;
@@ -53,15 +63,21 @@ void GameLoop::StartLoop()
 	unsigned int cycleCount = 0;
 	while (!quit)
 	{
-
-		//display delta time
-		//if (cycleCount%100 == 0)
-		//{
-		//	stringstream printText;
-		//	printText << "FPS: " << to_string(MS_PER_SECOND / dt);
-		//}
-		
+		//RENDERING--------------------------
+		//Graphics Render
+		GraphicsSystem::Get().Render(dt);
+		//Debug Physics Render
+		m_globalPhysics.VRenderDiagnostics();
+		//-----------------------------------
+		//UPDATES----------------------------
+		//Dynamics
+		m_globalPhysics.VUpdate(dt);		
+		//Graphics Update
 		GraphicsSystem::Get().Update(dt);
+		//-----------------------------------
+		//ROLESYSTEM UPDATE
+		RoleSystem::Get().Update(dt);
+		//-----------------------------------
 		quit = !m_window->VUpdate(dt);
 		m_globalEventManager.VUpdate();
 		
@@ -69,7 +85,7 @@ void GameLoop::StartLoop()
 		cycleCount++;
 	}
 }
-
+// -----------------------------------------------------------------------
 float GameLoop::GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int64& previousClockTime)
 {
 	float deltatime = 0;
@@ -87,3 +103,4 @@ float GameLoop::GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int6
 	previousClockTime = nextime;
 	return deltatime;
 }
+// -----------------------------------------------------------------------

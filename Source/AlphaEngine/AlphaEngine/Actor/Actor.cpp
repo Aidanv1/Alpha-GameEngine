@@ -35,17 +35,28 @@ bool Actor::AddComponent(StrongActorComponentPtr pComponent)
 	return true;
 }
 // -----------------------------------------------------------------------
-void Actor::Update()
+void Actor::Update(float deltaMs)
 {
-	for (auto componentIt = m_components.begin(); componentIt != m_components.end(); componentIt++)
+	//Updates in reverse alphabetical order
+	//Naming component types correctly is important!
+	for (auto componentIt = m_components.rbegin(); componentIt != m_components.rend(); componentIt++)
 	{
-		componentIt->second->VUpdate();
+		IActorComponent* component =(componentIt->second).get();
+		if (component)
+		{
+			component->VUpdate(deltaMs);
+		}
 	}
 }
 // -----------------------------------------------------------------------
 IActorComponent* Actor::GetComponent(ComponentType type)
 {
-	return m_components[type].get();
+	auto findIt = m_components.find(type);
+	if (findIt != m_components.end())
+	{
+		return m_components[type].get();
+	}
+	return NULL;
 }
 // -----------------------------------------------------------------------
 void Actor::Destroy()

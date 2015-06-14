@@ -98,9 +98,6 @@
     <ClCompile Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.cpp">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Physics\BulletPhysics.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\Scene\LightNode.cpp">
       <Filter>Graphics3D\Scene</Filter>
     </ClCompile>
@@ -131,9 +128,6 @@
     <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\HeightMap_GL.cpp">
       <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\LineMesh_GL.cpp">
-      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\Mesh_GL.cpp">
       <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
     </ClCompile>
@@ -154,6 +148,33 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\GraphicsSettings.cpp">
       <Filter>Graphics3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\IGamePhysics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Components\TransformComponent.cpp">
+      <Filter>Actor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\ComponentCreators\TransformComponentCreator.cpp">
+      <Filter>Actor\ComponentCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="Maths\LinearAlgebra.cpp">
+      <Filter>Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Components\PhysicsComponent.cpp">
+      <Filter>Actor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\ComponentCreators\PhysicsComponentCreator.cpp">
+      <Filter>Actor\ComponentCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\BulletPhysics\BulletPhysics.cpp">
+      <Filter>Physics\BulletPhysics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\BulletPhysics\DebugDrawer.cpp">
+      <Filter>Physics\BulletPhysics</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Resources\Raw.cpp">
+      <Filter>ResourceManager\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +261,9 @@
     </Filter>
     <Filter Include="Graphics3D\OpenGL\DrawableNodes">
       <UniqueIdentifier>{0a298474-0221-437b-9a95-02bc94f3180b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\BulletPhysics">
+      <UniqueIdentifier>{9fb1889d-b51d-4e13-a316-35384d0020f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -376,9 +400,6 @@
     <ClInclude Include="Physics\IGamePhysics.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Physics\BulletPhysics.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\Scene\LightNode.h">
       <Filter>Graphics3D\Scene</Filter>
     </ClInclude>
@@ -409,9 +430,6 @@
     <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\HeightMap_GL.h">
       <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\LineMesh_GL.h">
-      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\Mesh_GL.h">
       <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
     </ClInclude>
@@ -432,6 +450,27 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\GraphicsSettings.h">
       <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Components\TransformComponent.h">
+      <Filter>Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\ComponentCreators\TransformComponentCreator.h">
+      <Filter>Actor\ComponentCreators</Filter>
+    </ClInclude>
+    <ClInclude Include="Maths\LinearAlgebra.h">
+      <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Components\PhysicsComponent.h">
+      <Filter>Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\ComponentCreators\PhysicsComponentCreator.h">
+      <Filter>Actor\ComponentCreators</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\BulletPhysics\BulletPhysics.h">
+      <Filter>Physics\BulletPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\BulletPhysics\DebugDrawer.h">
+      <Filter>Physics\BulletPhysics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

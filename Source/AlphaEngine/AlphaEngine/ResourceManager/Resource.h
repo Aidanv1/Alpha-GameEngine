@@ -27,7 +27,6 @@ private:
 	bool LoadBuffer(unsigned int availableSpace);
 	void FreeBuffer();
 private:	
-	unsigned int m_resID;
 	unsigned char* m_pBuffer;
 	shared_ptr<IResourceLoader> m_loader;
 	unsigned int m_size;

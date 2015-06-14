@@ -2,7 +2,6 @@
 #include "Scene.h"
 // -----------------------------------------------------------------------
 SceneNode::SceneNode() :
-m_positionInWorld(0),
 m_nodeProperties(),
 m_radius(0),
 m_isVisible(true),
@@ -11,7 +10,6 @@ m_screenZ(0)
 }
 // -----------------------------------------------------------------------
 SceneNode::SceneNode(string name) :
-m_positionInWorld(0),
 m_nodeProperties(),
 m_radius(0),
 m_name(name),
@@ -51,12 +49,12 @@ void SceneNode::VAddChild(StrongSceneNodePtr sceneNode)
 // -----------------------------------------------------------------------
 void SceneNode::SetPositionInWorld(vec3& pos)
 {
-	m_positionInWorld = pos;
+	m_nodeProperties.m_toWorld.SetPosition(pos);
 }
 // -----------------------------------------------------------------------
 void SceneNode::SetRotationInWorld(vec3& rot)
 {
-	m_rotationInWorld = rot;
+	m_nodeProperties.m_toWorld.SetRotation(rot);
 }
 // -----------------------------------------------------------------------
 bool SceneNode::VInitNode()
@@ -76,12 +74,13 @@ void SceneNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
 	for (auto child = m_children.begin(); child != m_children.end(); child++)
 	{
-		NodeProperties n = (*child)->VGetNodeProperties();
-		n.m_toWorld = m_nodeProperties.m_toWorld * n.m_relativeTransform;
-		n.m_rotationMatrix = m_nodeProperties.m_rotationMatrix * n.m_relativeRotation;
-		(*child)->VSetNodeProperties(n);
 		(*child)->VUpdateNode(pScene, deltaMS);
 	}
+}
+// -----------------------------------------------------------------------
+void SceneNode::VSetTransform(Matrix4x4& ToWorld)
+{
+	m_nodeProperties.m_toWorld = ToWorld;
 }
 // -----------------------------------------------------------------------
 void SceneNode::VSetTransform(mat4& ToWorld)

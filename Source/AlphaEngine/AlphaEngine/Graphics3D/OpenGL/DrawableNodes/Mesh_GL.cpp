@@ -28,6 +28,10 @@ bool Mesh_GL::VInitMesh(string meshFile)
 // -----------------------------------------------------------------------
 void Mesh_GL::VRender(Scene* pScene)
 {
+	//push to stack
+	mat4 toWorldTransform = pScene->Stack()->Top() * m_nodeProperties.m_toWorld;
+	pScene->Stack()->Push(toWorldTransform);
+
 	m_shaderProgram->VUseProgram();
 	//get view and projection matrix from main camera
 	mat4 viewMat;
@@ -35,10 +39,9 @@ void Mesh_GL::VRender(Scene* pScene)
 	pScene->GetCamera()->GetViewMatrix(viewMat);
 	pScene->GetCamera()->GetProjectionMatrix(projMat);
 	//set shader uniforms
-	m_shaderProgram->SetUniforms(	m_nodeProperties.m_toWorld,
+	m_shaderProgram->SetUniforms(	toWorldTransform,
 									viewMat,
 									projMat,
-									m_nodeProperties.m_rotationMatrix,									
 									m_material->Texture()->VGetTextureID());
 	//set lighting uniforms
 	WeakLightArray lights;
@@ -49,6 +52,9 @@ void Mesh_GL::VRender(Scene* pScene)
 	BindData();
 	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
 	VRenderChildren(pScene);
+
+	//pop from stack
+	pScene->Stack()->Pop();
 }
 // -----------------------------------------------------------------------
 void Mesh_GL::BindData()

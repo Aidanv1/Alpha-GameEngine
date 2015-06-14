@@ -16,6 +16,7 @@ public:
 	bool Init(StrongRendererPtr renderer, int textResSize, int meshResSize);
 	StrongScenePtr GetScene() const { return m_scene; };
 	void Update(float deltaMs);
+	void Render(float deltaMs);
 	StrongResourceManagerPtr GetMeshResourceManager() { return m_meshResourceManager; }
 	StrongResourceManagerPtr GetTextureResourceManager() { return m_textureResourceManager; }
 	IRenderer* GetRenderer() { return m_renderer.get(); };

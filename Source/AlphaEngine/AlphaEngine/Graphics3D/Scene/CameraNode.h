@@ -13,7 +13,7 @@ enum CameraMode
 	Orbital_Mode
 };
 //========================================================================
-class CameraNode : public SceneNode, public GraphicsComponent
+class CameraNode : public SceneNode
 {
 	struct CameraParameters
 	{
@@ -46,6 +46,7 @@ public:
 	SceneNode* GetCameraTarget() const { return m_targetNode; }
 	void GetProjectionMatrix(mat4& projMat) const { projMat = m_projectionMatrix; }
 	void GetViewMatrix(mat4& viewMat) const { viewMat = m_viewMatrix; };
+	void GetViewMatrix(Matrix4x4& viewMat) const { viewMat = m_viewMatrix; };
 	void GetTranslationMatrix(mat4& transMat) const { transMat = m_translationMatrix; }
 	void GetRotationMatrix(mat4& rotMat) const { rotMat = m_rotationMatrix; }
 
@@ -57,10 +58,7 @@ public:
 	//Scene Node functions
 	virtual bool VInitNode() override;
 	void VUpdateNode(Scene* scene, float deltaMs) override;
-	//Actor component funcions
-	virtual void VUpdate() override;
-	virtual bool VInitComponent(TiXmlElement* pElement) override;
-	virtual bool VPostInit() override;
+	virtual bool VConfigureXmlNodeData(TiXmlElement* pElement) override;
 
 	//Look event delegate listens reacts to lookevents ie. any camera movement
 	void LookEventDelegate(StrongEventPtr event);

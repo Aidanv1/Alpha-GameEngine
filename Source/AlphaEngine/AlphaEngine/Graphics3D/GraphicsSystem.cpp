@@ -55,9 +55,11 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 // -----------------------------------------------------------------------
 void GraphicsSystem::Update(float deltaMs)
 {
-	//m_meshResourceManager->Update();
-	//m_textureResourceManager->Update();
 	m_scene->Update(deltaMs);
+}
+// -----------------------------------------------------------------------
+void GraphicsSystem::Render(float deltaMs)
+{
 	m_renderer->VRender(m_scene);
 }
 // -----------------------------------------------------------------------

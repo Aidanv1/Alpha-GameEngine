@@ -7,6 +7,7 @@
 #include "Shader/SkyShaderProgram.h"
 #include "Shader/HeightMapShaderProgram.h"
 #include "Shader/BasicShaderProgram.h"
+#include "Buffers/VertexBuffer.h"
 typedef shared_ptr<Scene> StrongScenePtr;
 //========================================================================
 class Renderer_GL : public IRenderer
@@ -19,6 +20,7 @@ public:
 	void VOnRestore() override;
 	void VSetBackGroundColour(vec4& backGroundColour) override;
 	void VDepthBuffer(DepthBufferCommand depthMode) override;
+	void VDrawLine(vec3& from, vec3& to, vec4& colour) override;
 	//Shaders
 	MeshShaderProgram* GetMeshShaderProgram() { return m_meshShaderProgram.get(); }
 	Text2DShaderProgram* GetText2DShaderProgram() { return m_text2DShaderProgram.get(); }
@@ -35,5 +37,7 @@ private:
 	shared_ptr<SkyShaderProgram> m_skyShaderProgram;
 	shared_ptr<HeightMapShaderProgram> m_heightMapShaderProgram;
 	shared_ptr<BasicShaderProgram> m_basicShaderProgram;
+	//Vertex buffer for drawing lines
+	VertexBuffer m_vertexBuffer;
 };
 //========================================================================

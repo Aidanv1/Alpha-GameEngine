@@ -1,6 +1,7 @@
 #pragma once
 #include"../..\AlphaStd.h"
 #include "../../Actor/Actor.h"
+#include "../../Maths/LinearAlgebra.h"
 class Scene;
 class ISceneNode;
 typedef shared_ptr<ISceneNode> StrongSceneNodePtr;
@@ -23,19 +24,13 @@ struct NodeProperties
 {
 	ActorID m_ActorID;	
 	string m_name;
-	mat4 m_toWorld;
-	mat4 m_relativeTransform;
-	mat4 m_rotationMatrix;
-	mat4 m_relativeRotation;
+	Matrix4x4 m_toWorld;
 	AlphaType m_alphaType;
 	RenderPass m_renderPass;
 	NodeProperties() :
 		m_ActorID(-1),
 		m_name(""),
 		m_toWorld(1.0f),
-		m_relativeTransform(1.0f),
-		m_relativeRotation(1.0f),
-		m_rotationMatrix(1.0f),
 		m_alphaType(tOPAQUE),
 		m_renderPass(RenderPass_NotRendered)
 	{
@@ -52,9 +47,11 @@ public:
 	virtual void VAddChild(StrongSceneNodePtr sceneNode) = 0;
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) = 0;
 	virtual float VGetScreenZ() const = 0;
+	virtual void VSetTransform(Matrix4x4& ToWorld) = 0;
 	virtual void VSetTransform(mat4& ToWorld) = 0;
 	virtual NodeProperties VGetNodeProperties() const = 0;
 	virtual void VSetNodeProperties(NodeProperties &nodeProperties) = 0;
+	virtual bool VConfigureXmlNodeData(TiXmlElement* pConfigElement) = 0;
 protected:
 	virtual void VRenderChildren(Scene* pScene) = 0;
 };
@@ -71,19 +68,19 @@ public:
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) override;
 	virtual void VRender(Scene* pScene) override;
 	virtual void VAddChild(StrongSceneNodePtr sceneNode) override;
-	void GetPositionInWorld(vec3& pos) const { pos = m_positionInWorld; }
+	void GetPositionInWorld(vec3& pos) const { pos = m_nodeProperties.m_toWorld.GetPosition(); }
 	void SetPositionInWorld(vec3& pos);
-	void GetRotationInWorld(vec3& rot) const { rot = m_rotationInWorld; }
+	void GetRotationInWorld(mat4& rot) const { rot = m_nodeProperties.m_toWorld.GetRotation(); }
 	void SetRotationInWorld(vec3& rot);
+	void VSetTransform(Matrix4x4& ToWorld) override;
 	void VSetTransform(mat4& ToWorld) override;
 	float GetRadius() const { return m_radius; }
 	float VGetScreenZ() const override { return m_screenZ; }
+	virtual bool VConfigureXmlNodeData(TiXmlElement* pConfigElement) override { return true; }
 protected:
 	virtual void VRenderChildren(Scene* pScene) override;
 protected:
 	string m_name;
-	vec3 m_positionInWorld;
-	vec3 m_rotationInWorld;
 	NodeProperties m_nodeProperties;
 	SceneNodeList m_children;
 	float m_radius;

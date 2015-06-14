@@ -83,20 +83,16 @@ bool Renderer_GL::VInit(TiXmlElement* pElement)
 	ALPHA_ASSERT(m_heightMapShaderProgram);
 	ALPHA_ASSERT(m_basicShaderProgram);
 
-	if (!m_meshShaderProgram)
+	if (!(	m_meshShaderProgram &&
+			m_text2DShaderProgram &&
+			m_skyShaderProgram &&
+			m_heightMapShaderProgram &&
+			m_basicShaderProgram
+		))
 	{
 		success = false;
 	}
-	if (!m_text2DShaderProgram)
-	{
-		success = false;
-	}
-
-	if (!m_skyShaderProgram)
-	{
-		success = false;
-	}
-
+	
 	//opengl render settings
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
@@ -104,10 +100,12 @@ bool Renderer_GL::VInit(TiXmlElement* pElement)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-
+	//drawline init
+	m_vertexBuffer.Init(2, NULL, 3, "lineDebug");
 	return success;
 }
 // -----------------------------------------------------------------------
+#include "../Geometry/Geometry.h"
 void Renderer_GL::VRender(StrongScenePtr scene)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -159,3 +157,26 @@ void Renderer_GL::VDepthBuffer(DepthBufferCommand depthMode)
 	}
 }
 // -----------------------------------------------------------------------
+void Renderer_GL::VDrawLine(vec3& from, vec3& to, vec4& colour)
+{
+	m_basicShaderProgram->VUseProgram();
+	mat4 viewMat;
+	mat4 projMat;
+	GraphicsSystem::Get().GetScene()->GetCamera()->GetViewMatrix(viewMat);
+	GraphicsSystem::Get().GetScene()->GetCamera()->GetProjectionMatrix(projMat);
+	//set shader uniforms
+	m_basicShaderProgram->SetUniforms(	mat4(1.0f),
+										viewMat,
+										projMat);
+	//vertices
+	float vertices[] =
+	{
+		from.x, from.y, from.z,
+		to.x, to.y, to.z
+	};
+	m_vertexBuffer.BindSubData(2, 3, 0, vertices);
+	m_vertexBuffer.SetVertexAttribPointer(m_basicShaderProgram->GetPositionID(), 3, 0, 0);
+	glDepthFunc(GL_ALWAYS);
+	glDrawArrays(GL_LINES, 0, 2);
+	glDepthFunc(GL_LESS);
+}

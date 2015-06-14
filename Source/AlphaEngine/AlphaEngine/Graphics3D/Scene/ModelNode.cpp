@@ -3,7 +3,6 @@
 // -----------------------------------------------------------------------
 ModelNode::ModelNode() :
 SceneNode(),
-GraphicsComponent(),
 m_modelFileName(""),
 m_modelID(-1),
 m_modelResourceManager(NULL),
@@ -15,15 +14,11 @@ m_meshChildren()
 ModelNode::~ModelNode()
 {
 }
-//========================================================================
-// IActorComponent Functions
-//========================================================================
-void ModelNode::VUpdate()
-{
 
-}
-// -----------------------------------------------------------------------
-bool ModelNode::VInitComponent(TiXmlElement* pElement)
+//========================================================================
+// Scene Node Functions
+//========================================================================
+bool ModelNode::VConfigureXmlNodeData(TiXmlElement* pElement)
 {
 	TiXmlElement* nextElem = pElement->FirstChildElement();
 	//loop through elements
@@ -67,41 +62,30 @@ bool ModelNode::VInitComponent(TiXmlElement* pElement)
 		}
 		if (val == "Position")
 		{
-			nextElem->QueryFloatAttribute("x", &m_positionInWorld.x);
-			nextElem->QueryFloatAttribute("y", &m_positionInWorld.y);
-			nextElem->QueryFloatAttribute("z", &m_positionInWorld.z);
+			vec3 pos;
+			nextElem->QueryFloatAttribute("x", &pos.x);
+			nextElem->QueryFloatAttribute("y", &pos.y);
+			nextElem->QueryFloatAttribute("z", &pos.z);
+			m_nodeProperties.m_toWorld.SetPosition(pos);
 		}
 		if (val == "RotationInDegrees")
 		{
-			nextElem->QueryFloatAttribute("xAxis", &m_rotationInWorld.x);
-			nextElem->QueryFloatAttribute("yAxis", &m_rotationInWorld.y);
-			nextElem->QueryFloatAttribute("zAxis", &m_rotationInWorld.z);
+			vec3 rot;
+			nextElem->QueryFloatAttribute("xAxis", &rot.x);
+			nextElem->QueryFloatAttribute("yAxis", &rot.y);
+			nextElem->QueryFloatAttribute("zAxis", &rot.z);
 			//convert to radians			
-			m_rotationInWorld.x = radians<float>(m_rotationInWorld.x);
-			m_rotationInWorld.y = radians<float>(m_rotationInWorld.y);
-			m_rotationInWorld.z = radians<float>(m_rotationInWorld.z);
+			rot.x = radians<float>(rot.x);
+			rot.y = radians<float>(rot.y);
+			rot.z = radians<float>(rot.z);
+			m_nodeProperties.m_toWorld.SetRotation(rot);
 		}
 		nextElem = nextElem->NextSiblingElement();
 	}
 	m_modelResourceManager = GraphicsSystem::Get().GetMeshResourceManager();
-
-	// initial transforms
-	//m_nodeProperties.m_relativeRotation = rotate(mat4(1.0f), m_rotationInWorld.x, vec3(1.0f, 0.0f, 0.0f));
-	//m_nodeProperties.m_relativeRotation = rotate(m_nodeProperties.m_relativeRotation, m_rotationInWorld.y, vec3(0.0f, 1.0f, 0.0f));
-	//m_nodeProperties.m_relativeRotation = rotate(m_nodeProperties.m_relativeRotation, m_rotationInWorld.z, vec3(0.0f, 0.0f, 1.0f));
-
-	m_nodeProperties.m_relativeTransform = translate(mat4(1.0f), m_positionInWorld) * m_nodeProperties.m_relativeRotation;
 	return true;
 }
 // -----------------------------------------------------------------------
-bool ModelNode::VPostInit()
-{
-	GraphicsComponent::VPostInit();
-	return true;
-}
-//========================================================================
-// Scene Node Functions
-//========================================================================
 bool ModelNode::VInitNode()
 {
 	bool success = Load();	
@@ -125,9 +109,15 @@ bool ModelNode::VInitNode()
 // -----------------------------------------------------------------------
 void ModelNode::VRender(Scene* pScene)
 {
+	//push to stack
+	Matrix4x4 toWorldTransform = pScene->Stack()->Top() * m_nodeProperties.m_toWorld;
+	pScene->Stack()->Push(toWorldTransform);
 	//dont render if the object is not within in the view frustum
-	if (!pScene->GetCamera()->GetFrustum().VInside(m_positionInWorld, m_radius))
+	vec3 pos = toWorldTransform.GetPosition();
+	if (!pScene->GetCamera()->GetFrustum().VInside(toWorldTransform.GetPosition(), m_radius))
 	{
+		//pop from stack
+		pScene->Stack()->Pop();
 		return;
 	}
 	//if the node is transparent and it is not currently the alpha pass,
@@ -136,9 +126,9 @@ void ModelNode::VRender(Scene* pScene)
 			!pScene->isAlphaPass())
 	{
 		pScene->AddTransparentNode(this);
-		mat4 viewMat;
+		Matrix4x4 viewMat;
 		pScene->GetCamera()->GetViewMatrix(viewMat);
-		vec4 pos4 = viewMat*m_nodeProperties.m_toWorld*vec4(m_positionInWorld, 1.0f);
+		vec4 pos4 = viewMat*m_nodeProperties.m_toWorld*vec4(m_nodeProperties.m_toWorld.GetPosition(), 1.0f);
 		m_screenZ = pos4.z;
 	}
 	else
@@ -150,6 +140,8 @@ void ModelNode::VRender(Scene* pScene)
 		}
 	}
 	VRenderChildren(pScene);
+	//pop from stack
+	pScene->Stack()->Pop();
 }
 // -----------------------------------------------------------------------
 bool ModelNode::Load()
@@ -223,7 +215,7 @@ bool ModelNode::Load()
 		mat4 trans = translate(mat4(1.0f), T);
 		//set relative transform
 		NodeProperties n = mesh->VGetNodeProperties();	
-		n.m_relativeTransform = trans;
+		n.m_toWorld = trans;
 		mesh->VSetNodeProperties(n);
 		int meshID = mesh->VLoadMesh(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
 		if (meshID == -1)
@@ -262,23 +254,7 @@ bool ModelNode::RequestLoadResource()
 // -----------------------------------------------------------------------
 void ModelNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
-	//update children transforms
-	//for (auto child = m_meshChildren.begin(); child != m_meshChildren.end(); child++)
-	//{
-	//	NodeProperties n = (*child)->GetNodeProperties();
-	//	n.m_toWorld = m_nodeProperties.m_toWorld * n.m_relativeTransform;
-	//	n.m_rotationMatrix = m_nodeProperties.m_rotationMatrix * n.m_relativeRotation;
-	//	(*child)->SetNodeProperties(n);
-	//	(*child)->VUpdateNode(pScene, deltaMS);		
-	//}
-	//for (auto child = m_children.begin(); child != m_children.end(); child++)
-	//{
-	//	NodeProperties n = (*child)->GetNodeProperties();
-	//	n.m_toWorld = m_nodeProperties.m_toWorld * n.m_relativeTransform;
-	//	n.m_rotationMatrix = m_nodeProperties.m_rotationMatrix * n.m_relativeRotation;
-	//	(*child)->SetNodeProperties(n);
-	//	(*child)->VUpdateNode(pScene, deltaMS);
-	//}
+	
 }
 // -----------------------------------------------------------------------
 void ModelNode::VRenderChildren(Scene* pScene)

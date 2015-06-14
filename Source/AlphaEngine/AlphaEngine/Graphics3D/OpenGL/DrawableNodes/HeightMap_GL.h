@@ -10,7 +10,7 @@
 #include "../Data/Material_GL.h"
 
 //========================================================================
-class HeightMap_GL : public SceneNode, public GraphicsComponent
+class HeightMap_GL : public SceneNode
 {
 	const float X_SCALE = 500;
 	const float Y_SCALE = 50;
@@ -23,9 +23,7 @@ public:
 	virtual bool VInitNode() override;
 	virtual void VUpdateNode(Scene* pScene, float deltaMS) override;
 	//IActorComponent functions
-	virtual void VUpdate() override;
-	virtual bool VInitComponent(TiXmlElement* pElement) override;
-	virtual bool VPostInit() override;
+	virtual bool VConfigureXmlNodeData(TiXmlElement* pElement) override;
 private:
 	HeightMap_GL();
 	int Load();

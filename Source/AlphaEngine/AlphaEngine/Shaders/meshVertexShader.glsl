@@ -8,15 +8,17 @@ varying vec2 texCoord;		// Going TO the fragment shader
 uniform mat4 mM;		// Model Matrix
 uniform mat4 mV;		// View Matrix
 uniform mat4 mP;		// Perspective Matrix
-uniform mat4 mRotations;
 varying vec3 fN;			// Because these are "out", they go to the fragment shader
 varying vec3 fE;			// The vector between the camera and a pixel
 varying vec3 v_Position;
 varying vec3 v_PositionEye;
 void main () 
 {
-	
-	fN = (mRotations*a_Normal).xyz;				// Rotate the normal	
+	mat4 Rotation = mM;
+	Rotation[3][0] = 0.0;
+	Rotation[3][1] = 0.0;
+	Rotation[3][2] = 0.0;
+	fN = (Rotation*a_Normal).xyz;				// Rotate the normal	
 	fE = (mV * mM * a_Position).xyz;	// where the pixel is relative to the camera. 	
 
 	texCoord = a_TexCoord;

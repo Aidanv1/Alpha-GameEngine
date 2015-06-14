@@ -1,6 +1,44 @@
 #include "Scene.h"
 #include "../IRenderer.h"
+//========================================================================
+//Transform Stack
+//========================================================================
+TransformStack::TransformStack()
+{
+	m_stack.push_back(mat4(1.0f));
+}
 // -----------------------------------------------------------------------
+TransformStack::~TransformStack()
+{
+}
+// -----------------------------------------------------------------------
+void TransformStack::Push(mat4& transform)
+{
+	m_stack.push_back(transform);
+}
+// -----------------------------------------------------------------------
+void  TransformStack::Push(Matrix4x4& transform)
+{
+	m_stack.push_back(transform);
+}
+// -----------------------------------------------------------------------
+void TransformStack::Pop()
+{
+	m_stack.pop_back();
+}
+// -----------------------------------------------------------------------
+Matrix4x4 TransformStack::Top()
+{
+	return m_stack.back();
+}
+// -----------------------------------------------------------------------
+int TransformStack::Size() const
+{
+	return m_stack.size();
+}
+//========================================================================
+//Scene
+//========================================================================
 Scene::Scene() :
 m_rootNode(NULL),
 m_isAlphaPass(false)

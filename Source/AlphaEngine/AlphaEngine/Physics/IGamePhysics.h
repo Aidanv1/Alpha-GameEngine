@@ -1,24 +1,28 @@
 #pragma once
 #include "../AlphaStd.h"
 #include "../Actor/Actor.h"
+#include "../Maths/LinearAlgebra.h"
+class btCollisionShape;
 //========================================================================
 class IGamePhysics
 {
+	static IGamePhysics* globalGamePhysics;
 public:
-	// Initialization and Maintenance of the Physics World
-	virtual bool VInitialize() = 0;
-	virtual void VOnUpdate(float deltaSeconds) = 0;
-	virtual void VSyncVisibleScene() = 0;
-	// Initialization of Physics Objects
-	virtual void VAddSphere(float radius, Actor* actor, const mat4& initialTransform, const string& densityStr, const string& physicsMaterial) = 0;
-	virtual void VAddBox(const vec3& dimensions, Actor* gameActor, const mat4& initialTransform, const std::string& densityStr, const std::string& physicsMaterial) = 0;
-	virtual void VRemoveActor(ActorID id) = 0;
-	// Debugging
+	IGamePhysics(bool isGlobal);
+	~IGamePhysics();
+	static IGamePhysics* Get();
+	virtual bool VInitPhysics() = 0;
+	virtual bool VConfigureXmlData(TiXmlElement* pElement) = 0;
+	virtual void VUpdate(float deltaMs) = 0;
+	virtual void VAddShape(Actor* actor, btCollisionShape* shape, float mass, string material, Matrix4x4& transform, bool hasLocalInteria) = 0;
+	virtual void VAddSphere(float const radius, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
+	virtual void VAddBox(vec3 dimensions, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
+	virtual void VAddStaticPlane(StrongActorPtr actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria = false) = 0;
+	//Accessor
+	virtual Matrix4x4 VGetRigidBodyTransform(ActorID actorID) = 0;
+	//Mutator
+	virtual void VSetRigidBodyTransform(ActorID actorID, Matrix4x4& transform) = 0;
+	//Debugging
 	virtual void VRenderDiagnostics() = 0;
-	// Physics world modifiers
-	virtual void VCreateTrigger(Actor* gameActor, const vec3 &pos, const float dim) = 0;
-	virtual void VApplyForce(const vec3 &dir, float newtons, ActorID aid) = 0;
-	virtual void VApplyTorque(const vec3 &dir, float newtons, ActorID aid) = 0;
-	virtual bool VKinematicMove(const mat4 &mat, ActorID aid) = 0;
 };
 //========================================================================
