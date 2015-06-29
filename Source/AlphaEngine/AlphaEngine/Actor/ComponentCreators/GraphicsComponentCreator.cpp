@@ -24,12 +24,7 @@ IActorComponent* GraphicsComponentCreator::CreateComponent(TiXmlElement* pElemen
 		GraphicsSystem::Get().GetScene()->SetCameraNode(shared_ptr<CameraNode>(cameraNode));
 		pSceneNode = cameraNode;
 
-	}
-	if (type == "HeightMap")
-	{
-		pSceneNode = nodeFactory.CreateDrawableNode(Node_HeightMap);
-
-	}
+	}	
 	if (type == "Light")
 	{
 		LightNode* light = ALPHA_NEW LightNode();

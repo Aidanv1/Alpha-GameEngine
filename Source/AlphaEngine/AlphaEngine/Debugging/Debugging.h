@@ -15,7 +15,7 @@
 			ErrorMessageWindow(str, __FUNCTION__, __FILE__, __LINE__);\
 			__debugbreak(); \
 		}
-#define GCC_WARNING(str) {} //TODO add functionality
+#define ALPHA_WARNING(str) {} //TODO add functionality
 #define ALPHA_LOG(tag, str){}
 #else
 #define ALPHA_ERROR(str) do { (void)sizeof(str); } while(0) 

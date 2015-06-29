@@ -5,7 +5,6 @@ enum NodeType
 {
 	Node_Mesh,
 	Node_Sky,
-	Node_HeightMap,
 	Node_Text
 };
 
@@ -23,24 +22,17 @@ public:
 	virtual void VCleanUpText() = 0;
 };
 //========================================================================
-struct aiMesh;
-struct aiMaterial;
+struct MeshInfo;
 class IMesh :public SceneNode
 {
 public:
 	IMesh() : SceneNode(){};
 	//
 	virtual bool VInitMesh(string meshFile) = 0;
-	virtual int VLoadMesh(aiMesh* pMesh, aiMaterial* pMaterial) = 0;
+	virtual int VLoadMesh(MeshInfo* pMesh) = 0;
 	virtual bool VValidate() = 0;
 	virtual void VFreeBuffer() = 0;
 	virtual bool VLoadMaterial() = 0;
+	virtual void VCullFace(bool cull = false) = 0;
 }; 
-//========================================================================
-class ILineMesh : public SceneNode
-{
-public:
-	virtual int VLoadLineMesh(float vertexArray[], int numVertices) = 0;
-	virtual bool VInitLineMesh() = 0;
-};
 //========================================================================

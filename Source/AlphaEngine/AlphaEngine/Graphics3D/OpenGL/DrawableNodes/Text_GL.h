@@ -4,7 +4,6 @@
 #include "../Data/Texture_GL.h"
 #include "../../Scene/SceneNode.h"
 #include "../Shader/Text2DShaderProgram.h"
-#include "../Renderer_GL.h"
 #include "../Buffers/VertexBuffer.h"
 //========================================================================
 class Text_GL : public IText

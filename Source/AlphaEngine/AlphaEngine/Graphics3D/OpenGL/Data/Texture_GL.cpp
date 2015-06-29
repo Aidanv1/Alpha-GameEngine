@@ -1,4 +1,5 @@
 #include "Texture_GL.h"
+#include <GL/glew.h>
 //========================================================================
 //Texture
 //========================================================================
@@ -21,7 +22,7 @@ bool Texture_GL::VLoadResource()
 	if (!m_textureResource)
 	{
 		//Request load Resource
-		Resource* texResource = new Resource(m_textureFileName);
+		Resource* texResource = ALPHA_NEW Resource(m_textureFileName);
 		texResource->RequestLoad();
 		m_textureResource = StrongBitmapPtr(texResource);
 
@@ -65,11 +66,14 @@ int Texture_GL::VLoadTexture()
 	{
 		return -1;
 	}
-	BmpData* pBmpData = (BmpData*)m_textureResource->Buffer();
+	unsigned char* pBmpData = m_textureResource->Buffer();
+	BitMapBufferReader bmpReader(pBmpData);
+	BitmapInfo info = bmpReader.GetInfo();
+
 	GLuint texBufferID;
-	texBufferID = TextureHandler::Get().GetTextureHandle(pBmpData->size, m_textureFileName);			// Request texture handle	
+	texBufferID = TextureHandler::Get().GetTextureHandle(info.m_size, m_textureFileName);			// Request texture handle	
 	glBindTexture(GL_TEXTURE_2D, texBufferID);	// Bind that buffer so we can then fill it (in next line)
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, pBmpData->width, pBmpData->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pBmpData->pixel_data.get());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, info.m_width, info.m_height, 0, GL_BGRA, GL_UNSIGNED_BYTE, bmpReader.PixelData());
 	//texture options
 	glEnable(GL_TEXTURE_2D);	// Turn on texturing
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);	// Set the preferences
@@ -112,7 +116,7 @@ bool TextureCubeMap_GL::VLoadResource()
 		if (!m_textureResource[i])
 		{
 			//Request load Resource
-			Resource* texResource = new Resource(m_textureFileName[i]);
+			Resource* texResource = ALPHA_NEW Resource(m_textureFileName[i]);
 			texResource->RequestLoad();
 			m_textureResource[i] = StrongBitmapPtr(texResource);
 
@@ -161,15 +165,14 @@ int TextureCubeMap_GL::VLoadTexture()
 		}
 	}
 
-	BmpData* pBmpData[6];
-	
+	BitMapBufferReader bmpReader[6];	
 	for (int i = 0; i < 6; i++)
 	{
-		pBmpData[i] = (BmpData*)m_textureResource[i]->Buffer();
+		bmpReader[i] = m_textureResource[i]->Buffer();
 	}
 	
 	GLuint texBufferID;
-	texBufferID = TextureHandler::Get().GetTextureHandle(pBmpData[0]->size * 6, m_textureFileName[0]);			// Request texture handle	
+	texBufferID = TextureHandler::Get().GetTextureHandle(bmpReader[0].GetInfo().m_size * 6, m_textureFileName[0]);			// Request texture handle	
 
 
 	// Linear filtering for minification and magnification
@@ -178,14 +181,14 @@ int TextureCubeMap_GL::VLoadTexture()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, pBmpData[0]->width, pBmpData[0]->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pBmpData[0]->pixel_data.get());
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, pBmpData[1]->width, pBmpData[1]->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pBmpData[1]->pixel_data.get());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, bmpReader[0].GetInfo().m_width, bmpReader[0].GetInfo().m_height, 0, GL_BGRA, GL_UNSIGNED_BYTE, bmpReader[0].PixelData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, bmpReader[1].GetInfo().m_width, bmpReader[1].GetInfo().m_height, 0, GL_BGRA, GL_UNSIGNED_BYTE, bmpReader[1].PixelData());
 
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, pBmpData[2]->width, pBmpData[2]->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pBmpData[2]->pixel_data.get());
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, pBmpData[3]->width, pBmpData[3]->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pBmpData[3]->pixel_data.get());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, bmpReader[2].GetInfo().m_width, bmpReader[2].GetInfo().m_height, 0, GL_BGRA, GL_UNSIGNED_BYTE, bmpReader[2].PixelData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, bmpReader[3].GetInfo().m_width, bmpReader[3].GetInfo().m_height, 0, GL_BGRA, GL_UNSIGNED_BYTE, bmpReader[3].PixelData());
 
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, pBmpData[4]->width, pBmpData[4]->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pBmpData[4]->pixel_data.get());
-	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, pBmpData[5]->width, pBmpData[5]->height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pBmpData[5]->pixel_data.get());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, bmpReader[4].GetInfo().m_width, bmpReader[4].GetInfo().m_height, 0, GL_BGRA, GL_UNSIGNED_BYTE, bmpReader[4].PixelData());
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, bmpReader[5].GetInfo().m_width, bmpReader[5].GetInfo().m_height, 0, GL_BGRA, GL_UNSIGNED_BYTE, bmpReader[5].PixelData());
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
 	m_textureID = texBufferID;

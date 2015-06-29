@@ -1,8 +1,8 @@
 #include "GameLoop.h"
+#include "../Physics/PhysicsSystem.h"
 // -----------------------------------------------------------------------
 GameLoop::GameLoop() :
 m_globalEventManager("Global", true),
-m_globalPhysics(true),
 m_window(NULL),
 m_gameClock(NULL),
 m_systemTime(0),
@@ -32,11 +32,11 @@ bool GameLoop::Init(IWindow* window)
 		return false;
 	}
 	//Physics
-	m_globalPhysics.VInitPhysics();
+	PhysicsSystem::Get().Init(60);
 	TiXmlDocument physicsDoc;
 	physicsDoc.LoadFile("Physics.xml");
 	TiXmlElement* physicsElem = physicsDoc.FirstChildElement();
-	m_globalPhysics.VConfigureXmlData(physicsElem);
+	PhysicsSystem::Get().RigidBodyPhysics()->VConfigureXmlData(physicsElem);
 
 	//initialize gameclock
 	m_gameClock = ALPHA_NEW Clock();
@@ -53,6 +53,8 @@ bool GameLoop::Init(IWindow* window)
 
 	//Load Graphics
 	GraphicsSystem::Get().LoadScene();
+	//Load Physics
+	PhysicsSystem::Get().LoadPhysics();
 	return true;
 }
 // -----------------------------------------------------------------------
@@ -67,11 +69,11 @@ void GameLoop::StartLoop()
 		//Graphics Render
 		GraphicsSystem::Get().Render(dt);
 		//Debug Physics Render
-		m_globalPhysics.VRenderDiagnostics();
+		PhysicsSystem::Get().RigidBodyPhysics()->VRenderDiagnostics();
 		//-----------------------------------
 		//UPDATES----------------------------
 		//Dynamics
-		m_globalPhysics.VUpdate(dt);		
+		PhysicsSystem::Get().RigidBodyPhysics()->VUpdate(dt);
 		//Graphics Update
 		GraphicsSystem::Get().Update(dt);
 		//-----------------------------------
@@ -83,6 +85,12 @@ void GameLoop::StartLoop()
 		
 		dt = GetDeltaMs(m_systemTime, m_gameTime);
 		cycleCount++;
+		if (cycleCount % 10 == 0)
+		{
+			string fps = "FPS :";
+			fps.append(to_string(1000.0 / dt));
+			GraphicsSystem::Get().GetRenderer()->VDrawText(fps);
+		}
 	}
 }
 // -----------------------------------------------------------------------

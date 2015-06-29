@@ -3,7 +3,6 @@
 #include "../OpenGL/Renderer_GL.h"
 #include "../OpenGL/DrawableNodes/Mesh_GL.h"
 #include "../OpenGL/DrawableNodes/SkyBox_GL.h"
-#include "../OpenGL/DrawableNodes/HeightMap_GL.h"
 #include "../OpenGL/DrawableNodes/Text_GL.h"
 // -----------------------------------------------------------------------
 ISceneNode* DrawableNodeFactory::CreateDrawableNode(NodeType type)
@@ -23,12 +22,7 @@ ISceneNode* DrawableNodeFactory::CreateDrawableNode(NodeType type)
 		{
 			return ALPHA_NEW SkyBox_GL();
 		}
-		break;
-	case Node_HeightMap:
-		if (isOpenGL)
-		{
-			return ALPHA_NEW HeightMap_GL();
-		}
+		break;	
 	case Node_Text:
 		if (isOpenGL)
 		{

@@ -17,5 +17,6 @@ public:
 	virtual void setDebugMode(int debugMode) override;
 	virtual int getDebugMode() const override;
 private:
+	DebugDrawModes m_debugMode;
 };
 //========================================================================

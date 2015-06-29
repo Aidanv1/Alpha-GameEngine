@@ -60,7 +60,7 @@ vec3 ambientLight(int lightIndex)
 //-------------------------------------------------------------
 vec3 calcSunLighting(vec3 N, vec3 E, int lightIndex)
 {
-	return	specularLight(N, E, lights[lightIndex].directionVector, lightIndex) +
+	return	specularLight(-N, E, -lights[lightIndex].directionVector, lightIndex) +
 		diffuseLight(N, lights[lightIndex].directionVector, lightIndex) +
 		ambientLight(lightIndex) +
 		material.Ke;
@@ -70,7 +70,7 @@ vec3 calcPointLighting(vec3 N, vec3 E, vec3 pos, int lightIndex)
 {
 	vec3 dirVector = normalize(pos - lights[lightIndex].positionVector);
 	float distanceCoeff = min(lights[lightIndex].attenuation / (length(pos - lights[lightIndex].positionVector)), MAX_BRIGHTNESS_RATIO);
-	return	distanceCoeff * (specularLight(N, E, dirVector, lightIndex) +
+	return	distanceCoeff * (specularLight(-N, E, -dirVector, lightIndex) +
 		diffuseLight(N, dirVector, lightIndex) +
 		ambientLight(lightIndex)) +
 		material.Ke;
@@ -88,7 +88,7 @@ vec3 calcSpotLighting(vec3 N, vec3 E, vec3 pos, int lightIndex)
 	float spotIntensity = spotTest - lights[lightIndex].cosTheta;
 
 	float distanceCoeff = min(lights[lightIndex].attenuation / (length(pos - lights[lightIndex].positionVector)), MAX_BRIGHTNESS_RATIO);
-	return	distanceCoeff * spotIntensity * (specularLight(N, E, dirVector, lightIndex) +
+	return	distanceCoeff * spotIntensity * (specularLight(-N, E, -dirVector, lightIndex) +
 		diffuseLight(N, dirVector, lightIndex) +
 		ambientLight(lightIndex)) +
 		material.Ke;
@@ -103,13 +103,13 @@ vec4 calcLighting(vec4 pixel, vec3 N, vec3 E, vec3 pos)
 		switch (lights[i].type)
 		{
 		case TYPE_SUN_LIGHT:
-			colour += calcSunLighting(-N, -E, i);
+			colour += calcSunLighting(-N, E, i);
 			break;
 		case TYPE_POINT_LIGHT:
-			colour += calcPointLighting(-N, -E, pos, i);
+			colour += calcPointLighting(-N, E, pos, i);
 			break;
 		case TYPE_SPOT_LIGHT:
-			colour += calcSpotLighting(-N, -E, pos, i);
+			colour += calcSpotLighting(-N, E, pos, i);
 			break;
 		}
 	}

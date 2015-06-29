@@ -1,5 +1,6 @@
 #include "Renderer_GL.h"
 #include "../GraphicsSettings.h"
+#include "DrawableNodes\Text_GL.h"
 // -----------------------------------------------------------------------
 Renderer_GL::Renderer_GL():
 m_backGroundColour(1,1,1,1)
@@ -52,17 +53,6 @@ bool Renderer_GL::VInit(TiXmlElement* pElement)
 				success = false;
 			}
 		}
-		if (value == "HeightMap")
-		{
-			m_heightMapShaderProgram = shared_ptr<HeightMapShaderProgram>(ALPHA_NEW HeightMapShaderProgram());
-			const char* vertexShaderName = pShaderProgram->Attribute("vertexShaderFile");
-			const char* fragmentShaderName = pShaderProgram->Attribute("fragmentShaderFile");
-
-			if (!m_heightMapShaderProgram->VInit(vertexShaderName, fragmentShaderName))
-			{
-				success = false;
-			}
-		}
 		if (value == "Basic")
 		{
 			m_basicShaderProgram = shared_ptr<BasicShaderProgram>(ALPHA_NEW BasicShaderProgram());
@@ -80,13 +70,11 @@ bool Renderer_GL::VInit(TiXmlElement* pElement)
 	ALPHA_ASSERT(m_meshShaderProgram);
 	ALPHA_ASSERT(m_text2DShaderProgram);
 	ALPHA_ASSERT(m_skyShaderProgram);
-	ALPHA_ASSERT(m_heightMapShaderProgram);
 	ALPHA_ASSERT(m_basicShaderProgram);
 
 	if (!(	m_meshShaderProgram &&
 			m_text2DShaderProgram &&
 			m_skyShaderProgram &&
-			m_heightMapShaderProgram &&
 			m_basicShaderProgram
 		))
 	{
@@ -99,13 +87,17 @@ bool Renderer_GL::VInit(TiXmlElement* pElement)
 	glDepthFunc(GL_LESS);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	//enable variable point size
+	glEnable(GL_PROGRAM_POINT_SIZE);
 	//drawline init
 	m_vertexBuffer.Init(2, NULL, 3, "lineDebug");
+
+	m_debugText = ALPHA_NEW Text_GL();
+	m_debugText->VInitText("K:/dev/Alpha/Assets/fonts/dev_font.png");
+	GraphicsSystem::Get().GetScene()->AddChild(StrongSceneNodePtr(m_debugText));
 	return success;
 }
 // -----------------------------------------------------------------------
-#include "../Geometry/Geometry.h"
 void Renderer_GL::VRender(StrongScenePtr scene)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -159,6 +151,10 @@ void Renderer_GL::VDepthBuffer(DepthBufferCommand depthMode)
 // -----------------------------------------------------------------------
 void Renderer_GL::VDrawLine(vec3& from, vec3& to, vec4& colour)
 {
+	if (!GraphicsSettings::DevMode())
+	{
+		return;
+	}
 	m_basicShaderProgram->VUseProgram();
 	mat4 viewMat;
 	mat4 projMat;
@@ -167,7 +163,7 @@ void Renderer_GL::VDrawLine(vec3& from, vec3& to, vec4& colour)
 	//set shader uniforms
 	m_basicShaderProgram->SetUniforms(	mat4(1.0f),
 										viewMat,
-										projMat);
+										projMat, colour);
 	//vertices
 	float vertices[] =
 	{
@@ -179,4 +175,37 @@ void Renderer_GL::VDrawLine(vec3& from, vec3& to, vec4& colour)
 	glDepthFunc(GL_ALWAYS);
 	glDrawArrays(GL_LINES, 0, 2);
 	glDepthFunc(GL_LESS);
+}
+
+void Renderer_GL::VDrawPoint(vec3& point, float size, vec4& colour)
+{
+	if (!GraphicsSettings::DevMode())
+	{
+		return;
+	}
+	m_basicShaderProgram->VUseProgram();
+	mat4 viewMat;
+	mat4 projMat;
+	GraphicsSystem::Get().GetScene()->GetCamera()->GetViewMatrix(viewMat);
+	GraphicsSystem::Get().GetScene()->GetCamera()->GetProjectionMatrix(projMat);
+	//set shader uniforms
+	m_basicShaderProgram->SetUniforms(mat4(1.0f),
+		viewMat,
+		projMat, colour);
+	//vertices
+	float vertices[] =
+	{
+		point.x, point.y, point.z,
+	};
+	m_vertexBuffer.BindSubData(1, 3, 0, vertices);
+	m_vertexBuffer.SetVertexAttribPointer(m_basicShaderProgram->GetPositionID(), 3, 0, 0);
+
+	glDepthFunc(GL_ALWAYS);
+	glDrawArrays(GL_POINTS, 0, 1);
+	glDepthFunc(GL_LESS);
+}
+// -----------------------------------------------------------------------
+void Renderer_GL::VDrawText(string text)
+{
+	m_debugText->VPrintText(text, 0, 0, 0.1);
 }

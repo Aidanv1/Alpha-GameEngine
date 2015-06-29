@@ -60,7 +60,8 @@ bool Plane::VInside(vec3 point, float radius) const
 {
 	vec3 vectorToPlane = m_pointWorld - point;
 	float dotProd = dot(normalize(-vectorToPlane), m_normalWorld);
-	if (dotProd < 0 || DistanceToPlane(point) < radius)
+	float dist = DistanceToPlane(point);
+	if (dotProd < 0 || dist < radius)
 	{
 		return true;
 	}
@@ -71,7 +72,7 @@ float Plane::DistanceToPlane(vec3 point) const
 {
 	vec3 vectorFromPlane = point - m_pointWorld;
 	float hypot = length(vectorFromPlane);
-	float cosineTheta = dot(vectorFromPlane, m_normalWorld);
+	float cosineTheta = dot(normalize(vectorFromPlane), m_normalWorld);
 	return abs(cosineTheta*hypot);
 }
 // -----------------------------------------------------------------------

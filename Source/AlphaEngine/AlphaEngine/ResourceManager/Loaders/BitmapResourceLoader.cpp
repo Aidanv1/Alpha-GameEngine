@@ -1,5 +1,8 @@
 #include "BitmapResourceLoader.h"
-
+#include "IL/il.h"
+#include "IL/ilu.h"
+#include <IL/ilut.h>
+#include "..\Resources\Bitmap.h"
 BitmapResourceLoader::BitmapResourceLoader()
 {
 
@@ -8,40 +11,42 @@ BitmapResourceLoader::~BitmapResourceLoader()
 {
 
 }
-string BitmapResourceLoader::VGetPattern()
-{
-	return "bmp";
-}
 bool BitmapResourceLoader::VLoadResource(string resName, unsigned char*& pBuffer, unsigned int& size)
 {
-	BmpData* pBmpBuffer = new BmpData();
+	unsigned char* pBmpBuffer;
 	if (!ilLoadImage(resName.c_str()))
 	{
-		//auto errorEnum = ilGetError();
-		//iluErrorString(errorEnum);
 		stringstream ss;
 		ss << "Error reading texture file: ";
 		ALPHA_ERROR(ss.str().c_str());
 		return false;
 	}
-//	size = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
 
-	pBmpBuffer->width = ilGetInteger(IL_IMAGE_WIDTH);
-	pBmpBuffer->height = ilGetInteger(IL_IMAGE_HEIGHT);
-	size = pBmpBuffer->width * pBmpBuffer->height * 4;
-	unsigned char* pixels = new unsigned char[size];
+	int width = ilGetInteger(IL_IMAGE_WIDTH);
+	int height = ilGetInteger(IL_IMAGE_HEIGHT);
+	int dataSize = (width * height * 4);
+	size = dataSize + BMPINFO_SIZE;
+
+	pBmpBuffer = ALPHA_NEW unsigned char[size];
+	for (int i = 0; i < size; i++)
+	{
+		pBmpBuffer[i] = NULL;
+	}
+	int* pHeightLoc = (int*) &pBmpBuffer[BMPHEIGHT_LOC];
+	int* pWidthLoc = (int*)&pBmpBuffer[BMPWIDTH_LOC];
+	int* pSizeLoc = (int*)&pBmpBuffer[BMPSIZE_LOC];
+	*pHeightLoc = height;
+	*pWidthLoc = width;
+	*pSizeLoc = size;
+
+	unsigned char* pixels = pBmpBuffer + BMPPIXELS_LOC;
 	ILinfo ImageInfo;
 	iluGetImageInfo(&ImageInfo);
 	if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
 	{
 		iluFlipImage();
 	}
-	ilCopyPixels(0, 0, 0, pBmpBuffer->width, pBmpBuffer->height, 1, IL_BGRA, IL_UNSIGNED_BYTE, pixels);
-
-	// Make pixel_data point to the pixels	
-	(pBmpBuffer->pixel_data) = shared_ptr<unsigned char>(pixels);
-	pBmpBuffer->size = size;
-
+	ilCopyPixels(0, 0, 0, width, height, 1, IL_BGRA, IL_UNSIGNED_BYTE, pixels);
 	pBuffer = (unsigned char*)pBmpBuffer;
 	return true;
 }

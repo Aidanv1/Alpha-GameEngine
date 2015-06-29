@@ -59,7 +59,7 @@ void MeshShaderProgram::SetUniforms(mat4& M, mat4& V, mat4& P, GLuint textureid)
 	//get maximum anisotropy
 	float anisoMax = 0.0f;
 	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &anisoMax);
-	float aniso = min(anisoMax, GraphicsSettings::Anisotropy());
+	float aniso = glm::min((int)anisoMax, GraphicsSettings::Anisotropy());
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, aniso);
 	glUniform1i(m_texID, 0);
 }

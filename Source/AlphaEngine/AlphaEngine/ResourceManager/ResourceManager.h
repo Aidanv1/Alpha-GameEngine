@@ -27,6 +27,9 @@ public:
 	void Update();//update once per regular time frame
 	void Promote(Resource* spRes);
 private:
+	shared_ptr<IResourceLoader> FindResLoader(string name);
+	bool FileExtensionMatch(const char *pat, const char *str);
+private:
 	string m_resManagerID;
 	//size allocated for this resource manager in MB
 	unsigned int m_sizeAllocated; 

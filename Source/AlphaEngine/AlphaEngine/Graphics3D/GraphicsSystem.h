@@ -2,8 +2,6 @@
 #include "..\AlphaStd.h"
 #include "IRenderer.h"
 #include "..\ResourceManager\ResourceManager.h"
-#include "..\ResourceManager\Loaders\BitmapResourceLoader.h"
-#include "..\ResourceManager\Loaders\MeshResourceLoader.h"
 #include "GraphicsSettings.h"
 
 typedef shared_ptr<Scene> StrongScenePtr;
@@ -22,6 +20,8 @@ public:
 	IRenderer* GetRenderer() { return m_renderer.get(); };
 	void LoadScene();
 	static GraphicsSystem& Get();
+private:
+	bool InitResource(int textResSize, int meshResSize);
 private:
 	GraphicsSystem();
 	StrongRendererPtr m_renderer;

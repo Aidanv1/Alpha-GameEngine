@@ -1,11 +1,11 @@
 #include "PhysicsComponent.h"
 #include "TransformComponent.h"
+#include "../../Physics/PhysicsSystem.h"
 
 // -----------------------------------------------------------------------
-PhysicsComponent::PhysicsComponent() :
-m_gamePhysics(NULL)
+PhysicsComponent::PhysicsComponent()
 {
-	m_gamePhysics = IGamePhysics::Get();
+	
 }
 // -----------------------------------------------------------------------
 PhysicsComponent::~PhysicsComponent()
@@ -24,13 +24,19 @@ bool PhysicsComponent::VPostInit()
 	switch (m_properties.m_shape)
 	{
 	case Sphere:
-		m_gamePhysics->VAddSphere(m_properties.m_radius, m_pOwner, m_properties.m_density, m_properties.m_material, transform, m_properties.m_hasLocalInteria);
+		PhysicsSystem::Get().RigidBodyPhysics()->VAddSphere(m_properties.m_radius, m_pOwner, m_properties.m_density, m_properties.m_material, transform, m_properties.m_hasLocalInteria);
 		break;
 	case Plane:
-		m_gamePhysics->VAddStaticPlane(m_pOwner, m_properties.m_density, m_properties.m_material, transform, m_properties.m_normal, 0, m_properties.m_hasLocalInteria);
+		PhysicsSystem::Get().RigidBodyPhysics()->VAddStaticPlane(m_pOwner, m_properties.m_density, m_properties.m_material, transform, m_properties.m_normal, 0, m_properties.m_hasLocalInteria);
 		break;
 	case Box:
-		m_gamePhysics->VAddBox(m_properties.m_dimensions, m_pOwner, m_properties.m_density, m_properties.m_material, transform, m_properties.m_hasLocalInteria);
+		PhysicsSystem::Get().RigidBodyPhysics()->VAddBox(m_properties.m_dimensions, m_pOwner, m_properties.m_density, m_properties.m_material, transform, m_properties.m_hasLocalInteria);
+		break;
+	case Mesh:
+		PhysicsSystem::Get().RigidBodyPhysics()->VAddMesh(m_properties.m_meshName, m_pOwner, m_properties.m_density, m_properties.m_material, transform, m_properties.m_hasLocalInteria);
+		break;
+	case Height:
+		PhysicsSystem::Get().RigidBodyPhysics()->VAddHeightField(m_properties.m_meshName, m_pOwner, m_properties.m_density, m_properties.m_material, transform, m_properties.m_hasLocalInteria);
 		break;
 	}
 	return true;
@@ -87,6 +93,16 @@ bool PhysicsComponent::VInitComponent(TiXmlElement* pElement)
 					shapeElem->QueryFloatAttribute("halfY", &m_properties.m_dimensions.y);
 					shapeElem->QueryFloatAttribute("halfZ", &m_properties.m_dimensions.z);
 				}
+				if (shape == "mesh")
+				{
+					m_properties.m_shape = Mesh;
+					m_properties.m_meshName = shapeElem->Attribute("MeshName");
+				}
+				if (shape == "height")
+				{
+					m_properties.m_shape = Height;
+					m_properties.m_meshName = shapeElem->Attribute("MeshName");
+				}
 				shapeElem->QueryBoolAttribute("hasLocalInertia", &m_properties.m_hasLocalInteria);
 			}
 			else
@@ -102,10 +118,10 @@ bool PhysicsComponent::VInitComponent(TiXmlElement* pElement)
 // -----------------------------------------------------------------------
 Matrix4x4 PhysicsComponent::GetTransform()
 {
-	return m_gamePhysics->VGetRigidBodyTransform(m_pOwner->GetID());
+	return PhysicsSystem::Get().RigidBodyPhysics()->VGetRigidBodyTransform(m_pOwner->GetID());
 }
 // -----------------------------------------------------------------------
 void PhysicsComponent::SetTransform(Matrix4x4& transform)
 {
-	m_gamePhysics->VSetRigidBodyTransform(m_pOwner->GetID(), transform);
+	PhysicsSystem::Get().RigidBodyPhysics()->VSetRigidBodyTransform(m_pOwner->GetID(), transform);
 }

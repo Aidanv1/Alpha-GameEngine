@@ -1,5 +1,5 @@
 #include "ModelNode.h"
-
+#include "../../ResourceManager/Resources/Model.h"
 // -----------------------------------------------------------------------
 ModelNode::ModelNode() :
 SceneNode(),
@@ -7,7 +7,8 @@ m_modelFileName(""),
 m_modelID(-1),
 m_modelResourceManager(NULL),
 m_modelResource(NULL),
-m_meshChildren()
+m_meshChildren(),
+m_cullFace(false)
 {
 }
 // -----------------------------------------------------------------------
@@ -28,6 +29,7 @@ bool ModelNode::VConfigureXmlNodeData(TiXmlElement* pElement)
 		if (val == "Properties")
 		{
 			m_modelFileName = nextElem->Attribute("modelFileName");
+			nextElem->QueryBoolAttribute("cullFace", &m_cullFace);
 			if (nextElem->Attribute("alphaType"))
 			{
 				string attrib = nextElem->Attribute("alphaType");
@@ -40,7 +42,10 @@ bool ModelNode::VConfigureXmlNodeData(TiXmlElement* pElement)
 					m_nodeProperties.m_alphaType = tOPAQUE;
 				}
 			}
-
+			if (nextElem->Attribute("radius"))
+			{
+				nextElem->QueryFloatAttribute("radius", &m_radius);
+			}
 			if (nextElem->Attribute("renderPass"))
 			{
 				string attrib = nextElem->Attribute("renderPass");
@@ -114,12 +119,16 @@ void ModelNode::VRender(Scene* pScene)
 	pScene->Stack()->Push(toWorldTransform);
 	//dont render if the object is not within in the view frustum
 	vec3 pos = toWorldTransform.GetPosition();
-	if (!pScene->GetCamera()->GetFrustum().VInside(toWorldTransform.GetPosition(), m_radius))
+	if (m_radius != -1)
 	{
-		//pop from stack
-		pScene->Stack()->Pop();
-		return;
+		if (!pScene->GetCamera()->GetFrustum().VInside(toWorldTransform.GetPosition(), m_radius))
+		{
+			//pop from stack
+			pScene->Stack()->Pop();
+			return;
+		}
 	}
+
 	//if the node is transparent and it is not currently the alpha pass,
 	//dont render it yet
 	if (	m_nodeProperties.m_alphaType == tTRANSPARENT && 
@@ -171,6 +180,7 @@ bool ModelNode::Load()
 	if (!ValidateBuffers())
 	{
 		m_modelID = -1;
+		success = false;
 	}
 	//if video memory (mesh data) is still valid
 	if (m_modelID != -1)
@@ -185,45 +195,19 @@ bool ModelNode::Load()
 		}
 		return success;
 	}
-
-	//attempt to load meshes
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFileFromMemory(m_modelResource->Buffer(), m_modelResource->GetSize(), NULL);
-	if (!scene)
-	{
-		stringstream ss;
-		ss << "Assimp load error: "<<importer.GetErrorString();
-		ALPHA_ERROR(ss.str().c_str());
-		return false;
-	}
-	//node factory to instantiate mesh objects
+	ModelBufferReader modelBufferReader = m_modelResource->Buffer();
+	int numberofmeshes;
+	
+	MeshInfo* infoArray = modelBufferReader.GetMeshInfoArray(numberofmeshes);
 	DrawableNodeFactory nodeFactory;
-	m_meshChildren.clear(); // start from scratch
-	for (unsigned int i = 0; i < scene->mNumMeshes; i++)
+	for (int i = 0; i < numberofmeshes; i++)
 	{
-		stringstream meshName;
-		meshName << m_modelFileName <<"_"<< i; // create unique mesh ID
-		//opengl mesh
-		IMesh* mesh = dynamic_cast<IMesh*>(nodeFactory.CreateDrawableNode(Node_Mesh)); 
-		ALPHA_ASSERT(mesh);
-		//init mesh
-		mesh->VInitMesh(meshName.str().c_str());
-		mesh->VSetNodeProperties(m_nodeProperties);
-		//get relative transformation for child
-		aiMatrix4x4 m = scene->mRootNode->mChildren[i]->mTransformation;
-		vec3 T(m.a4, m.b4, m.c4);
-		mat4 trans = translate(mat4(1.0f), T);
-		//set relative transform
-		NodeProperties n = mesh->VGetNodeProperties();	
-		n.m_toWorld = trans;
-		mesh->VSetNodeProperties(n);
-		int meshID = mesh->VLoadMesh(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
-		if (meshID == -1)
-		{
-			success = false;
-		}
-		//attempt to load textures
-		success = mesh->VLoadMaterial();
+		IMesh* mesh = (IMesh*)nodeFactory.CreateDrawableNode(Node_Mesh);
+		MeshInfo* info = &infoArray[i];
+		mesh->VInitMesh(m_modelFileName);
+		mesh->VLoadMesh(info);
+		mesh->VLoadMaterial();
+		mesh->VCullFace(m_cullFace);
 		m_meshChildren.push_back(StrongSceneNodePtr(mesh));
 	}
 	m_modelID = 1;

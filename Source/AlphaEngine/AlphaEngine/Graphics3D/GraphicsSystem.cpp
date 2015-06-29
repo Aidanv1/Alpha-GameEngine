@@ -1,4 +1,7 @@
 #include "GraphicsSystem.h"
+#include "..\ResourceManager\Loaders\BitmapResourceLoader.h"
+#include "..\ResourceManager\Loaders\MeshResourceLoader.h"
+#include "..\ResourceManager\Loaders\HeightMapResourceLoader.h"
 // -----------------------------------------------------------------------
 GraphicsSystem::GraphicsSystem() :
 m_renderer(NULL),
@@ -22,21 +25,13 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 	{
 		return false;
 	}
-
-	m_textureResourceManager = StrongResourceManagerPtr(new ResourceManager("TextureRM"));
-	m_meshResourceManager = StrongResourceManagerPtr(new ResourceManager("MeshRM"));
-	m_renderer = renderer;
-	m_textureResourceManager->Init(textResSize);
-	m_textureResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(new BitmapResourceLoader));
-	m_meshResourceManager->Init(meshResSize);
-	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(new MeshResourceLoader));
-
-	m_scene = shared_ptr<Scene>(new Scene());
+	m_scene = shared_ptr<Scene>(ALPHA_NEW Scene());
 	if (!m_scene->Init(m_renderer.get()))
 	{
 		return false;
 	}
-	
+	m_renderer = renderer;
+	InitResource(textResSize, meshResSize);
 	TiXmlDocument doc;
 	if (!doc.LoadFile("Shaders/Shaders.xml"))
 	{
@@ -86,4 +81,21 @@ GraphicsSystem& GraphicsSystem::Get()
 {
 	static GraphicsSystem* instance = ALPHA_NEW GraphicsSystem();
 	return *instance;
+}
+// -----------------------------------------------------------------------
+bool GraphicsSystem::InitResource(int textResSize, int meshResSize)
+{
+	m_textureResourceManager = StrongResourceManagerPtr(ALPHA_NEW ResourceManager("TextureRM"));
+	m_meshResourceManager = StrongResourceManagerPtr(ALPHA_NEW ResourceManager("MeshRM"));
+	m_textureResourceManager->Init(textResSize);
+	m_textureResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW JPGResourceLoader()));
+	m_textureResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW PNGResourceLoader()));
+	m_textureResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW TGAResourceLoader()));
+	m_textureResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW BMPResourceLoader()));
+	m_meshResourceManager->Init(meshResSize);
+	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW DAEResourceLoader()));
+	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW FBXResourceLoader()));
+	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW ThreeDSResourceLoader()));
+	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW HeightMapResourceLoader()));
+	return true;
 }

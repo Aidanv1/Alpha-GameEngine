@@ -5,8 +5,6 @@
 #include "../../Actor/Components/GraphicsComponent.h"
 #include "../../Actor/IComponentCreator.h"
 #include "../../ResourceManager/Resource.h"
-#include "assimp/scene.h"
-#include "assimp/Importer.hpp"
 #include "DrawableNode.h"
 class ModelNode;
 typedef shared_ptr<Resource> StrongModelPtr;
@@ -30,9 +28,10 @@ private:
 	virtual void VRenderChildren(Scene* pScene) override;
 	bool ValidateBuffers();
 private:
-	int m_modelID;	
-	string m_modelFileName;
-	StrongResourceManagerPtr m_modelResourceManager;
-	StrongModelPtr m_modelResource;
-	SceneNodeList m_meshChildren;
+	int							m_modelID;	
+	string						m_modelFileName;
+	StrongResourceManagerPtr	m_modelResourceManager;
+	StrongModelPtr				m_modelResource;
+	SceneNodeList				m_meshChildren;
+	bool						m_cullFace;
 };

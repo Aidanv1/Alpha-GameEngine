@@ -26,9 +26,6 @@
     <ClCompile Include="EventManager\Events\Events.cpp">
       <Filter>EventManager\Events</Filter>
     </ClCompile>
-    <ClCompile Include="Window\GLWindow.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp">
       <Filter>ResourceManager</Filter>
     </ClCompile>
@@ -40,9 +37,6 @@
     </ClCompile>
     <ClCompile Include="GameLoop\GameLoop.cpp">
       <Filter>GameLoop</Filter>
-    </ClCompile>
-    <ClCompile Include="Utilities\StringUtil.cpp">
-      <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Utilities\FileIO.cpp">
       <Filter>Utilities</Filter>
@@ -89,9 +83,6 @@
     <ClCompile Include="Actor\ComponentCreators\GraphicsComponentCreator.cpp">
       <Filter>Actor\ComponentCreators</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.cpp">
-      <Filter>Graphics3D\OpenGL\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="Actor\Components\GraphicsComponent.cpp">
       <Filter>Actor\Components</Filter>
     </ClCompile>
@@ -125,9 +116,6 @@
     <ClCompile Include="Graphics3D\Geometry\Geometry.cpp">
       <Filter>Graphics3D\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\HeightMap_GL.cpp">
-      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics3D\OpenGL\DrawableNodes\Mesh_GL.cpp">
       <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
     </ClCompile>
@@ -148,9 +136,6 @@
     </ClCompile>
     <ClCompile Include="Graphics3D\GraphicsSettings.cpp">
       <Filter>Graphics3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics\IGamePhysics.cpp">
-      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Components\TransformComponent.cpp">
       <Filter>Actor\Components</Filter>
@@ -173,8 +158,23 @@
     <ClCompile Include="Physics\BulletPhysics\DebugDrawer.cpp">
       <Filter>Physics\BulletPhysics</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager\Resources\Raw.cpp">
+    <ClCompile Include="Window\GLWindow.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicsSystem.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Loaders\HeightMapResourceLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Resources\Bitmap.cpp">
       <Filter>ResourceManager\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Resources\Model.cpp">
+      <Filter>ResourceManager\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager\Loaders\HeightFieldResourceLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -316,16 +316,10 @@
     <ClInclude Include="ResourceManager\Loaders\MeshResourceLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager\Resources\Raw.h">
-      <Filter>ResourceManager\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="GameLoop\GameLoop.h">
       <Filter>GameLoop</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\FileIO.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\StringUtil.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Debugging\Debugging.h">
@@ -388,9 +382,6 @@
     <ClInclude Include="Actor\ComponentCreators\GraphicsComponentCreator.h">
       <Filter>Actor\ComponentCreators</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\Shader\HeightMapShaderProgram.h">
-      <Filter>Graphics3D\OpenGL\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="Actor\Components\GraphicsComponent.h">
       <Filter>Actor\Components</Filter>
     </ClInclude>
@@ -426,9 +417,6 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\Geometry\Geometry.h">
       <Filter>Graphics3D\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\HeightMap_GL.h">
-      <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
     </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\DrawableNodes\Mesh_GL.h">
       <Filter>Graphics3D\OpenGL\DrawableNodes</Filter>
@@ -471,6 +459,21 @@
     </ClInclude>
     <ClInclude Include="Physics\BulletPhysics\DebugDrawer.h">
       <Filter>Physics\BulletPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsSystem.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Loaders\HeightMapResourceLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Resources\Bitmap.h">
+      <Filter>ResourceManager\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Resources\Model.h">
+      <Filter>ResourceManager\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Loaders\HeightFieldResourceLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

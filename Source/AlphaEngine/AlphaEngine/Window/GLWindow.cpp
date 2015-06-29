@@ -87,6 +87,7 @@ bool GLWindow::PollEvents(float deltaMs)
 	int mousescroll = 0;
 	float mousex = 0, mousey = 0;
 	bool eventOccured = false;
+	float dx = 0, dz = 0;
 	while (SDL_PollEvent(&m_event))
 	{
 		if (m_event.type == SDL_QUIT)
@@ -112,19 +113,23 @@ bool GLWindow::PollEvents(float deltaMs)
 			vec3 position;
 			if (m_event.key.keysym.sym == SDLK_w)
 			{	
-
+				dz--;
+				eventOccured = true;
 			}
 			if (m_event.key.keysym.sym == SDLK_a)
 			{
-
+				dx--;
+				eventOccured = true;
 			}
 			if (m_event.key.keysym.sym == SDLK_s)
 			{
-
+				dz++;
+				eventOccured = true;
 			}
 			if (m_event.key.keysym.sym == SDLK_d)
 			{
-
+				dx++;
+				eventOccured = true;
 			}
 		}
 	}
@@ -134,7 +139,7 @@ bool GLWindow::PollEvents(float deltaMs)
 		float lookSensitivity = 0.0004f;
 		float adjust = lookSensitivity;
 		LookEvent* lookEvent = ALPHA_NEW LookEvent();
-		lookEvent->SetLook(mousex* adjust, mousey* adjust, 0, 0, mousescroll);
+		lookEvent->SetLook(mousex* adjust, mousey* adjust, dz, dx, mousescroll);
 		Queue_Event(lookEvent);
 	}
 	

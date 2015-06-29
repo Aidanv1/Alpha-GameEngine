@@ -1,8 +1,9 @@
 #include "BulletPhysics.h"
-
+#include "../PhysicsSystem.h"
+#include "../../ResourceManager/Resources/Model.h"
+#include "../../ResourceManager/Resources/Bitmap.h"
 // -----------------------------------------------------------------------
-BulletPhysics::BulletPhysics(bool isGlobal) :
-IGamePhysics(isGlobal)
+BulletPhysics::BulletPhysics()
 {
 
 }
@@ -35,7 +36,8 @@ bool BulletPhysics::VInitPhysics()
 void BulletPhysics::VUpdate(float deltaMs)
 {
 	//update physics
-	m_dynamicsWorld->stepSimulation(deltaMs, 4);
+	//fixed time step accomodates for up to 250 fps
+	m_dynamicsWorld->stepSimulation(deltaMs, 4, 1.0/250.0); 
 }
 // -----------------------------------------------------------------------
 void BulletPhysics::InternalTickCallBack(btDynamicsWorld * const world, btScalar const timeStep)
@@ -43,10 +45,10 @@ void BulletPhysics::InternalTickCallBack(btDynamicsWorld * const world, btScalar
 
 }
 // -----------------------------------------------------------------------
-void BulletPhysics::VAddShape(Actor* actor, btCollisionShape* shape, float mass, string material, Matrix4x4& trans, bool hasLocalInteria)
+void BulletPhysics::AddShape(Actor* actor, btCollisionShape* shape, float mass, string material, Matrix4x4& trans, bool hasLocalInteria)
 {
 	btTransform transform = ConvertFromMat4(trans);
-	btVector3 intertia(0,0,0);
+	btVector3 intertia(0 ,0 , 0);
 	if (hasLocalInteria)
 	{
 		shape->calculateLocalInertia(mass, intertia);
@@ -71,13 +73,13 @@ void BulletPhysics::VAddSphere(float const radius, StrongActorPtr actor, string 
 	btCollisionShape* shape = ALPHA_NEW btSphereShape(radius);
 	float volume = 4 / 3 * pi<float>() * radius * radius;
 	float mass = volume * LookUpDensity(density);
-	VAddShape(actor.get(), shape, mass, material, transform, hasLocalInteria);
+	AddShape(actor.get(), shape, mass, material, transform, hasLocalInteria);
 }
 // -----------------------------------------------------------------------
 void BulletPhysics::VAddStaticPlane(StrongActorPtr actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria)
 {
 	btCollisionShape* shape = ALPHA_NEW btStaticPlaneShape(ConvertFromVec3(normal), planeConstant);
-	VAddShape(actor.get(), shape, 0, material, transform, hasLocalInteria);
+	AddShape(actor.get(), shape, 0, material, transform, hasLocalInteria);
 }
 // -----------------------------------------------------------------------
 void BulletPhysics::VAddBox(vec3 dimensions, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
@@ -85,7 +87,39 @@ void BulletPhysics::VAddBox(vec3 dimensions, StrongActorPtr actor, string densit
 	btCollisionShape* shape = ALPHA_NEW btBoxShape(ConvertFromVec3(dimensions));
 	float volume = 8*dimensions.x * dimensions.y * dimensions.z; // times each dimension 2 (2 x 2 x 2 = 8) 
 	float mass = volume * LookUpDensity(density);
-	VAddShape(actor.get(), shape, mass, material, transform, hasLocalInteria);
+	AddShape(actor.get(), shape, mass, material, transform, hasLocalInteria);
+}
+// ----------------------------------------------------------------------
+void BulletPhysics::VAddMesh(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
+{
+	shared_ptr<Resource> colMeshRes(ALPHA_NEW Resource(meshName));
+	PhysicsSystem::Get().GetCollisionMeshManager()->AddResource(colMeshRes);
+	
+	PendingCollisionMesh pendingMesh;
+	pendingMesh.m_actor = actor;
+	pendingMesh.m_density = LookUpDensity(density);
+	pendingMesh.m_hasLocalInteria = hasLocalInteria;
+	pendingMesh.m_material = material;
+	pendingMesh.m_transform = transform;
+	pendingMesh.m_colMeshRes = colMeshRes;
+	pendingMesh.m_meshType = Hull;
+	m_pendingColMeshQueue.push_back(pendingMesh);
+}
+// -----------------------------------------------------------------------
+void BulletPhysics::VAddHeightField(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
+{
+	shared_ptr<Resource> colMeshRes(ALPHA_NEW Resource(meshName));
+	PhysicsSystem::Get().GetCollisionMeshManager()->AddResource(colMeshRes);
+
+	PendingCollisionMesh pendingMesh;
+	pendingMesh.m_actor = actor;
+	pendingMesh.m_density = LookUpDensity(density);
+	pendingMesh.m_hasLocalInteria = hasLocalInteria;
+	pendingMesh.m_material = material;
+	pendingMesh.m_transform = transform;
+	pendingMesh.m_colMeshRes = colMeshRes;
+	pendingMesh.m_meshType = HeightField;
+	m_pendingColMeshQueue.push_back(pendingMesh);
 }
 // -----------------------------------------------------------------------
 btVector3 BulletPhysics::ConvertFromVec3(vec3& vector)
@@ -179,3 +213,65 @@ void BulletPhysics::VRenderDiagnostics()
 {
 	m_dynamicsWorld->debugDrawWorld();
 }
+// ----------------------------------------------------------------------
+bool BulletPhysics::VLoadCollisionMeshes()
+{
+	auto it = m_pendingColMeshQueue.begin();
+	bool loaded = true;
+	while (it != m_pendingColMeshQueue.end())
+	{
+		if ((*it).m_colMeshRes->Buffer() != NULL)
+		{			
+		//	LoadMeshVertices(meshInfo, vertices, size);
+			btCollisionShape* shape = NULL;
+			PendingCollisionMesh pendingMesh = (*it);
+			btVector3* vertices;
+			int size = 0;
+			if ((*it).m_meshType == Hull)
+			{
+				ModelBufferReader mBR = (*it).m_colMeshRes->Buffer();
+				int numMeshes = 0;
+				MeshInfo* meshInfo = mBR.GetMeshInfoArray(numMeshes);
+				shape = ALPHA_NEW btConvexHullShape(meshInfo->m_data, meshInfo->m_numberOfVertices, 12);
+			}
+			if ((*it).m_meshType == HeightField)
+			{
+				HeightFieldDataInfo* heightInfo = (HeightFieldDataInfo*)(*it).m_colMeshRes->Buffer();
+				int gridSize = sqrt(heightInfo->m_numVertices);
+				shape = ALPHA_NEW btHeightfieldTerrainShape(	gridSize,
+																gridSize,
+																heightInfo->m_data,
+																0,
+																-heightInfo->m_maxHeight,
+																heightInfo->m_maxHeight,
+																1, 
+																PHY_FLOAT,
+							
+																false); 
+				shape->setLocalScaling(btVector3(heightInfo->m_scaleXZ / (gridSize - 1), 1, heightInfo->m_scaleXZ / (gridSize - 1)));
+			}		
+		
+			// approximate absolute mass using bounding box
+			btVector3 aabbMin(0, 0, 0), aabbMax(0, 0, 0);
+			shape->getAabb(btTransform::getIdentity(), aabbMin, aabbMax);
+			btVector3 const aabbExtents = aabbMax - aabbMin;
+			float const volume = aabbExtents.x() * aabbExtents.y() * aabbExtents.z();
+			btScalar const mass = volume * (*it).m_density;
+			AddShape((*it).m_actor.get(), shape, mass, (*it).m_material, (*it).m_transform, (*it).m_hasLocalInteria);
+			//SAFE_DELETE(vertices);
+			auto eraseIt = it;
+			it++;
+			m_pendingColMeshQueue.erase(eraseIt);
+		}
+		else
+		{
+			loaded = false;
+			if (it != m_pendingColMeshQueue.end())
+			{
+				it++;
+			}
+		}
+	} 
+	return loaded;
+}
+// ----------------------------------------------------------------------

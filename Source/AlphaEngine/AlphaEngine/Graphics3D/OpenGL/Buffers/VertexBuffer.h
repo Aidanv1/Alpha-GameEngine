@@ -11,6 +11,7 @@ public:
 	int Init(int numvertices, GLfloat vertices[], GLfloat normals[], GLfloat textures[], int compSizeV, int compSizeN, int compSizeT, string name);
 	int Init(int numvertices, GLfloat vertices[], GLfloat textures[], int compSizeV, int compSizeT, string name);
 	int Init(int numvertices, GLfloat vertices[], int compSizeV, string name);
+	int Init(int size, GLfloat data[], string name);
 	void BindSubData(int numVertices, int componentSize, int offsetSize, GLfloat vertices[]);
 	bool Validate();
 	int GetID() const { return m_vertexInfo.m_vertexBufferID; }

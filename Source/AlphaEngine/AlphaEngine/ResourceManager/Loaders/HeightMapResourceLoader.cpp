@@ -1,92 +1,110 @@
-#include "HeightMap_GL.h"
+#include "HeightMapResourceLoader.h"
+#include "IL/il.h"
+#include "IL/ilu.h"
+#include <IL/ilut.h>
+#include "../Resources/Model.h"
 // -----------------------------------------------------------------------
-HeightMap_GL::HeightMap_GL() :
-SceneNode(),
-m_shaderProgram(NULL),
-m_vertexBuffer(),
-m_numVertices(0)
-{
-	m_nodeProperties.m_renderPass = RenderPass_Static;
-}
-// -----------------------------------------------------------------------
-HeightMap_GL::~HeightMap_GL()
+HeightMapResourceLoader::HeightMapResourceLoader()
 {
 }
 // -----------------------------------------------------------------------
-bool HeightMap_GL::VInitNode()
+HeightMapResourceLoader::~HeightMapResourceLoader()
 {
-	bool success = true;
-	if (Load() == -1)
+}
+// -----------------------------------------------------------------------
+bool HeightMapResourceLoader::VLoadResource(string resName, unsigned char*& pBuffer, unsigned int& size)
+{
+	TiXmlDocument doc;
+	doc.LoadFile(resName.c_str());
+	TiXmlElement* heightMapElement = doc.FirstChildElement()->FirstChildElement();
+
+	string filename = heightMapElement->Attribute("imageName");
+	//Vertex info
+	float xScale = 0,
+		yScale = 0,
+		zScale = 0;
+	float tileScale = 0;
+	//Material info
+	MaterialInfo matInfo;
+	while (heightMapElement)
 	{
-		success = false;
-	}
-	for (auto child = m_children.begin(); child != m_children.end(); child++)
-	{
-		if (!(*child)->VInitNode())
+		string value = heightMapElement->Value();
+		if (value == "Properties")
 		{
-			success = false;
+			heightMapElement->QueryFloatAttribute("xzScale", &xScale);
+			zScale = xScale;
+			heightMapElement->QueryFloatAttribute("yScale", &yScale);
+			heightMapElement->QueryFloatAttribute("tileScale", &tileScale);
 		}
+		if (value == "Material")
+		{	
+			matInfo.m_diffuseTexture = heightMapElement->Attribute("textureFileName");
+			heightMapElement->QueryFloatAttribute("shininess", &matInfo.m_shininess);
+			heightMapElement->QueryFloatAttribute("specularColourR", &matInfo.m_specular.x);
+			heightMapElement->QueryFloatAttribute("specularColourR", &matInfo.m_specular.y);
+			heightMapElement->QueryFloatAttribute("specularColourR", &matInfo.m_specular.z);
+		}
+		heightMapElement = heightMapElement->NextSiblingElement();
 	}
-	return success;
+	int end = resName.find_last_of("/");
+	string path = resName.substr(0, end + 1).append(filename.c_str());
+
+	if (!ilLoadImage(path.c_str()))
+	{
+		stringstream ss;
+		ss << "Error reading texture file: ";
+		ALPHA_ERROR(ss.str().c_str());
+		return false;
+	}
+
+	int width = ilGetInteger(IL_IMAGE_WIDTH);
+	int height = ilGetInteger(IL_IMAGE_HEIGHT);
+	int dataSize = (width * height * 4);
+
+
+
+	unsigned char* pixelData = ALPHA_NEW unsigned char[dataSize];
+	ILinfo ImageInfo;
+	iluGetImageInfo(&ImageInfo);
+	if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+	{
+		iluFlipImage();
+	}
+	ilCopyPixels(0, 0, 0, width, height, 1, IL_BGRA, IL_UNSIGNED_BYTE, pixelData);
+	int numVertices = 0;
+	vector <float> vertBufferData;
+	CreateFloatArray(vertBufferData, pixelData, numVertices, xScale, yScale, zScale, tileScale, height, width);
+	SAFE_DELETE(pixelData);
+	int totalBufferSize = numVertices*sizeof(float) * 8 + sizeof(MeshInfo) + sizeof(int);
+	unsigned char* pBmpBuffer = ALPHA_NEW unsigned char[totalBufferSize];
+	int* numberOfMeshes = (int*)pBmpBuffer;
+	*numberOfMeshes = 1;
+
+	MeshInfo* meshInfo = (MeshInfo*)&pBmpBuffer[offsetof(Model, m_meshArray)];
+	*meshInfo = MeshInfo();
+	meshInfo->m_numberOfVertices = numVertices;
+	meshInfo->m_dataSize = numVertices*sizeof(float) * 8;
+	memcpy(&pBmpBuffer[sizeof(MeshInfo) + sizeof(int)], &vertBufferData[0], meshInfo->m_dataSize);
+	meshInfo->m_data = (float*)&pBmpBuffer[sizeof(MeshInfo) + sizeof(int)];
+	meshInfo->m_materialInfo = matInfo;
+	pBuffer = pBmpBuffer;
+	size = totalBufferSize;
+	return true;
 }
 // -----------------------------------------------------------------------
-void HeightMap_GL::VRender(Scene* pScene)
+unsigned int  HeightMapResourceLoader::VGetSize(string resName)
 {
-	m_shaderProgram->VUseProgram();
-	//get view and projection matrix from main camera
-	mat4 viewMat;
-	mat4 projMat;
-	pScene->GetCamera()->GetViewMatrix(viewMat);
-	pScene->GetCamera()->GetProjectionMatrix(projMat);
-	mat4 scaleMat = scale(mat4(1.0f), vec3(X_SCALE, Y_SCALE, Z_SCALE));
-	m_shaderProgram->SetUniforms((*m_nodeProperties.m_toWorld.Get()),
-		viewMat,
-		projMat,		
-		m_material->Texture()->VGetTextureID());
-	//set lighting uniforms
-	WeakLightArray lights;
-	pScene->GetLightsInScene(lights);
-	m_shaderProgram->SetLights(lights);
-	m_shaderProgram->SetMaterial(m_material.get());
-	//
-
-	BindData();
-	glEnable(GL_CULL_FACE);
-	glDrawArrays(GL_TRIANGLES, 0, m_numVertices);
-	glDisable(GL_CULL_FACE);
-	VRenderChildren(pScene);
+	return 0;
 }
 // -----------------------------------------------------------------------
-int HeightMap_GL::Load()
+float* HeightMapResourceLoader::CreateFloatArray(vector <float>& vertBufferData, unsigned char* pixelData, int& numVertices, float xScale, float yScale, float zScale, float tileScale, int height, int width)
 {
-	if (!VLoadResource())
-	{
-		return -1;
-	}
-	if (!m_textureResource->Buffer())
-	{
-		return -1;
-	}
-	if (!m_material->LoadTexture())
-	{
-		return -1;
-	}
-	if (m_vertexBuffer.GetID() != -1)
-	{
-		return m_vertexBuffer.GetID();
-	}
-	BmpData* pBmpData = (BmpData*)m_textureResource->Buffer();
-
-	unsigned char* pixelData = pBmpData->pixel_data.get();
-	
-	int height = pBmpData->height;
-	int width = pBmpData->width;
 	vector<float> pixels;
 	vector<float> indexData;
 	vector<vec3> vertexData;
 	vector<vec3> normalData;
 	vector<vec2> textureData;
-	for (int i = 0; i < (height * width)*4; i+=4)
+	for (int i = 0; i < (height * width) * 4; i += 4)
 	{
 		pixels.push_back(pixelData[i]);
 	}
@@ -97,11 +115,11 @@ int HeightMap_GL::Load()
 		for (int col = 0; col < width; col++)
 		{
 			float xPosition = (((float)col / (float)(width - 1)) - 0.5f);
-			float yPosition = (float)pixels.at(((row) * (height)) + col) / (float)255;
+			float yPosition = (float)pixels.at(((row)* (height)) + col) / (float)255;
 			float zPosition = ((float)row / (float)(height - 1)) - 0.5f;
-			vec3 vertex(xPosition * X_SCALE, yPosition * Y_SCALE, zPosition * Z_SCALE);
+			vec3 vertex(xPosition * xScale, yPosition * yScale, zPosition * zScale);
 			vertexData.push_back(vertex);
-			textureData.push_back(vec2(xPosition * X_SCALE / m_tileScale, zPosition* Z_SCALE / m_tileScale));
+			textureData.push_back(vec2(xPosition * xScale / tileScale, zPosition* zScale / tileScale));
 
 		}
 	}
@@ -117,7 +135,7 @@ int HeightMap_GL::Load()
 			vec3 bottom = vertexData.at(clamp((row + 1), 0, width - 1)* width + clamp(col, 0, height - 1));
 
 			top = vec3(top.x, top.y, top.z);
-			left = vec3(left.x, left.y , left.z);
+			left = vec3(left.x, left.y, left.z);
 			right = vec3(right.x, right.y, right.z);
 			bottom = vec3(bottom.x, bottom.y, bottom.z);
 
@@ -133,9 +151,9 @@ int HeightMap_GL::Load()
 	vector<GLfloat> verticesCoordArray;
 	vector<GLfloat> normalCoordArray;
 	//populate vertices in triangle order
-	for (int row = 0; row < height - 1; row++) 
+	for (int row = 0; row < height - 1; row++)
 	{
-		for (int col = 0; col < width - 1; col++) 
+		for (int col = 0; col < width - 1; col++)
 		{
 			int topLeftIndexNum = (int)(row * width + col);
 			int topRightIndexNum = (int)(row * width + col + 1);
@@ -146,33 +164,33 @@ int HeightMap_GL::Load()
 			verticesCoordArray.push_back(vertexData.at(topLeftIndexNum).x);
 			verticesCoordArray.push_back(vertexData.at(topLeftIndexNum).y);
 			verticesCoordArray.push_back(vertexData.at(topLeftIndexNum).z);
-			m_numVertices++;
+			numVertices++;
 
 			verticesCoordArray.push_back(vertexData.at(bottomLeftIndexNum).x);
 			verticesCoordArray.push_back(vertexData.at(bottomLeftIndexNum).y);
 			verticesCoordArray.push_back(vertexData.at(bottomLeftIndexNum).z);
-			m_numVertices++;
+			numVertices++;
 
 			verticesCoordArray.push_back(vertexData.at(topRightIndexNum).x);
 			verticesCoordArray.push_back(vertexData.at(topRightIndexNum).y);
 			verticesCoordArray.push_back(vertexData.at(topRightIndexNum).z);
-			m_numVertices++;
-			
+			numVertices++;
+
 
 			verticesCoordArray.push_back(vertexData.at(topRightIndexNum).x);
 			verticesCoordArray.push_back(vertexData.at(topRightIndexNum).y);
 			verticesCoordArray.push_back(vertexData.at(topRightIndexNum).z);
-			m_numVertices++;
+			numVertices++;
 
 			verticesCoordArray.push_back(vertexData.at(bottomLeftIndexNum).x);
 			verticesCoordArray.push_back(vertexData.at(bottomLeftIndexNum).y);
 			verticesCoordArray.push_back(vertexData.at(bottomLeftIndexNum).z);
-			m_numVertices++;
+			numVertices++;
 
 			verticesCoordArray.push_back(vertexData.at(bottomRightIndexNum).x);
 			verticesCoordArray.push_back(vertexData.at(bottomRightIndexNum).y);
 			verticesCoordArray.push_back(vertexData.at(bottomRightIndexNum).z);
-			m_numVertices++;
+			numVertices++;
 			//Normals-------------------------
 			normalCoordArray.push_back(normalData.at(topLeftIndexNum).x);
 			normalCoordArray.push_back(normalData.at(topLeftIndexNum).y);
@@ -221,94 +239,24 @@ int HeightMap_GL::Load()
 			texCoordArray.push_back(textureData.at(bottomRightIndexNum).y);
 		}
 	}
+	vertexData.clear();
+	normalData.clear();
+	textureData.clear();
 
-	GLfloat* normals = &normalCoordArray[0];
-	GLfloat* vertices = &verticesCoordArray[0];
-	GLfloat* textures = &texCoordArray[0];
-	int success = m_vertexBuffer.Init(m_numVertices, vertices, normals, textures,3, 3,2, m_textureFileName);
-	return success;
-}
-// -----------------------------------------------------------------------
-bool HeightMap_GL::VLoadResource()
-{
-	//if no resource currently exists
-	if (!m_textureResource)
+	//concatinate data into contigeous block
+	for (int i = 0; i < verticesCoordArray.size(); i++)
 	{
-		//Request load Resource
-		Resource* texResource = new Resource(m_textureFileName);
-		texResource->RequestLoad();
-		m_textureResource = StrongBitmapPtr(texResource);
-
-		if (!m_textureResourceManager->AddResource(m_textureResource))
-		{
-			return false;
-		}
+		vertBufferData.push_back(verticesCoordArray.at(i));
 	}
-	else if (!m_textureResource->IsLoaded())
+	int start = verticesCoordArray.size();
+	for (int i = 0; i < normalCoordArray.size(); i++)
 	{
-		m_textureResource->RequestLoad();
+		vertBufferData.push_back(normalCoordArray.at(i));
 	}
-	else if (!m_textureResource->Buffer())
+	start = normalCoordArray.size();
+	for (int i = 0; i <  texCoordArray.size(); i++)
 	{
-		return false;
+		vertBufferData.push_back(texCoordArray.at(i));
 	}
-	return true;
-
+	return &vertBufferData[0];
 }
-// -----------------------------------------------------------------------
-void HeightMap_GL::BindData()
-{
-	int offset = 3 * m_numVertices*sizeof(GLfloat);
-	m_vertexBuffer.SetVertexAttribPointer(m_shaderProgram->GetPositionID(), 3, 0, 0);
-	m_vertexBuffer.SetVertexAttribPointer(m_shaderProgram->GetNormalID(), 3, 0, (const void*)(offset));
-	m_vertexBuffer.SetVertexAttribPointer(m_shaderProgram->GetTextureID(), 2, 0, (const void*)(offset*2));
-}
-// -----------------------------------------------------------------------
-void HeightMap_GL::VUpdateNode(Scene* pScene, float deltaMS)
-{
-}
-
-// -----------------------------------------------------------------------
-bool HeightMap_GL::VConfigureXmlNodeData(TiXmlElement* pElement)
-{
-	TiXmlElement* hMapElement = pElement->FirstChildElement();
-	m_material = StrongMaterialPtr(ALPHA_NEW Material_GL());
-	while (hMapElement)
-	{
-		string value = hMapElement->Value();
-		if (value == "Properties")
-		{
-			m_textureFileName = hMapElement->Attribute("mapFileName");
-			hMapElement->QueryFloatAttribute("tileScale", &m_tileScale);
-		
-		}
-
-		if (value == "Material")
-		{
-			//create material
-			string texture = hMapElement->Attribute("textureFileName");
-			float shininess = 0;
-			Colour specColour;
-			hMapElement->QueryFloatAttribute("shininess", &shininess);
-			hMapElement->QueryFloatAttribute("specularColourR", &specColour.x);
-			hMapElement->QueryFloatAttribute("specularColourR", &specColour.y);
-			hMapElement->QueryFloatAttribute("specularColourR", &specColour.z);
-			Texture_GL* tex = ALPHA_NEW Texture_GL(texture.c_str());
-			m_material->SetTexture(StrongTexturePtr(tex));
-			m_material->SetSpecular(specColour, shininess);
-		}
-		hMapElement = hMapElement->NextSiblingElement();
-	}
-	//init shader program
-	HeightMapShaderProgram* pShaderProgram = dynamic_cast<Renderer_GL*>(GraphicsSystem::Get().GetRenderer())->GetHeightMapShaderProgram();
-	if (!pShaderProgram)
-	{
-		return false;
-	}
-	m_shaderProgram = pShaderProgram;
-	m_textureResourceManager = GraphicsSystem::Get().GetTextureResourceManager();
-	return true;
-}
-// -----------------------------------------------------------------------
-
-

@@ -16,7 +16,7 @@ VertexBufferHandler::~VertexBufferHandler()
 // -----------------------------------------------------------------------
 VertexBufferHandler& VertexBufferHandler::Get()
 {
-	static VertexBufferHandler* instance = new VertexBufferHandler();
+	static VertexBufferHandler* instance = ALPHA_NEW VertexBufferHandler();
 	return *instance;
 
 }

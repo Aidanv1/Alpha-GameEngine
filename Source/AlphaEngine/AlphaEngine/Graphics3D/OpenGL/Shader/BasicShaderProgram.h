@@ -9,7 +9,7 @@ public:
 	BasicShaderProgram();
 	~BasicShaderProgram();
 	virtual bool VInit(const char* vertexShaderSourceCode, const char* fragmentShaderSourceCode) override;
-	void SetUniforms(mat4& M, mat4& V, mat4& P);
+	void SetUniforms(mat4& M, mat4& V, mat4& P, vec4& colour);
 	//accessor methods for attribute locations
 	GLuint GetPositionID() const { return m_positionID; }
 private:
@@ -17,5 +17,6 @@ private:
 	GLuint m_modelMatrixID;
 	GLuint m_perspectiveMatrixID;
 	GLuint m_viewMatrixID;
+	GLuint m_colourID;
 };
 //========================================================================

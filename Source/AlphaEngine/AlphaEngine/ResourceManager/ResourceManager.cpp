@@ -22,7 +22,7 @@ bool ResourceManager::Init(int sizeInMB)
 {
 	m_sizeTotal = sizeInMB * BYTES_PER_MB;
 	//add default loader
-	DefaultResourceLoader* defaultLoader = new DefaultResourceLoader();
+	DefaultResourceLoader* defaultLoader = ALPHA_NEW DefaultResourceLoader();
 	shared_ptr<DefaultResourceLoader> spDefaultLoader(defaultLoader);
 	m_resourceLoaderList.push_back(spDefaultLoader);
 	return true;
@@ -38,7 +38,7 @@ bool ResourceManager::AddResource(shared_ptr<Resource>& spResource)
 {
 	//get resource type and intialiaze with appropriate loader
 	//need to add check to find correct loader
-	shared_ptr<IResourceLoader> pResLoader =  m_resourceLoaderList.back();
+	shared_ptr<IResourceLoader> pResLoader = FindResLoader(spResource->GetID());
 	
 	shared_ptr<Resource> res = spResource;
 	
@@ -134,3 +134,34 @@ void ResourceManager::Promote(Resource* spRes)
 	m_resourceListLRU.push_front(m_resIDMap[spRes->GetID()]);
 }
 // -----------------------------------------------------------------------
+shared_ptr<IResourceLoader> ResourceManager::FindResLoader(string name)
+{
+	for (auto it = m_resourceLoaderList.rbegin(); it != m_resourceLoaderList.rend(); it++)
+	{
+		IResourceLoader* resL = (*it).get();
+		string patt = resL->VGetPattern().c_str();
+		if (FileExtensionMatch(patt.c_str(), name.c_str()))
+		{
+			return (*it);
+		}
+	}
+	return NULL;
+}
+// -----------------------------------------------------------------------
+bool ResourceManager::FileExtensionMatch(const char *pat, const char *str)
+{
+	std::string pattern = pat;
+	std::string testString = str;
+
+	int patternLength = pattern.length();
+	int dot = testString.find_last_of(".");
+	string ext = testString.substr(dot + 1, dot + patternLength);
+	//change to upper case
+	transform(ext.begin(), ext.end(), ext.begin(), ::toupper);
+	transform(pattern.begin(), pattern.end(), pattern.begin(), ::toupper);
+	if (ext == pattern)
+	{
+		return true;
+	}
+	return false;
+}

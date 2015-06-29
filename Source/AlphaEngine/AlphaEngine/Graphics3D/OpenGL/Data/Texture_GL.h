@@ -1,7 +1,6 @@
 #pragma once
 #include "..\..\..\AlphaStd.h"
-#include <GL/glew.h>
-#include "..\..\..\ResourceManager\Resources\Raw.h"
+#include "..\..\..\ResourceManager\Resources\Bitmap.h"
 #include "..\..\..\ResourceManager\Resource.h"
 #include "../Handler/TextureHandler.h"
 #include "../../GraphicsSystem.h"

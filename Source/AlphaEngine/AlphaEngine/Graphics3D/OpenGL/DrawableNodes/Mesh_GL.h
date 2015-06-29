@@ -3,11 +3,10 @@
 #include "../Renderer_GL.h"
 #include "../Shader/MeshShaderProgram.h"
 #include "../../GraphicsSystem.h"
-#include "assimp/scene.h"
 #include "../Data/Material_GL.h"
 #include "../Buffers/VertexBuffer.h"
 #include "../../Scene/DrawableNode.h"
-
+#include "../../../ResourceManager/Resources/Model.h"
 typedef shared_ptr<Resource> StrongMeshPtr;
 //========================================================================
 class Mesh_GL : public IMesh
@@ -18,10 +17,11 @@ public:
 	void VRender(Scene* pScene) override;
 	//Mesh functions
 	virtual bool VInitMesh(string meshFile) override;
-	int VLoadMesh(aiMesh* pMesh, aiMaterial* pMaterial) override;
+	int VLoadMesh(MeshInfo* pMesh) override;
 	bool VLoadMaterial() override;
 	bool VValidate() override;
 	void VFreeBuffer() override;
+	void VCullFace(bool cull = false) override;
 private:
 	Mesh_GL();
 	//loading methods
@@ -29,6 +29,7 @@ private:
 	//drawing methods
 	void BindData();	
 private:
+	bool m_cullFace;
 	MeshShaderProgram* m_shaderProgram;
 	long m_meshID;	
 	int m_numVertices;

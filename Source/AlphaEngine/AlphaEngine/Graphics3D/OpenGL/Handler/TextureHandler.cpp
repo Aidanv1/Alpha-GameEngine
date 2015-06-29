@@ -16,7 +16,7 @@ TextureHandler::~TextureHandler()
 // -----------------------------------------------------------------------
 TextureHandler& TextureHandler::Get()
 {
-	static TextureHandler* instance = new TextureHandler();
+	static TextureHandler* instance = ALPHA_NEW TextureHandler();
 	return *instance;
 
 }

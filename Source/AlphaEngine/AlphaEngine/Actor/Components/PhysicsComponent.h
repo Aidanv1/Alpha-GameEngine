@@ -7,7 +7,9 @@ enum ShapeType
 {
 	Sphere,
 	Plane,
-	Box
+	Box,
+	Mesh,
+	Height
 };
 struct PhysicsProperties
 {
@@ -21,6 +23,8 @@ struct PhysicsProperties
 	vec3 m_dimensions;
 	//plane
 	vec3 m_normal;
+	//mesh
+	string m_meshName;
 };
 //========================================================================
 class PhysicsComponent : public IActorComponent
@@ -36,7 +40,6 @@ public:
 	virtual void VUpdate(float deltaMs) override;
 	virtual bool VInitComponent(TiXmlElement* pElement) override;
 private:
-	IGamePhysics* m_gamePhysics;
 	PhysicsProperties m_properties;
 };
 //========================================================================

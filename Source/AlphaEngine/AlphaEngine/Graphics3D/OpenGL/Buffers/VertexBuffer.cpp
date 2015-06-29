@@ -87,6 +87,26 @@ int VertexBuffer::Init(int numvertices, GLfloat vertices[], int compSizeV, strin
 	return m_vertexInfo.m_vertexBufferID;
 }
 // -----------------------------------------------------------------------
+int VertexBuffer::Init(int size, GLfloat data[], string name)
+{
+	m_name = name;
+	//initialize vertex buffer
+	if (m_vertexInfo.m_vertexArrayID == -1)
+	{
+		glGenVertexArrays(1, &(m_vertexInfo.m_vertexArrayID));
+	}
+	glBindVertexArray(m_vertexInfo.m_vertexArrayID);
+	m_vertexInfo.m_vertexBufferID = VertexBufferHandler::Get().GetVertexBufferHandle(size, name);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vertexInfo.m_vertexBufferID);
+
+	// Create the buffer, but don't load anything yet
+	glBufferData(GL_ARRAY_BUFFER, size, NULL, GL_STATIC_DRAW);
+	// Load the vertex points
+	glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+	//-----------------------------------------------
+	return m_vertexInfo.m_vertexBufferID;
+}
+// -----------------------------------------------------------------------
 void VertexBuffer::BindSubData(int numVertices, int componentSize, int offsetSize, GLfloat vertices[])
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexInfo.m_vertexBufferID);
