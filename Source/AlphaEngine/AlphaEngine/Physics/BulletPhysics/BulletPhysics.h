@@ -98,6 +98,13 @@ public:
 	virtual void VAddBox(vec3 dimensions, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
 	virtual void VAddHeightField(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
 	virtual void VAddMesh(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
+	//Mechanics
+	virtual void VSetVelocity(ActorID actorID, vec3 velocity) override;
+	virtual vec3 VGetVelocity(ActorID actorID) const override;
+	virtual void VSetAngularVelocity(ActorID actorID, vec3 velocity) override;
+	virtual vec3 VGetAngularVelocity(ActorID actorID) const override;
+	virtual void VApplyImpulse(vec3 force, ActorID) override;
+	virtual void VApplyTorqueImpulse(vec3 force, ActorID) override;
 	//Accessors
 	virtual Matrix4x4 VGetRigidBodyTransform(ActorID actorID) override;
 	//Mutator
@@ -108,10 +115,6 @@ public:
 	virtual bool VLoadCollisionMeshes() override;
 private:
 	static void InternalTickCallBack(btDynamicsWorld * const world, btScalar const timeStep);
-	//conversions
-	btVector3 ConvertFromVec3(vec3& vector);
-	btTransform ConvertFromMat4(Matrix4x4& matrix);
-	Matrix4x4 ConvertToMat4(btTransform& trans);
 	//Lookups
 	float LookUpDensity(string densityID);
 	MaterialData LookUpMaterial(string materialID);

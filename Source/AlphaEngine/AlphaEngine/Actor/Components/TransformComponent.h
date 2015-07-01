@@ -13,6 +13,7 @@ public:
 	vec3 GetPosition() const;
 	void SetRotation(vec3 rotation);
 	Matrix4x4 GetRotation() const;
+	vec3 GetLookAt() const;
 	//IActorComponent functions
 	ComponentType VGetType() const override { return "Transform"; }
 	void VUpdate(float deltaMs) override;

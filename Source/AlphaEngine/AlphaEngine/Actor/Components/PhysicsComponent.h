@@ -34,11 +34,19 @@ public:
 	~PhysicsComponent();
 	Matrix4x4 GetTransform();
 	void SetTransform(Matrix4x4& transform);
+	//Mechanics
+	void SetVelocity(vec3& velocity);
+	vec3 GetVelocity() const;
+	void SetAngularVelocity(vec3& velocity);
+	vec3 GetAngularVelocity() const;
+	void ApplyImpulseForce(vec3 force);
+	void ApplyImpulseTorque(vec3 force);
+
 	//IActorComponent fucnctions
-	virtual ComponentType VGetType() const override{ return "Physics"; }
-	virtual bool VPostInit() override;
-	virtual void VUpdate(float deltaMs) override;
-	virtual bool VInitComponent(TiXmlElement* pElement) override;
+	ComponentType VGetType() const override{ return "Physics"; }
+	bool VPostInit() override;
+	void VUpdate(float deltaMs) override;
+	bool VInitComponent(TiXmlElement* pElement) override;
 private:
 	PhysicsProperties m_properties;
 };

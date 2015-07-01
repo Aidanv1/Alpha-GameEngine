@@ -2,6 +2,7 @@
 #include "../PhysicsSystem.h"
 #include "../../ResourceManager/Resources/Model.h"
 #include "../../ResourceManager/Resources/Bitmap.h"
+#include "BulletMathsHelper.h"
 // -----------------------------------------------------------------------
 BulletPhysics::BulletPhysics()
 {
@@ -47,7 +48,7 @@ void BulletPhysics::InternalTickCallBack(btDynamicsWorld * const world, btScalar
 // -----------------------------------------------------------------------
 void BulletPhysics::AddShape(Actor* actor, btCollisionShape* shape, float mass, string material, Matrix4x4& trans, bool hasLocalInteria)
 {
-	btTransform transform = ConvertFromMat4(trans);
+	btTransform transform = BulletMathsHelper::ConvertFromMat4(trans);
 	btVector3 intertia(0 ,0 , 0);
 	if (hasLocalInteria)
 	{
@@ -78,13 +79,13 @@ void BulletPhysics::VAddSphere(float const radius, StrongActorPtr actor, string 
 // -----------------------------------------------------------------------
 void BulletPhysics::VAddStaticPlane(StrongActorPtr actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria)
 {
-	btCollisionShape* shape = ALPHA_NEW btStaticPlaneShape(ConvertFromVec3(normal), planeConstant);
+	btCollisionShape* shape = ALPHA_NEW btStaticPlaneShape(BulletMathsHelper::ConvertFromVec3(normal), planeConstant);
 	AddShape(actor.get(), shape, 0, material, transform, hasLocalInteria);
 }
 // -----------------------------------------------------------------------
 void BulletPhysics::VAddBox(vec3 dimensions, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
 {
-	btCollisionShape* shape = ALPHA_NEW btBoxShape(ConvertFromVec3(dimensions));
+	btCollisionShape* shape = ALPHA_NEW btBoxShape(BulletMathsHelper::ConvertFromVec3(dimensions));
 	float volume = 8*dimensions.x * dimensions.y * dimensions.z; // times each dimension 2 (2 x 2 x 2 = 8) 
 	float mass = volume * LookUpDensity(density);
 	AddShape(actor.get(), shape, mass, material, transform, hasLocalInteria);
@@ -120,30 +121,6 @@ void BulletPhysics::VAddHeightField(string meshName, StrongActorPtr actor, strin
 	pendingMesh.m_colMeshRes = colMeshRes;
 	pendingMesh.m_meshType = HeightField;
 	m_pendingColMeshQueue.push_back(pendingMesh);
-}
-// -----------------------------------------------------------------------
-btVector3 BulletPhysics::ConvertFromVec3(vec3& vector)
-{
-	return btVector3(vector.x, vector.y, vector.z);
-}
-// -----------------------------------------------------------------------
-btTransform BulletPhysics::ConvertFromMat4(Matrix4x4& matrix)
-{
-	btTransform t;
-	mat4 glmMat = *matrix.Get();
-	btScalar* matrixArray = value_ptr(glmMat);
-	t.setFromOpenGLMatrix(matrixArray);
-	return t;
-}
-// ----------------------------------------------------------------------
-Matrix4x4 BulletPhysics::ConvertToMat4(btTransform& trans)
-{
-	btScalar matrix[16];
-	trans.getOpenGLMatrix(matrix);
-	matrix[15] = 1.0f;
-	mat4 glmMat;
-	glmMat = make_mat4(matrix);
-	return glmMat;
 }
 // ----------------------------------------------------------------------
 float BulletPhysics::LookUpDensity(string densityID)
@@ -201,12 +178,12 @@ bool BulletPhysics::VConfigureXmlData(TiXmlElement* pElement)
 Matrix4x4 BulletPhysics::VGetRigidBodyTransform(ActorID actorID)
 {
 	btTransform transform = m_rigidBodyMap[actorID]->getWorldTransform();
-	return ConvertToMat4(transform);
+	return BulletMathsHelper::ConvertToMat4(transform);
 }
 // ----------------------------------------------------------------------
 void BulletPhysics::VSetRigidBodyTransform(ActorID actorID, Matrix4x4& transform)
 {
-	m_rigidBodyMap[actorID]->setWorldTransform(ConvertFromMat4(transform));
+	m_rigidBodyMap[actorID]->setWorldTransform(BulletMathsHelper::ConvertFromMat4(transform));
 }
 // ----------------------------------------------------------------------
 void BulletPhysics::VRenderDiagnostics()
@@ -273,5 +250,45 @@ bool BulletPhysics::VLoadCollisionMeshes()
 		}
 	} 
 	return loaded;
+}
+// ----------------------------------------------------------------------
+void BulletPhysics::VSetVelocity(ActorID actorID, vec3 velocity)
+{
+	m_rigidBodyMap[actorID]->setLinearVelocity(BulletMathsHelper::ConvertFromVec3(velocity));
+}
+// ----------------------------------------------------------------------
+vec3 BulletPhysics::VGetVelocity(ActorID actorID) const
+{
+	auto findIt = m_rigidBodyMap.find(actorID);
+	const btRigidBody* body = findIt->second;
+	btVector3 vec = body->getLinearVelocity();
+	return BulletMathsHelper::ConvertToVec3(vec);
+}
+// ----------------------------------------------------------------------
+void BulletPhysics::VSetAngularVelocity(ActorID actorID, vec3 velocity)
+{
+	m_rigidBodyMap[actorID]->setAngularVelocity(BulletMathsHelper::ConvertFromVec3(velocity));
+}
+// ----------------------------------------------------------------------
+vec3 BulletPhysics::VGetAngularVelocity(ActorID actorID) const
+{
+	auto findIt = m_rigidBodyMap.find(actorID);
+	const btRigidBody* body = findIt->second;
+	btVector3 vec = body->getAngularVelocity();
+	return BulletMathsHelper::ConvertToVec3(vec);
+}
+// ----------------------------------------------------------------------
+void BulletPhysics::VApplyImpulse(vec3 force, ActorID actorID)
+{
+	btRigidBody* body = m_rigidBodyMap[actorID];
+	body->setActivationState(DISABLE_DEACTIVATION);
+	body->applyCentralImpulse(BulletMathsHelper::ConvertFromVec3(force));
+}
+// ----------------------------------------------------------------------
+void BulletPhysics::VApplyTorqueImpulse(vec3 force, ActorID actorID)
+{
+	btRigidBody* body = m_rigidBodyMap[actorID];
+	body->setActivationState(DISABLE_DEACTIVATION);
+	body->applyTorqueImpulse(BulletMathsHelper::ConvertFromVec3(force));
 }
 // ----------------------------------------------------------------------

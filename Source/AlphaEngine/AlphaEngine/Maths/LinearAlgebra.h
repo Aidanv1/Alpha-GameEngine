@@ -14,8 +14,8 @@ public:
 	vec3 GetPosition() const;
 	void SetRotation(vec3 rotation);
 	mat4 GetRotation() const;
-	vec4 GetQuaternion();
-	vec3 GetLookAtVector();
+	vec4 GetQuaternion() const;
+	vec3 GetLookAtVector() const;
 	//operators
 	mat4 operator*(mat4& matrix);
 	mat4 operator*(Matrix4x4& matrix);

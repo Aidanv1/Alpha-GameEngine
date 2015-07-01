@@ -135,6 +135,7 @@
     <ClCompile Include="Graphics3D\Scene\SceneNode.cpp" />
     <ClCompile Include="Maths\LinearAlgebra.cpp" />
     <ClCompile Include="Memory\MemoryPool.cpp" />
+    <ClCompile Include="Physics\BulletPhysics\BulletMathsHelper.cpp" />
     <ClCompile Include="Physics\BulletPhysics\BulletPhysics.cpp" />
     <ClCompile Include="Physics\BulletPhysics\DebugDrawer.cpp" />
     <ClCompile Include="Physics\PhysicsSystem.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Memory\MemoryPool.h" />
     <ClInclude Include="Physics\BulletPhysics\BulletPhysics.h" />
     <ClInclude Include="Physics\BulletPhysics\DebugDrawer.h" />
+    <ClInclude Include="Physics\BulletPhysics\BulletMathsHelper.h" />
     <ClInclude Include="Physics\IGamePhysics.h" />
     <ClInclude Include="Physics\PhysicsSystem.h" />
     <ClInclude Include="ResourceManager\DefaultResourceLoader.h" />

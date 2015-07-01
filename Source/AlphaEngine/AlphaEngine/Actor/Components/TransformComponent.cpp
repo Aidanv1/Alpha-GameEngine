@@ -36,6 +36,11 @@ Matrix4x4 TransformComponent::GetRotation() const
 	return m_transform.GetRotation();
 }
 // -----------------------------------------------------------------------
+vec3 TransformComponent::GetLookAt() const
+{
+	return m_transform.GetLookAtVector();
+}
+// -----------------------------------------------------------------------
 //IActorComponent functions
 // -----------------------------------------------------------------------
 void TransformComponent::VUpdate(float deltaMs)

@@ -57,13 +57,13 @@ mat4 Matrix4x4::GetRotation() const
 	return rotation;
 }
 // -----------------------------------------------------------------------
-vec3 Matrix4x4::GetLookAtVector()
+vec3 Matrix4x4::GetLookAtVector() const
 {
 	vec4 vectorPos = GetRotation() * vec4(0, 0, 1.0f, 0);
 	return vec3(vectorPos);
 }
 // -----------------------------------------------------------------------
-vec4 Matrix4x4::GetQuaternion()
+vec4 Matrix4x4::GetQuaternion() const
 {
 	quat q = quat_cast(GetRotation());
 

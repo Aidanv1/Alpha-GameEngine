@@ -78,6 +78,10 @@ bool GLWindow::VUpdate(float deltaMs)
 	return true;
 }
 // -----------------------------------------------------------------------
+#include "../Actor/Actor.h"
+#include "../Maths/LinearAlgebra.h"
+#include "../Actor/Components/TransformComponent.h"
+#include "../Actor/Components/PhysicsComponent.h"
 bool GLWindow::PollEvents(float deltaMs)
 {
 	//TEMP TEST CODE!!!

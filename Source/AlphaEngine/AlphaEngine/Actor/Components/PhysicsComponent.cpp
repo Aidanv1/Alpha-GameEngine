@@ -125,3 +125,34 @@ void PhysicsComponent::SetTransform(Matrix4x4& transform)
 {
 	PhysicsSystem::Get().RigidBodyPhysics()->VSetRigidBodyTransform(m_pOwner->GetID(), transform);
 }
+// -----------------------------------------------------------------------
+void PhysicsComponent::SetVelocity(vec3& velocity)
+{
+	PhysicsSystem::Get().RigidBodyPhysics()->VSetVelocity(m_pOwner->GetID(), velocity);
+}
+// -----------------------------------------------------------------------
+vec3 PhysicsComponent::GetVelocity() const
+{
+	return 	PhysicsSystem::Get().RigidBodyPhysics()->VGetVelocity(m_pOwner->GetID());
+}
+// -----------------------------------------------------------------------
+void PhysicsComponent::SetAngularVelocity(vec3& velocity)
+{
+	PhysicsSystem::Get().RigidBodyPhysics()->VSetAngularVelocity(m_pOwner->GetID(), velocity);
+}
+// -----------------------------------------------------------------------
+vec3 PhysicsComponent::GetAngularVelocity() const
+{
+	return 	PhysicsSystem::Get().RigidBodyPhysics()->VGetAngularVelocity(m_pOwner->GetID());
+}
+// -----------------------------------------------------------------------
+void PhysicsComponent::ApplyImpulseForce(vec3 force)
+{
+	PhysicsSystem::Get().RigidBodyPhysics()->VApplyImpulse(force, m_pOwner->GetID());
+}
+// -----------------------------------------------------------------------
+void PhysicsComponent::ApplyImpulseTorque(vec3 force)
+{
+	PhysicsSystem::Get().RigidBodyPhysics()->VApplyTorqueImpulse(force, m_pOwner->GetID());
+}
+// -----------------------------------------------------------------------

@@ -26,7 +26,7 @@
     </Graphics>
     
     <Physics>
-      <PhysicsMaterial>Normal</PhysicsMaterial>
+      <PhysicsMaterial>HardRough</PhysicsMaterial>
      <Density>infinite</Density>
       <Shape type ="height">
         <Properties MeshName ="../../../Assets/Terrain/heightmap1.hmap"/>
@@ -38,11 +38,11 @@
 
   </Actor>
 
-  <Actor name = "Ironman">
+  <Actor name = "Ironman1">
 
     <Transform>
-      <Position x ="-5.0" y ="30" z ="-30.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="40.0" zAxis ="0.0" />
+      <Position x ="-5.0" y ="30" z ="-5.0" />
+      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
     </Transform>
     
     <Graphics type ="Model">
@@ -54,73 +54,11 @@
       <PhysicsMaterial>Normal</PhysicsMaterial>
       <Density>aluminium</Density>
       <Shape type ="box">
-        <Properties halfX="2"  halfY="2"  halfZ="2"  hasLocalInertia ="true"/>
+        <Properties halfX="2"  halfY="2"  halfZ="2"  hasLocalInertia ="false"/>
       </Shape>     
     </Physics>
   </Actor>
-
-  <Actor name = "Ironman">
-
-    <Transform>
-      <Position x ="-5.0" y ="40" z ="-30.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="40.0" zAxis ="0.0" />
-    </Transform>
-
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"
-                  radius ="3"/>
-    </Graphics>
-
-    <Physics>
-      <PhysicsMaterial>Normal</PhysicsMaterial>
-      <Density>aluminium</Density>
-      <Shape type ="box">
-        <Properties halfX="2"  halfY="2"  halfZ="2"  hasLocalInertia ="true"/>
-      </Shape>
-    </Physics>
-  </Actor>
-
-  <Actor name = "Ironman">
-
-    <Transform>
-      <Position x ="0.0" y ="50" z ="-30.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="40.0" zAxis ="0.0" />
-    </Transform>
-
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"
-                  radius ="3"/>
-    </Graphics>
-
-    <Physics>
-      <PhysicsMaterial>Normal</PhysicsMaterial>
-      <Density>aluminium</Density>
-      <Shape type ="box">
-        <Properties halfX="2"  halfY="2"  halfZ="2"  hasLocalInertia ="true"/>
-      </Shape>
-    </Physics>
-  </Actor>
-
-  <Actor name = "Ironman">
-
-    <Transform>
-      <Position x ="0.0" y ="55" z ="-35.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="40.0" zAxis ="0.0" />
-    </Transform>
-
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"
-                  radius ="3"/>
-    </Graphics>
-
-    <Physics>
-      <PhysicsMaterial>Normal</PhysicsMaterial>
-      <Density>aluminium</Density>
-      <Shape type ="box">
-        <Properties halfX="2"  halfY="2"  halfZ="2"  hasLocalInertia ="true"/>
-      </Shape>
-    </Physics>
-  </Actor>
+  
 
   <!--<Actor name = "Ironman">
     <Transform>
@@ -205,7 +143,7 @@
 
   <Actor name = "Main Camera">
     <Graphics type ="Camera">
-      <Properties mode = "FlyAround" targetName = "Ironman"/>
+      <Properties mode = "Orbital" targetName = "Ironman1"/>
       <Parameters
         FieldOfView ="45"
         AspectRatio ="1.7778"

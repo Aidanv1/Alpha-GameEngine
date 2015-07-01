@@ -16,7 +16,7 @@ m_verticesCoordArray(),
 m_vertexBuffer(),
 m_aspectR(0)
 {
-	m_nodeProperties.m_renderPass = RenderPass_Overlay;
+	m_nodeProperties.m_renderPass = RenderPass_NotRendered;
 }
 // -----------------------------------------------------------------------
 Text_GL::~Text_GL()

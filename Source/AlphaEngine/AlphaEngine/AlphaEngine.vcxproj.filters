@@ -176,6 +176,9 @@
     <ClCompile Include="ResourceManager\Loaders\HeightFieldResourceLoader.cpp">
       <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
+    <ClCompile Include="Physics\BulletPhysics\BulletMathsHelper.cpp">
+      <Filter>Physics\BulletPhysics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -474,6 +477,9 @@
     </ClInclude>
     <ClInclude Include="ResourceManager\Loaders\HeightFieldResourceLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\BulletPhysics\BulletMathsHelper.h">
+      <Filter>Physics\BulletPhysics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
