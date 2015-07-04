@@ -41,7 +41,7 @@
   <Actor name = "Ironman1">
 
     <Transform>
-      <Position x ="-5.0" y ="30" z ="-5.0" />
+      <Position x ="-5.0" y ="200" z ="-5.0" />
       <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
     </Transform>
     
@@ -51,7 +51,7 @@
     </Graphics>
     
     <Physics>
-      <PhysicsMaterial>Normal</PhysicsMaterial>
+      <PhysicsMaterial>Sticky</PhysicsMaterial>
       <Density>aluminium</Density>
       <Shape type ="box">
         <Properties halfX="2"  halfY="2"  halfZ="2"  hasLocalInertia ="false"/>

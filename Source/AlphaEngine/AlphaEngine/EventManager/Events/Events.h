@@ -7,14 +7,13 @@ class BaseEvent : public IEvent
 {
 
 public:
-	explicit BaseEvent(const float timeStamp = 0.0f) :
-	m_timeStamp(timeStamp)
-	{		
-	}
+	explicit BaseEvent(float timeStamp = 0.0f);
 	virtual const float VGetTimeStamp() const override { return m_timeStamp; }
 	virtual EventType VGetEventType() const override { return 0; }
 private:
-	const float m_timeStamp;
+	virtual void VSetTimeStamp(float timestamp) override;
+private:
+	float m_timeStamp;
 };
 //========================================================================
 //Look Event - For camera use
@@ -50,9 +49,9 @@ public:
 		m_lookPos.m_dY = dY;
 	}
 	LookPos GetLookPos() const { return m_lookPos; }
-	virtual EventType VGetEventType() const override { return sEventType; }
+	virtual EventType VGetEventType() const override { return s_eventType; }
 public:
-	static const EventType sEventType;
+	static const EventType s_eventType;
 
 private:
 	LookPos m_lookPos;

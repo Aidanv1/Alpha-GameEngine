@@ -32,7 +32,14 @@ void Clock::Update(float dtRealMs)
 	if (!m_isPaused)
 	{
 		unsigned __int64 dtScaledTime = (unsigned __int64)dtRealMs * m_timeScale;
-		m_timeMilliSec += dtScaledTime;
+		if (dtScaledTime > MS_PER_SECOND / 2)
+		{
+			m_timeMilliSec += IDEAL_FRAME_DT;
+		}
+		else
+		{
+			m_timeMilliSec += dtScaledTime;
+		}
 	}
 }
 // -----------------------------------------------------------------------

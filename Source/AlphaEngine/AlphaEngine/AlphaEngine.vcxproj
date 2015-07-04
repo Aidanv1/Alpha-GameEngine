@@ -102,11 +102,13 @@
     <ClCompile Include="Actor\Components\TransformComponent.cpp" />
     <ClCompile Include="Actor\RoleSystem.cpp" />
     <ClCompile Include="AlphaMain.cpp" />
+    <ClCompile Include="Common\GameContext.cpp" />
     <ClCompile Include="EventManager\EventManager.cpp" />
     <ClCompile Include="EventManager\Events\Events.cpp" />
     <ClCompile Include="EventManager\IEventManager.cpp" />
     <ClCompile Include="GameLoop\GameLoop.cpp" />
     <ClCompile Include="Graphics3D\Geometry\Geometry.cpp" />
+    <ClCompile Include="Graphics3D\GraphicsEvents.cpp" />
     <ClCompile Include="Graphics3D\GraphicsSettings.cpp" />
     <ClCompile Include="Graphics3D\GraphicsSystem.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Buffers\VertexBuffer.cpp" />
@@ -138,6 +140,7 @@
     <ClCompile Include="Physics\BulletPhysics\BulletMathsHelper.cpp" />
     <ClCompile Include="Physics\BulletPhysics\BulletPhysics.cpp" />
     <ClCompile Include="Physics\BulletPhysics\DebugDrawer.cpp" />
+    <ClCompile Include="Physics\PhysicsEvents.cpp" />
     <ClCompile Include="Physics\PhysicsSystem.cpp" />
     <ClCompile Include="ResourceManager\DefaultResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Loaders\BitmapResourceLoader.cpp" />
@@ -167,6 +170,7 @@
     <ClInclude Include="Actor\RoleSystem.h" />
     <ClInclude Include="Audio\SoundResource.h" />
     <ClInclude Include="AlphaStd.h" />
+    <ClInclude Include="Common\GameContext.h" />
     <ClInclude Include="Debugging\Debugging.h" />
     <ClInclude Include="EventManager\EventManager.h" />
     <ClInclude Include="EventManager\Events\Events.h" />
@@ -174,6 +178,7 @@
     <ClInclude Include="EventManager\IEvent.h" />
     <ClInclude Include="GameLoop\GameLoop.h" />
     <ClInclude Include="Graphics3D\Geometry\Geometry.h" />
+    <ClInclude Include="Graphics3D\GraphicsEvents.h" />
     <ClInclude Include="Graphics3D\GraphicsSettings.h" />
     <ClInclude Include="Graphics3D\GraphicsSystem.h" />
     <ClInclude Include="Graphics3D\IRenderer.h" />
@@ -208,6 +213,7 @@
     <ClInclude Include="Physics\BulletPhysics\DebugDrawer.h" />
     <ClInclude Include="Physics\BulletPhysics\BulletMathsHelper.h" />
     <ClInclude Include="Physics\IGamePhysics.h" />
+    <ClInclude Include="Physics\PhysicsEvents.h" />
     <ClInclude Include="Physics\PhysicsSystem.h" />
     <ClInclude Include="ResourceManager\DefaultResourceLoader.h" />
     <ClInclude Include="ResourceManager\IResourceLoader.h" />

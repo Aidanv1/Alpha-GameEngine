@@ -179,6 +179,15 @@
     <ClCompile Include="Physics\BulletPhysics\BulletMathsHelper.cpp">
       <Filter>Physics\BulletPhysics</Filter>
     </ClCompile>
+    <ClCompile Include="Physics\PhysicsEvents.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GameContext.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\GraphicsEvents.cpp">
+      <Filter>Graphics3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -267,6 +276,9 @@
     </Filter>
     <Filter Include="Physics\BulletPhysics">
       <UniqueIdentifier>{9fb1889d-b51d-4e13-a316-35384d0020f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{12a24093-fb45-4a06-8e3d-7a007e6eb924}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -480,6 +492,15 @@
     </ClInclude>
     <ClInclude Include="Physics\BulletPhysics\BulletMathsHelper.h">
       <Filter>Physics\BulletPhysics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsEvents.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GameContext.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\GraphicsEvents.h">
+      <Filter>Graphics3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,9 +6,9 @@
 class BulletMathsHelper
 {
 public:
-	static btVector3 ConvertFromVec3(vec3& vector);
-	static vec3 ConvertToVec3(btVector3& vector);
-	static btTransform ConvertFromMat4(Matrix4x4& matrix);
-	static Matrix4x4 ConvertToMat4(btTransform& trans);
+	static btVector3 ConvertFromVec3(const vec3& vector);
+	static vec3 ConvertToVec3(const btVector3& vector);
+	static btTransform ConvertFromMat4(const Matrix4x4& matrix);
+	static Matrix4x4 ConvertToMat4(const btTransform& trans);
 };
 //========================================================================

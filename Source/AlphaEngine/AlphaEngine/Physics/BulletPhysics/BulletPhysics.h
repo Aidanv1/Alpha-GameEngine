@@ -78,9 +78,11 @@ struct PendingCollisionMesh
 
 //========================================================================
 typedef map<ActorID, btRigidBody*> RigidBodyActorMap;
+typedef map<const btRigidBody*, ActorID> ActorRigidBodyMap;
 typedef map<string, float> DensityTable;
 typedef map<string, MaterialData> MaterialTable;
-
+typedef pair<btRigidBody const *, btRigidBody const *> CollisionPair;
+typedef set<CollisionPair> CollisionPairs;
 //========================================================================
 class BulletPhysics : public IGamePhysics
 {
@@ -92,6 +94,7 @@ public:
 	virtual bool VConfigureXmlData(TiXmlElement* pElement) override;
 	virtual void VUpdate(float deltaMs) override;
 	//Add shape
+	virtual void VRemoveShape(ActorID actorId) override;
 	virtual void AddShape(Actor* actor, btCollisionShape* shape, float mass, string material, Matrix4x4& transform, bool hasLocalInteria);
 	virtual void VAddSphere(float const radius, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
 	virtual void VAddStaticPlane(StrongActorPtr actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria) override;
@@ -130,9 +133,12 @@ private:
 	DebugDrawer*						m_debugDrawer;
 	//
 	RigidBodyActorMap					m_rigidBodyMap;
+	ActorRigidBodyMap					m_actorMap;
 	DensityTable						m_densityTable;
 	MaterialTable						m_materialTable;
 	// Collision Meshes
 	list<PendingCollisionMesh>			m_pendingColMeshQueue;
+	//collisions
+	CollisionPairs						m_previousTickCollisionPairs;
 };
 //========================================================================

@@ -2,6 +2,8 @@
 #include "BulletPhysics\BulletPhysics.h"
 #include "..\ResourceManager\Loaders\MeshResourceLoader.h"
 #include "..\ResourceManager\Loaders\HeightFieldResourceLoader.h"
+#include "PhysicsEvents.h"
+#include "../EventManager/EventManager.h"
 // -----------------------------------------------------------------------
 PhysicsSystem::PhysicsSystem() :
 m_gamePhysics(NULL),
@@ -38,10 +40,16 @@ bool PhysicsSystem::Init(int colMeshResSize)
 // -----------------------------------------------------------------------
 bool PhysicsSystem::LoadPhysics()
 {
+	int passes = 0;
 	do
 	{
 		m_colMeshResourceManager->Update();
-	} while (!m_gamePhysics->VLoadCollisionMeshes());
+		passes++;
+	} while (	!m_gamePhysics->VLoadCollisionMeshes() &&
+				passes < 5);
+	bool check = passes < 5;
+	ALPHA_ASSERT(check);
+	Queue_Event(ALPHA_NEW PhysicsLoadedEvent());
 	return true;
 }
 // -----------------------------------------------------------------------

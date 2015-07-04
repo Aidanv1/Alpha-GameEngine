@@ -2,6 +2,7 @@
 #include "..\ResourceManager\Loaders\BitmapResourceLoader.h"
 #include "..\ResourceManager\Loaders\MeshResourceLoader.h"
 #include "..\ResourceManager\Loaders\HeightMapResourceLoader.h"
+#include "GraphicsEvents.h"
 // -----------------------------------------------------------------------
 GraphicsSystem::GraphicsSystem() :
 m_renderer(NULL),
@@ -10,12 +11,10 @@ m_meshResourceManager(NULL),
 m_scene(NULL),
 m_Loaded(false)
 {
-
 }
 // -----------------------------------------------------------------------
 GraphicsSystem::~GraphicsSystem()
-{
-	
+{	
 }
 // -----------------------------------------------------------------------
 bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshResSize)
@@ -75,6 +74,7 @@ void GraphicsSystem::LoadScene()
 		}
 	} while (!m_scene->Load());
 	m_Loaded = true;
+	Queue_Event(ALPHA_NEW GraphicsLoadedEvent());
 }
 // -----------------------------------------------------------------------
 GraphicsSystem& GraphicsSystem::Get()

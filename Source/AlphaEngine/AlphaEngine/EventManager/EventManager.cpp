@@ -1,4 +1,5 @@
 #include "EventManager.h"
+#include "../Common/GameContext.h"
 EventManager::EventManager(const char* name, bool setAsGlobal) : 
 IEventManager(setAsGlobal),
 m_name(name),
@@ -78,6 +79,7 @@ bool EventManager::VQueueEvent(shared_ptr<IEvent> event)
 	{
 		return false;
 	}
+	event->VSetTimeStamp(GameContext::Get()->GetGameTime());
 	m_eventQueue.push_back(event);
 	return true;
 }

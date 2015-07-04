@@ -10,6 +10,7 @@ public:
 	virtual bool VConfigureXmlData(TiXmlElement* pElement) = 0;
 	virtual void VUpdate(float deltaMs) = 0;
 	//Shape
+	virtual void VRemoveShape(ActorID actorId) = 0;
 	virtual void VAddSphere(float const radius, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
 	virtual void VAddBox(vec3 dimensions, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
 	virtual void VAddMesh(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;

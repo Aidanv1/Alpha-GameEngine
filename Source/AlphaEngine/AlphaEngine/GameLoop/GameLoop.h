@@ -7,7 +7,9 @@
 #include "..\Graphics3D\OpenGL\Renderer_GL.h"
 #include "../EventManager/EventManager.h"
 #include "../Actor/RoleSystem.h"
+//========================================================================
 #define MIN_DELTA_MS 4
+//========================================================================
 class GameLoop
 {
 public:
@@ -24,3 +26,4 @@ private:
 	IWindow* m_window;
 	EventManager m_globalEventManager;
 };
+//========================================================================

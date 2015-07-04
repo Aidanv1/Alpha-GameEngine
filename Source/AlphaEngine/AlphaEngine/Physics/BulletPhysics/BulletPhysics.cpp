@@ -3,6 +3,8 @@
 #include "../../ResourceManager/Resources/Model.h"
 #include "../../ResourceManager/Resources/Bitmap.h"
 #include "BulletMathsHelper.h"
+#include "../PhysicsEvents.h"
+#include "../../EventManager/EventManager.h"
 // -----------------------------------------------------------------------
 BulletPhysics::BulletPhysics()
 {
@@ -31,6 +33,7 @@ bool BulletPhysics::VInitPhysics()
 	//callback for collision events
 	m_dynamicsWorld->setInternalTickCallback(InternalTickCallBack);
 	m_dynamicsWorld->setDebugDrawer(m_debugDrawer);
+	m_dynamicsWorld->setWorldUserInfo(this);
 	return true;
 }
 // -----------------------------------------------------------------------
@@ -43,7 +46,86 @@ void BulletPhysics::VUpdate(float deltaMs)
 // -----------------------------------------------------------------------
 void BulletPhysics::InternalTickCallBack(btDynamicsWorld * const world, btScalar const timeStep)
 {
+	BulletPhysics * const bulletPhysics = static_cast<BulletPhysics*>(world->getWorldUserInfo());
+	btDispatcher * const dispatcher = world->getDispatcher();
+	CollisionPairs currentTickCollisionPairs;
+	//Check for NEW Collisions
+	for (int manifoldIdx = 0; manifoldIdx < dispatcher->getNumManifolds(); ++manifoldIdx)
+	{
+		btPersistentManifold const * const manifold = dispatcher->getManifoldByIndexInternal(manifoldIdx);
+		int numContacts = manifold->getNumContacts();
+		if (numContacts > 0)
+		{
+			const btRigidBody* body0 = dynamic_cast< const btRigidBody* >(manifold->getBody0());
+			const btRigidBody* body1 = dynamic_cast< const btRigidBody* >(manifold->getBody1());
+			//ensure consistent order
+			if (body0 > body1)
+			{
+				const btRigidBody* temp = body1;
+				body1 = body0;
+				body0 = temp;
+			}
+			//find average contact information
+			//---
+			vec3 contactPoint0(0.0);
+			vec3 contactNormal0(0.0);
+			vec3 contactPoint1(0.0);
+			vec3 contactNormal1(0.0);
+			//iterate through all contact points
+			for (int i = 0; i < numContacts; i++)
+			{
+				contactPoint0 += BulletMathsHelper::ConvertToVec3(manifold->getContactPoint(i).getPositionWorldOnA());
+				contactNormal0 += BulletMathsHelper::ConvertToVec3(-manifold->getContactPoint(i).m_normalWorldOnB);
 
+				contactPoint1 += BulletMathsHelper::ConvertToVec3(manifold->getContactPoint(i).getPositionWorldOnB());
+				contactNormal1 += BulletMathsHelper::ConvertToVec3(manifold->getContactPoint(i).m_normalWorldOnB);
+			}
+			contactPoint0 = contactPoint0 / (float)numContacts;
+			contactPoint1 = contactPoint1 / (float)numContacts;
+			contactNormal0 = contactNormal0 / (float)numContacts;
+			contactNormal1 = contactNormal1 / (float)numContacts;
+			//---
+			//add pair to current set of collisions
+			CollisionPair colPair = make_pair(body0, body1);
+			currentTickCollisionPairs.insert(colPair);
+			if (bulletPhysics->m_previousTickCollisionPairs.find(colPair) ==
+				bulletPhysics->m_previousTickCollisionPairs.end())
+			{
+				CollisionObjectInfo info0(	bulletPhysics->m_actorMap[colPair.first],
+											contactPoint0,
+											contactNormal0);
+				CollisionObjectInfo info1(	bulletPhysics->m_actorMap[colPair.second],
+											contactPoint1,
+											contactNormal1);
+				Queue_Event(ALPHA_NEW NewCollisionEvent(info0, info1));
+			}
+		}
+	}
+	//Check for REMOVED Collisions
+	CollisionPairs removedPairs;
+	set_difference(	currentTickCollisionPairs.begin(),
+					currentTickCollisionPairs.end(), 
+					bulletPhysics->m_previousTickCollisionPairs.begin(), 
+					bulletPhysics->m_previousTickCollisionPairs.end(), 
+					inserter(removedPairs, removedPairs.begin()));
+
+	for (auto it = removedPairs.begin(); it != removedPairs.end(); it++)
+	{
+		Queue_Event(ALPHA_NEW RemovedCollisionEvent(	bulletPhysics->m_actorMap[it->first],
+														bulletPhysics->m_actorMap[it->second]));
+	}
+	bulletPhysics->m_previousTickCollisionPairs = currentTickCollisionPairs;
+}
+// -----------------------------------------------------------------------
+void BulletPhysics::VRemoveShape(ActorID actorId)
+{
+	m_dynamicsWorld->removeRigidBody(m_rigidBodyMap[actorId]);
+	auto findBody = m_rigidBodyMap.find(actorId);
+	btRigidBody* body = findBody->second;
+	m_rigidBodyMap.erase(findBody);
+	auto findActor = m_actorMap.find(body);
+	m_actorMap.erase(findActor);
+	SAFE_DELETE(body);
 }
 // -----------------------------------------------------------------------
 void BulletPhysics::AddShape(Actor* actor, btCollisionShape* shape, float mass, string material, Matrix4x4& trans, bool hasLocalInteria)
@@ -67,6 +149,7 @@ void BulletPhysics::AddShape(Actor* actor, btCollisionShape* shape, float mass, 
 	m_dynamicsWorld->addRigidBody(rigidBody);
 	//add to map
 	m_rigidBodyMap[actor->GetID()] = rigidBody;
+	m_actorMap[rigidBody] = actor->GetID();
 }
 // -----------------------------------------------------------------------
 void BulletPhysics::VAddSphere(float const radius, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
