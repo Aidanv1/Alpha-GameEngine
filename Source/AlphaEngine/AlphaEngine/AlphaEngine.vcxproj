@@ -102,6 +102,8 @@
     <ClCompile Include="Actor\Components\TransformComponent.cpp" />
     <ClCompile Include="Actor\RoleSystem.cpp" />
     <ClCompile Include="AlphaMain.cpp" />
+    <ClCompile Include="Animation\AnimationSystem.cpp" />
+    <ClCompile Include="Animation\SkeletalAnimation.cpp" />
     <ClCompile Include="Common\GameContext.cpp" />
     <ClCompile Include="EventManager\EventManager.cpp" />
     <ClCompile Include="EventManager\Events\Events.cpp" />
@@ -120,6 +122,7 @@
     <ClCompile Include="Graphics3D\OpenGL\Renderer_GL.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Handler\TextureHandler.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Handler\VertexBufferHandler.cpp" />
+    <ClCompile Include="Graphics3D\OpenGL\Shader\AnimatedMeshShaderProgram.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\BaseShaderProgram.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.cpp" />
     <ClCompile Include="Graphics3D\OpenGL\Shader\LightShaderProgram.cpp" />
@@ -168,6 +171,10 @@
     <ClInclude Include="Actor\IActorComponent.h" />
     <ClInclude Include="Actor\IComponentCreator.h" />
     <ClInclude Include="Actor\RoleSystem.h" />
+    <ClInclude Include="Animation\AnimationSystem.h" />
+    <ClInclude Include="Animation\IAnimatableObject.h" />
+    <ClInclude Include="Animation\SkeletalAnimation.h" />
+    <ClInclude Include="Animation\IAnimation.h" />
     <ClInclude Include="Audio\SoundResource.h" />
     <ClInclude Include="AlphaStd.h" />
     <ClInclude Include="Common\GameContext.h" />
@@ -191,6 +198,7 @@
     <ClInclude Include="Graphics3D\OpenGL\Renderer_GL.h" />
     <ClInclude Include="Graphics3D\OpenGL\Handler\TextureHandler.h" />
     <ClInclude Include="Graphics3D\OpenGL\Handler\VertexBufferHandler.h" />
+    <ClInclude Include="Graphics3D\OpenGL\Shader\AnimatedMeshShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\BaseShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\BasicShaderProgram.h" />
     <ClInclude Include="Graphics3D\OpenGL\Shader\IShaderProgram.h" />
@@ -207,6 +215,7 @@
     <ClInclude Include="Graphics3D\Scene\RootNode.h" />
     <ClInclude Include="Graphics3D\Scene\Scene.h" />
     <ClInclude Include="Graphics3D\Scene\SceneNode.h" />
+    <ClInclude Include="Maths\Interpolator.h" />
     <ClInclude Include="Maths\LinearAlgebra.h" />
     <ClInclude Include="Memory\MemoryPool.h" />
     <ClInclude Include="Physics\BulletPhysics\BulletPhysics.h" />

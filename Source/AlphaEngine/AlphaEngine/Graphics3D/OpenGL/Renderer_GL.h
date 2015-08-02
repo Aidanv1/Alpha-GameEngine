@@ -2,7 +2,7 @@
 #include "..\IRenderer.h"
 #include <GL/glew.h>
 #include "..\..\AlphaStd.h"
-#include "Shader/MeshShaderProgram.h"
+#include "Shader/AnimatedMeshShaderProgram.h"
 #include "Shader/Text2DShaderProgram.h"
 #include "Shader/SkyShaderProgram.h"
 #include "Shader/BasicShaderProgram.h"
@@ -24,7 +24,7 @@ public:
 	void VDrawPoint(vec3& point, float size, vec4& colour) override;
 	void VDrawText(string text) override;
 	//Shaders
-	MeshShaderProgram* GetMeshShaderProgram() { return m_meshShaderProgram.get(); }
+	AnimatedMeshShaderProgram* GetMeshShaderProgram() { return m_meshShaderProgram.get(); }
 	Text2DShaderProgram* GetText2DShaderProgram() { return m_text2DShaderProgram.get(); }
 	SkyShaderProgram* GetSkyShaderProgram() { return m_skyShaderProgram.get(); }
 	BasicShaderProgram* GetBasicShaderProgram() { return m_basicShaderProgram.get(); }
@@ -33,7 +33,7 @@ private:
 private:
 	vec4 m_backGroundColour;
 	//Shader Programs
-	shared_ptr<MeshShaderProgram> m_meshShaderProgram;
+	shared_ptr<AnimatedMeshShaderProgram> m_meshShaderProgram;
 	shared_ptr<Text2DShaderProgram> m_text2DShaderProgram;
 	shared_ptr<SkyShaderProgram> m_skyShaderProgram;
 	shared_ptr<BasicShaderProgram> m_basicShaderProgram;

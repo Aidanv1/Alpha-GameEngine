@@ -26,7 +26,7 @@ bool GLWindow::VInit()
 	//Request opengl 4.4 context
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
 	// Turn on double buffering with a 24bit Z buffer.
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -51,7 +51,9 @@ bool GLWindow::VInit()
 	m_glContext = SDL_GL_CreateContext(m_window);
 	if (!m_glContext)
 	{
-		ALPHA_ERROR("Failed to create gl context");
+		stringstream ss;
+		ss << "SDL Error: " << SDL_GetError();
+		ALPHA_ERROR(ss.str().c_str());
 		return false;
 	}
 	GLenum rev;	
@@ -78,10 +80,6 @@ bool GLWindow::VUpdate(float deltaMs)
 	return true;
 }
 // -----------------------------------------------------------------------
-#include "../Actor/Actor.h"
-#include "../Maths/LinearAlgebra.h"
-#include "../Actor/Components/TransformComponent.h"
-#include "../Actor/Components/PhysicsComponent.h"
 bool GLWindow::PollEvents(float deltaMs)
 {
 	//TEMP TEST CODE!!!

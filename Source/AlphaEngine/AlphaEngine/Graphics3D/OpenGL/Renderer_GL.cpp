@@ -22,7 +22,7 @@ bool Renderer_GL::VInit(TiXmlElement* pElement)
 		string value = pShaderProgram->Attribute("ShaderType");
 		if (value == "Mesh")
 		{
-			m_meshShaderProgram = shared_ptr<MeshShaderProgram>(ALPHA_NEW MeshShaderProgram());
+			m_meshShaderProgram = shared_ptr<AnimatedMeshShaderProgram>(ALPHA_NEW AnimatedMeshShaderProgram());
 			const char* vertexShaderName = pShaderProgram->Attribute("vertexShaderFile");
 			const char* fragmentShaderName = pShaderProgram->Attribute("fragmentShaderFile");
 
@@ -170,7 +170,7 @@ void Renderer_GL::VDrawLine(vec3& from, vec3& to, vec4& colour)
 		from.x, from.y, from.z,
 		to.x, to.y, to.z
 	};
-	m_vertexBuffer.BindSubData(2, 3, 0, vertices);
+	m_vertexBuffer.BindSubData(0, 2*3*sizeof(GLfloat), vertices);
 	m_vertexBuffer.SetVertexAttribPointer(m_basicShaderProgram->GetPositionID(), 3, 0, 0);
 	glDepthFunc(GL_ALWAYS);
 	glDrawArrays(GL_LINES, 0, 2);
@@ -197,7 +197,7 @@ void Renderer_GL::VDrawPoint(vec3& point, float size, vec4& colour)
 	{
 		point.x, point.y, point.z,
 	};
-	m_vertexBuffer.BindSubData(1, 3, 0, vertices);
+	m_vertexBuffer.BindSubData(0, 3 * sizeof(GLfloat), vertices);
 	m_vertexBuffer.SetVertexAttribPointer(m_basicShaderProgram->GetPositionID(), 3, 0, 0);
 
 	glDepthFunc(GL_ALWAYS);

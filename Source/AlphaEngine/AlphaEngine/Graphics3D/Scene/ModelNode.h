@@ -1,26 +1,31 @@
 #pragma once
-#include "../../Actor/Actor.h" 
 #include "SceneNode.h"
-#include "../GraphicsSystem.h"
-#include "../../Actor/Components/GraphicsComponent.h"
-#include "../../Actor/IComponentCreator.h"
 #include "../../ResourceManager/Resource.h"
-#include "DrawableNode.h"
-class ModelNode;
-typedef shared_ptr<Resource> StrongModelPtr;
-//Model Component
+#include "../../Animation/IAnimatableObject.h"
+#include "../../Animation/SkeletalAnimation.h"
+#include "../../Animation/AnimationSystem.h"
 //========================================================================
-class ModelNode :public SceneNode
+typedef shared_ptr<Resource> StrongModelPtr;
+//========================================================================
+class ModelNode :public SceneNode, public IAnimatableObject
 {
 public:
 	ModelNode();
 	~ModelNode();
 	//SceneNode functions
-	virtual bool VConfigureXmlNodeData(TiXmlElement* pElement) override;
-	virtual bool VInitNode() override;
-	virtual void VRender(Scene* pScene) override;
-	virtual void VUpdateNode(Scene* pScene, float deltaMS) override;
-	//ModelComponent functions
+	bool VConfigureXmlNodeData(TiXmlElement* pElement) override;
+	bool VInitNode() override;
+	void VRender(Scene* pScene) override;
+	void VUpdateNode(Scene* pScene, float deltaMS) override;
+	//IAnimatableObject functions
+	bool VHasAnimation() override;
+	bool VHasAnimation(AnimationID animationID) override;
+	bool VPlayAnimation(AnimationID animationID) override;
+	bool VStopAnimation(AnimationID animationID) override;
+	bool VStopAnimation() override;
+	bool VPauseAnimation(AnimationID animationID) override;
+	IAnimation* GetCurrentAnimation() override;
+	//ModelNode functions
 	string GetModelFileName() { return m_modelFileName; }
 	virtual bool Load();
 	bool RequestLoadResource();	
@@ -28,6 +33,7 @@ private:
 	virtual void VRenderChildren(Scene* pScene) override;
 	bool ValidateBuffers();
 private:
+	AnimationMap				m_animationMap;
 	int							m_modelID;	
 	string						m_modelFileName;
 	StrongResourceManagerPtr	m_modelResourceManager;

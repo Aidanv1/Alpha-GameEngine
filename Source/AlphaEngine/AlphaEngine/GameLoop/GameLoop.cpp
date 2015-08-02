@@ -1,5 +1,12 @@
 #include "GameLoop.h"
 #include "../Physics/PhysicsSystem.h"
+#include "..\Time\Clock.h"
+#include "..\Time\SystemTime.h"
+#include "..\Graphics3D\GraphicsSystem.h"
+#include "..\Graphics3D\OpenGL\Renderer_GL.h"
+#include "../Actor/RoleSystem.h"
+#include "../Animation/AnimationSystem.h"
+#include "../Window\IWindow.h"
 // -----------------------------------------------------------------------
 GameLoop::GameLoop() :
 m_globalEventManager("Global", true),
@@ -65,6 +72,8 @@ void GameLoop::StartLoop()
 	unsigned int cycleCount = 0;
 	while (!quit)
 	{
+		//ANIMATION--------------------------
+		AnimationSystem::Get()->Update(dt);
 		//RENDERING--------------------------
 		//Graphics Render
 		GraphicsSystem::Get().Render(dt);

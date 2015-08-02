@@ -1,12 +1,9 @@
 #pragma once
 #include "../AlphaStd.h"
-#include "..\Time\Clock.h"
-#include "..\Time\SystemTime.h"
-#include "..\Graphics3D\GraphicsSystem.h"
-#include "..\Window\GLWindow.h"
-#include "..\Graphics3D\OpenGL\Renderer_GL.h"
 #include "../EventManager/EventManager.h"
-#include "../Actor/RoleSystem.h"
+//Forward Declaration
+class Clock;
+class IWindow;
 //========================================================================
 #define MIN_DELTA_MS 4
 //========================================================================

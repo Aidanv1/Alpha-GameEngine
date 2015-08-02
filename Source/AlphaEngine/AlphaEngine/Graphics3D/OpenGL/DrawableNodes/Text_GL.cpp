@@ -105,8 +105,8 @@ void Text_GL::UpdateText()
 {
 	GLfloat* textures = &m_texCoordArray[0];
 	GLfloat* vertices = &m_verticesCoordArray[0];
-	m_vertexBuffer.BindSubData(m_numVertices, 2, 0, vertices);
-	m_vertexBuffer.BindSubData(m_numVertices, 2,2, textures);	
+	m_vertexBuffer.BindSubData(0, m_numVertices * 2 *sizeof(GLfloat), vertices);
+	m_vertexBuffer.BindSubData(m_numVertices * 2 * sizeof(GLfloat), m_numVertices * 2 * sizeof(GLfloat), textures);
 }
 // -----------------------------------------------------------------------
 int Text_GL::Load()

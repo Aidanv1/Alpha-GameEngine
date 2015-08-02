@@ -46,8 +46,9 @@
     </Transform>
     
     <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"
-                  radius ="3"/>
+      <Properties modelFileName = "../../../Assets/grass01.3ds"
+                  radius ="3"
+                  alphaType ="Transparent"/>
     </Graphics>
     
     <Physics>
@@ -57,6 +58,27 @@
         <Properties halfX="2"  halfY="2"  halfZ="2"  hasLocalInertia ="false"/>
       </Shape>     
     </Physics>
+  </Actor>
+
+  <Actor name = "test">
+
+    <Transform>
+      <Position x ="0.0" y ="2" z ="-5.0" />
+      <RotationInDegrees xAxis ="0" yAxis ="0.0" zAxis ="0.0" />
+    </Transform>
+
+    <Graphics type ="Model">
+      <Properties modelFileName = "../../../Assets/testanim.dae"
+                  radius ="3"/>
+    </Graphics>
+    <Physics>
+      <PhysicsMaterial>Sticky</PhysicsMaterial>
+      <Density>aluminium</Density>
+      <Shape type ="box">
+        <Properties halfX="1"  halfY="1"  halfZ="1"  hasLocalInertia ="false"/>
+      </Shape>
+    </Physics>
+   
   </Actor>
   
 
@@ -143,7 +165,7 @@
 
   <Actor name = "Main Camera">
     <Graphics type ="Camera">
-      <Properties mode = "Orbital" targetName = "Ironman1"/>
+      <Properties mode = "Orbital" targetName = "test"/>
       <Parameters
         FieldOfView ="45"
         AspectRatio ="1.7778"

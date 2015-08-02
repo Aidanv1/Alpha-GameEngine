@@ -1,5 +1,6 @@
 #include "GraphicsComponentCreator.h"
 #include "../../Graphics3D/Scene/DrawableNode.h"
+#include "../../Graphics3D/GraphicsSystem.h"
 // -----------------------------------------------------------------------
 IActorComponent* GraphicsComponentCreator::CreateComponent(TiXmlElement* pElement)
 {

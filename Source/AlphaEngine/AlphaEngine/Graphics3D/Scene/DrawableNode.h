@@ -23,12 +23,12 @@ public:
 };
 //========================================================================
 struct MeshInfo;
-class IMesh :public SceneNode
+class ModelNode;
+class IMesh : public SceneNode
 {
 public:
-	IMesh() : SceneNode(){};
 	//
-	virtual bool VInitMesh(string meshFile) = 0;
+	virtual bool VInitMesh(string meshFile, ModelNode* parentModel) = 0;
 	virtual int VLoadMesh(MeshInfo* pMesh) = 0;
 	virtual bool VValidate() = 0;
 	virtual void VFreeBuffer() = 0;
@@ -36,3 +36,4 @@ public:
 	virtual void VCullFace(bool cull = false) = 0;
 }; 
 //========================================================================
+

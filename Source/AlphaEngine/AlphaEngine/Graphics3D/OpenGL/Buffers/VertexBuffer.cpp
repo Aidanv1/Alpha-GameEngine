@@ -107,10 +107,10 @@ int VertexBuffer::Init(int size, GLfloat data[], string name)
 	return m_vertexInfo.m_vertexBufferID;
 }
 // -----------------------------------------------------------------------
-void VertexBuffer::BindSubData(int numVertices, int componentSize, int offsetSize, GLfloat vertices[])
+void VertexBuffer::BindSubData(int offsetSize, int dataSize, GLfloat data[])
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexInfo.m_vertexBufferID);
-	glBufferSubData(GL_ARRAY_BUFFER, offsetSize * numVertices*sizeof(GLfloat), componentSize * numVertices*sizeof(GLfloat), vertices);
+	glBufferSubData(GL_ARRAY_BUFFER, offsetSize, dataSize, data);
 
 }
 // -----------------------------------------------------------------------

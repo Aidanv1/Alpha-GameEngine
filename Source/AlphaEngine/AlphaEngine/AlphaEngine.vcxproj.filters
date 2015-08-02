@@ -188,6 +188,15 @@
     <ClCompile Include="Graphics3D\GraphicsEvents.cpp">
       <Filter>Graphics3D</Filter>
     </ClCompile>
+    <ClCompile Include="Animation\AnimationSystem.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\SkeletalAnimation.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics3D\OpenGL\Shader\AnimatedMeshShaderProgram.cpp">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -279,6 +288,9 @@
     </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{12a24093-fb45-4a06-8e3d-7a007e6eb924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{994d42b7-e588-444c-97bc-05061483c5bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -501,6 +513,24 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\GraphicsEvents.h">
       <Filter>Graphics3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\AnimationSystem.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\IAnimation.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\SkeletalAnimation.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Maths\Interpolator.h">
+      <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\IAnimatableObject.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics3D\OpenGL\Shader\AnimatedMeshShaderProgram.h">
+      <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
