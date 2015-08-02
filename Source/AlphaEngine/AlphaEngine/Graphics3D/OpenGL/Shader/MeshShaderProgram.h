@@ -9,7 +9,7 @@ public:
 	MeshShaderProgram();
 	~MeshShaderProgram();
 	virtual bool VInit(const char* vertexShaderSourceCode, const char* fragmentShaderSourceCode) override;
-	void SetUniforms(mat4& M, mat4& V, mat4& P, GLuint textureid);
+	void SetUniforms(mat4& M, mat4& V, mat4& P, GLuint textureid, bool hasTexture = true);
 	//accessor methods for attribute locations
 	GLuint GetPositionID() const { return m_positionID; }
 	GLuint GetNormalID() const { return m_normalID; }
@@ -23,6 +23,6 @@ private:
 	GLuint m_perspectiveMatrixID;
 	GLuint m_viewMatrixID;
 	GLuint m_texID;
-
+	GLuint m_hasTextureID;
 };
 //========================================================================

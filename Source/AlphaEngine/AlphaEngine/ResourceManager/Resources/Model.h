@@ -1,10 +1,10 @@
 #pragma once
 #include "../../AlphaStd.h"
 ///*****************************MODEL***********************************
-struct TextureName
+struct FixedString
 {
 	char m_fixedLengthString[32];
-	TextureName()
+	FixedString()
 	{
 		for (unsigned int i = 0 ; i < 32; i++)
 		{
@@ -31,9 +31,10 @@ struct TextureName
 		}
 	}
 };
+// -----------------------------------------------------------------------
 struct MaterialInfo
 {
-	TextureName		m_diffuseTexture;
+	FixedString		m_diffuseTexture;
 	vec4			m_ambient;
 	vec4			m_diffuse;
 	vec4			m_specular;
@@ -49,6 +50,40 @@ struct MaterialInfo
 	{
 	}
 };
+// -----------------------------------------------------------------------
+struct KeyFrame
+{
+	float	m_time;
+	vec4	m_value;
+};
+struct AnimationChannel
+{
+	FixedString m_nodeName;
+	int			m_numPosKeys;
+	int			m_numRotKeys;
+	KeyFrame*	m_posKeyFrames;
+	KeyFrame*	m_rotKeyFrames;
+
+};
+struct AnimationInfo
+{
+	int					m_numChannels;
+	AnimationChannel*	m_channels;
+};
+// -----------------------------------------------------------------------
+struct BoneWeightData
+{
+	float		m_weight;
+};
+struct BoneInfo
+{
+	FixedString			m_parentName;
+	FixedString			m_nodeName;
+	int					m_numWeights;
+	mat4				m_offsetMatrix;
+	BoneWeightData*		m_weightsData;
+};
+// -----------------------------------------------------------------------
 struct MeshInfo
 {
 	int				m_numberOfVertices;
@@ -63,6 +98,9 @@ struct MeshInfo
 	int				m_nextSiblingMeshNumber;
 	float*			m_data;
 	unsigned int	m_dataSize;
+	int				m_numberOfBones;
+	bool			m_hasBones;
+	BoneInfo*		m_bones;
 
 	MeshInfo() :
 		m_numberOfVertices(0),
@@ -75,23 +113,42 @@ struct MeshInfo
 		m_firstChildMeshNumber(-1),
 		m_nextSiblingMeshNumber(-1),
 		m_data(NULL),
-		m_dataSize(0)
+		m_dataSize(0),
+		m_numberOfBones(0),
+		m_hasBones(false),
+		m_bones(NULL)
 	{
 	}
 };
-typedef int NumberOfMeshes;
+// -----------------------------------------------------------------------
+struct SizeInfo
+{
+	int		m_numberOfMeshes;
+	int		m_numberOfBones;
+	int		m_numberOfAnimations;
+	SizeInfo() :
+		m_numberOfMeshes(0),
+		m_numberOfBones(0),
+		m_numberOfAnimations(0)
+	{
+
+	}
+};
 struct Model
 {
-	NumberOfMeshes	m_numberOfMeshes;
+	SizeInfo		m_sizeInfo;
 	MeshInfo*		m_meshArray;
+	AnimationInfo*	m_animationInfo;
 };
-
+// -----------------------------------------------------------------------
 class ModelBufferReader
 {
 public:
 	ModelBufferReader(unsigned char* buffer);
 	ModelBufferReader();
 	MeshInfo* GetMeshInfoArray(int& size);
+	AnimationInfo* GetAnimationInfoArray(int& size);
+	BoneInfo* GetBoneInfoArray(int& size);
 	void operator=(unsigned char* buffer);
 private:
 	unsigned char* m_pBuffer;

@@ -7,7 +7,11 @@
 #include "../Buffers/VertexBuffer.h"
 #include "../../Scene/DrawableNode.h"
 #include "../../../ResourceManager/Resources/Model.h"
+#include "../../../Animation/SkeletalAnimation.h"
+class ModelNode;
 typedef shared_ptr<Resource> StrongMeshPtr;
+typedef vec3 ComponentSizes;
+typedef vector<BoneID> BoneIDList;
 //========================================================================
 class Mesh_GL : public IMesh
 {
@@ -16,7 +20,7 @@ public:
 	~Mesh_GL();
 	void VRender(Scene* pScene) override;
 	//Mesh functions
-	virtual bool VInitMesh(string meshFile) override;
+	virtual bool VInitMesh(string meshFile, ModelNode* parentModel = NULL) override;
 	int VLoadMesh(MeshInfo* pMesh) override;
 	bool VLoadMaterial() override;
 	bool VValidate() override;
@@ -29,13 +33,16 @@ private:
 	//drawing methods
 	void BindData();	
 private:
-	bool m_cullFace;
-	MeshShaderProgram* m_shaderProgram;
-	long m_meshID;	
-	int m_numVertices;
-	string m_meshFileName;
-	StrongMaterialPtr m_material;
-	VertexBuffer m_vertexBuffer;
+	ModelNode*					m_parentModel;
+	BoneIDList					m_boneIDList;
+	bool						m_cullFace;
+	AnimatedMeshShaderProgram*	m_shaderProgram;
+	long						m_meshID;	
+	int							m_numVertices;
+	string						m_meshFileName;
+	StrongMaterialPtr			m_material;
+	VertexBuffer				m_vertexBuffer;
+	ComponentSizes				m_componentSizes;
 };
 
 //========================================================================

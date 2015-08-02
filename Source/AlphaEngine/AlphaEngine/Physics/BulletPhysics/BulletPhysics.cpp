@@ -40,8 +40,9 @@ bool BulletPhysics::VInitPhysics()
 void BulletPhysics::VUpdate(float deltaMs)
 {
 	//update physics
-	//fixed time step accomodates for up to 250 fps
-	m_dynamicsWorld->stepSimulation(deltaMs, 4, 1.0/250.0); 
+	//fixed time step accomodates for up to 240 fps
+	//THIS MUST BE CHANGED TO MATCH THE FPS LOCK!!!
+	m_dynamicsWorld->stepSimulation(deltaMs / MS_PER_SECOND, 4, 1.0/240.0);
 }
 // -----------------------------------------------------------------------
 void BulletPhysics::InternalTickCallBack(btDynamicsWorld * const world, btScalar const timeStep)
@@ -282,10 +283,8 @@ bool BulletPhysics::VLoadCollisionMeshes()
 	{
 		if ((*it).m_colMeshRes->Buffer() != NULL)
 		{			
-		//	LoadMeshVertices(meshInfo, vertices, size);
 			btCollisionShape* shape = NULL;
 			PendingCollisionMesh pendingMesh = (*it);
-			btVector3* vertices;
 			int size = 0;
 			if ((*it).m_meshType == Hull)
 			{
@@ -318,7 +317,6 @@ bool BulletPhysics::VLoadCollisionMeshes()
 			float const volume = aabbExtents.x() * aabbExtents.y() * aabbExtents.z();
 			btScalar const mass = volume * (*it).m_density;
 			AddShape((*it).m_actor.get(), shape, mass, (*it).m_material, (*it).m_transform, (*it).m_hasLocalInteria);
-			//SAFE_DELETE(vertices);
 			auto eraseIt = it;
 			it++;
 			m_pendingColMeshQueue.erase(eraseIt);

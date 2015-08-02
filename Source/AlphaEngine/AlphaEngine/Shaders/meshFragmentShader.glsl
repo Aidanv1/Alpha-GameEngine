@@ -1,20 +1,32 @@
+#version 400
 #include <Lighting.glsl>
-varying vec3 fN;
-varying vec3 fE;
-varying vec3 v_Position;
-varying vec2 texCoord;				
+in vec3 v_fN;
+in vec3 v_fE;
+in vec2 v_texCoord;
+in vec3 v_Position;				
 uniform sampler2D texture;
-varying vec3 v_PositionEye;
+in vec3 v_PositionEye;
+uniform int hasTexture;
+out vec4 fragColour;
 void main () 
 {
-	vec4 texel = texture2D(texture, texCoord);
+	vec4 texel;
+	//if there is no texture, use default colour (red)
+	if(hasTexture == 1.0)
+	{
+		texel = texture2D(texture, v_texCoord);
+	}
+	else
+	{
+		texel = vec4(1.0,0.0,0.0,1.0);
+	}
 	//if the pixel is completely transparent, discard it
 	if(texel.w < 0.1)
 	{		
 		discard;	
 	}
-	vec3 N = normalize(fN);		// Noramlize N
-	vec3 E = normalize(-fE);	// Reverse (E)ye vector (or view vector)
+	vec3 N = normalize(v_fN);		// Noramlize N
+	vec3 E = normalize(-v_fE);	// Reverse (E)ye vector (or view vector)
 	vec4 lightingColour = calcLighting(texel, N, E, v_Position);
-	gl_FragColor = applyFogEffect(lightingColour, v_PositionEye);
+	fragColour = applyFogEffect(lightingColour, v_PositionEye);
 }

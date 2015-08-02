@@ -35,10 +35,16 @@ void Material_GL::SetEmissive(Colour& colour)
 void Material_GL::SetTexture(StrongTexturePtr pTex)
 {
 	m_diffuseTexture = pTex;
+	m_hasTexture = true;
 }
 // -----------------------------------------------------------------------
 bool Material_GL::LoadTexture()
 {
+	if (!m_hasTexture)
+	{
+		return true;
+	}
+
 	//this method takes at least two attempts to return true
 	if (m_diffuseTexture->VLoadResource())
 	{
@@ -52,3 +58,7 @@ bool Material_GL::LoadTexture()
 
 }
 // -----------------------------------------------------------------------
+void Material_GL::SetHasTexture(bool hasTex)
+{
+	m_hasTexture = hasTex;
+}

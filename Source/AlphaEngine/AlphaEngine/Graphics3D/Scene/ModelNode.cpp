@@ -1,5 +1,9 @@
 #include "ModelNode.h"
 #include "../../ResourceManager/Resources/Model.h"
+#include "../../Actor/Actor.h" 
+#include "../GraphicsSystem.h"
+#include "DrawableNode.h"
+
 // -----------------------------------------------------------------------
 ModelNode::ModelNode() :
 SceneNode(),
@@ -49,11 +53,11 @@ bool ModelNode::VConfigureXmlNodeData(TiXmlElement* pElement)
 			if (nextElem->Attribute("renderPass"))
 			{
 				string attrib = nextElem->Attribute("renderPass");
-				if (attrib == "Transparent")
+				if (attrib == "Actor")
 				{
 					m_nodeProperties.m_renderPass = RenderPass_Actor;
 				}
-				else if (attrib == "Opaque")
+				else if (attrib == "Static")
 				{
 					m_nodeProperties.m_renderPass = RenderPass_Static;
 				}
@@ -153,91 +157,12 @@ void ModelNode::VRender(Scene* pScene)
 	pScene->Stack()->Pop();
 }
 // -----------------------------------------------------------------------
-bool ModelNode::Load()
-{
-	//Steps:
-	//1)	Request the resource manager to load the model resource. Fails if the request is denied
-	//2)	Check if the resource buffer has been loaded. This will always return false on the first
-	//		pass because the resource loader has not yet had a chance to load it.
-	//3)	Validate the mesh buffers in video memory. If there are currently no meshes loaded, this
-	//		this will return invalid.
-	//4)	If all the mesh data is valid, ensure that the relevant textures are also loaded.
-	//5)	If validation failed in step 3, then the mesh data will need to be loaded.
-
-
-	bool success = true;
-	if (!RequestLoadResource())
-	{
-		ALPHA_ERROR("Unable to load resource");
-		return false;
-	}
-	//check if system memory buffer is loaded
-	if (!m_modelResource->Buffer())
-	{
-		return false;
-	}
-	//check if video memory buffers are loaded
-	if (!ValidateBuffers())
-	{
-		m_modelID = -1;
-		success = false;
-	}
-	//if video memory (mesh data) is still valid
-	if (m_modelID != -1)
-	{
-		for (auto it = m_meshChildren.begin(); it != m_meshChildren.end();it++)
-		{
-			IMesh* mesh = dynamic_cast<IMesh*>((*it).get());
-			if (mesh)
-			{
-				success = mesh->VLoadMaterial();
-			}
-		}
-		return success;
-	}
-	ModelBufferReader modelBufferReader = m_modelResource->Buffer();
-	int numberofmeshes;
-	
-	MeshInfo* infoArray = modelBufferReader.GetMeshInfoArray(numberofmeshes);
-	DrawableNodeFactory nodeFactory;
-	for (int i = 0; i < numberofmeshes; i++)
-	{
-		IMesh* mesh = (IMesh*)nodeFactory.CreateDrawableNode(Node_Mesh);
-		MeshInfo* info = &infoArray[i];
-		mesh->VInitMesh(m_modelFileName);
-		mesh->VLoadMesh(info);
-		mesh->VLoadMaterial();
-		mesh->VCullFace(m_cullFace);
-		m_meshChildren.push_back(StrongSceneNodePtr(mesh));
-	}
-	m_modelID = 1;
-	return success;
-}
-// -----------------------------------------------------------------------
-bool ModelNode::RequestLoadResource()
-{
-	//if no resource currently exists
-	if (!m_modelResource)
-	{
-		//Request load Resource
-		Resource* meshResource = ALPHA_NEW Resource(m_modelFileName);
-		meshResource->RequestLoad();
-		m_modelResource = StrongModelPtr(meshResource);
-
-		if (!m_modelResourceManager->AddResource(m_modelResource))
-		{
-			return false;
-		}
-	}
-	else if (!m_modelResource->IsLoaded())
-	{
-		m_modelResource->RequestLoad();
-	}
-	return true;
-}
-// -----------------------------------------------------------------------
 void ModelNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
+	if (VHasAnimation("testanim.dae_0"))
+	{
+		VPlayAnimation("testanim.dae_0");
+	}
 	
 }
 // -----------------------------------------------------------------------
@@ -294,4 +219,196 @@ bool ModelNode::ValidateBuffers()
 	return false;
 }
 
+//========================================================================
+// ModelNode Functions
+//========================================================================
+bool ModelNode::Load()
+{
+	//Steps:
+	//1)	Request the resource manager to load the model resource. Fails if the request is denied
+	//2)	Check if the resource buffer has been loaded. This will always return false on the first
+	//		pass because the resource loader has not yet had a chance to load it.
+	//3)	Validate the mesh buffers in video memory. If there are currently no meshes loaded, this
+	//		this will return invalid.
+	//4)	If all the mesh data is valid, ensure that the relevant textures are also loaded.
+	//5)	If validation failed in step 3, then the mesh data will need to be loaded.
 
+
+	bool success = true;
+	if (!RequestLoadResource())
+	{
+		ALPHA_ERROR("Unable to load resource");
+		return false;
+	}
+	//check if system memory buffer is loaded
+	if (!m_modelResource->Buffer())
+	{
+		return false;
+	}
+	//check if video memory buffers are loaded
+	if (!ValidateBuffers())
+	{
+		m_modelID = -1;
+		success = false;
+	}
+	//if video memory (mesh data) is still valid
+	if (m_modelID != -1)
+	{
+		for (auto it = m_meshChildren.begin(); it != m_meshChildren.end(); it++)
+		{
+			IMesh* mesh = dynamic_cast<IMesh*>((*it).get());
+			if (mesh)
+			{
+				success = mesh->VLoadMaterial();
+			}
+		}
+		return success;
+	}
+	ModelBufferReader modelBufferReader = m_modelResource->Buffer();
+	int numberofmeshes;
+
+	MeshInfo* infoArray = modelBufferReader.GetMeshInfoArray(numberofmeshes);
+	DrawableNodeFactory nodeFactory;
+	//add animations
+	int numAnim = 0;
+	int numBones = 0;
+	AnimationInfo* animInfoArray = modelBufferReader.GetAnimationInfoArray(numAnim);
+	BoneInfo* boneInfoArray = modelBufferReader.GetBoneInfoArray(numBones);
+	for (int i = 0; i < numAnim; i++)
+	{
+
+		string animationName = m_modelFileName;
+		int end = animationName.find_last_of("/");
+		animationName = animationName.substr(end+1, animationName.size() -1).append("_").append(to_string(i));
+		//
+		SkeletalAnimation* skanim = ALPHA_NEW SkeletalAnimation(animationName);
+		if (!skanim->InitAnimation(&animInfoArray[i], boneInfoArray, numBones))
+		{
+			string error = "Skeletal animation init failed: ";
+			error.append(animationName);
+			ALPHA_ERROR(error.c_str());
+		}
+		//
+		StrongAnimationPtr animation(skanim);
+		//add to local animation map
+		m_animationMap[animation->VGetID()] = animation;
+		//add to animation system
+		AnimationSystem::Get()->AddAnimation(animation);
+	}
+
+	//add meshes
+	for (int i = 0; i < numberofmeshes; i++)
+	{
+		IMesh* mesh = (IMesh*)nodeFactory.CreateDrawableNode(Node_Mesh);
+		MeshInfo* info = &infoArray[i];
+		if (!mesh->VInitMesh(m_modelFileName, this))
+		{
+			string error = "Mesh init failed: ";
+			error.append(m_modelFileName);
+			ALPHA_ERROR(error.c_str());
+		}		
+		mesh->VLoadMesh(info);
+		mesh->VLoadMaterial();
+		mesh->VCullFace(m_cullFace);
+		m_meshChildren.push_back(StrongSceneNodePtr(mesh));
+	}
+	m_modelID = 1;
+	return success;
+}
+// -----------------------------------------------------------------------
+bool ModelNode::RequestLoadResource()
+{
+	//if no resource currently exists
+	if (!m_modelResource)
+	{
+		//Request load Resource
+		Resource* meshResource = ALPHA_NEW Resource(m_modelFileName);
+		meshResource->RequestLoad();
+		m_modelResource = StrongModelPtr(meshResource);
+
+		if (!m_modelResourceManager->AddResource(m_modelResource))
+		{
+			return false;
+		}
+	}
+	else if (!m_modelResource->IsLoaded())
+	{
+		m_modelResource->RequestLoad();
+	}
+	return true;
+}
+//========================================================================
+// IAnimatableObject Functions
+//========================================================================
+bool ModelNode::VHasAnimation()
+{
+	if (m_animationMap.size() == 0)
+	{
+		return false;
+	}
+	return true;
+}
+// -----------------------------------------------------------------------
+bool ModelNode::VHasAnimation(AnimationID animationID)
+{
+	auto findIt = m_animationMap.find(animationID);
+	if (findIt != m_animationMap.end())
+	{
+		return true;
+	}
+	return false;
+}
+// -----------------------------------------------------------------------
+bool ModelNode::VPlayAnimation(AnimationID animationID)
+{
+	auto findIt = m_animationMap.find(animationID);
+	if (findIt == m_animationMap.end())
+	{
+		return false;
+	}
+	m_animationMap[animationID]->VPlayAnimation();
+	return true;
+}
+// -----------------------------------------------------------------------
+bool ModelNode::VStopAnimation(AnimationID animationID)
+{
+	auto findIt = m_animationMap.find(animationID);
+	if (findIt == m_animationMap.end())
+	{
+		return false;
+	}
+	m_animationMap[animationID]->VStopAnimation();
+	return true;
+}
+// -----------------------------------------------------------------------
+bool ModelNode::VStopAnimation()
+{
+	for (auto it = m_animationMap.begin(); it != m_animationMap.end(); it++)
+	{
+		it->second->VStopAnimation();
+	}
+	return true;
+}
+// -----------------------------------------------------------------------
+bool ModelNode::VPauseAnimation(AnimationID animationID)
+{
+	auto findIt = m_animationMap.find(animationID);
+	if (findIt == m_animationMap.end())
+	{
+		return false;
+	}
+	m_animationMap[animationID]->VPauseAnimation();
+	return true;
+}
+// -----------------------------------------------------------------------
+IAnimation* ModelNode::GetCurrentAnimation()
+{
+	for (auto it = m_animationMap.begin(); it != m_animationMap.end(); it++)
+	{
+		if (it->second->VIsPlaying())
+		{
+			return it->second.get();
+		}
+	}
+	return NULL;
+}

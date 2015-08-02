@@ -23,6 +23,8 @@ public:
 	void SetSpecular(Colour& colour, float power);
 	void SetEmissive(Colour& colour);
 	void SetTexture(StrongTexturePtr pTex);
+	void SetHasTexture(bool hasTex);
+	bool HasTexture() { return m_hasTexture; }
 	//--
 	bool LoadTexture();
 private:
@@ -46,7 +48,8 @@ private:
 
 
 	};
-	MatComponents m_matComponents;
-	StrongTexturePtr m_diffuseTexture;
+	bool				m_hasTexture;
+	MatComponents		m_matComponents;
+	StrongTexturePtr	m_diffuseTexture;
 };
 //========================================================================
