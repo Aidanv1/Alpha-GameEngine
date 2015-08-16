@@ -51,7 +51,10 @@ ResourceID Resource::GetID() const
 unsigned char* Resource::Buffer()
 {
 	//promote this resource in the resource manager
-	m_resManager->Promote(this);
+	if (m_pBuffer)
+	{
+		m_resManager->Promote(this);
+	}
 	return m_pBuffer;
 }
 // -----------------------------------------------------------------------

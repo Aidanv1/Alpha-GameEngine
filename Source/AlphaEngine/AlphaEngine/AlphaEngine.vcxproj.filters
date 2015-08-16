@@ -197,6 +197,9 @@
     <ClCompile Include="Graphics3D\OpenGL\Shader\AnimatedMeshShaderProgram.cpp">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManager\Loaders\SimpleResourceLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -531,6 +534,9 @@
     </ClInclude>
     <ClInclude Include="Graphics3D\OpenGL\Shader\AnimatedMeshShaderProgram.h">
       <Filter>Graphics3D\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager\Loaders\SimpleResourceLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 #include "..\ResourceManager\Loaders\BitmapResourceLoader.h"
 #include "..\ResourceManager\Loaders\MeshResourceLoader.h"
 #include "..\ResourceManager\Loaders\HeightMapResourceLoader.h"
+#include "..\ResourceManager\Loaders\SimpleResourceLoader.h"
 #include "GraphicsEvents.h"
 // -----------------------------------------------------------------------
 GraphicsSystem::GraphicsSystem() :
@@ -97,5 +98,6 @@ bool GraphicsSystem::InitResource(int textResSize, int meshResSize)
 	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW FBXResourceLoader()));
 	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW ThreeDSResourceLoader()));
 	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW HeightMapResourceLoader()));
+	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW AMODResourceLoader()));
 	return true;
 }

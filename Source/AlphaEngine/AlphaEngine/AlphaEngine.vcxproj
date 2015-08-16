@@ -150,6 +150,7 @@
     <ClCompile Include="ResourceManager\Loaders\HeightFieldResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Loaders\HeightMapResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Loaders\MeshResourceLoader.cpp" />
+    <ClCompile Include="ResourceManager\Loaders\SimpleResourceLoader.cpp" />
     <ClCompile Include="ResourceManager\Resource.cpp" />
     <ClCompile Include="ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceManager\Resources\Bitmap.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="ResourceManager\Loaders\HeightFieldResourceLoader.h" />
     <ClInclude Include="ResourceManager\Loaders\HeightMapResourceLoader.h" />
     <ClInclude Include="ResourceManager\Loaders\MeshResourceLoader.h" />
+    <ClInclude Include="ResourceManager\Loaders\SimpleResourceLoader.h" />
     <ClInclude Include="ResourceManager\Resource.h" />
     <ClInclude Include="ResourceManager\ResourceManager.h" />
     <ClInclude Include="ResourceManager\Resources\Bitmap.h" />

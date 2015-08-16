@@ -34,11 +34,18 @@ void main ()
 	v_PositionEye = (u_V * u_M *  i_Position).xyz;
 
 	vec4 finalPosition = i_Position;
-	for(int i = 0; i<u_numBones; i++)	
-	{
+	vec4 normalTemp = vec4(v_fN, 1.0);
+	for(int i = 1; i<u_numBones; i++)	
+	{		
+		mat4 boneRotation = u_BoneOffsets[i];
+		boneRotation[3][0] = 0.0;
+		boneRotation[3][1] = 0.0;
+		boneRotation[3][2] = 0.0;
 		//apply bone offset according to weight
-		finalPosition =	 i_boneWeights[i] * u_BoneOffsets[i] * i_Position + finalPosition;
+		normalTemp = normalTemp + i_boneWeights[i] * boneRotation * vec4(v_fN, 1.0);
+		finalPosition =	finalPosition + i_boneWeights[i] * u_BoneOffsets[i] * i_Position;
 	}
+	v_fN = normalTemp.xyz;
 	finalPosition = u_P * u_V * u_M * finalPosition;
 	gl_Position = finalPosition;
 }

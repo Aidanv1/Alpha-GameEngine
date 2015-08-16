@@ -145,7 +145,8 @@ shared_ptr<IResourceLoader> ResourceManager::FindResLoader(string name)
 			return (*it);
 		}
 	}
-	return NULL;
+	auto r = m_resourceLoaderList.front();
+	return r;
 }
 // -----------------------------------------------------------------------
 bool ResourceManager::FileExtensionMatch(const char *pat, const char *str)

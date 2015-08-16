@@ -2,6 +2,7 @@
 #include "BulletPhysics\BulletPhysics.h"
 #include "..\ResourceManager\Loaders\MeshResourceLoader.h"
 #include "..\ResourceManager\Loaders\HeightFieldResourceLoader.h"
+#include "..\ResourceManager\Loaders\SimpleResourceLoader.h"
 #include "PhysicsEvents.h"
 #include "../EventManager/EventManager.h"
 // -----------------------------------------------------------------------
@@ -35,6 +36,7 @@ bool PhysicsSystem::Init(int colMeshResSize)
 	m_colMeshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW FBXResourceLoader()));
 	m_colMeshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW ThreeDSResourceLoader()));
 	m_colMeshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW HeightFieldResourceLoader()));
+	m_colMeshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW AMODResourceLoader()));
 	return true;
 }
 // -----------------------------------------------------------------------

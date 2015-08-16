@@ -72,13 +72,13 @@ void GameLoop::StartLoop()
 	unsigned int cycleCount = 0;
 	while (!quit)
 	{
-		//ANIMATION--------------------------
-		AnimationSystem::Get()->Update(dt);
 		//RENDERING--------------------------
 		//Graphics Render
 		GraphicsSystem::Get().Render(dt);
 		//Debug Physics Render
 		PhysicsSystem::Get().RigidBodyPhysics()->VRenderDiagnostics();
+		//ANIMATION--------------------------
+		AnimationSystem::Get()->Update(dt);
 		//-----------------------------------
 		//UPDATES----------------------------
 		//Dynamics

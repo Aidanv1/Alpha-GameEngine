@@ -38,7 +38,6 @@ void MeshResourceLoader::LoadMesh(MeshInfo*& meshInfo, aiMesh* pMesh, aiMaterial
 	//-------------Create VertexBuffer---------------
 	//convert the texture coords to 2D
 	meshInfo->m_data = (float*)pNextDataBlock;
-
 	int count = 0;
 	for (unsigned int i = 0; i < pMesh->mNumVertices; ++i)
 	{
@@ -118,7 +117,7 @@ void MeshResourceLoader::LoadMesh(MeshInfo*& meshInfo, aiMesh* pMesh, aiMaterial
 			for (int j = 0; j < boneArray[i].m_numWeights; j++)
 			{
 				int vertexIndex = pMesh->mBones[i]->mWeights[j].mVertexId;
-				boneArray[i].m_weightsData[vertexIndex].m_weight = pMesh->mBones[i]->mWeights[j].mWeight;
+				boneArray[i].m_weightsData[vertexIndex].m_weight = pMesh->mBones[i]->mWeights[vertexIndex].mWeight;
 			}
 		}
 
@@ -373,5 +372,6 @@ vec4 MeshResourceLoader::ConvertToVec4(aiVector3D& vec)
 // -----------------------------------------------------------------------
 vec4 MeshResourceLoader::ConvertToVec4(aiQuaternion& vec)
 {
-	return vec4(vec.x, vec.y, vec.z, vec.w);
+	//return vec4(vec.x, vec.z, vec.y, vec.w);
+	return vec4(vec.w,vec.x, vec.y, vec.z);
 }

@@ -63,7 +63,7 @@
   <Actor name = "test">
 
     <Transform>
-      <Position x ="0.0" y ="2" z ="-5.0" />
+      <Position x ="0.0" y ="3" z ="-5.0" />
       <RotationInDegrees xAxis ="0" yAxis ="0.0" zAxis ="0.0" />
     </Transform>
 
@@ -71,13 +71,13 @@
       <Properties modelFileName = "../../../Assets/testanim.dae"
                   radius ="3"/>
     </Graphics>
-    <Physics>
+<!--     <Physics>
       <PhysicsMaterial>Sticky</PhysicsMaterial>
       <Density>aluminium</Density>
       <Shape type ="box">
         <Properties halfX="1"  halfY="1"  halfZ="1"  hasLocalInertia ="false"/>
       </Shape>
-    </Physics>
+    </Physics> -->
    
   </Actor>
   

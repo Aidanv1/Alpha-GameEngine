@@ -1,13 +1,14 @@
 #include "SkeletalAnimation.h"
 #include "../ResourceManager/Resources/Model.h"
 #include "../Maths/Interpolator.h"
+#include "../Graphics3D/GraphicsSystem.h"
 //========================================================================
 //Bone
 //========================================================================
 Bone::Bone() :
 m_boneName(""),
 m_animOffsetMatrix(1),
-m_offsetMatrix(0),
+m_offsetMatrix(1),
 m_positionKeys(),
 m_rotationKeys()
 {
@@ -22,8 +23,7 @@ Bone::~Bone()
 bool Bone::Init(BoneInfo* info, AnimationChannel* channel)
 {
 	m_boneName = info->m_nodeName.ToString();
-	m_offsetMatrix = info->m_offsetMatrix;
-	m_animOffsetMatrix = m_offsetMatrix;
+	m_offsetMatrix = Matrix4x4(info->m_offsetMatrix);
 	//populate positionKeys
 	for (int i = 0; i < channel->m_numPosKeys; i++)
 	{
@@ -48,7 +48,7 @@ bool Bone::Init(BoneInfo* info, AnimationChannel* channel)
 void Bone::Update(float time)
 {
 	vec3 positionVec;
-	vec4 quatVec;
+	quat quaternion;
 	{
 		// -----------------
 		//find upper and lower key frame
@@ -56,7 +56,10 @@ void Bone::Update(float time)
 		AnimationKey* lowerPosKey = NULL;
 		//find the first key that has a time greater than the current time
 		int i = 0;
-		for (auto it = m_positionKeys.begin(); it != m_positionKeys.end(); it++, i++)
+		auto it = m_positionKeys.begin();
+		bool found = false;
+		while (it != m_positionKeys.end() &&
+			!found)
 		{
 			if (it->m_time >= time)
 			{
@@ -69,8 +72,13 @@ void Bone::Update(float time)
 				{
 					lowerPosKey = upperPosKey;
 				}
+				found = true;
+
 			}
+			it++, i++;
 		}
+	
+		//interpolate
 		if (lowerPosKey && upperPosKey)
 		{
 			if (lowerPosKey != upperPosKey)
@@ -94,48 +102,64 @@ void Bone::Update(float time)
 	AnimationKey* lowerRotKey = NULL;
 	//find the first key that has a time greater than the current time
 	int i = 0;
-	for (auto it = m_rotationKeys.begin(); it != m_rotationKeys.end(); it++, i++)
+	auto it = m_rotationKeys.begin();
+	bool found = false;
+	while (it != m_rotationKeys.end() &&
+		!found)
 	{
 		if (it->m_time >= time)
 		{
 			upperRotKey = &(*it);
 			if (i > 0)
 			{
-				lowerRotKey = &m_positionKeys.at(i - 1);
+				lowerRotKey = &m_rotationKeys.at(i - 1);
 			}
 			else
 			{
 				lowerRotKey = upperRotKey;
 			}
+			found = true;
 		}
+		it++, i++;
 	}
+	//interpolate
 	if (lowerRotKey && upperRotKey)
 	{
 		if (lowerRotKey != upperRotKey)
 		{
-			vec4 rotationA = lowerRotKey->m_value;
-			vec4 rotationB = upperRotKey->m_value;
+			quat rotationA(lowerRotKey->m_value.x, lowerRotKey->m_value.y, lowerRotKey->m_value.z, lowerRotKey->m_value.w);
+			quat rotationB(upperRotKey->m_value.x, upperRotKey->m_value.y, upperRotKey->m_value.z, upperRotKey->m_value.w);
 			float percent = (time - lowerRotKey->m_time) / (upperRotKey->m_time - lowerRotKey->m_time);
-			quatVec = LinearInterpValue(rotationA, rotationB, percent);
+			quaternion = slerp(rotationA, rotationB, percent);
 		}
 		else
 		{
-			quatVec = upperRotKey->m_value;
+			quaternion = quat(upperRotKey->m_value.x, upperRotKey->m_value.y, upperRotKey->m_value.z, upperRotKey->m_value.w);
 		}
 	}
 	// -----------------
+	//quaternion.w = 1;
 	//calculate relative transform
-	quat quaternion(quatVec.x, quatVec.y, quatVec.z, quatVec.w);
 	mat4 rotationMat = mat4_cast(quaternion);
 	mat4 transMat = translate(mat4(1.0f), positionVec);
-	mat4 transform = transMat * rotationMat;
+	mat4 transform = transMat *rotationMat;
 	// -----------------
-	m_animOffsetMatrix = m_animOffsetMatrix * transform;
+	mat4 offset = *m_offsetMatrix.Get();
+	m_animOffsetMatrix = *m_animOffsetMatrix.Get() * transform;
+	
 	for (auto it = m_children.begin(); it != m_children.end(); it++)
 	{
 		(*it)->Transform(m_animOffsetMatrix);
 		(*it)->Update(time);
 	}
+	m_animOffsetMatrix = *m_animOffsetMatrix.Get() * offset;
+	//show bone movement
+	if (m_boneName != "Armature")
+	{
+		vec4 test = offset * vec4(0, 3, 0, 1);
+		GraphicsSystem::Get().GetRenderer()->VDrawPoint(vec3(test.x, test.y, test.z), 50, vec4(1.0));
+	}
+	//
 }
 // -----------------------------------------------------------------------
 void Bone::AddChildBone(StrongBonePtr bone)
@@ -150,7 +174,7 @@ void Bone::Transform(Matrix4x4& mat)
 // -----------------------------------------------------------------------
 void Bone::Reset()
 {
-	m_animOffsetMatrix = m_offsetMatrix;
+	m_animOffsetMatrix = mat4(1.0f);
 }
 // -----------------------------------------------------------------------
 void Bone::SetBoneID(BoneID id)

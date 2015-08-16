@@ -113,10 +113,10 @@ void Mesh_GL::BindData()
 		boneSize = glm::min(boneSize, (int)m_boneIDList.size());
 		for (int i = 0; i < boneSize; i++)
 		{
-			m_vertexBuffer.SetVertexAttribPointer(id[i], 1, 0, (const void*)(offset));
+			int idTemp = id[i];
+			m_vertexBuffer.SetVertexAttribPointer(idTemp, 1, 0, (const void*)(offset));
 			offset += m_numVertices*sizeof(GLfloat);
 		}
-
 	}
 
 }
@@ -167,15 +167,16 @@ int Mesh_GL::VLoadMesh(MeshInfo* pMesh)
 		{
 			m_boneIDList.push_back(pMesh->m_bones[i].m_nodeName.ToString());			
 		}
-		boneDataSize = pMesh->m_numberOfBones*m_numVertices;
+		boneDataSize = pMesh->m_numberOfBones*m_numVertices*sizeof(float);
 	}
 
 	//initialize vertex buffer	
 	int vid = m_vertexBuffer.Init(pMesh->m_dataSize + boneDataSize, pMesh->m_data, m_meshFileName);
 	if (boneDataSize > 0)
 	{
-		m_vertexBuffer.BindSubData(pMesh->m_dataSize, boneDataSize, &pMesh->m_bones[0].m_weightsData->m_weight);
+		m_vertexBuffer.BindSubData(pMesh->m_dataSize, boneDataSize, (float*)pMesh->m_bones[0].m_weightsData);
 	}
+
 	return vid;
 }
 // -----------------------------------------------------------------------
@@ -194,7 +195,6 @@ bool Mesh_GL::VLoadMaterial()
 	{
 		return true;
 	}
-
 }
 // -----------------------------------------------------------------------
 void Mesh_GL::VCullFace(bool cull)

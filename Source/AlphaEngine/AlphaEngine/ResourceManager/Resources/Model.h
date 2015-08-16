@@ -1,5 +1,8 @@
 #pragma once
-#include "../../AlphaStd.h"
+#include <string>
+#include <glm/glm.hpp>
+using namespace glm;
+using namespace std;
 ///*****************************MODEL***********************************
 struct FixedString
 {
