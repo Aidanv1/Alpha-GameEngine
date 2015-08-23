@@ -163,18 +163,19 @@ int Mesh_GL::VLoadMesh(MeshInfo* pMesh)
 	if (pMesh->m_hasBones && 
 		pMesh->m_numberOfBones>0)
 	{
+		BoneInfo* boneinfo = pMesh->GetBoneInfo();
 		for (int i = 0; i < pMesh->m_numberOfBones; i++)
 		{
-			m_boneIDList.push_back(pMesh->m_bones[i].m_nodeName.ToString());			
+			m_boneIDList.push_back(boneinfo[i].m_nodeName.ToString());
 		}
 		boneDataSize = pMesh->m_numberOfBones*m_numVertices*sizeof(float);
 	}
 
 	//initialize vertex buffer	
-	int vid = m_vertexBuffer.Init(pMesh->m_dataSize + boneDataSize, pMesh->m_data, m_meshFileName);
+	int vid = m_vertexBuffer.Init(pMesh->m_dataSize + boneDataSize, pMesh->Data(), m_meshFileName);
 	if (boneDataSize > 0)
 	{
-		m_vertexBuffer.BindSubData(pMesh->m_dataSize, boneDataSize, (float*)pMesh->m_bones[0].m_weightsData);
+		m_vertexBuffer.BindSubData(pMesh->m_dataSize, boneDataSize, (float*)pMesh->GetBoneInfo()[0].WeightData());
 	}
 
 	return vid;

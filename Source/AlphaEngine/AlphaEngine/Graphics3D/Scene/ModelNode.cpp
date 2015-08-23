@@ -159,9 +159,9 @@ void ModelNode::VRender(Scene* pScene)
 // -----------------------------------------------------------------------
 void ModelNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
-	if (VHasAnimation("testanim.dae_0"))
+	if (VHasAnimation("testanim.amod_0"))
 	{
-		VPlayAnimation("testanim.dae_0");
+		VPlayAnimation("testanim.amod_0");
 	}
 	
 }
@@ -276,7 +276,6 @@ bool ModelNode::Load()
 	BoneInfo* boneInfoArray = modelBufferReader.GetBoneInfoArray(numBones);
 	for (int i = 0; i < numAnim; i++)
 	{
-
 		string animationName = m_modelFileName;
 		int end = animationName.find_last_of("/");
 		animationName = animationName.substr(end+1, animationName.size() -1).append("_").append(to_string(i));

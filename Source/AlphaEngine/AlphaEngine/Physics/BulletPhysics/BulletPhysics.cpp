@@ -291,7 +291,7 @@ bool BulletPhysics::VLoadCollisionMeshes()
 				ModelBufferReader mBR = (*it).m_colMeshRes->Buffer();
 				int numMeshes = 0;
 				MeshInfo* meshInfo = mBR.GetMeshInfoArray(numMeshes);
-				shape = ALPHA_NEW btConvexHullShape(meshInfo->m_data, meshInfo->m_numberOfVertices, 12);
+				shape = ALPHA_NEW btConvexHullShape(meshInfo->Data(), meshInfo->m_numberOfVertices, 12);
 			}
 			if ((*it).m_meshType == HeightField)
 			{

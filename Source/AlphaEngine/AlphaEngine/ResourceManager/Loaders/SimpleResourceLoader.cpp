@@ -1,4 +1,5 @@
 #include "SimpleResourceLoader.h"
+#include <fstream>
 // -----------------------------------------------------------------------
 SimpleResourceLoader::SimpleResourceLoader()
 {

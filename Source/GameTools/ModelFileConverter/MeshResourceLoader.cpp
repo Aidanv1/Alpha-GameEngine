@@ -1,6 +1,7 @@
 #include "MeshResourceLoader.h"
 #include <sstream>
 #include <iostream>
+
 MeshResourceLoader::MeshResourceLoader()
 {
 
@@ -38,35 +39,36 @@ void MeshResourceLoader::LoadMesh(MeshInfo*& meshInfo, aiMesh* pMesh, aiMaterial
 	//-----------------------------------------------
 	//-------------Create VertexBuffer---------------
 	//convert the texture coords to 2D
-	meshInfo->m_data = (float*)pNextDataBlock;
+	meshInfo->m_data = (PtrOffset)pNextDataBlock - (PtrOffset)meshInfo;
+	float* data = (float*)pNextDataBlock;
 	int count = 0;
 	for (unsigned int i = 0; i < pMesh->mNumVertices; ++i)
 	{
-		meshInfo->m_data[count++] = pMesh->mVertices[i].x;
-		meshInfo->m_data[count++] = pMesh->mVertices[i].y;
-		meshInfo->m_data[count++] = pMesh->mVertices[i].z;
+		data[count++] = pMesh->mVertices[i].x;
+		data[count++] = pMesh->mVertices[i].y;
+		data[count++] = pMesh->mVertices[i].z;
 	}
 
 	for (unsigned int i = 0; i < pMesh->mNumVertices; ++i)
 	{
-		meshInfo->m_data[count++] = pMesh->mNormals[i].x;
-		meshInfo->m_data[count++] = pMesh->mNormals[i].y;
-		meshInfo->m_data[count++] = pMesh->mNormals[i].z;
+		data[count++] = pMesh->mNormals[i].x;
+		data[count++] = pMesh->mNormals[i].y;
+		data[count++] = pMesh->mNormals[i].z;
 	}
 
 	if (pMesh->HasTextureCoords(0))
 	{
 		for (unsigned int i = 0; i < pMesh->mNumVertices; ++i)
 		{
-			meshInfo->m_data[count++] = (pMesh->mTextureCoords[0][i].x);
-			meshInfo->m_data[count++] = (pMesh->mTextureCoords[0][i].y);
+			data[count++] = (pMesh->mTextureCoords[0][i].x);
+			data[count++] = (pMesh->mTextureCoords[0][i].y);
 		}
 	}
 
 	int numVertices = pMesh->mNumVertices;
 
 
-	
+
 	//construct mesh info
 	meshInfo->m_materialInfo = matInfo;
 	meshInfo->m_numberOfVertices = numVertices;
@@ -83,14 +85,15 @@ void MeshResourceLoader::LoadMesh(MeshInfo*& meshInfo, aiMesh* pMesh, aiMaterial
 		meshInfo->m_uvComponentSize = 0;
 	}
 	//BONES-------------------------------------------------
-	if (pMesh->HasBones() && 
+	meshInfo->m_hasBones = false;
+	if (pMesh->HasBones() &&
 		pMesh->mNumBones > 0)
 	{
 		meshInfo->m_hasBones = true;
 		meshInfo->m_numberOfBones = pMesh->mNumBones;
 
 		BoneInfo* boneArray = (BoneInfo*)pNextBoneInfoPos;
-		meshInfo->m_bones = boneArray;
+		meshInfo->m_bones = (PtrOffset)pNextBoneInfoPos - (PtrOffset)meshInfo;
 		//increment boneinfo ptr
 		pNextBoneInfoPos += meshInfo->m_numberOfBones * sizeof(BoneInfo);
 		for (int i = 0; i < meshInfo->m_numberOfBones; i++)
@@ -103,40 +106,42 @@ void MeshResourceLoader::LoadMesh(MeshInfo*& meshInfo, aiMesh* pMesh, aiMaterial
 			boneArray[i].m_numWeights = pMesh->mBones[i]->mNumWeights;
 			//offset
 			boneArray[i].m_offsetMatrix = ConvertToMat4(pMesh->mBones[i]->mOffsetMatrix);
-			boneArray[i].m_weightsData = (BoneWeightData*)pNextBoneDataBlock;
+
+			BoneWeightData* weightsData = (BoneWeightData*)pNextBoneDataBlock;
+			boneArray[i].m_weightsData = (PtrOffset)pNextBoneDataBlock - (PtrOffset)&boneArray[i];
 			//increment bone data ptr
 			if (i != meshInfo->m_numberOfBones)
 			{
 				pNextBoneDataBlock += numVertices * sizeof(BoneWeightData);
-			}		
+			}
 			//populate weight data
 			//initially set all weights to 0
 			for (int j = 0; j < numVertices; j++)
 			{
-				boneArray[i].m_weightsData[j].m_weight = 0;
+				weightsData[j].m_weight = 0;
 			}
 			for (int j = 0; j < boneArray[i].m_numWeights; j++)
 			{
 				int vertexIndex = pMesh->mBones[i]->mWeights[j].mVertexId;
-				boneArray[i].m_weightsData[vertexIndex].m_weight = pMesh->mBones[i]->mWeights[vertexIndex].mWeight;
+				weightsData[vertexIndex].m_weight = pMesh->mBones[i]->mWeights[vertexIndex].mWeight;
 			}
 		}
 
 	}
 }
 // -----------------------------------------------------------------------
-void MeshResourceLoader::LoadModel(	const aiScene* scene, 
-									aiNode* node, 
-									unsigned char* pNextMeshInfoPos, 
-									unsigned char* pNextDataBlock, 
-									unsigned char* pNextBoneInfoPos,	
-									unsigned char* pNextBoneDataBlock)
+void MeshResourceLoader::LoadModel(const aiScene* scene,
+	aiNode* node,
+	unsigned char* pNextMeshInfoPos,
+	unsigned char* pNextDataBlock,
+	unsigned char* pNextBoneInfoPos,
+	unsigned char* pNextBoneDataBlock)
 {
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		//get relative transformation for child
 		mat4 trans = ConvertToMat4(node->mChildren[i]->mTransformation);
-		
+
 		m_nodeParentMap[node->mChildren[i]->mName.C_Str()] = node->mName.C_Str();
 		//if the child has a mesh
 		if (node->mChildren[i]->mNumMeshes > 0)
@@ -176,17 +181,17 @@ void MeshResourceLoader::LoadModel(	const aiScene* scene,
 				}
 
 				int boneDataOffset = 0;
-				LoadMesh(	meshInfo,
-							scene->mMeshes[meshNum],
-							scene->mMaterials[scene->mMeshes[meshNum]->mMaterialIndex],
-							pNextDataBlock, 
-							pNextBoneInfoPos, 
-							pNextBoneDataBlock);
+				LoadMesh(meshInfo,
+					scene->mMeshes[meshNum],
+					scene->mMaterials[scene->mMeshes[meshNum]->mMaterialIndex],
+					pNextDataBlock,
+					pNextBoneInfoPos,
+					pNextBoneDataBlock);
 
 				pNextDataBlock = pNextDataBlock + meshInfo->m_dataSize;
 				pNextMeshInfoPos = pNextMeshInfoPos + sizeof(MeshInfo);
 			}
-			
+
 		}
 		LoadModel(scene, node->mChildren[i], pNextDataBlock, pNextMeshInfoPos, pNextBoneInfoPos, pNextBoneDataBlock);
 	}
@@ -227,7 +232,7 @@ bool MeshResourceLoader::LoadResource(string resName, unsigned char*& pBuffer, u
 				//boneDataSize += scene->mMeshes[i]->mBones[j]->mNumWeights * sizeof(BoneWeightData);
 				boneDataSize += scene->mMeshes[i]->mNumVertices * sizeof(BoneWeightData);
 			}
-		}	
+		}
 	}
 	totalBoneInfoSize = numberOfBones * sizeof(BoneInfo);
 	//size of animation info and data chunk
@@ -252,12 +257,12 @@ bool MeshResourceLoader::LoadResource(string resName, unsigned char*& pBuffer, u
 		}
 		totalChannelSize = totalNumChannels * sizeof(AnimationChannel);
 	}
-	
+
 	//total size
-	int totalBufferSize =	sizeof(SizeInfo) +
-							meshDataSize + totalMeshInfoSize +
-							boneDataSize + totalBoneInfoSize +
-							animDataSize + totalAnimInfoSize + totalChannelSize;
+	int totalBufferSize = sizeof(SizeInfo) +
+		meshDataSize + totalMeshInfoSize +
+		boneDataSize + totalBoneInfoSize +
+		animDataSize + totalAnimInfoSize + totalChannelSize;
 	//allocate memory buffer
 	unsigned char* modelBuffer = new unsigned char[totalBufferSize];
 	unsigned char* endOfBuffer = modelBuffer + totalBufferSize;//for testing
@@ -270,7 +275,7 @@ bool MeshResourceLoader::LoadResource(string resName, unsigned char*& pBuffer, u
 	/*
 	All Model data is stored in a contiguous block of memory
 	divided into a header section and dat section as illustrated below.
-	 ___________________________
+	___________________________
 	|			HEADER			|
 	|---------------------------|
 	|	Model SizeInfo			|
@@ -285,8 +290,8 @@ bool MeshResourceLoader::LoadResource(string resName, unsigned char*& pBuffer, u
 	|	Animation Channels		|
 	|	Animation KeyFrames		|
 	|___________________________|
-	
-	
+
+
 	*/
 	//Header
 	unsigned char* meshInfoPtr = modelBuffer + sizeof(SizeInfo);					//pointer to the start of the mesh info array
@@ -314,20 +319,21 @@ bool MeshResourceLoader::LoadResource(string resName, unsigned char*& pBuffer, u
 		for (int i = 0; i < numberOfAnimations; i++)
 		{
 			animInfoArray[i].m_numChannels = scene->mAnimations[i]->mNumChannels;
-			animInfoArray[i].m_channels = &animChannelsArray[channelCount];
+			animInfoArray[i].m_channels = (PtrOffset)&animChannelsArray[channelCount] - (PtrOffset)&animInfoArray[i];
+
 			for (int j = 0; j < scene->mAnimations[i]->mNumChannels; j++)
 			{
 				animChannelsArray[channelCount].m_numPosKeys = scene->mAnimations[i]->mChannels[j]->mNumPositionKeys;
 				animChannelsArray[channelCount].m_numRotKeys = scene->mAnimations[i]->mChannels[j]->mNumRotationKeys;
 				animChannelsArray[channelCount].m_nodeName = scene->mAnimations[i]->mChannels[j]->mNodeName.C_Str();
-				animChannelsArray[channelCount].m_posKeyFrames = &animKeysArray[keyCount];
+				animChannelsArray[channelCount].m_posKeyFrames = (PtrOffset)&animKeysArray[keyCount] - (PtrOffset)(&animChannelsArray[channelCount]);
 				for (int k = 0; k < scene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++)
 				{
 					animKeysArray[keyCount].m_time = scene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
 					animKeysArray[keyCount].m_value = ConvertToVec4(scene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue);
 					keyCount++;
 				}
-				animChannelsArray[channelCount].m_rotKeyFrames = &animKeysArray[keyCount];
+				animChannelsArray[channelCount].m_rotKeyFrames = (PtrOffset)&animKeysArray[keyCount] - (PtrOffset)(&animChannelsArray[channelCount]);
 				for (int k = 0; k < scene->mAnimations[i]->mChannels[j]->mNumRotationKeys; k++)
 				{
 					animKeysArray[keyCount].m_time = scene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mTime;
@@ -367,7 +373,7 @@ vec4 MeshResourceLoader::ConvertToVec4(aiVector3D& vec)
 vec4 MeshResourceLoader::ConvertToVec4(aiQuaternion& vec)
 {
 	//return vec4(vec.x, vec.z, vec.y, vec.w);
-	return vec4(vec.w,vec.x, vec.y, vec.z);
+	return vec4(vec.w, vec.x, vec.y, vec.z);
 }
 // -----------------------------------------------------------------------
 void MeshResourceLoader::Error(string message)

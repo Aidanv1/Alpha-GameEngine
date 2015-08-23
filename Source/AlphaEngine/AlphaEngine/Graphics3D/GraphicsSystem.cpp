@@ -39,7 +39,7 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 		return false;
 	}
 	m_renderer->VInit(doc.FirstChildElement());
-	if (!doc.LoadFile("GraphicsSettings.xml"))
+	if (!doc.LoadFile("Config/GraphicsSettings.xml"))
 	{
 		ALPHA_ERROR("GraphicsSettings.xml is missing");
 		return false;
@@ -94,9 +94,6 @@ bool GraphicsSystem::InitResource(int textResSize, int meshResSize)
 	m_textureResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW TGAResourceLoader()));
 	m_textureResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW BMPResourceLoader()));
 	m_meshResourceManager->Init(meshResSize);
-	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW DAEResourceLoader()));
-	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW FBXResourceLoader()));
-	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW ThreeDSResourceLoader()));
 	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW HeightMapResourceLoader()));
 	m_meshResourceManager->AddResourceLoader(shared_ptr<IResourceLoader>(ALPHA_NEW AMODResourceLoader()));
 	return true;

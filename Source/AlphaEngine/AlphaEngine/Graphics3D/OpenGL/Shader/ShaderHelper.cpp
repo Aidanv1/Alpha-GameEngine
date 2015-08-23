@@ -58,8 +58,8 @@ GLuint ShaderHelper::MakeFragmentShader(const char* shaderSource)
 		ALPHA_ERROR("Error creating fragment shader");
 	}
 	//Preproc--
-	string shaderSourceContents = ReadFile(shaderSource);
-
+	const char* contents = ReadFile(shaderSource);
+	string shaderSourceContents = contents;
 	//get file path
 	string filePath = shaderSource;
 	int end = filePath.find_last_of("/");
@@ -74,6 +74,7 @@ GLuint ShaderHelper::MakeFragmentShader(const char* shaderSource)
 	{
 		return fragmentShaderID;
 	}
+	SAFE_DELETE(source);
 	ALPHA_ERROR("Error creating fragment shader");
 	return -1;
 }

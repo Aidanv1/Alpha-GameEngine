@@ -1,18 +1,18 @@
 #pragma once
-#include "../AlphaStd.h"
-#include "../EventManager/EventManager.h"
+#include "../AlphaEngineDLL.h"
 //Forward Declaration
 class Clock;
 class IWindow;
+class EventManager;
 //========================================================================
 #define MIN_DELTA_MS 4
 //========================================================================
-class GameLoop
+class DLLExport GameLoop
 {
 public:
 	GameLoop();
 	~GameLoop();
-	bool Init(IWindow* window);
+	bool Init();
 	void StartLoop();
 private:
 	float GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int64& previousClockTime);
@@ -21,6 +21,6 @@ private:
 	unsigned __int64 m_systemTime;
 	unsigned __int64 m_gameTime;
 	IWindow* m_window;
-	EventManager m_globalEventManager;
+	EventManager* m_globalEventManager;
 };
 //========================================================================

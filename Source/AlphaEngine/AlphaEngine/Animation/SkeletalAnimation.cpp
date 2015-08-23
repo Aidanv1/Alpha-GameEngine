@@ -25,18 +25,20 @@ bool Bone::Init(BoneInfo* info, AnimationChannel* channel)
 	m_boneName = info->m_nodeName.ToString();
 	m_offsetMatrix = Matrix4x4(info->m_offsetMatrix);
 	//populate positionKeys
+	KeyFrame* posKeyFrames = channel->PosKeyFrames();
 	for (int i = 0; i < channel->m_numPosKeys; i++)
 	{
-		KeyFrame* keyframe = &channel->m_posKeyFrames[i];
+		KeyFrame* keyframe = &posKeyFrames[i];
 		AnimationKey key;
 		key.m_time = keyframe->m_time;
 		key.m_value = keyframe->m_value;
 		m_positionKeys.push_back(key);
 	}
 	//populate rotationKeys
+	KeyFrame* rotKeyFrames = channel->RotKeyFrames();
 	for (int i = 0; i < channel->m_numPosKeys; i++)
 	{
-		KeyFrame* keyframe = &channel->m_rotKeyFrames[i];
+		KeyFrame* keyframe = &rotKeyFrames[i];
 		AnimationKey key;
 		key.m_time = keyframe->m_time;
 		key.m_value = keyframe->m_value;
@@ -210,12 +212,15 @@ bool SkeletalAnimation::InitAnimation(AnimationInfo* animationInfo, BoneInfo* bo
 		//find channel corresponding to bone
 		int j = 0;
 		bool foundChannel = false;
+		AnimationChannel* channelArray = animationInfo->Channels();
+		KeyFrame* posKeyFrames = channelArray[j].PosKeyFrames();
+		KeyFrame* rotKeyFrames = channelArray[j].RotKeyFrames();
 		while (	!foundChannel &&
 				j<animationInfo->m_numChannels)
 		{
 			//determine animation end time
-			float posEndTime = animationInfo->m_channels[j].m_posKeyFrames[animationInfo->m_channels[j].m_numPosKeys - 1].m_time;
-			float rotEndTime = animationInfo->m_channels[j].m_posKeyFrames[animationInfo->m_channels[j].m_numPosKeys - 1].m_time;
+			float posEndTime = posKeyFrames[channelArray[j].m_numPosKeys - 1].m_time;
+			float rotEndTime = rotKeyFrames[channelArray[j].m_numPosKeys - 1].m_time;
 			float greatestTime = rotEndTime;
 			if (posEndTime > rotEndTime)
 			{
@@ -226,9 +231,9 @@ bool SkeletalAnimation::InitAnimation(AnimationInfo* animationInfo, BoneInfo* bo
 				m_animationEndTime = greatestTime;
 			}
 			//
-			if (boneinfo->m_nodeName.ToString() == animationInfo->m_channels[j].m_nodeName.ToString())
+			if (boneinfo->m_nodeName.ToString() == channelArray[j].m_nodeName.ToString())
 			{
-				channel = &animationInfo->m_channels[j];	
+				channel = &channelArray[j];
 				foundChannel = true;
 			}
 			j++;

@@ -1,5 +1,5 @@
 #pragma once
-#include "ResourceManager/Resources/Model.h"
+#include "Model.h"
 #include "assimp/scene.h"
 #include "assimp/mesh.h"
 #include "assimp/Importer.hpp"

@@ -48,7 +48,7 @@ inline char* ReadFile(const char* filename)
 	// Here's the actual read
 	fread(contents, 1, file_length, fp);
 	// This is how you denote the end of a string in C
-	contents[file_length + 1] = '\0';
+	contents[file_length] = '\0';
 	fclose(fp);
 	return contents;
 }

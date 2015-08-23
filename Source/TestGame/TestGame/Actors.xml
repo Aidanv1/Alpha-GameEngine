@@ -46,7 +46,7 @@
     </Transform>
     
     <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass01.3ds"
+      <Properties modelFileName = "../../../Assets/grass01.amod"
                   radius ="3"
                   alphaType ="Transparent"/>
     </Graphics>
@@ -68,7 +68,7 @@
     </Transform>
 
     <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/testanim.dae"
+      <Properties modelFileName = "../../../Assets/testanim.amod"
                   radius ="3"/>
     </Graphics>
 <!--     <Physics>

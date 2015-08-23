@@ -15,7 +15,7 @@ bool BaseShaderProgram::VInit(const char* vertexShaderSourceCode, const char* fr
 {
 	m_shaderProgramID = ShaderHelper::MakeShaderProgram(vertexShaderSourceCode, fragmentShaderSourceCode);
 	//debugging
-	GLint nUniforms, maxLen;
+	/*GLint nUniforms, maxLen;
 	GLfloat maxNum;
 	
 	glGetFloatv(GL_MAX_UNIFORM_LOCATIONS, &maxNum);
@@ -34,7 +34,7 @@ bool BaseShaderProgram::VInit(const char* vertexShaderSourceCode, const char* fr
 		location = glGetUniformLocation(m_shaderProgramID, name);
 		printf(" %-8d | %s\n", location, name);
 	}
-	free(name);
+	free(name);*/
 	//
 	return m_shaderProgramID != -1;
 }

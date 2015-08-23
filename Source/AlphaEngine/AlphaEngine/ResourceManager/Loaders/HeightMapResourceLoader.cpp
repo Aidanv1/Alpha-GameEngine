@@ -85,7 +85,7 @@ bool HeightMapResourceLoader::VLoadResource(string resName, unsigned char*& pBuf
 	meshInfo->m_numberOfVertices = numVertices;
 	meshInfo->m_dataSize = numVertices*sizeof(float) * 8;
 	memcpy(&pBmpBuffer[sizeof(MeshInfo) + sizeof(int)], &vertBufferData[0], meshInfo->m_dataSize);
-	meshInfo->m_data = (float*)&pBmpBuffer[sizeof(MeshInfo) + sizeof(int)];
+	meshInfo->m_data = (PtrOffset)&pBmpBuffer[sizeof(MeshInfo) + sizeof(int)] - (PtrOffset)meshInfo;
 	meshInfo->m_materialInfo = matInfo;
 	pBuffer = pBmpBuffer;
 	size = totalBufferSize;

@@ -1,4 +1,10 @@
 #include "GLWindow.h"
+#include <GL/glew.h>
+#include "IL/il.h"
+#include "IL/ilu.h"
+#include "../EventManager/IEventManager.h"
+#include "../EventManager/Events/Events.h"
+#include "../Graphics3D/GraphicsSystem.h"
 // -----------------------------------------------------------------------
 GLWindow::GLWindow(const char* name, int x, int y)
 {
@@ -90,45 +96,46 @@ bool GLWindow::PollEvents(float deltaMs)
 	float mousex = 0, mousey = 0;
 	bool eventOccured = false;
 	float dx = 0, dz = 0;
-	while (SDL_PollEvent(&m_event))
+	SDL_Event sdlEvent;
+	while (SDL_PollEvent(&sdlEvent))
 	{
-		if (m_event.type == SDL_QUIT)
+		if (sdlEvent.type == SDL_QUIT)
 		{
 			return false;
 		}		
 		//Test camera motion
-		if (m_event.type == SDL_MOUSEMOTION)
+		if (sdlEvent.type == SDL_MOUSEMOTION)
 		{
 			eventOccured = true;
-			mousex -= m_event.motion.yrel;
-			mousey -= m_event.motion.xrel;
+			mousex -= sdlEvent.motion.yrel;
+			mousey -= sdlEvent.motion.xrel;
 		}
 
-		if (m_event.type == SDL_MOUSEWHEEL)
+		if (sdlEvent.type == SDL_MOUSEWHEEL)
 		{
-			mousescroll = m_event.wheel.y;
+			mousescroll = sdlEvent.wheel.y;
 			eventOccured = true;
 		}
 
-		if (m_event.type == SDL_KEYDOWN)
+		if (sdlEvent.type == SDL_KEYDOWN)
 		{
 			vec3 position;
-			if (m_event.key.keysym.sym == SDLK_w)
+			if (sdlEvent.key.keysym.sym == SDLK_w)
 			{	
 				dz--;
 				eventOccured = true;
 			}
-			if (m_event.key.keysym.sym == SDLK_a)
+			if (sdlEvent.key.keysym.sym == SDLK_a)
 			{
 				dx--;
 				eventOccured = true;
 			}
-			if (m_event.key.keysym.sym == SDLK_s)
+			if (sdlEvent.key.keysym.sym == SDLK_s)
 			{
 				dz++;
 				eventOccured = true;
 			}
-			if (m_event.key.keysym.sym == SDLK_d)
+			if (sdlEvent.key.keysym.sym == SDLK_d)
 			{
 				dx++;
 				eventOccured = true;

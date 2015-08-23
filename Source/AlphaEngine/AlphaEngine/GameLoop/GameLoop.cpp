@@ -7,26 +7,29 @@
 #include "../Actor/RoleSystem.h"
 #include "../Animation/AnimationSystem.h"
 #include "../Window\IWindow.h"
+#include "../EventManager/EventManager.h"
+#include "../Window\GLWindow.h"
 // -----------------------------------------------------------------------
 GameLoop::GameLoop() :
-m_globalEventManager("Global", true),
 m_window(NULL),
 m_gameClock(NULL),
 m_systemTime(0),
 m_gameTime(0)
 {
+	m_globalEventManager = ALPHA_NEW EventManager("Global", true);
 }
 // -----------------------------------------------------------------------
 GameLoop::~GameLoop()
 {
 	SAFE_DELETE(m_window);
 	SAFE_DELETE(m_gameClock);
+	SAFE_DELETE(m_globalEventManager);
 }
 // -----------------------------------------------------------------------
-bool GameLoop::Init(IWindow* window)
+bool GameLoop::Init()
 {
 	//Window
-	m_window = window;
+	m_window = ALPHA_NEW GLWindow("AlphaEngine", 1920, 1080);
 	if (!m_window->VInit())
 	{
 		return false;
@@ -41,7 +44,7 @@ bool GameLoop::Init(IWindow* window)
 	//Physics
 	PhysicsSystem::Get().Init(60);
 	TiXmlDocument physicsDoc;
-	physicsDoc.LoadFile("Physics.xml");
+	physicsDoc.LoadFile("Config/Physics.xml");
 	TiXmlElement* physicsElem = physicsDoc.FirstChildElement();
 	PhysicsSystem::Get().RigidBodyPhysics()->VConfigureXmlData(physicsElem);
 
@@ -90,7 +93,7 @@ void GameLoop::StartLoop()
 		RoleSystem::Get().Update(dt);
 		//-----------------------------------
 		quit = !m_window->VUpdate(dt);
-		m_globalEventManager.VUpdate();
+		m_globalEventManager->VUpdate();
 		
 		dt = GetDeltaMs(m_systemTime, m_gameTime);
 		cycleCount++;
