@@ -1,6 +1,7 @@
 #include "Mesh_GL.h"
 #include "../../../Animation/AnimationSystem.h"
 #include "../../Scene/ModelNode.h"
+#include "../../Scene/Scene.h"
 // -----------------------------------------------------------------------
 Mesh_GL::Mesh_GL() :
 m_numVertices(0),

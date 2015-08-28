@@ -3,7 +3,7 @@
 #include "../../Actor/Actor.h" 
 #include "../GraphicsSystem.h"
 #include "DrawableNode.h"
-
+#include "Scene.h"
 // -----------------------------------------------------------------------
 ModelNode::ModelNode() :
 SceneNode(),

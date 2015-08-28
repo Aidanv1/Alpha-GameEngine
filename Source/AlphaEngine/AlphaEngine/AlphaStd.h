@@ -40,13 +40,7 @@
 #include "tinystr.h"
 
 //Maths
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtc/matrix_transform.hpp>	
-#include <glm/gtc/matrix_inverse.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>	
-#include <glm/gtx/transform.hpp>
+#include"Maths/GameMaths.h"
 
 #include <SDL.h>
 
@@ -56,7 +50,6 @@
 
 //NAMESPACES
 using namespace std;
-using namespace glm;
 // MACROS-----------------------------------------------------------------
 //#if defined(_DEBUG)
 //#       define ALPHA_NEW new(_NORMAL_BLOCK,__FILE__, __LINE__)

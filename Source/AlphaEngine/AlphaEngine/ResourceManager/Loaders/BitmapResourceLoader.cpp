@@ -28,7 +28,7 @@ bool BitmapResourceLoader::VLoadResource(string resName, unsigned char*& pBuffer
 	size = dataSize + BMPINFO_SIZE;
 
 	pBmpBuffer = ALPHA_NEW unsigned char[size];
-	for (int i = 0; i < size; i++)
+	for (unsigned int i = 0; i < size; i++)
 	{
 		pBmpBuffer[i] = NULL;
 	}

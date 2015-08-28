@@ -1,5 +1,6 @@
 #include "Text_GL.h"
 #include "../Renderer_GL.h"
+#include "../../Scene/Scene.h"
 // -----------------------------------------------------------------------
 Text_GL::Text_GL() :
 m_name("text"),

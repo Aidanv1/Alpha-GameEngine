@@ -1,6 +1,5 @@
 #include "PhysicsSystem.h"
 #include "BulletPhysics\BulletPhysics.h"
-#include "..\ResourceManager\Loaders\MeshResourceLoader.h"
 #include "..\ResourceManager\Loaders\HeightFieldResourceLoader.h"
 #include "..\ResourceManager\Loaders\SimpleResourceLoader.h"
 #include "PhysicsEvents.h"

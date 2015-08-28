@@ -1,10 +1,13 @@
 #pragma once
 #include "../IActorComponent.h"
-#include "../../Graphics3D/Scene/SceneNode.h"
+#include <memory>
+class ISceneNode;
+class TiXmlElement;
+//========================================================================
 class GraphicsComponent : public IActorComponent
 {
 public:
-	void SetSceneNode(StrongSceneNodePtr sceneNode);
+	void SetSceneNode(ISceneNode* sceneNode);
 	ISceneNode* GetSceneNode() { return m_sceneNode.get(); }
 	//IActorComponent fucnctions
 	virtual ComponentType VGetType() const override{ return "Graphics"; }
@@ -12,6 +15,6 @@ public:
 	virtual void VUpdate(float deltaMs) override;
 	virtual bool VInitComponent(TiXmlElement* pElement) override;	
 private:
-	StrongSceneNodePtr m_sceneNode;
+	std::shared_ptr<ISceneNode> m_sceneNode;
 };
-
+//========================================================================

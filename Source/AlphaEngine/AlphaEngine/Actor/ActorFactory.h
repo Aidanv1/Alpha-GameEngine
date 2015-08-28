@@ -1,9 +1,10 @@
 #pragma once
-#include "..\AlphaStd.h"
 #include "Actor.h"
 #include "IComponentCreator.h"
-
-typedef shared_ptr<IComponentCreator> StrongComponentCreatorPtr;
+//Forward declarations
+class TiXmlElement;
+//
+typedef std::shared_ptr<IComponentCreator> StrongComponentCreatorPtr;
 //========================================================================
 class ActorFactory
 {
@@ -11,13 +12,13 @@ public:
 	ActorFactory();
 	~ActorFactory();
 	StrongActorPtr CreateActor(TiXmlElement* pElement);
-	bool AddComponentCreator(StrongComponentCreatorPtr pComponentCreator, string id);
+	bool AddComponentCreator(StrongComponentCreatorPtr pComponentCreator, std::string id);
 private:
 	ActorID GetNextActorID();
 	StrongActorComponentPtr CreateComponent(TiXmlElement* pElement);
 private:
 	ActorID m_nextObjectID;
-	map<string, StrongComponentCreatorPtr> m_componentCreatorMap;
+	std::map<std::string, StrongComponentCreatorPtr> m_componentCreatorMap;
 
 };
 //========================================================================

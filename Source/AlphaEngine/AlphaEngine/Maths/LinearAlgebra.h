@@ -1,9 +1,10 @@
 #pragma once
-#include "../AlphaStd.h"
+#include "../AlphaEngineDLL.h"
+#include "GameMaths.h"
 //========================================================================
 //Matrix4x4 serves as a simple wrapper class for glm's mat4, adding
 //additional functionality
-class Matrix4x4
+class DLLExport Matrix4x4
 {
 public:
 	Matrix4x4(float numVal = 0.0f);

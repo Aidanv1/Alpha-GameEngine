@@ -1,9 +1,11 @@
 #pragma once
-#include "../AlphaStd.h"
+#include "../AlphaEngineDLL.h"
+#include <map>
 #include "Actor.h"
 #include "ActorFactory.h"
-typedef map<ActorID, StrongActorPtr> ActorMap;
-typedef map<string, StrongActorPtr> ActorNameMap;
+class TiXmlElement;
+typedef std::map<ActorID, StrongActorPtr> ActorMap;
+typedef std::map<std::string, StrongActorPtr> ActorNameMap;
 //========================================================================
 class RoleSystem
 {
@@ -11,8 +13,8 @@ public:
 	~RoleSystem();
 	bool Populate(TiXmlElement* pRoot);
 	static RoleSystem& Get();
-	StrongActorPtr GetActor(ActorID id) const;
-	StrongActorPtr GetActor(string name) const;
+	DLLExport Actor* GetActor(ActorID id) const;
+	DLLExport Actor* GetActor(std::string name) const;
 	void Update(float deltaMs);
 private:
 	RoleSystem();
@@ -20,6 +22,6 @@ private:
 	ActorMap		m_actorRegistry;
 	ActorNameMap	m_actorNameMap;
 	ActorFactory	m_actorFactory;
-	static bool m_initialized;
+	static bool		m_initialized;
 };
 //========================================================================

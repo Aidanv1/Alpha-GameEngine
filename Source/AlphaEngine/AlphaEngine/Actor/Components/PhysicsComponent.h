@@ -27,7 +27,7 @@ struct PhysicsProperties
 	string m_meshName;
 };
 //========================================================================
-class PhysicsComponent : public IActorComponent
+class DLLExport PhysicsComponent : public IActorComponent
 {
 public:
 	PhysicsComponent();

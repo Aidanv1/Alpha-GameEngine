@@ -1,3 +1,4 @@
+#include "../../AlphaStd.h"
 #include "TransformComponent.h"
 #include "../../Maths/LinearAlgebra.h"
 // -----------------------------------------------------------------------

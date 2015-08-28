@@ -1,11 +1,13 @@
 #include "GraphicsComponent.h"
 #include "../../Graphics3D/GraphicsSystem.h"
 #include "../../Actor/Components/TransformComponent.h"
+#include "../../Graphics3D/Scene/Scene.h"
+#include "../../Graphics3D/Scene/SceneNode.h"
 // -----------------------------------------------------------------------
-void GraphicsComponent::SetSceneNode(StrongSceneNodePtr sceneNode)
+void GraphicsComponent::SetSceneNode(ISceneNode* sceneNode)
 {
 	ALPHA_ASSERT(sceneNode);
-	m_sceneNode = sceneNode;
+	m_sceneNode = StrongSceneNodePtr(sceneNode);
 }
 // -----------------------------------------------------------------------
 bool GraphicsComponent::VPostInit()

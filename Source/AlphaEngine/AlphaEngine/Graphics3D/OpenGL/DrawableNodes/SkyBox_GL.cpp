@@ -1,4 +1,5 @@
 #include "SkyBox_GL.h"
+#include "../../Scene/Scene.h"
 SkyBox_GL::SkyBox_GL() :
 SceneNode(),
 m_shaderProgram(NULL),

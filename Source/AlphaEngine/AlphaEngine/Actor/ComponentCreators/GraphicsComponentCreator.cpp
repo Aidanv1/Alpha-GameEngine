@@ -1,6 +1,7 @@
 #include "GraphicsComponentCreator.h"
 #include "../../Graphics3D/Scene/DrawableNode.h"
 #include "../../Graphics3D/GraphicsSystem.h"
+#include "../../Graphics3D/Scene/Scene.h"
 // -----------------------------------------------------------------------
 IActorComponent* GraphicsComponentCreator::CreateComponent(TiXmlElement* pElement)
 {
@@ -33,7 +34,7 @@ IActorComponent* GraphicsComponentCreator::CreateComponent(TiXmlElement* pElemen
 
 	}
 	GraphicsComponent* component = ALPHA_NEW GraphicsComponent();
-	component->SetSceneNode(StrongSceneNodePtr(pSceneNode));
+	component->SetSceneNode(pSceneNode);
 	return component;
 }
 // -----------------------------------------------------------------------

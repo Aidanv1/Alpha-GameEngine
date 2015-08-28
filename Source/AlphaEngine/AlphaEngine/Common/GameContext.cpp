@@ -1,6 +1,8 @@
 #include "GameContext.h"
 #include "../AlphaStd.h"
 #include "../Time/Clock.h"
+#include "../Graphics3D/GraphicsSystem.h"
+#include "../Actor/RoleSystem.h"
 // -----------------------------------------------------------------------
 void GameContext::InitContext(Clock* gameClock)
 {
@@ -10,6 +12,7 @@ void GameContext::InitContext(Clock* gameClock)
 		m_gameClock = gameClock;
 		m_isInitialized = true;
 	}
+	m_paths.Load("Paths.xml");
 }
 // -----------------------------------------------------------------------
 GameContext* GameContext::Get()
@@ -18,13 +21,28 @@ GameContext* GameContext::Get()
 	return context;
 }
 // -----------------------------------------------------------------------
-__int64 GameContext::GetGameTime()
+__int64 GameContext::GetGameTime() const
 {
 	if (m_gameClock)
 	{
 		return m_gameClock->GetTimeMilliSec();
 	}
 	return 0;
+}
+// -----------------------------------------------------------------------
+Path GameContext::GetPath(PathID id)
+{
+	return m_paths.GetPath(id);
+}
+// -----------------------------------------------------------------------
+IRenderer* GameContext::GetGraphicsRenderer() const
+{
+	return GraphicsSystem::Get().GetRenderer();
+}
+// -----------------------------------------------------------------------
+RoleSystem* GameContext::GetRoleSystem() const
+{
+	return &RoleSystem::Get();
 }
 // -----------------------------------------------------------------------
 GameContext::GameContext() :

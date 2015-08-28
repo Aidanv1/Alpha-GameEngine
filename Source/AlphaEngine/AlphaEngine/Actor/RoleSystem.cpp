@@ -1,3 +1,4 @@
+#include "../AlphaStd.h"
 #include "RoleSystem.h"
 //Include component creators
 #include "ComponentCreators\GraphicsComponentCreator.h"
@@ -61,22 +62,22 @@ RoleSystem& RoleSystem::Get()
 	return *instance;
 }
 // -----------------------------------------------------------------------
-StrongActorPtr RoleSystem::GetActor(ActorID id) const
+Actor* RoleSystem::GetActor(ActorID id) const
 {
 	auto findIt = m_actorRegistry.find(id);
 	if (findIt != m_actorRegistry.end())
 	{
-		return (*findIt).second;
+		return (*findIt).second.get();
 	}
 	return NULL;
 }
 // -----------------------------------------------------------------------
-StrongActorPtr RoleSystem::GetActor(string name) const
+Actor* RoleSystem::GetActor(string name) const
 {
 	auto findIt = m_actorNameMap.find(name);
 	if (findIt != m_actorNameMap.end())
 	{
-		return (*findIt).second;
+		return (*findIt).second.get();
 	}
 	return NULL;
 }

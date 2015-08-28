@@ -1,4 +1,5 @@
 #include "Actor.h"
+#include "..\AlphaStd.h"
 Actor::Actor() :
 m_ID(0),
 m_name(""),

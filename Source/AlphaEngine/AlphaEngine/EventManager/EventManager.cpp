@@ -1,5 +1,6 @@
 #include "EventManager.h"
 #include "../Common/GameContext.h"
+#include "..\AlphaStd.h"
 EventManager::EventManager(const char* name, bool setAsGlobal) : 
 IEventManager(setAsGlobal),
 m_name(name),

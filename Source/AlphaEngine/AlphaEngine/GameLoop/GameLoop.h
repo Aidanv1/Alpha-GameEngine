@@ -14,7 +14,9 @@ public:
 	~GameLoop();
 	bool Init();
 	void StartLoop();
+	IWindow* GetWindow() const { return m_window; }
 private:
+	virtual void VDoGameLogic() = 0;
 	float GetDeltaMs(unsigned __int64& previousSystemTime, unsigned __int64& previousClockTime);
 private:
 	Clock* m_gameClock;

@@ -156,11 +156,11 @@ void Bone::Update(float time)
 	}
 	m_animOffsetMatrix = *m_animOffsetMatrix.Get() * offset;
 	//show bone movement
-	if (m_boneName != "Armature")
+	/*if (m_boneName != "Armature")
 	{
 		vec4 test = offset * vec4(0, 3, 0, 1);
 		GraphicsSystem::Get().GetRenderer()->VDrawPoint(vec3(test.x, test.y, test.z), 50, vec4(1.0));
-	}
+	}*/
 	//
 }
 // -----------------------------------------------------------------------
@@ -307,6 +307,7 @@ bool SkeletalAnimation::VIsPlaying()
 		return false;
 		break;
 	}
+	return false;
 }
 // -----------------------------------------------------------------------
 void SkeletalAnimation::VSetID(AnimationID id)

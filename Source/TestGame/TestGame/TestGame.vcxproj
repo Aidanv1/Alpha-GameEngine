@@ -51,7 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\AlphaEngine\AlphaEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\AlphaEngine\AlphaEngine;$(DEV)\Alpha\Source\3rdParty\opengl\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -60,7 +60,8 @@
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)\TestGame\Actors.xml $(TargetDir)</Command>
+      <Command>xcopy /y $(SolutionDir)\TestGame\Levels $(TargetDir)Levels /I
+xcopy /y $(SolutionDir)\TestGame\Paths.xml $(TargetDir)  /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,7 +71,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\AlphaEngine\AlphaEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\AlphaEngine\AlphaEngine;$(DEV)\Alpha\Source\3rdParty\opengl\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -81,7 +82,8 @@
       <SubSystem>NotSet</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y $(SolutionDir)\TestGame\Actors.xml $(TargetDir)</Command>
+      <Command>xcopy /y $(SolutionDir)\TestGame\Levels $(TargetDir)Levels /I
+xcopy /y $(SolutionDir)\TestGame\Paths.xml $(TargetDir)  /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -244,17 +244,17 @@ float* HeightMapResourceLoader::CreateFloatArray(vector <float>& vertBufferData,
 	textureData.clear();
 
 	//concatinate data into contigeous block
-	for (int i = 0; i < verticesCoordArray.size(); i++)
+	for (unsigned int i = 0; i < verticesCoordArray.size(); i++)
 	{
 		vertBufferData.push_back(verticesCoordArray.at(i));
 	}
 	int start = verticesCoordArray.size();
-	for (int i = 0; i < normalCoordArray.size(); i++)
+	for (unsigned int i = 0; i < normalCoordArray.size(); i++)
 	{
 		vertBufferData.push_back(normalCoordArray.at(i));
 	}
 	start = normalCoordArray.size();
-	for (int i = 0; i <  texCoordArray.size(); i++)
+	for (unsigned int i = 0; i < texCoordArray.size(); i++)
 	{
 		vertBufferData.push_back(texCoordArray.at(i));
 	}

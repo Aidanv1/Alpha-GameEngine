@@ -1,4 +1,5 @@
 #include "ActorFactory.h"
+#include "..\AlphaStd.h"
 // -----------------------------------------------------------------------
 ActorFactory::ActorFactory() :
 m_nextObjectID(0)

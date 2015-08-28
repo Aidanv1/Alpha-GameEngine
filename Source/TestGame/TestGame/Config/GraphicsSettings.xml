@@ -1,0 +1,10 @@
+<GraphicsSettings
+  WIRE_FRAME                  = "false"
+  DEVMODE                     = "true"
+  MAX_LIGHTS                  = "10"
+  FOG_ENABLED                 = "true"
+  FOG_CLOSE                   = "120"
+  FOG_FAR                     = "200"
+  ANISOTROPIC_FILTERING_LEVEL = "16"
+  MSAA_LEVEL                  = "16"
+/>

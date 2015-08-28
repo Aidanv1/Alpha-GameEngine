@@ -1,6 +1,7 @@
 #include "Renderer_GL.h"
 #include "../GraphicsSettings.h"
 #include "DrawableNodes\Text_GL.h"
+#include "../Scene/Scene.h"
 // -----------------------------------------------------------------------
 Renderer_GL::Renderer_GL():
 m_backGroundColour(1,1,1,1)
@@ -98,7 +99,7 @@ bool Renderer_GL::VInit(TiXmlElement* pElement)
 	return success;
 }
 // -----------------------------------------------------------------------
-void Renderer_GL::VRender(StrongScenePtr scene)
+void Renderer_GL::VRender(Scene* scene)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(m_backGroundColour.x,
@@ -205,7 +206,7 @@ void Renderer_GL::VDrawPoint(vec3& point, float size, vec4& colour)
 	glDepthFunc(GL_LESS);
 }
 // -----------------------------------------------------------------------
-void Renderer_GL::VDrawText(string text)
+void Renderer_GL::VDrawText(const char* text)
 {
 	m_debugText->VPrintText(text, 0, 0, 0.1);
 }

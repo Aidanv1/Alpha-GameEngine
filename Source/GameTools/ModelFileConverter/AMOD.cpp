@@ -3,17 +3,15 @@
 #include <fstream>
 // -----------------------------------------------------------------------
 
-extern "C"
+extern "C" __declspec(dllexport) bool ConvertToAMOD(const char* inputFilePath, const char* outputFilePath)
 {
-	__declspec(dllexport) bool ConvertToAMOD(const char* inputFilePath, const char* outputFilePath)
-	{
-		MeshResourceLoader* loader = new MeshResourceLoader();
-		unsigned char* buffer = NULL;
-		unsigned int size = 0;
-		bool success = loader->LoadResource(inputFilePath, buffer, size);
-		ofstream fOut;
-		fOut.open(outputFilePath);
-		fOut.write((const char*)&buffer[0], size);
-		return success;
-	}
+	MeshResourceLoader* loader = new MeshResourceLoader();
+	unsigned char* buffer = NULL;
+	unsigned int size = 0;
+	bool success = loader->LoadResource(inputFilePath, buffer, size);
+	ofstream fOut;
+	fOut.open(outputFilePath);
+	fOut.write((const char*)&buffer[0], size);
+	return success;
 }
+

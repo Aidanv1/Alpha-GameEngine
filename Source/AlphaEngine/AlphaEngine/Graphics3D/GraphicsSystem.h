@@ -1,9 +1,9 @@
 #pragma once
-#include "..\AlphaStd.h"
 #include "IRenderer.h"
 #include "..\ResourceManager\ResourceManager.h"
 #include "GraphicsSettings.h"
 
+class Scene;
 typedef shared_ptr<Scene> StrongScenePtr;
 //========================================================================
 class GraphicsSystem

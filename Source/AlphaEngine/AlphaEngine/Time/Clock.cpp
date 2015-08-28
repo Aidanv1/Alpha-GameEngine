@@ -5,6 +5,7 @@ m_timeMilliSec((unsigned __int64)(startTimeSeconds * US_PER_SECOND)),
 m_timeScale(1.0f),
 m_isPaused(false)
 {
+	ClockManager::Get().AddClock(this);
 }
 // -----------------------------------------------------------------------
 Clock::~Clock()

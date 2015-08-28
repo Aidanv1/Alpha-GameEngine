@@ -1,9 +1,9 @@
 #pragma once
 #include "..\IEvent.h"
-
+#include "../../AlphaEngineDLL.h"
 //========================================================================
 //Base event from which all events inherit
-class BaseEvent : public IEvent
+class DLLExport BaseEvent : public IEvent
 {
 
 public:
@@ -17,7 +17,7 @@ private:
 };
 //========================================================================
 //Look Event - For camera use
-class LookEvent : public BaseEvent
+class DLLExport LookEvent : public BaseEvent
 {
 	struct LookPos
 	{
@@ -36,20 +36,10 @@ class LookEvent : public BaseEvent
 		}
 	};
 public:
-	explicit LookEvent(const float timeStamp = 0.0f) :
-		BaseEvent(timeStamp)
-	{
-	}
-	void SetLook(float dThetaX, float dThetaY, float dZ, float dX, float dY)
-	{
-		m_lookPos.m_dThetaX = dThetaX;
-		m_lookPos.m_dThetaY = dThetaY;
-		m_lookPos.m_dZ = dZ;
-		m_lookPos.m_dX = dX;
-		m_lookPos.m_dY = dY;
-	}
-	LookPos GetLookPos() const { return m_lookPos; }
-	virtual EventType VGetEventType() const override { return s_eventType; }
+	explicit LookEvent(const float timeStamp = 0.0f);
+	void SetLook(float dThetaX, float dThetaY, float dZ, float dX, float dY);
+	LookPos GetLookPos() const;
+	virtual EventType VGetEventType() const override;
 public:
 	static const EventType s_eventType;
 

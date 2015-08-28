@@ -1,9 +1,11 @@
+#include "..\AlphaStd.h"
 #include "GraphicsSystem.h"
 #include "..\ResourceManager\Loaders\BitmapResourceLoader.h"
-#include "..\ResourceManager\Loaders\MeshResourceLoader.h"
 #include "..\ResourceManager\Loaders\HeightMapResourceLoader.h"
 #include "..\ResourceManager\Loaders\SimpleResourceLoader.h"
 #include "GraphicsEvents.h"
+#include "../Common/GameContext.h"
+#include "Scene/Scene.h"
 // -----------------------------------------------------------------------
 GraphicsSystem::GraphicsSystem() :
 m_renderer(NULL),
@@ -20,7 +22,6 @@ GraphicsSystem::~GraphicsSystem()
 // -----------------------------------------------------------------------
 bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshResSize)
 {
-
 	if (!renderer)
 	{
 		return false;
@@ -33,13 +34,18 @@ bool GraphicsSystem::Init(StrongRendererPtr renderer, int textResSize, int meshR
 	m_renderer = renderer;
 	InitResource(textResSize, meshResSize);
 	TiXmlDocument doc;
-	if (!doc.LoadFile("Shaders/Shaders.xml"))
+
+	string graphicsSettingsPath = GameContext::Get()->GetPath("Config");
+	graphicsSettingsPath.append("GraphicsSettings.xml");
+	string shaderPath = GameContext::Get()->GetPath("Shaders");
+	shaderPath.append("Shaders.xml");
+	if (!doc.LoadFile(shaderPath.c_str()))
 	{
 		ALPHA_ERROR("Shaders.xml is missing");
 		return false;
 	}
 	m_renderer->VInit(doc.FirstChildElement());
-	if (!doc.LoadFile("Config/GraphicsSettings.xml"))
+	if (!doc.LoadFile(graphicsSettingsPath.c_str()))
 	{
 		ALPHA_ERROR("GraphicsSettings.xml is missing");
 		return false;
@@ -55,7 +61,7 @@ void GraphicsSystem::Update(float deltaMs)
 // -----------------------------------------------------------------------
 void GraphicsSystem::Render(float deltaMs)
 {
-	m_renderer->VRender(m_scene);
+	m_renderer->VRender(m_scene.get());
 }
 // -----------------------------------------------------------------------
 void GraphicsSystem::LoadScene()

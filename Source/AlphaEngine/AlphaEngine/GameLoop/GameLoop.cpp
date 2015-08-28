@@ -8,7 +8,8 @@
 #include "../Animation/AnimationSystem.h"
 #include "../Window\IWindow.h"
 #include "../EventManager/EventManager.h"
-#include "../Window\GLWindow.h"
+#include "../Window\SDLWindow.h"
+#include "../Common/GameContext.h"
 // -----------------------------------------------------------------------
 GameLoop::GameLoop() :
 m_window(NULL),
@@ -28,8 +29,16 @@ GameLoop::~GameLoop()
 // -----------------------------------------------------------------------
 bool GameLoop::Init()
 {
-	//Window
-	m_window = ALPHA_NEW GLWindow("AlphaEngine", 1920, 1080);
+	//initialize gameclock
+	m_gameClock = ALPHA_NEW Clock();
+	m_systemTime = SDL_GetTicks();
+	m_gameTime = 0;
+
+	//initialize game context
+	GameContext::Get()->InitContext(m_gameClock);
+
+	//Window CHANGE THIS
+	m_window = ALPHA_NEW SDLWindow("AlphaEngine", 1920, 1080);
 	if (!m_window->VInit())
 	{
 		return false;
@@ -41,23 +50,27 @@ bool GameLoop::Init()
 	{
 		return false;
 	}
+	//path of config directory
+	string configPath = GameContext::Get()->GetPath("Config");
 	//Physics
 	PhysicsSystem::Get().Init(60);
 	TiXmlDocument physicsDoc;
-	physicsDoc.LoadFile("Config/Physics.xml");
+	//
+	string physicsPath = configPath;
+	physicsPath.append("Physics.xml");
+	physicsDoc.LoadFile(physicsPath.c_str());
 	TiXmlElement* physicsElem = physicsDoc.FirstChildElement();
 	PhysicsSystem::Get().RigidBodyPhysics()->VConfigureXmlData(physicsElem);
 
-	//initialize gameclock
-	m_gameClock = ALPHA_NEW Clock();
-	ClockManager::Get().AddClock(m_gameClock);
-	m_systemTime = SDL_GetTicks();
-	m_gameTime = 0;
-
-
 	//Populate Actors
+	string levelsPath = GameContext::Get()->GetPath("Levels");
+	levelsPath.append("Actors.xml");
 	TiXmlDocument doc;
-	doc.LoadFile("Actors.xml");
+	if (!doc.LoadFile(levelsPath.c_str()))
+	{
+		ALPHA_ERROR("Invalid path for levels");
+		return false;
+	}
 	TiXmlElement* elem = doc.FirstChildElement();	
 	RoleSystem::Get().Populate(elem);
 
@@ -92,6 +105,9 @@ void GameLoop::StartLoop()
 		//ROLESYSTEM UPDATE
 		RoleSystem::Get().Update(dt);
 		//-----------------------------------
+		//run game logic for next frame
+		VDoGameLogic();
+		//-----------------------------------
 		quit = !m_window->VUpdate(dt);
 		m_globalEventManager->VUpdate();
 		
@@ -101,8 +117,10 @@ void GameLoop::StartLoop()
 		{
 			string fps = "FPS :";
 			fps.append(to_string(1000.0 / dt));
-			GraphicsSystem::Get().GetRenderer()->VDrawText(fps);
+			GraphicsSystem::Get().GetRenderer()->VDrawText(fps.c_str());
 		}
+
+
 	}
 }
 // -----------------------------------------------------------------------

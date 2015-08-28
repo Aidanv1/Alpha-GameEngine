@@ -1,20 +1,21 @@
 #pragma once
+#include "../AlphaEngineDLL.h"
 #include "IEvent.h"
-#include "..\AlphaStd.h"
-#include "FastDelegate.h"
+#include "FastDelegate/FastDelegate.h"
 
-typedef shared_ptr<IEvent> StrongEventPtr;
+#include <memory>
+#include <map>
+#include <list>
+#include <vector>
+typedef std::shared_ptr<IEvent> StrongEventPtr;
 typedef fastdelegate::FastDelegate1<StrongEventPtr> ListenerDelegate;
+typedef std::vector<ListenerDelegate> EventListenerList;
+typedef std::map<EventType, EventListenerList> EventListenerMap;
+typedef std::list<StrongEventPtr> EventQueue;
 //========================================================================
-class IEventManager
+class DLLExport IEventManager
 {
 	static IEventManager* globalManager;
-
-protected:
-	typedef vector<ListenerDelegate> EventListenerList;
-	typedef map<EventType, EventListenerList> EventListenerMap;
-	typedef list<shared_ptr<IEvent>> EventQueue;
-
 public:
 	explicit IEventManager(bool setAsGlobal);
 	virtual ~IEventManager();
@@ -25,9 +26,9 @@ public:
 	//called once per frame
 	virtual bool VUpdate() = 0;
 	//add event to queue
-	virtual bool VQueueEvent(shared_ptr<IEvent> event) = 0;
+	virtual bool VQueueEvent(StrongEventPtr event) = 0;
 	//remove event from queue
-	virtual bool VAbortEvent(shared_ptr<IEvent> event) = 0;
+	virtual bool VAbortEvent(StrongEventPtr event) = 0;
 	//get singleton
 	static IEventManager* Get();
 };

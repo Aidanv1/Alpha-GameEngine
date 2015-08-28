@@ -16,13 +16,13 @@ public:
 	Renderer_GL();
 	~Renderer_GL();
 	bool VInit(TiXmlElement* pElement) override;
-	void VRender(StrongScenePtr scene) override;
+	void VRender(Scene* scene) override;
 	void VOnRestore() override;
 	void VSetBackGroundColour(vec4& backGroundColour) override;
 	void VDepthBuffer(DepthBufferCommand depthMode) override;
 	void VDrawLine(vec3& from, vec3& to, vec4& colour) override;
 	void VDrawPoint(vec3& point, float size, vec4& colour) override;
-	void VDrawText(string text) override;
+	void VDrawText(const char* text) override;
 	//Shaders
 	AnimatedMeshShaderProgram* GetMeshShaderProgram() { return m_meshShaderProgram.get(); }
 	Text2DShaderProgram* GetText2DShaderProgram() { return m_text2DShaderProgram.get(); }

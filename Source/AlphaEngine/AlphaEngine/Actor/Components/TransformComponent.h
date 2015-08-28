@@ -2,7 +2,7 @@
 #include "../IActorComponent.h"
 #include "../../Maths/LinearAlgebra.h"
 //========================================================================
-class TransformComponent : public IActorComponent
+class DLLExport TransformComponent : public IActorComponent
 {
 public:
 	TransformComponent();

@@ -1,31 +1,33 @@
 #pragma once
-#include "..\AlphaStd.h"
 #include "IActorComponent.h"
-
+#include <memory>
+#include <map>
+#include <string>
 class Actor;
 typedef unsigned long ActorID;
-typedef shared_ptr<Actor> StrongActorPtr;
-typedef shared_ptr<IActorComponent> StrongActorComponentPtr;
-typedef map<ComponentType, StrongActorComponentPtr> ComponentMap;
+typedef std::shared_ptr<Actor> StrongActorPtr;
+typedef std::shared_ptr<IActorComponent> StrongActorComponentPtr;
+typedef std::map<ComponentType, StrongActorComponentPtr> ComponentMap;
 //========================================================================
-class Actor
+class DLLExport Actor
 {
 	friend class ActorFactory;
+	friend class RoleSystem;
 public:
 	Actor();
-	~Actor();
-	bool Init(ActorID id);
-	bool PostInit();
-	void Update(float deltaMs);
+	~Actor();	
 	void Destroy();
 	ActorID GetID() const { return m_ID; }
-	string GetName() const { return m_name; }
+	std::string GetName() const { return m_name; }
 	IActorComponent* GetComponent(ComponentType);
 private:
+	void Update(float deltaMs);
 	bool AddComponent(StrongActorComponentPtr);
+	bool Init(ActorID id);
+	bool PostInit();
 private:
 	ActorID m_ID;
 	ComponentMap m_components;
-	string m_name;
+	std::string m_name;
 };
 //========================================================================
