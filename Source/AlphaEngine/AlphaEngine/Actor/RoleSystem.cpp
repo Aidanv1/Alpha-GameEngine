@@ -21,12 +21,14 @@ RoleSystem::~RoleSystem()
 	m_actorRegistry.clear();
 	Deregister_Listener(ActorDestroyedEvent::s_eventType, this, &RoleSystem::ActorDestroyedDelegate);
 	Deregister_Listener(ActorMovedEvent::s_eventType, this, &RoleSystem::ActorMovedDelegate);
+	Deregister_Listener(ActorJumpedEvent::s_eventType, this, &RoleSystem::ActorJumpedDelegate);
 }
 // -----------------------------------------------------------------------
 bool RoleSystem::Init()
 {
 	Register_Listener(ActorDestroyedEvent::s_eventType, this, &RoleSystem::ActorDestroyedDelegate);
 	Register_Listener(ActorMovedEvent::s_eventType, this, &RoleSystem::ActorMovedDelegate);
+	Register_Listener(ActorJumpedEvent::s_eventType, this, &RoleSystem::ActorJumpedDelegate);
 	//add component creators
 	StrongComponentCreatorPtr graphicsComponentCreator(ALPHA_NEW GraphicsComponentCreator());
 	m_actorFactory.AddComponentCreator(graphicsComponentCreator, "Graphics");
@@ -132,7 +134,6 @@ void RoleSystem::ActorMovedDelegate(StrongEventPtr e)
 	}
 	Actor* a = (*findIt).second.get();
 	PhysicsComponent* physCom = dynamic_cast<PhysicsComponent*>(a->GetComponent("Physics"));
-	TransformComponent* transCom = dynamic_cast<TransformComponent*>(a->GetComponent("Transform"));
 	if (!physCom)
 	{
 		//actor does not have a physics component
@@ -141,14 +142,41 @@ void RoleSystem::ActorMovedDelegate(StrongEventPtr e)
 	if (moveEvent->IsDirectional())
 	{
 		vec3 vel = moveEvent->GetVelocity();
-		mat4 rot = *transCom->GetRotation().Get();
-		vec4 velTemp = vec4(vel, 1);
-		velTemp = rot * velTemp;
-		vel = vec3(velTemp.x, velTemp.y, velTemp.z);
 		physCom->SetVelocity(vel);
 	}
 	if (moveEvent->IsAngular())
 	{
-		physCom->SetAngularVelocity(moveEvent->GetAngularVelocity());
+		vec3 vel = moveEvent->GetAngularVelocity();
+		physCom->SetAngularVelocity(vel);
 	}
+}
+// -----------------------------------------------------------------------
+void RoleSystem::ActorJumpedDelegate(StrongEventPtr e)
+{
+	//only move actor if it has the neccessary components
+	ActorJumpedEvent* jumpEvent = dynamic_cast<ActorJumpedEvent*>(e.get());
+	if (!jumpEvent)
+	{
+		return;
+	}
+	auto id = jumpEvent->GetActorID();
+	auto findIt = m_actorRegistry.find(id);
+	if (findIt == m_actorRegistry.end())
+	{
+		//actor doesnt exist
+		return;
+	}
+	Actor* a = (*findIt).second.get();
+	PhysicsComponent* physCom = dynamic_cast<PhysicsComponent*>(a->GetComponent("Physics"));
+	TransformComponent* transCom = dynamic_cast<TransformComponent*>(a->GetComponent("Transform"));
+	if (!physCom)
+	{
+		//actor does not have a physics component
+		return;
+	}
+	mat4 rot = *transCom->GetRotation().Get();
+	vec4 tempForce = vec4(jumpEvent->GetForce(), 1);
+	tempForce = rot * tempForce;
+	vec3 force = vec3(tempForce.x, tempForce.y, tempForce.z);
+	physCom->ApplyImpulseForce(force);
 }

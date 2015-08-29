@@ -89,7 +89,7 @@ xcopy /y $(DEV)\Alpha\Source\AlphaEngine\AlphaEngine\Config $(TargetDir)Config /
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\BulletPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
-      <DisableSpecificWarnings>4244;4316;4101,4251;4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4316;4101;4251;4244;4305</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -11,7 +11,7 @@ SDLWindow::SDLWindow(const char* name, int x, int y)
 	m_xRes = x;
 	m_yRes = y;
 	m_programName = name;
-	m_BindingSetHandler = StrongBindingSetHandlerPtr(ALPHA_NEW BindingSetHandler());
+	m_bindingSetHandler = StrongBindingSetHandlerPtr(ALPHA_NEW BindingSetHandler());
 }
 // -----------------------------------------------------------------------
 SDLWindow::~SDLWindow()
@@ -44,8 +44,7 @@ bool SDLWindow::VInit()
 	//Create window
 	m_window = SDL_CreateWindow(m_programName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 								m_xRes, m_yRes, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-
-	SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	//SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 	if (!m_window)
 	{ 
 		stringstream ss;
@@ -100,6 +99,18 @@ bool SDLWindow::PollEvents(float deltaMs)
 		{
 			return false;
 		}		
+		if (sdlEvent.type == SDL_WINDOWEVENT)
+		{
+			switch (sdlEvent.window.event)
+			{
+			case SDL_WINDOWEVENT_RESTORED:
+				m_bindingSetHandler->ResetStates();
+				break;
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+				m_bindingSetHandler->ResetStates();
+				break;
+			}
+		}
 		//------------------------------------------------------
 		//Motion events
 		//------------------------------------------------------
@@ -122,6 +133,11 @@ bool SDLWindow::PollEvents(float deltaMs)
 		if (sdlEvent.type == SDL_KEYDOWN)
 		{
 			auto k = sdlEvent.key.keysym.sym;
+			if (k == SDLK_ESCAPE)
+			{
+				return false;
+			}
+
 			if( k == SDLK_q )	DoKeyCommand(Key_Q);
 			if( k == SDLK_w )	DoKeyCommand(Key_W);
 			if( k == SDLK_e )	DoKeyCommand(Key_E);
@@ -148,6 +164,8 @@ bool SDLWindow::PollEvents(float deltaMs)
 			if( k == SDLK_b )	DoKeyCommand(Key_B);				
 			if( k == SDLK_n )	DoKeyCommand(Key_N);				
 			if( k == SDLK_m )	DoKeyCommand(Key_M);		
+
+			if (k == SDLK_SPACE)	DoKeyCommand(Key_Space);
 		}		
 
 		if (sdlEvent.type == SDL_KEYUP)
@@ -179,6 +197,8 @@ bool SDLWindow::PollEvents(float deltaMs)
 			if (k == SDLK_b)	DoKeyCommand(Key_B, false);
 			if (k == SDLK_n)	DoKeyCommand(Key_N, false);
 			if (k == SDLK_m)	DoKeyCommand(Key_M, false);
+
+			if (k == SDLK_SPACE)	DoKeyCommand(Key_Space, false);
 		}
 	}
 	return true;
@@ -186,26 +206,26 @@ bool SDLWindow::PollEvents(float deltaMs)
 // -----------------------------------------------------------------------
 void SDLWindow::VSetKeyInputCommand(KeyName key, KeyCommand command, bool onPress)
 {
-	m_BindingSetHandler->AddBinding(key, command, onPress);
+	m_bindingSetHandler->AddBinding(key, command, onPress);
 }
 // -----------------------------------------------------------------------
 void SDLWindow::VSetMotionInputCommand(MotionType motionType, MotionCommand command)
 {
-	m_BindingSetHandler->AddBinding(motionType, command);
+	m_bindingSetHandler->AddBinding(motionType, command);
 }
 // -----------------------------------------------------------------------
 void SDLWindow::VSetBindingSetHandler(StrongBindingSetHandlerPtr BindingSetHandler)
 {
-	m_BindingSetHandler = BindingSetHandler;
+	m_bindingSetHandler = BindingSetHandler;
 }
 // -----------------------------------------------------------------------
 void SDLWindow::DoKeyCommand(Key key, bool press)
 {
-	m_BindingSetHandler->DoCommand(key, press);
+	m_bindingSetHandler->DoCommand(key, press);
 }
 // -----------------------------------------------------------------------
 void SDLWindow::DoMotionCommand(MotionType type, int x, int y)
 {
-	m_BindingSetHandler->DoCommand(type, MotionEvent(x, y));
+	m_bindingSetHandler->DoCommand(type, MotionEvent(x, y));
 }
 // -----------------------------------------------------------------------

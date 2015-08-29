@@ -35,7 +35,7 @@ public:
 	Matrix4x4 GetTransform();
 	void SetTransform(Matrix4x4& transform);
 	//Mechanics
-	void SetVelocity(vec3& velocity);
+	void SetVelocity(vec3& velocity, bool constant = true);
 	vec3 GetVelocity() const;
 	void SetAngularVelocity(vec3& velocity);
 	vec3 GetAngularVelocity() const;
@@ -49,5 +49,6 @@ public:
 	bool VInitComponent(TiXmlElement* pElement) override;
 private:
 	PhysicsProperties m_properties;
+	vec3 m_constantRelativeVelocity; // relative to the direction the body is facing
 };
 //========================================================================

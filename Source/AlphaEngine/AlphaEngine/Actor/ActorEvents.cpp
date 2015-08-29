@@ -3,6 +3,7 @@
 //Event Unique IDs
 const EventType ActorDestroyedEvent::s_eventType = 0x9a33c1b7;
 const EventType ActorMovedEvent::s_eventType = 0x2b168326;
+const EventType ActorJumpedEvent::s_eventType = 0xcc5d82cf;
 //========================================================================
 ActorDestroyedEvent::ActorDestroyedEvent() :
 m_id(-1)
@@ -66,6 +67,36 @@ void ActorMovedEvent::SetAngularVelocity(vec3& relativeVector)
 }
 // -----------------------------------------------------------------------
 EventType ActorMovedEvent::VGetEventType() const
+{
+	return s_eventType;
+}
+
+//========================================================================
+ActorJumpedEvent::ActorJumpedEvent() :
+m_id(-1),
+m_force(0)
+{
+
+}
+// -----------------------------------------------------------------------
+ActorJumpedEvent::ActorJumpedEvent(ActorID id, vec3 force) :
+m_id(id),
+m_force(force)
+{
+
+}
+// -----------------------------------------------------------------------
+ActorJumpedEvent::~ActorJumpedEvent()
+{
+
+}
+// -----------------------------------------------------------------------
+void ActorJumpedEvent::SetForce(vec3 force)
+{
+	m_force = force;
+}
+// -----------------------------------------------------------------------
+EventType ActorJumpedEvent::VGetEventType() const
 {
 	return s_eventType;
 }

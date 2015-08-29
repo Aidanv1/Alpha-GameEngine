@@ -16,7 +16,7 @@ public:
 	void VSetKeyInputCommand(KeyName key, KeyCommand command, bool onPress) override;
 	void VSetMotionInputCommand(MotionType motionType, MotionCommand command) override;
 	void VSetBindingSetHandler(StrongBindingSetHandlerPtr BindingSetHandler) override;
-	StrongBindingSetHandlerPtr VGetBindingSetHandler() const override { return m_BindingSetHandler; }
+	StrongBindingSetHandlerPtr VGetBindingSetHandler() const override { return m_bindingSetHandler; }
 private:
 	bool PollEvents(float deltaMs);
 	//for input bindings
@@ -28,6 +28,6 @@ private:
 	SDL_Window*			m_window;
 	void*				m_glContext;
 	const char*			m_programName;
-	StrongBindingSetHandlerPtr	m_BindingSetHandler;
+	StrongBindingSetHandlerPtr	m_bindingSetHandler;
 };
 //========================================================================

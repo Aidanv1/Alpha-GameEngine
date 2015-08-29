@@ -43,3 +43,20 @@ private:
 	bool	m_angular;
 };
 //========================================================================
+class DLLExport ActorJumpedEvent : public BaseEvent
+{
+public:
+	ActorJumpedEvent();
+	ActorJumpedEvent(ActorID id, vec3 force);
+	~ActorJumpedEvent();
+	void SetForce(vec3 force);
+	vec3 GetForce() { return m_force; }
+	ActorID GetActorID() const { return m_id; };
+	virtual EventType VGetEventType() const override;
+public:
+	static const EventType s_eventType;
+private:
+	vec3	m_force;
+	ActorID m_id;
+};
+//========================================================================

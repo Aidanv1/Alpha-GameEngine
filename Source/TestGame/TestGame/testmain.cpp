@@ -70,9 +70,22 @@ void StopTurning()
 	Queue_Event(e);
 }
 // -----------------------------------------------------------------------
+void StopMoving()
+{
+	ActorMovedEvent* e = new ActorMovedEvent(4);
+	e->SetVelocity(vec3(0, 0, 0));
+	Queue_Event(e);
+}
+// -----------------------------------------------------------------------
 void DestroyActor()
 {
 	ActorDestroyedEvent* e = new ActorDestroyedEvent(3);
+	Queue_Event(e);
+}
+// -----------------------------------------------------------------------
+void Jump()
+{
+	ActorJumpedEvent* e = new ActorJumpedEvent(4, vec3(0, 100, 0));
 	Queue_Event(e);
 }
 //========================================================================
@@ -91,12 +104,19 @@ int main(int argc, char *argv[])
 		KeyCommand k5(TurnRight);
 		KeyCommand k6(StopTurning);
 
+		KeyCommand k7(StopMoving);
+
+		KeyCommand k8(Jump);
+
 
 		gameLoop.GetWindow()->VSetMotionInputCommand(Mouse, m);
 		gameLoop.GetWindow()->VSetMotionInputCommand(MouseWheel, m2);
 		//
 		gameLoop.GetWindow()->VSetKeyInputCommand(Key_W, k);
 		gameLoop.GetWindow()->VSetKeyInputCommand(Key_S, k3);
+
+		gameLoop.GetWindow()->VSetKeyInputCommand(Key_W, k7, false);
+		gameLoop.GetWindow()->VSetKeyInputCommand(Key_S, k7, false);
 
 		gameLoop.GetWindow()->VSetKeyInputCommand(Key_A, k4);
 		gameLoop.GetWindow()->VSetKeyInputCommand(Key_D, k5);
@@ -106,6 +126,7 @@ int main(int argc, char *argv[])
 
 
 		gameLoop.GetWindow()->VSetKeyInputCommand(Key_X, k2);
+		gameLoop.GetWindow()->VSetKeyInputCommand(Key_Space, k8);
 		gameLoop.StartLoop();
 	}
 	return 0;

@@ -69,3 +69,10 @@ void BindingSetHandler::DoCommand(MotionType motionType, MotionEvent e)
 	}
 }
 // -----------------------------------------------------------------------
+void BindingSetHandler::ResetStates()
+{
+	for (auto it = m_keyCurrentStateMap.begin(); it != m_keyCurrentStateMap.end(); it++)
+	{
+		it->second = false;
+	}
+}

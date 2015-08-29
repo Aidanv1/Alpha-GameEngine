@@ -41,7 +41,8 @@ enum KeyName
 	Key_Shift_Right,
 	Key_CapsLock,
 	Key_Ctrl_Left,
-	Key_Ctrl_Right
+	Key_Ctrl_Right,
+	Key_Space
 	//add to this as needed
 };
 typedef KeyName Key;
@@ -77,7 +78,7 @@ class BindingSetHandler
 public:
 	BindingSetHandler();
 	~BindingSetHandler();
-
+	void ResetStates();
 	void AddBinding(KeyName key, KeyCommand command, bool onPress);
 	void AddBinding(MotionType motionType, MotionCommand command);
 	void DoCommand(KeyName key, bool pressed);

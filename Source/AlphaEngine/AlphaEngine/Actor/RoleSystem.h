@@ -20,6 +20,7 @@ public:
 	//delegate listeners
 	void ActorDestroyedDelegate(StrongEventPtr e);
 	void ActorMovedDelegate(StrongEventPtr e);
+	void ActorJumpedDelegate(StrongEventPtr e);
 private:
 	RoleSystem();
 	bool Init();

@@ -3,7 +3,8 @@
 #include "../../Physics/PhysicsSystem.h"
 
 // -----------------------------------------------------------------------
-PhysicsComponent::PhysicsComponent()
+PhysicsComponent::PhysicsComponent() :
+m_constantRelativeVelocity(0)
 {
 	
 }
@@ -49,6 +50,15 @@ void PhysicsComponent::VUpdate(float deltaMs)
 	if (trans)
 	{
 		trans->SetTransform(physicsTransform);
+		//if the actor has a constant velocity, apply velocity
+		if (length(m_constantRelativeVelocity) > 0)
+		{
+			mat4 rot = *trans->GetRotation().Get();
+			vec4 velTemp = vec4(m_constantRelativeVelocity, 1);
+			velTemp = rot * velTemp;
+			vec3 vel = vec3(velTemp.x, velTemp.y, velTemp.z);
+			PhysicsSystem::Get().RigidBodyPhysics()->VSetVelocity(m_pOwner->GetID(), vel);
+		}
 	}
 }
 // -----------------------------------------------------------------------
@@ -126,8 +136,12 @@ void PhysicsComponent::SetTransform(Matrix4x4& transform)
 	PhysicsSystem::Get().RigidBodyPhysics()->VSetRigidBodyTransform(m_pOwner->GetID(), transform);
 }
 // -----------------------------------------------------------------------
-void PhysicsComponent::SetVelocity(vec3& velocity)
+void PhysicsComponent::SetVelocity(vec3& velocity, bool constant)
 {
+	if (constant)
+	{
+		m_constantRelativeVelocity = velocity;
+	}
 	PhysicsSystem::Get().RigidBodyPhysics()->VSetVelocity(m_pOwner->GetID(), velocity);
 }
 // -----------------------------------------------------------------------
