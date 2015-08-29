@@ -11,11 +11,11 @@ public:
 	virtual void VUpdate(float deltaMs) = 0;
 	//Shape
 	virtual void VRemoveShape(ActorID actorId) = 0;
-	virtual void VAddSphere(float const radius, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
-	virtual void VAddBox(vec3 dimensions, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
-	virtual void VAddMesh(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
-	virtual void VAddHeightField(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
-	virtual void VAddStaticPlane(StrongActorPtr actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria = false) = 0;
+	virtual void VAddSphere(float const radius, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
+	virtual void VAddBox(vec3 dimensions, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
+	virtual void VAddMesh(string meshName, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
+	virtual void VAddHeightField(string meshName, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria = false) = 0;
+	virtual void VAddStaticPlane(Actor* actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria = false) = 0;
 	//Mechanics
 	virtual void VSetVelocity(ActorID actorID, vec3 velocity) = 0;
 	virtual vec3 VGetVelocity(ActorID actorID) const = 0;

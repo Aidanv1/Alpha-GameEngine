@@ -4,6 +4,16 @@
 #include "../../Graphics3D/Scene/Scene.h"
 #include "../../Graphics3D/Scene/SceneNode.h"
 // -----------------------------------------------------------------------
+GraphicsComponent::GraphicsComponent()
+{
+
+}
+// -----------------------------------------------------------------------
+GraphicsComponent::~GraphicsComponent()
+{
+	m_sceneNode->VDestroyNode();
+}
+// -----------------------------------------------------------------------
 void GraphicsComponent::SetSceneNode(ISceneNode* sceneNode)
 {
 	ALPHA_ASSERT(sceneNode);

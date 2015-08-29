@@ -7,6 +7,8 @@ class TiXmlElement;
 class GraphicsComponent : public IActorComponent
 {
 public:
+	GraphicsComponent();
+	~GraphicsComponent();
 	void SetSceneNode(ISceneNode* sceneNode);
 	ISceneNode* GetSceneNode() { return m_sceneNode.get(); }
 	//IActorComponent fucnctions

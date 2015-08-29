@@ -27,11 +27,7 @@ RootNode::~RootNode()
 // -----------------------------------------------------------------------
 void RootNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
-	//update all child nodes
-	for (auto child = m_children.begin(); child != m_children.end(); child++)
-	{
-		(*child)->VUpdateNode(pScene, deltaMS);
-	}
+	SceneNode::VUpdateNode(pScene, deltaMS);
 }
 // -----------------------------------------------------------------------
 void RootNode::VRender(Scene* pScene)
@@ -46,7 +42,6 @@ void RootNode::VRender(Scene* pScene)
 			StrongSceneNodePtr node = m_children[pass];
 			node->VRender(pScene);
 		}
-
 	}
 }
 // -----------------------------------------------------------------------

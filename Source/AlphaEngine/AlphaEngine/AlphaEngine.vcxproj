@@ -116,6 +116,7 @@ xcopy /y $(DEV)\Alpha\Source\AlphaEngine\AlphaEngine\Config $(SolutionDir)TestGa
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Actor.cpp" />
+    <ClCompile Include="Actor\ActorEvents.cpp" />
     <ClCompile Include="Actor\ActorFactory.cpp" />
     <ClCompile Include="Actor\ComponentCreators\GraphicsComponentCreator.cpp" />
     <ClCompile Include="Actor\ComponentCreators\PhysicsComponentCreator.cpp" />
@@ -180,10 +181,12 @@ xcopy /y $(DEV)\Alpha\Source\AlphaEngine\AlphaEngine\Config $(SolutionDir)TestGa
     <ClCompile Include="Time\Clock.cpp" />
     <ClCompile Include="Time\ClockManager.cpp" />
     <ClCompile Include="Utilities\FileIO.cpp" />
+    <ClCompile Include="Window\Input.cpp" />
     <ClCompile Include="Window\SDLWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Actor.h" />
+    <ClInclude Include="Actor\ActorEvents.h" />
     <ClInclude Include="Actor\ActorFactory.h" />
     <ClInclude Include="Actor\ComponentCreators\GraphicsComponentCreator.h" />
     <ClInclude Include="Actor\ComponentCreators\PhysicsComponentCreator.h" />

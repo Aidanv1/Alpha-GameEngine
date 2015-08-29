@@ -1,6 +1,6 @@
 <GraphicsSettings
   WIRE_FRAME                  = "false"
-  DEVMODE                     = "true"
+  DEVMODE                     = "false"
   MAX_LIGHTS                  = "10"
   FOG_ENABLED                 = "true"
   FOG_CLOSE                   = "120"

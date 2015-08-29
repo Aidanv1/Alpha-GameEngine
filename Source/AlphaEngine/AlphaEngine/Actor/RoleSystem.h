@@ -3,6 +3,7 @@
 #include <map>
 #include "Actor.h"
 #include "ActorFactory.h"
+#include "../EventManager/IEventManager.h"
 class TiXmlElement;
 typedef std::map<ActorID, StrongActorPtr> ActorMap;
 typedef std::map<std::string, StrongActorPtr> ActorNameMap;
@@ -16,6 +17,9 @@ public:
 	DLLExport Actor* GetActor(ActorID id) const;
 	DLLExport Actor* GetActor(std::string name) const;
 	void Update(float deltaMs);
+	//delegate listeners
+	void ActorDestroyedDelegate(StrongEventPtr e);
+	void ActorMovedDelegate(StrongEventPtr e);
 private:
 	RoleSystem();
 	bool Init();

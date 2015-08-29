@@ -11,6 +11,7 @@ SDLWindow::SDLWindow(const char* name, int x, int y)
 	m_xRes = x;
 	m_yRes = y;
 	m_programName = name;
+	m_BindingSetHandler = StrongBindingSetHandlerPtr(ALPHA_NEW BindingSetHandler());
 }
 // -----------------------------------------------------------------------
 SDLWindow::~SDLWindow()
@@ -44,7 +45,7 @@ bool SDLWindow::VInit()
 	m_window = SDL_CreateWindow(m_programName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 								m_xRes, m_yRes, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
-	//SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 	if (!m_window)
 	{ 
 		stringstream ss;
@@ -86,6 +87,7 @@ bool SDLWindow::VUpdate(float deltaMs)
 	return true;
 }
 // -----------------------------------------------------------------------
+#include <stdio.h>
 bool SDLWindow::PollEvents(float deltaMs)
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -119,122 +121,91 @@ bool SDLWindow::PollEvents(float deltaMs)
 		//------------------------------------------------------
 		if (sdlEvent.type == SDL_KEYDOWN)
 		{
-			switch (sdlEvent.key.keysym.sym)
-			{
-			case SDLK_q:
-				DoKeyCommand(Key_Q);
-				break;
-			case SDLK_w:
-				DoKeyCommand(Key_W);
-				break;
-			case SDLK_e:
-				DoKeyCommand(Key_E);
-				break;
-			case SDLK_r:
-				DoKeyCommand(Key_R);
-				break;
-			case SDLK_t:
-				DoKeyCommand(Key_T);
-				break;
-			case SDLK_y:
-				DoKeyCommand(Key_Y);
-				break;
-			case SDLK_u:
-				DoKeyCommand(Key_U);
-				break;
-			case SDLK_i:
-				DoKeyCommand(Key_I);
-				break;
-			case SDLK_o:
-				DoKeyCommand(Key_O);
-				break;
-			case SDLK_p:
-				DoKeyCommand(Key_P);
-				break;
-			case SDLK_a:
-				DoKeyCommand(Key_A);
-				break;
-			case SDLK_s:
-				DoKeyCommand(Key_S);
-				break;
-			case SDLK_d:
-				DoKeyCommand(Key_D);
-				break;
-			case SDLK_f:
-				DoKeyCommand(Key_F);
-				break;
-			case SDLK_g:
-				DoKeyCommand(Key_G);
-				break;
-			case SDLK_h:
-				DoKeyCommand(Key_H);
-				break;
-			case SDLK_j:
-				DoKeyCommand(Key_J);
-				break;
-			case SDLK_k:
-				DoKeyCommand(Key_K);
-				break;
-			case SDLK_l:
-				DoKeyCommand(Key_L);
-				break;
-			case SDLK_z:
-				DoKeyCommand(Key_Z);
-				break;
-			case SDLK_x:
-				DoKeyCommand(Key_X);
-				break;
-			case SDLK_c:
-				DoKeyCommand(Key_C);
-				break;
-			case SDLK_v:
-				DoKeyCommand(Key_V);
-				break;
-			case SDLK_b:
-				DoKeyCommand(Key_B);
-				break;
-			case SDLK_n:
-				DoKeyCommand(Key_N);
-				break;
-			case SDLK_m:
-				DoKeyCommand(Key_M);
-				break;
-			}
+			auto k = sdlEvent.key.keysym.sym;
+			if( k == SDLK_q )	DoKeyCommand(Key_Q);
+			if( k == SDLK_w )	DoKeyCommand(Key_W);
+			if( k == SDLK_e )	DoKeyCommand(Key_E);
+			if( k == SDLK_r )	DoKeyCommand(Key_R);
+			if( k == SDLK_t )	DoKeyCommand(Key_T);				
+			if( k == SDLK_y )	DoKeyCommand(Key_Y);
+			if( k == SDLK_u )   DoKeyCommand(Key_U);				
+			if( k == SDLK_i )	DoKeyCommand(Key_I);				
+			if( k == SDLK_o )	DoKeyCommand(Key_O);				
+			if( k == SDLK_p )	DoKeyCommand(Key_P);				
+			if( k == SDLK_a )	DoKeyCommand(Key_A);
+			if( k == SDLK_s )	DoKeyCommand(Key_S);				
+			if( k == SDLK_d )	DoKeyCommand(Key_D);				
+			if( k == SDLK_f )	DoKeyCommand(Key_F);				
+			if( k == SDLK_g )	DoKeyCommand(Key_G);				
+			if( k == SDLK_h )	DoKeyCommand(Key_H);				
+			if( k == SDLK_j )	DoKeyCommand(Key_J);				
+			if( k == SDLK_k )	DoKeyCommand(Key_K);				
+			if( k == SDLK_l )	DoKeyCommand(Key_L);				
+			if( k == SDLK_z )	DoKeyCommand(Key_Z);				
+			if( k == SDLK_x )	DoKeyCommand(Key_X);				
+			if( k == SDLK_c )	DoKeyCommand(Key_C);				
+			if( k == SDLK_v )	DoKeyCommand(Key_V);				
+			if( k == SDLK_b )	DoKeyCommand(Key_B);				
+			if( k == SDLK_n )	DoKeyCommand(Key_N);				
+			if( k == SDLK_m )	DoKeyCommand(Key_M);		
 		}		
+
+		if (sdlEvent.type == SDL_KEYUP)
+		{
+			auto k = sdlEvent.key.keysym.sym;
+			if (k == SDLK_q)	DoKeyCommand(Key_Q, false);
+			if (k == SDLK_w)	DoKeyCommand(Key_W, false);
+			if (k == SDLK_e)	DoKeyCommand(Key_E, false);
+			if (k == SDLK_r)	DoKeyCommand(Key_R, false);
+			if (k == SDLK_t)	DoKeyCommand(Key_T, false);
+			if (k == SDLK_y)	DoKeyCommand(Key_Y, false);
+			if (k == SDLK_u)	DoKeyCommand(Key_U, false);
+			if (k == SDLK_i)	DoKeyCommand(Key_I, false);
+			if (k == SDLK_o)	DoKeyCommand(Key_O, false);
+			if (k == SDLK_p)	DoKeyCommand(Key_P, false);
+			if (k == SDLK_a)	DoKeyCommand(Key_A, false);
+			if (k == SDLK_s)	DoKeyCommand(Key_S, false);
+			if (k == SDLK_d)	DoKeyCommand(Key_D, false);
+			if (k == SDLK_f)	DoKeyCommand(Key_F, false);
+			if (k == SDLK_g)	DoKeyCommand(Key_G, false);
+			if (k == SDLK_h)	DoKeyCommand(Key_H, false);
+			if (k == SDLK_j)	DoKeyCommand(Key_J, false);
+			if (k == SDLK_k)	DoKeyCommand(Key_K, false);
+			if (k == SDLK_l)	DoKeyCommand(Key_L, false);
+			if (k == SDLK_z)	DoKeyCommand(Key_Z, false);
+			if (k == SDLK_x)	DoKeyCommand(Key_X, false);
+			if (k == SDLK_c)	DoKeyCommand(Key_C, false);
+			if (k == SDLK_v)	DoKeyCommand(Key_V, false);
+			if (k == SDLK_b)	DoKeyCommand(Key_B, false);
+			if (k == SDLK_n)	DoKeyCommand(Key_N, false);
+			if (k == SDLK_m)	DoKeyCommand(Key_M, false);
+		}
 	}
 	return true;
 }
 // -----------------------------------------------------------------------
 void SDLWindow::VSetKeyInputCommand(KeyName key, KeyCommand command, bool onPress)
 {
-	Key keyInput = key;
-//	keyInput.m_name = key;
-//	keyInput.m_onPress = onPress;
-	m_keyCommandMap[keyInput] = command;
+	m_BindingSetHandler->AddBinding(key, command, onPress);
 }
 // -----------------------------------------------------------------------
 void SDLWindow::VSetMotionInputCommand(MotionType motionType, MotionCommand command)
 {
-	m_motionCommandMap[motionType] = command;
+	m_BindingSetHandler->AddBinding(motionType, command);
 }
 // -----------------------------------------------------------------------
-void SDLWindow::DoKeyCommand(Key key)
+void SDLWindow::VSetBindingSetHandler(StrongBindingSetHandlerPtr BindingSetHandler)
 {
-	//if a command is bound to the key then execute it
-	auto findIt = m_keyCommandMap.find(key);
-	if (findIt != m_keyCommandMap.end())
-	{
-		findIt->second();
-	}
+	m_BindingSetHandler = BindingSetHandler;
+}
+// -----------------------------------------------------------------------
+void SDLWindow::DoKeyCommand(Key key, bool press)
+{
+	m_BindingSetHandler->DoCommand(key, press);
 }
 // -----------------------------------------------------------------------
 void SDLWindow::DoMotionCommand(MotionType type, int x, int y)
 {
-	//if a command is bound to the key then execute it
-	auto findIt = m_motionCommandMap.find(type);
-	if (findIt != m_motionCommandMap.end())
-	{
-		findIt->second(MotionEvent(x,y));
-	}
+	m_BindingSetHandler->DoCommand(type, MotionEvent(x, y));
 }
 // -----------------------------------------------------------------------

@@ -153,29 +153,29 @@ void BulletPhysics::AddShape(Actor* actor, btCollisionShape* shape, float mass, 
 	m_actorMap[rigidBody] = actor->GetID();
 }
 // -----------------------------------------------------------------------
-void BulletPhysics::VAddSphere(float const radius, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
+void BulletPhysics::VAddSphere(float const radius, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
 {
 	btCollisionShape* shape = ALPHA_NEW btSphereShape(radius);
 	float volume = 4 / 3 * pi<float>() * radius * radius;
 	float mass = volume * LookUpDensity(density);
-	AddShape(actor.get(), shape, mass, material, transform, hasLocalInteria);
+	AddShape(actor, shape, mass, material, transform, hasLocalInteria);
 }
 // -----------------------------------------------------------------------
-void BulletPhysics::VAddStaticPlane(StrongActorPtr actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria)
+void BulletPhysics::VAddStaticPlane(Actor* actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria)
 {
 	btCollisionShape* shape = ALPHA_NEW btStaticPlaneShape(BulletMathsHelper::ConvertFromVec3(normal), planeConstant);
-	AddShape(actor.get(), shape, 0, material, transform, hasLocalInteria);
+	AddShape(actor, shape, 0, material, transform, hasLocalInteria);
 }
 // -----------------------------------------------------------------------
-void BulletPhysics::VAddBox(vec3 dimensions, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
+void BulletPhysics::VAddBox(vec3 dimensions, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
 {
 	btCollisionShape* shape = ALPHA_NEW btBoxShape(BulletMathsHelper::ConvertFromVec3(dimensions));
 	float volume = 8*dimensions.x * dimensions.y * dimensions.z; // times each dimension 2 (2 x 2 x 2 = 8) 
 	float mass = volume * LookUpDensity(density);
-	AddShape(actor.get(), shape, mass, material, transform, hasLocalInteria);
+	AddShape(actor, shape, mass, material, transform, hasLocalInteria);
 }
 // ----------------------------------------------------------------------
-void BulletPhysics::VAddMesh(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
+void BulletPhysics::VAddMesh(string meshName, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
 {
 	shared_ptr<Resource> colMeshRes(ALPHA_NEW Resource(meshName));
 	PhysicsSystem::Get().GetCollisionMeshManager()->AddResource(colMeshRes);
@@ -191,7 +191,7 @@ void BulletPhysics::VAddMesh(string meshName, StrongActorPtr actor, string densi
 	m_pendingColMeshQueue.push_back(pendingMesh);
 }
 // -----------------------------------------------------------------------
-void BulletPhysics::VAddHeightField(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
+void BulletPhysics::VAddHeightField(string meshName, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria)
 {
 	shared_ptr<Resource> colMeshRes(ALPHA_NEW Resource(meshName));
 	PhysicsSystem::Get().GetCollisionMeshManager()->AddResource(colMeshRes);
@@ -316,7 +316,7 @@ bool BulletPhysics::VLoadCollisionMeshes()
 			btVector3 const aabbExtents = aabbMax - aabbMin;
 			float const volume = aabbExtents.x() * aabbExtents.y() * aabbExtents.z();
 			btScalar const mass = volume * (*it).m_density;
-			AddShape((*it).m_actor.get(), shape, mass, (*it).m_material, (*it).m_transform, (*it).m_hasLocalInteria);
+			AddShape((*it).m_actor, shape, mass, (*it).m_material, (*it).m_transform, (*it).m_hasLocalInteria);
 			auto eraseIt = it;
 			it++;
 			m_pendingColMeshQueue.erase(eraseIt);

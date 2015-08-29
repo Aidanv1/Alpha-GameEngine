@@ -6,9 +6,9 @@ m_camParam(),
 m_viewMatrix(1.0f),
 m_targetNode(NULL),
 m_mode(),
-m_orbitalRadius(10),
-m_orbitalMax(20),
-m_orbitalMin(0),
+m_orbitalRadius(20),
+m_orbitalMax(45),
+m_orbitalMin(5),
 m_frustum(),
 m_translationMatrix(1.0f),
 m_rotationMatrix(1.0f)
@@ -61,7 +61,9 @@ void CameraNode::VUpdateNode(Scene* scene, float deltaMs)
 		mat4 rotMat = rotate(mat4(1.0f), m_rotation.x, vec3(-1.0f, 0.0f, 0.0f));
 		vec4 vectorPos = rotMat * vec4(0, 0, 1.0f, 0);
 		rotMat = rotate(mat4(1.0f), m_rotation.y, vec3(0.0f, -1.0f, 0.0f));	
-		vectorPos = rotMat * vectorPos;
+		mat4 targetRot;
+		m_targetNode->GetRotationInWorld(targetRot);
+		vectorPos = targetRot *rotMat * vectorPos;
 		vec3 targetPos;
 		m_targetNode->GetPositionInWorld(targetPos);
 		m_nodeProperties.m_toWorld.SetPosition(vec3(vectorPos) * m_orbitalRadius + targetPos);

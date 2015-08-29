@@ -34,7 +34,7 @@ StrongActorPtr ActorFactory::CreateActor(TiXmlElement* pElement)
 			return NULL;
 		}
 		//add component to actor
-		pComponent->SetOwner(pActor);
+		pComponent->SetOwner(pActor.get());
 		pActor->AddComponent(pComponent);
 		componentElement = componentElement->NextSiblingElement();
 	}

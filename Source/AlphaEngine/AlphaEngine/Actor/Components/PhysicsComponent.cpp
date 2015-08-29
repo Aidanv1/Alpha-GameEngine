@@ -10,7 +10,7 @@ PhysicsComponent::PhysicsComponent()
 // -----------------------------------------------------------------------
 PhysicsComponent::~PhysicsComponent()
 {
-
+	PhysicsSystem::Get().RigidBodyPhysics()->VRemoveShape(m_pOwner->GetID());
 }
 // -----------------------------------------------------------------------
 bool PhysicsComponent::VPostInit()

@@ -43,23 +43,11 @@ inline void Register_Listener(EventType eventType, Y* x, RetType(X::*func)(Param
 	ListenerDelegate delegateListener = fastdelegate::MakeDelegate(x, func);
 	IEventManager::Get()->VRegisterListener(eventType, delegateListener);
 }
-template <class X, class Y, class Param1, class RetType>
-inline void Register_Listener(Y* x, RetType(X::*func)(Param1 p1) const)
-{
-	ListenerDelegate delegateListener = fastdelegate::MakeDelegate(x, func(p1));
-	IEventManager::Get()->VRegisterListener(eventType, delegateListener);
-}
 // -----------------------------------------------------------------------
 template <class X, class Y, class Param1, class RetType>
 inline void Deregister_Listener(EventType eventType, Y* x, RetType(X::*func)(Param1 p1))
 {
 	ListenerDelegate delegateListener = fastdelegate::MakeDelegate(x, func);
-	IEventManager::Get()->VDeregisterListener(eventType, delegateListener);
-}
-template <class X, class Y, class Param1, class RetType>
-inline void Deregister_Listener(Y* x, RetType(X::*func)(Param1 p1) const)
-{
-	ListenerDelegate delegateListener = fastdelegate::MakeDelegate(x, func(p1));
 	IEventManager::Get()->VDeregisterListener(eventType, delegateListener);
 }
 // -----------------------------------------------------------------------

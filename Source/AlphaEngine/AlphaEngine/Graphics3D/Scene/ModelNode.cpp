@@ -159,11 +159,7 @@ void ModelNode::VRender(Scene* pScene)
 // -----------------------------------------------------------------------
 void ModelNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
-	if (VHasAnimation("testanim.amod_0"))
-	{
-		VPlayAnimation("testanim.amod_0");
-	}
-	
+	SceneNode::VUpdateNode(pScene, deltaMS);
 }
 // -----------------------------------------------------------------------
 void ModelNode::VRenderChildren(Scene* pScene)

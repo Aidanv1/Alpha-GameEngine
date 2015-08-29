@@ -52,6 +52,8 @@ public:
 	virtual NodeProperties VGetNodeProperties() const = 0;
 	virtual void VSetNodeProperties(NodeProperties &nodeProperties) = 0;
 	virtual bool VConfigureXmlNodeData(TiXmlElement* pConfigElement) = 0;
+	virtual void VDestroyNode() = 0;
+	virtual bool VIsActive() = 0;
 protected:
 	virtual void VRenderChildren(Scene* pScene) = 0;
 };
@@ -77,6 +79,10 @@ public:
 	float GetRadius() const { return m_radius; }
 	float VGetScreenZ() const override { return m_screenZ; }
 	virtual bool VConfigureXmlNodeData(TiXmlElement* pConfigElement) override { return true; }
+	//destroy node
+	void VDestroyNode() override;
+	//check if node has been destroyed
+	bool VIsActive() override;
 protected:
 	virtual void VRenderChildren(Scene* pScene) override;
 protected:
@@ -86,6 +92,7 @@ protected:
 	float m_radius;
 	bool m_isVisible;
 	float m_screenZ;
+	bool m_isActive;
 
 };
 //========================================================================

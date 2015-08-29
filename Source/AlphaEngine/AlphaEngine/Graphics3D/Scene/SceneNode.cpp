@@ -5,7 +5,8 @@ SceneNode::SceneNode() :
 m_nodeProperties(),
 m_radius(0),
 m_isVisible(true),
-m_screenZ(0)
+m_screenZ(0),
+m_isActive(true)
 {
 }
 // -----------------------------------------------------------------------
@@ -13,7 +14,8 @@ SceneNode::SceneNode(string name) :
 m_nodeProperties(),
 m_radius(0),
 m_name(name),
-m_screenZ(0)
+m_screenZ(0),
+m_isActive(true)
 {
 }
 // -----------------------------------------------------------------------
@@ -72,9 +74,18 @@ bool SceneNode::VInitNode()
 // -----------------------------------------------------------------------
 void SceneNode::VUpdateNode(Scene* pScene, float deltaMS)
 {
-	for (auto child = m_children.begin(); child != m_children.end(); child++)
+	auto child = m_children.begin();
+	while (child != m_children.end())
 	{
-		(*child)->VUpdateNode(pScene, deltaMS);
+		if ((*child)->VIsActive())
+		{
+			(*child)->VUpdateNode(pScene, deltaMS);
+			child++;
+		}
+		else
+		{
+			child = m_children.erase(child);
+		}
 	}
 }
 // -----------------------------------------------------------------------
@@ -86,4 +97,14 @@ void SceneNode::VSetTransform(Matrix4x4& ToWorld)
 void SceneNode::VSetTransform(mat4& ToWorld)
 {
 	m_nodeProperties.m_toWorld = ToWorld;
+}
+// -----------------------------------------------------------------------
+void SceneNode::VDestroyNode()
+{
+	m_isActive = false;
+}
+// -----------------------------------------------------------------------
+bool SceneNode::VIsActive()
+{
+	return m_isActive;
 }

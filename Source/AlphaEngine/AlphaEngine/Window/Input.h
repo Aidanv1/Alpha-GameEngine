@@ -1,5 +1,7 @@
 #pragma once
 #include "../Common/FuncDelegate.h"
+#include <map>
+#include <memory>
 //========================================================================
 enum KeyName
 {
@@ -61,7 +63,30 @@ struct MotionEvent
 	{
 	}
 };
+// -----------------------------------------------------------------------
 typedef AJ::FuncDelegate<void, void> KeyCommand;
 typedef AJ::FuncDelegate<void, MotionEvent> MotionCommand;
 
+typedef std::map < Key, KeyCommand > KeyCommandMap;
+typedef std::map < Key, bool > KeyStateMap;
+typedef std::map < MotionType, MotionCommand > MotionCommandMap;
+
 //========================================================================
+class BindingSetHandler
+{
+public:
+	BindingSetHandler();
+	~BindingSetHandler();
+
+	void AddBinding(KeyName key, KeyCommand command, bool onPress);
+	void AddBinding(MotionType motionType, MotionCommand command);
+	void DoCommand(KeyName key, bool pressed);
+	void DoCommand(MotionType motionType, MotionEvent);
+private:
+	KeyCommandMap		m_keyDownCommandMap;
+	KeyCommandMap		m_keyUpCommandMap;
+	KeyStateMap			m_keyCurrentStateMap;
+	MotionCommandMap	m_motionCommandMap;
+};
+//========================================================================
+typedef std::shared_ptr<BindingSetHandler> StrongBindingSetHandlerPtr;

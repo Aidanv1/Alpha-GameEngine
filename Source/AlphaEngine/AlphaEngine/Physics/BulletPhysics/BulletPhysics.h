@@ -56,7 +56,7 @@ struct HeightFieldInfo
 struct PendingCollisionMesh
 {
 	shared_ptr<Resource>	m_colMeshRes;
-	StrongActorPtr			m_actor;
+	Actor*					m_actor;
 	float					m_density;
 	string					m_material;
 	Matrix4x4				m_transform;
@@ -96,11 +96,11 @@ public:
 	//Add shape
 	virtual void VRemoveShape(ActorID actorId) override;
 	virtual void AddShape(Actor* actor, btCollisionShape* shape, float mass, string material, Matrix4x4& transform, bool hasLocalInteria);
-	virtual void VAddSphere(float const radius, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
-	virtual void VAddStaticPlane(StrongActorPtr actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria) override;
-	virtual void VAddBox(vec3 dimensions, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
-	virtual void VAddHeightField(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
-	virtual void VAddMesh(string meshName, StrongActorPtr actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
+	virtual void VAddSphere(float const radius, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
+	virtual void VAddStaticPlane(Actor* actor, string density, string material, Matrix4x4& transform, vec3 normal, float planeConstant, bool hasLocalInteria) override;
+	virtual void VAddBox(vec3 dimensions, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
+	virtual void VAddHeightField(string meshName, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
+	virtual void VAddMesh(string meshName, Actor* actor, string density, string material, Matrix4x4& transform, bool hasLocalInteria) override;
 	//Mechanics
 	virtual void VSetVelocity(ActorID actorID, vec3 velocity) override;
 	virtual vec3 VGetVelocity(ActorID actorID) const override;

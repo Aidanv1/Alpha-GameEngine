@@ -199,6 +199,12 @@
     <ClCompile Include="EventManager\IEventManager.cpp">
       <Filter>EventManager</Filter>
     </ClCompile>
+    <ClCompile Include="Window\Input.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\ActorEvents.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -552,6 +558,9 @@
     </ClInclude>
     <ClInclude Include="Window\Input.h">
       <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\ActorEvents.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

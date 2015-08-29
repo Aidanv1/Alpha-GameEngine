@@ -61,7 +61,7 @@ public:
 	virtual bool VConfigureXmlNodeData(TiXmlElement* pElement) override;
 
 	//Look event delegate listens reacts to lookevents ie. any camera movement
-	void LookEventDelegate(StrongEventPtr event);
+	void LookEventDelegate(StrongEventPtr e);
 private:
 	void LookAtTarget();
 private:	
