@@ -4,8 +4,10 @@
 #include "ComponentCreators\GraphicsComponentCreator.h"
 #include "ComponentCreators\TransformComponentCreator.h"
 #include "ComponentCreators\PhysicsComponentCreator.h"
+#include "ComponentCreators\ClonerComponentCreator.h"
 #include "Components\PhysicsComponent.h"
 #include "Components\TransformComponent.h"
+
 #include "ActorEvents.h"
 bool RoleSystem::m_initialized = false;
 // -----------------------------------------------------------------------
@@ -38,6 +40,9 @@ bool RoleSystem::Init()
 	//
 	StrongComponentCreatorPtr physicsComponentCreator(ALPHA_NEW PhysicsComponentCreator());
 	m_actorFactory.AddComponentCreator(physicsComponentCreator, "Physics");
+
+	StrongComponentCreatorPtr clonerComponentCreator(ALPHA_NEW ClonerComponentCreator());
+	m_actorFactory.AddComponentCreator(clonerComponentCreator, "Cloner");
 	return true;
 }
 // -----------------------------------------------------------------------
@@ -58,6 +63,13 @@ bool RoleSystem::Populate(TiXmlElement* pRoot)
 		pElement = pElement->NextSiblingElement();
 	}
 	return true;
+}
+// -----------------------------------------------------------------------
+void RoleSystem::AddActor(TiXmlElement* pActorElem)
+{
+	StrongActorPtr actor = m_actorFactory.CreateActor(pActorElem);
+	m_actorRegistry[actor->GetID()] = actor;
+	m_actorNameMap[actor->GetName()] = actor;
 }
 // -----------------------------------------------------------------------
 RoleSystem& RoleSystem::Get()
@@ -107,14 +119,25 @@ void RoleSystem::ActorDestroyedDelegate(StrongEventPtr e)
 		return;
 	}
 	auto id = desEvent->GetActorID();
+	string name;
 	//if actor exists, destroy it
 	auto findIt = m_actorRegistry.find(id);
 	if (findIt != m_actorRegistry.end())
 	{
 		Actor* a = (*findIt).second.get();
 		a->Destroy();
+		name = a->GetName();
 		m_actorRegistry.erase(findIt);
+
+		//erase from name map as well
+		auto findIt1 = m_actorNameMap.find(name);
+		if (findIt1 != m_actorNameMap.end())
+		{
+			m_actorNameMap.erase(findIt1);
+		}
 	}
+
+
 }
 // -----------------------------------------------------------------------
 void RoleSystem::ActorMovedDelegate(StrongEventPtr e)

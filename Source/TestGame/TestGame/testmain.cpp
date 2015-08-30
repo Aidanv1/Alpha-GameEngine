@@ -5,6 +5,7 @@
 #include "EventManager\EventManager.h"
 #include "Window\IWindow.h"
 #include "Physics\PhysicsEvents.h"
+#include "Actor\RoleSystem.h"
 //========================================================================
 //GAME LOOP
 //========================================================================
@@ -52,6 +53,7 @@ private:
 };
 
 GameStateClass g_gameState;
+ActorID m_mainActorID = -1;
 //========================================================================
 //INPUT FUNCTIONS
 //========================================================================
@@ -77,7 +79,7 @@ void MoveForward()
 	{
 		return;
 	}
-	ActorMovedEvent* e = new ActorMovedEvent(4);
+	ActorMovedEvent* e = new ActorMovedEvent(m_mainActorID);
 	e->SetVelocity(vec3(0, 0, -10));
 	Queue_Event(e);
 }
@@ -88,48 +90,48 @@ void MoveBackward()
 	{
 		return;
 	}
-	ActorMovedEvent* e = new ActorMovedEvent(4);
+	ActorMovedEvent* e = new ActorMovedEvent(m_mainActorID);
 	e->SetVelocity(vec3(0, 0, 10));
 	Queue_Event(e);
 }
 // -----------------------------------------------------------------------
 void TurnLeft()
 {
-	ActorMovedEvent* e = new ActorMovedEvent(4);
+	ActorMovedEvent* e = new ActorMovedEvent(m_mainActorID);
 	e->SetAngularVelocity(vec3(0, 2, 0));
 	Queue_Event(e);
 }
 // -----------------------------------------------------------------------
 void TurnRight()
 {
-	ActorMovedEvent* e = new ActorMovedEvent(4);
+	ActorMovedEvent* e = new ActorMovedEvent(m_mainActorID);
 	e->SetAngularVelocity(vec3(0, -2, 0));
 	Queue_Event(e);
 }
 // -----------------------------------------------------------------------
 void StopTurning()
 {
-	ActorMovedEvent* e = new ActorMovedEvent(4);
+	ActorMovedEvent* e = new ActorMovedEvent(m_mainActorID);
 	e->SetAngularVelocity(vec3(0, 0, 0));
 	Queue_Event(e);
 }
 // -----------------------------------------------------------------------
 void StopMoving()
 {
-	ActorMovedEvent* e = new ActorMovedEvent(4);
+	ActorMovedEvent* e = new ActorMovedEvent(m_mainActorID);
 	e->SetVelocity(vec3(0, 0, 0));
 	Queue_Event(e);
 }
 // -----------------------------------------------------------------------
 void DestroyActor()
 {
-	ActorDestroyedEvent* e = new ActorDestroyedEvent(3);
+	ActorDestroyedEvent* e = new ActorDestroyedEvent(m_mainActorID);
 	Queue_Event(e);
 }
 // -----------------------------------------------------------------------
 void Jump()
 {
-	ActorJumpedEvent* e = new ActorJumpedEvent(4, vec3(0, 50, 0));
+	ActorJumpedEvent* e = new ActorJumpedEvent(m_mainActorID, vec3(0, 150, 0));
 	Queue_Event(e);
 }
 // -----------------------------------------------------------------------
@@ -175,6 +177,8 @@ int main(int argc, char *argv[])
 
 		gameLoop.GetWindow()->VSetKeyInputCommand(Key_X, k2);
 		gameLoop.GetWindow()->VSetKeyInputCommand(Key_Space, k8);
+
+		m_mainActorID = RoleSystem::Get().GetActor("test")->GetID();
 		gameLoop.StartLoop();
 	}
 	return 0;

@@ -4,6 +4,5 @@ IActorComponent* TransformComponentCreator::CreateComponent(TiXmlElement* pEleme
 {
 	TransformComponent* component = ALPHA_NEW TransformComponent();
 	TiXmlElement* nextElem = pElement->FirstChildElement();
-	component->VInitComponent(nextElem);
 	return component;
 }

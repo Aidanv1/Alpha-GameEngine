@@ -8,14 +8,15 @@ class TiXmlElement;
 typedef std::map<ActorID, StrongActorPtr> ActorMap;
 typedef std::map<std::string, StrongActorPtr> ActorNameMap;
 //========================================================================
-class RoleSystem
+class DLLExport RoleSystem
 {
 public:	
 	~RoleSystem();
 	bool Populate(TiXmlElement* pRoot);
+	void AddActor(TiXmlElement* pActorElem);
 	static RoleSystem& Get();
-	DLLExport Actor* GetActor(ActorID id) const;
-	DLLExport Actor* GetActor(std::string name) const;
+	Actor* GetActor(ActorID id) const;
+	Actor* GetActor(std::string name) const;
 	void Update(float deltaMs);
 	//delegate listeners
 	void ActorDestroyedDelegate(StrongEventPtr e);

@@ -1,0 +1,16 @@
+<Positions>
+	<position	pX ="-5.0" pY ="10" pZ ="-5.0" 
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+	<position	pX ="0.0" pY ="10" pZ ="-5.0" 
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+	<position	pX ="15.0" pY ="10" pZ ="-20.0" 
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="6.0" pY ="10" pZ ="-7.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-13.0" pY ="10" pZ ="20.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>  
+</Positions>

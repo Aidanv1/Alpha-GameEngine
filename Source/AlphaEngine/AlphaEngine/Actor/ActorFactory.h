@@ -6,7 +6,7 @@ class TiXmlElement;
 //
 typedef std::shared_ptr<IComponentCreator> StrongComponentCreatorPtr;
 //========================================================================
-class ActorFactory
+class DLLExport ActorFactory
 {
 public:
 	ActorFactory();

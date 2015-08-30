@@ -118,9 +118,11 @@ xcopy /y $(DEV)\Alpha\Source\AlphaEngine\AlphaEngine\Config $(SolutionDir)TestGa
     <ClCompile Include="Actor\Actor.cpp" />
     <ClCompile Include="Actor\ActorEvents.cpp" />
     <ClCompile Include="Actor\ActorFactory.cpp" />
+    <ClCompile Include="Actor\ComponentCreators\ClonerComponentCreator.cpp" />
     <ClCompile Include="Actor\ComponentCreators\GraphicsComponentCreator.cpp" />
     <ClCompile Include="Actor\ComponentCreators\PhysicsComponentCreator.cpp" />
     <ClCompile Include="Actor\ComponentCreators\TransformComponentCreator.cpp" />
+    <ClCompile Include="Actor\Components\ClonerComponent.cpp" />
     <ClCompile Include="Actor\Components\GraphicsComponent.cpp" />
     <ClCompile Include="Actor\Components\PhysicsComponent.cpp" />
     <ClCompile Include="Actor\Components\TransformComponent.cpp" />
@@ -188,9 +190,11 @@ xcopy /y $(DEV)\Alpha\Source\AlphaEngine\AlphaEngine\Config $(SolutionDir)TestGa
     <ClInclude Include="Actor\Actor.h" />
     <ClInclude Include="Actor\ActorEvents.h" />
     <ClInclude Include="Actor\ActorFactory.h" />
+    <ClInclude Include="Actor\ComponentCreators\ClonerComponentCreator.h" />
     <ClInclude Include="Actor\ComponentCreators\GraphicsComponentCreator.h" />
     <ClInclude Include="Actor\ComponentCreators\PhysicsComponentCreator.h" />
     <ClInclude Include="Actor\ComponentCreators\TransformComponentCreator.h" />
+    <ClInclude Include="Actor\Components\ClonerComponent.h" />
     <ClInclude Include="Actor\Components\GraphicsComponent.h" />
     <ClInclude Include="Actor\Components\PhysicsComponent.h" />
     <ClInclude Include="Actor\Components\TransformComponent.h" />

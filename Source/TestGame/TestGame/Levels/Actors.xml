@@ -37,22 +37,26 @@
     </Physics>
 
   </Actor>
+ 
+   <Actor name = "grassPopulator">    
+    <Cloner>
+      <Properties transformType = "positions"
+                  positionsFile ="../../../Assets/grassPoints.position"> 
+	  </Properties>	  
+	  
+	   <Actor name = "grass">   
 
-  <Actor name = "grass">
+		<Graphics type ="Model">
+		  <Properties modelFileName = "../../../Assets/grass01.amod"
+					  radius ="3"
+					  alphaType ="Transparent"/>
+		</Graphics>
+	   </Actor>	
+	   
+    </Cloner>
+   </Actor>   
 
-    <Transform>
-      <Position x ="-5.0" y ="0.2" z ="-5.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-    </Transform>
-    
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/grass01.amod"
-                  radius ="3"
-                  alphaType ="Transparent"/>
-    </Graphics>
-   </Actor>
-
-<Actor name = "test">
+   <Actor name = "test">
 
     <Transform>
       <Position x ="0.0" y ="1" z ="-5.0" />
@@ -67,63 +71,37 @@
 	<Physics>
       <PhysicsMaterial>Normal</PhysicsMaterial>
       <Density>aluminium</Density>
-      <Shape type ="sphere">
-        <Properties radius = "1"  hasLocalInertia ="false"/>
-      </Shape>     
-    </Physics>
+		  <Shape type ="box">
+			<Properties halfX = "1"  halfY = "1" halfZ = "1" hasLocalInertia ="false"/>
+		  </Shape>      
+    </Physics>   
    
   </Actor>
-
-
-  <!--<Actor name = "Ironman">
-    <Transform>
-      <Position x ="0.0" y ="20" z ="-10.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="0.0" zAxis ="0.0" />
-    </Transform>
-
-    <Graphics type ="Model">
-      <Properties modelFileName = "../../../Assets/Ironman/Ironman.dae"/>
-    </Graphics>
-
-    <Physics>
-      <PhysicsMaterial>Bouncy</PhysicsMaterial>
-      <Density>aluminium</Density>
-      <Shape type ="box">
-        <Properties halfX = "1.0" halfY = "1.0" halfZ = "1.0" hasLocalInertia ="true"/>
-      </Shape>
-    </Physics>
-  </Actor>-->
-
-  <!--<Actor name = "Light1">
-    <Graphics type ="Light">
-      <Properties  dirX="0.0" dirY="0.0" dirZ="0.0"
-                   posX="10.0" posY="5.0" posZ="20.0"
-                   intenR="0" intenG="0" intenB="1"
-                   attenuation="10.0"                   
-                   type="Point"       
-        />      
-    </Graphics>
-  </Actor>-->
-  <!--<Actor name = "Light2">
-    <Transform>
-      <Position x ="0.2" y ="40" z ="-10.0" />
-      <RotationInDegrees xAxis ="-90" yAxis ="-30.0" zAxis ="-30.0" />
-    </Transform>
-
-    <Graphics type ="Light">
-      <Properties  intenR="1" intenG="0" intenB="0"
-                   attenuation="20.0"
-                   type="Point"
-        />
-    </Graphics>
-    <Physics>
-      <PhysicsMaterial>Normal</PhysicsMaterial>
-      <Density>aluminium</Density>
-      <Shape type ="sphere">
-        <Properties radius = "1.0" hasLocalInertia ="true"/>
-      </Shape>
-    </Physics>
-  </Actor>-->
+  
+  
+  <Actor name = "blockSpawner">    
+    <Cloner>
+      <Properties transformType = "positions"
+                  positionsFile ="../../../Assets/blockPoints.position"> 
+	  </Properties>	  
+	  
+	  <Actor name = "block">
+		<Graphics type ="Model">
+		  <Properties modelFileName = "../../../Assets/testanim.amod"
+					  radius ="3"/>
+		</Graphics>	
+		<Physics>
+		  <PhysicsMaterial>Normal</PhysicsMaterial>
+		  <Density>aluminium</Density>
+		  <Shape type ="box">
+			<Properties halfX = "1"  halfY = "1" halfZ = "1" hasLocalInertia ="true"/>
+		  </Shape>     
+		</Physics>   
+	  </Actor>
+	   
+    </Cloner>
+   </Actor>     
+  
   <Actor name = "Light4">
     <Transform>
       <Position x ="5.0" y ="5" z ="-10.0" />
@@ -158,7 +136,7 @@
 
   <Actor name = "Main Camera">
     <Graphics type ="Camera">
-      <Properties mode = "FirstPerson" targetName = "test"/>
+      <Properties mode = "Orbital" targetName = "test"/>
       <Parameters
         FieldOfView ="45"
         AspectRatio ="1.7778"

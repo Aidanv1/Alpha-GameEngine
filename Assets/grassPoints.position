@@ -1,0 +1,74 @@
+<Positions>
+	<position	pX ="-5.0" pY ="0.2" pZ ="-5.0" 
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+	<position	pX ="0.0" pY ="0.2" pZ ="-5.0" 
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+	<position	pX ="5.0" pY ="0.2" pZ ="-5.0" 
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="6.0" pY ="0.2" pZ ="-7.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="8.0" pY ="0.2" pZ ="10.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-10.0" pY ="0.0" pZ ="15.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-16.0" pY ="0.2" pZ ="2.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+  
+  <position	pX ="1.0" pY ="0.2" pZ ="6.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-15.0" pY ="0.2" pZ ="-5.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="10.0" pY ="0.2" pZ ="-5.0"
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="15.0" pY ="0.2" pZ ="-5.0"
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="16.0" pY ="0.2" pZ ="-7.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="18.0" pY ="0.2" pZ ="10.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-20.0" pY ="0.0" pZ ="15.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-26.0" pY ="0.2" pZ ="2.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="11.0" pY ="0.2" pZ ="6.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-5.0" pY ="0.2" pZ ="5.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="0.0" pY ="0.2" pZ ="5.0"
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="5.0" pY ="0.2" pZ ="5.0"
+				rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="6.0" pY ="0.2" pZ ="17.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="8.0" pY ="0.2" pZ ="20.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-10.0" pY ="0.0" pZ ="25.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="-16.0" pY ="0.2" pZ ="12.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+
+  <position	pX ="1.0" pY ="0.2" pZ ="16.0"
+      rX = "-90" rY ="0.0" rZ ="0.0"/>
+  
+</Positions>

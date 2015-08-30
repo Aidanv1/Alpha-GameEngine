@@ -50,6 +50,7 @@ void TransformComponent::VUpdate(float deltaMs)
 // -----------------------------------------------------------------------
 bool TransformComponent::VInitComponent(TiXmlElement* pElement)
 {
+	pElement = pElement->FirstChildElement();
 	//loop through elements
 	while (pElement)
 	{
