@@ -142,7 +142,10 @@ void PhysicsComponent::SetVelocity(vec3& velocity, bool constant)
 	{
 		m_constantRelativeVelocity = velocity;
 	}
-	PhysicsSystem::Get().RigidBodyPhysics()->VSetVelocity(m_pOwner->GetID(), velocity);
+	else
+	{
+		PhysicsSystem::Get().RigidBodyPhysics()->VSetVelocity(m_pOwner->GetID(), velocity);
+	}
 }
 // -----------------------------------------------------------------------
 vec3 PhysicsComponent::GetVelocity() const
@@ -163,6 +166,7 @@ vec3 PhysicsComponent::GetAngularVelocity() const
 void PhysicsComponent::ApplyImpulseForce(vec3 force)
 {
 	PhysicsSystem::Get().RigidBodyPhysics()->VApplyImpulse(force, m_pOwner->GetID());
+	m_constantRelativeVelocity = vec3(0);
 }
 // -----------------------------------------------------------------------
 void PhysicsComponent::ApplyImpulseTorque(vec3 force)

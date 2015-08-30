@@ -19,16 +19,16 @@ m_actorFactory()
 RoleSystem::~RoleSystem()
 {
 	m_actorRegistry.clear();
-	Deregister_Listener(ActorDestroyedEvent::s_eventType, this, &RoleSystem::ActorDestroyedDelegate);
-	Deregister_Listener(ActorMovedEvent::s_eventType, this, &RoleSystem::ActorMovedDelegate);
-	Deregister_Listener(ActorJumpedEvent::s_eventType, this, &RoleSystem::ActorJumpedDelegate);
+	Deregister_Listener(EVENT_ACTOR_DESTROYED, this, &RoleSystem::ActorDestroyedDelegate);
+	Deregister_Listener(EVENT_ACTOR_MOVED, this, &RoleSystem::ActorMovedDelegate);
+	Deregister_Listener(EVENT_ACTOR_JUMPED, this, &RoleSystem::ActorJumpedDelegate);
 }
 // -----------------------------------------------------------------------
 bool RoleSystem::Init()
 {
-	Register_Listener(ActorDestroyedEvent::s_eventType, this, &RoleSystem::ActorDestroyedDelegate);
-	Register_Listener(ActorMovedEvent::s_eventType, this, &RoleSystem::ActorMovedDelegate);
-	Register_Listener(ActorJumpedEvent::s_eventType, this, &RoleSystem::ActorJumpedDelegate);
+	Register_Listener(EVENT_ACTOR_DESTROYED, this, &RoleSystem::ActorDestroyedDelegate);
+	Register_Listener(EVENT_ACTOR_MOVED, this, &RoleSystem::ActorMovedDelegate);
+	Register_Listener(EVENT_ACTOR_JUMPED, this, &RoleSystem::ActorJumpedDelegate);
 	//add component creators
 	StrongComponentCreatorPtr graphicsComponentCreator(ALPHA_NEW GraphicsComponentCreator());
 	m_actorFactory.AddComponentCreator(graphicsComponentCreator, "Graphics");

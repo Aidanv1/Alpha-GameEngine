@@ -4,6 +4,11 @@
 #include "../Maths/GameMaths.h"
 #include "Actor.h"
 //========================================================================
+//Event Unique IDs
+#define EVENT_ACTOR_DESTROYED 0x9a33c1b7
+#define EVENT_ACTOR_MOVED 0x2b168326
+#define EVENT_ACTOR_JUMPED 0xcc5d82cf
+//========================================================================
 class DLLExport ActorDestroyedEvent : public BaseEvent
 {
 public:
@@ -13,8 +18,6 @@ public:
 	void SetActorID(ActorID id);
 	ActorID GetActorID() const { return m_id; };
 	virtual EventType VGetEventType() const override;
-public:
-	static const EventType s_eventType;
 private:
 	ActorID m_id;
 };
@@ -33,8 +36,6 @@ public:
 	vec3 GetVelocity() { return m_velocity; }
 	ActorID GetActorID() const { return m_id; };
 	virtual EventType VGetEventType() const override;
-public:
-	static const EventType s_eventType;
 private:
 	vec3	m_velocity;
 	vec3    m_angularVelocity;
@@ -53,8 +54,6 @@ public:
 	vec3 GetForce() { return m_force; }
 	ActorID GetActorID() const { return m_id; };
 	virtual EventType VGetEventType() const override;
-public:
-	static const EventType s_eventType;
 private:
 	vec3	m_force;
 	ActorID m_id;

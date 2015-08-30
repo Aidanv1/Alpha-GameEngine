@@ -1,7 +1,15 @@
 #pragma once
 #include "../EventManager/Events/Events.h"
-#include "../AlphaStd.h"
+#include "../Maths/GameMaths.h"
 #include "../Actor/Actor.h"
+//========================================================================
+//Event Unique IDs
+#define EVENT_PHYSICS_NEWCOLLISION 0x42799D4B
+#define EVENT_PHYSICS_REMOVEDCOLLISION 0x2ea19f5f
+#define EVENT_PHYSICS_LOADED 0xf16a9698
+//========================================================================
+using namespace std;
+#include <set>
 //========================================================================
 //The contact information is stored as an average of all actual contact points
 //as this is sufficient information in most games.
@@ -36,9 +44,7 @@ public:
 	NewCollisionEvent(CollisionObjectInfo info1, CollisionObjectInfo info2);
 	~NewCollisionEvent();
 	NewActorCollisionPair GetCollisionPair() { return m_collidedActorsInfo; }
-	EventType VGetEventType() const override { return s_eventType; }
-public:
-	static const EventType s_eventType;
+	EventType VGetEventType() const override { return EVENT_PHYSICS_NEWCOLLISION; }
 private:
 	NewActorCollisionPair m_collidedActorsInfo;
 };
@@ -51,9 +57,7 @@ public:
 	RemovedCollisionEvent(ActorID id1, ActorID id2);
 	~RemovedCollisionEvent();
 	RemovedActorCollisionPair GetCollisionPair() { return m_collidedActorsInfo; }
-	EventType VGetEventType() const override { return s_eventType; }
-public:
-	static const EventType s_eventType;
+	EventType VGetEventType() const override { return EVENT_PHYSICS_REMOVEDCOLLISION; }
 private:
 	RemovedActorCollisionPair m_collidedActorsInfo;
 };
@@ -63,8 +67,6 @@ class PhysicsLoadedEvent : public BaseEvent
 public:
 	PhysicsLoadedEvent();
 	~PhysicsLoadedEvent();
-	EventType VGetEventType() const override { return s_eventType; }
-public:
-	static const EventType s_eventType;
+	EventType VGetEventType() const override { return EVENT_PHYSICS_LOADED; }
 };
 //========================================================================

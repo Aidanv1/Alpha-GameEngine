@@ -92,7 +92,7 @@ void CameraNode::LookAtTarget()
 // -----------------------------------------------------------------------
 bool CameraNode::VInitNode()
 {
-	Register_Listener(LookEvent::s_eventType, this, &CameraNode::LookEventDelegate);
+	Register_Listener(EVENT_GRAPHICS_LOOKEVENT, this, &CameraNode::LookEventDelegate);
 	return true;
 }
 // -----------------------------------------------------------------------

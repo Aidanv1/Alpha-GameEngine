@@ -1,10 +1,10 @@
 #include "GameLoop\GameLoop.h"
 #include "Common/GameContext.h"
-#include "EventManager\Events\Events.h"
+#include "Graphics3D\GraphicsEvents.h"
 #include "Actor/ActorEvents.h"
 #include "EventManager\EventManager.h"
 #include "Window\IWindow.h"
-
+#include "Physics\PhysicsEvents.h"
 //========================================================================
 //GAME LOOP
 //========================================================================
@@ -16,6 +16,42 @@ private:
 		GameContext::Get()->GetGraphicsRenderer()->VDrawPoint(vec3(1), 20, vec4(1));
 	}
 };
+//========================================================================
+//GAME STATE TEST CLASS
+//========================================================================
+class GameStateClass
+{
+public:
+	GameStateClass() :
+		m_actorOnGround(true)
+	{}
+	void OnRemovedCollision(StrongEventPtr e)
+	{
+		RemovedCollisionEvent* colEvent = dynamic_cast<RemovedCollisionEvent*>(e.get());
+		if (colEvent->GetCollisionPair().first == 4 ||
+			colEvent->GetCollisionPair().second == 4)
+		{
+			m_actorOnGround = false;
+			ActorMovedEvent* e = new ActorMovedEvent(4);
+			e->SetVelocity(vec3(0, 0, 0));
+			Queue_Event(e);
+		}
+	}
+	void OnNewCollision(StrongEventPtr e)
+	{
+		NewCollisionEvent* colEvent = dynamic_cast<NewCollisionEvent*>(e.get());
+		if (colEvent->GetCollisionPair().first.m_actorID == 4 ||
+			colEvent->GetCollisionPair().second.m_actorID == 4)
+		{
+			m_actorOnGround = true;
+		}
+	}
+	bool IsActorOnGround() { return m_actorOnGround; }
+private:
+	bool m_actorOnGround;
+};
+
+GameStateClass g_gameState;
 //========================================================================
 //INPUT FUNCTIONS
 //========================================================================
@@ -37,6 +73,10 @@ void CameraZoom(MotionEvent e)
 // -----------------------------------------------------------------------
 void MoveForward()
 {
+	if (!g_gameState.IsActorOnGround())
+	{
+		return;
+	}
 	ActorMovedEvent* e = new ActorMovedEvent(4);
 	e->SetVelocity(vec3(0, 0, -10));
 	Queue_Event(e);
@@ -44,6 +84,10 @@ void MoveForward()
 // -----------------------------------------------------------------------
 void MoveBackward()
 {
+	if (!g_gameState.IsActorOnGround())
+	{
+		return;
+	}
 	ActorMovedEvent* e = new ActorMovedEvent(4);
 	e->SetVelocity(vec3(0, 0, 10));
 	Queue_Event(e);
@@ -85,15 +129,19 @@ void DestroyActor()
 // -----------------------------------------------------------------------
 void Jump()
 {
-	ActorJumpedEvent* e = new ActorJumpedEvent(4, vec3(0, 100, 0));
+	ActorJumpedEvent* e = new ActorJumpedEvent(4, vec3(0, 50, 0));
 	Queue_Event(e);
 }
+// -----------------------------------------------------------------------
+
 //========================================================================
 int main(int argc, char *argv[])
 {
 	TestGameLoop gameLoop;
 	if (gameLoop.Init())
 	{
+		Register_Listener(EVENT_PHYSICS_REMOVEDCOLLISION, &g_gameState, &GameStateClass::OnRemovedCollision);
+		Register_Listener(EVENT_PHYSICS_NEWCOLLISION, &g_gameState, &GameStateClass::OnNewCollision);
 		MotionCommand m(CameraLook);
 		MotionCommand m2(CameraZoom);
 		KeyCommand k(MoveForward);

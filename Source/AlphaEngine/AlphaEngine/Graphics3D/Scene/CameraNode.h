@@ -2,7 +2,7 @@
 #include "../../AlphaStd.h"
 #include "SceneNode.h"
 #include "../../EventManager/EventManager.h"
-#include "../../EventManager/Events/Events.h"
+#include "../GraphicsEvents.h"
 #include "../../Actor/Components/GraphicsComponent.h"
 #include "../../Actor/RoleSystem.h"
 #include	"../Geometry/Geometry.h"

@@ -104,10 +104,11 @@ void BulletPhysics::InternalTickCallBack(btDynamicsWorld * const world, btScalar
 	}
 	//Check for REMOVED Collisions
 	CollisionPairs removedPairs;
-	set_difference(	currentTickCollisionPairs.begin(),
+
+	set_difference(	bulletPhysics->m_previousTickCollisionPairs.begin(),
+					bulletPhysics->m_previousTickCollisionPairs.end(),
+					currentTickCollisionPairs.begin(),
 					currentTickCollisionPairs.end(), 
-					bulletPhysics->m_previousTickCollisionPairs.begin(), 
-					bulletPhysics->m_previousTickCollisionPairs.end(), 
 					inserter(removedPairs, removedPairs.begin()));
 
 	for (auto it = removedPairs.begin(); it != removedPairs.end(); it++)

@@ -1,10 +1,5 @@
 #include "PhysicsEvents.h"
 //========================================================================
-//Event Unique IDs
-const EventType NewCollisionEvent::s_eventType = 0x42799D4B;
-const EventType RemovedCollisionEvent::s_eventType = 0x2ea19f5f;
-const EventType PhysicsLoadedEvent::s_eventType = 0xf16a9698;
-//========================================================================
 NewCollisionEvent::NewCollisionEvent(ActorID id1, ActorID id2,
 									vec3& contactPoint1, vec3& contactPoint2,
 									vec3& contactNormal1, vec3& contactNormal2)
