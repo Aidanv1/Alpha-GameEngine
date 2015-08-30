@@ -11,7 +11,8 @@ m_orbitalMax(45),
 m_orbitalMin(5),
 m_frustum(),
 m_translationMatrix(1.0f),
-m_rotationMatrix(1.0f)
+m_rotationMatrix(1.0f),
+m_offset(0,2,-3)
 {
 
 }
@@ -41,14 +42,17 @@ void CameraNode::VUpdateNode(Scene* scene, float deltaMs)
 	switch (m_mode)
 	{
 	case FlyAround_Mode:
+	{
 		m_rotationMatrix = rotate(mat4(1.0f), m_rotation.x, vec3(-1.0f, 0.0f, 0.0f));
-		m_rotationMatrix = rotate(m_rotationMatrix, m_rotation.y, vec3(0.0f, -1.0f, 0.0f));		
-		m_viewMatrix = m_rotationMatrix * translate(mat4(1.0f), - m_nodeProperties.m_toWorld.GetPosition());
+		m_rotationMatrix = rotate(m_rotationMatrix, m_rotation.y, vec3(0.0f, -1.0f, 0.0f));
+		m_viewMatrix = m_rotationMatrix * translate(mat4(1.0f), -m_nodeProperties.m_toWorld.GetPosition());
 
 		m_translationMatrix = translate(mat4(1.0f), m_nodeProperties.m_toWorld.GetPosition());
-		
+
 		break;
+	}
 	case Orbital_Mode:
+	{
 		//clamp xaxis rotation
 		if (m_rotation.x > half_pi<float>() * 0.98)
 		{
@@ -60,7 +64,7 @@ void CameraNode::VUpdateNode(Scene* scene, float deltaMs)
 		}
 		mat4 rotMat = rotate(mat4(1.0f), m_rotation.x, vec3(-1.0f, 0.0f, 0.0f));
 		vec4 vectorPos = rotMat * vec4(0, 0, 1.0f, 0);
-		rotMat = rotate(mat4(1.0f), m_rotation.y, vec3(0.0f, -1.0f, 0.0f));	
+		rotMat = rotate(mat4(1.0f), m_rotation.y, vec3(0.0f, -1.0f, 0.0f));
 		mat4 targetRot;
 		m_targetNode->GetRotationInWorld(targetRot);
 		vectorPos = targetRot *rotMat * vectorPos;
@@ -68,8 +72,27 @@ void CameraNode::VUpdateNode(Scene* scene, float deltaMs)
 		m_targetNode->GetPositionInWorld(targetPos);
 		m_nodeProperties.m_toWorld.SetPosition(vec3(vectorPos) * m_orbitalRadius + targetPos);
 		LookAtTarget();
-		
+
 		break;
+	}
+	case FirstPerson_Mode:
+	{
+		mat4 tRot;
+		m_targetNode->GetRotationInWorld(tRot);
+		vec3 tPos;
+		m_targetNode->GetPositionInWorld(tPos);		
+		m_rotationMatrix = inverse(tRot);
+
+		vec4 offsetPosInverse = inverse(m_rotationMatrix) * vec4(-m_offset,1);
+		vec4 offsetPos = offsetPosInverse + vec4(tPos, 1);
+		//translation matrix for frustum
+		m_translationMatrix = translate(mat4(1.0f), vec3(offsetPos.x, offsetPos.y, offsetPos.z));
+
+		offsetPosInverse = offsetPosInverse - vec4(tPos, 1);
+		tPos = vec3(offsetPosInverse.x, offsetPosInverse.y, offsetPosInverse.z);
+		m_viewMatrix = m_rotationMatrix * translate(mat4(1.0f), tPos);
+		break;
+	}
 	}	
 	Matrix4x4 transform = m_translationMatrix * inverse(m_rotationMatrix);
 	m_frustum.VTransform(transform);
@@ -141,6 +164,10 @@ bool CameraNode::VConfigureXmlNodeData(TiXmlElement* pElement)
 			if (attrib == "FlyAround")
 			{
 				m_mode = FlyAround_Mode;
+			}
+			if (attrib == "FirstPerson")
+			{
+				m_mode = FirstPerson_Mode;
 			}
 			//target
 			if (nextElem->Attribute("targetName"))

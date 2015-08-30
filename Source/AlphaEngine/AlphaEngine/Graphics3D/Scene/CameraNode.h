@@ -10,7 +10,8 @@
 enum CameraMode
 {
 	FlyAround_Mode,
-	Orbital_Mode
+	Orbital_Mode,
+	FirstPerson_Mode
 };
 //========================================================================
 class CameraNode : public SceneNode
@@ -71,11 +72,15 @@ private:
 	mat4 m_viewMatrix;
 	SceneNode* m_targetNode;
 	vec3 m_rotation;
+	//for orbital mode
 	float m_orbitalRadius;
 	float m_orbitalMax;
 	float m_orbitalMin;
+	//
 	CameraParameters m_camParam;
 	CameraMode m_mode;
 	Frustum m_frustum;
+	//for first person mode
+	vec3 m_offset;
 };
 //========================================================================
