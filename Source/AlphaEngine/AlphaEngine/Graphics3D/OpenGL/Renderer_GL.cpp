@@ -2,6 +2,7 @@
 #include "../GraphicsSettings.h"
 #include "DrawableNodes\Text_GL.h"
 #include "../Scene/Scene.h"
+#include "../../Common/GameContext.h"
 // -----------------------------------------------------------------------
 Renderer_GL::Renderer_GL():
 m_backGroundColour(1,1,1,1)
@@ -94,7 +95,9 @@ bool Renderer_GL::VInit(TiXmlElement* pElement)
 	m_vertexBuffer.Init(2, NULL, 3, "lineDebug");
 
 	m_debugText = ALPHA_NEW Text_GL();
-	m_debugText->VInitText("K:/dev/Projects/Alpha/Assets/fonts/dev_font.png");
+	string devFontPath = GameContext::Get()->GetPath("Assets");
+	devFontPath.append("fonts/dev_font.png");
+	m_debugText->VInitText(devFontPath.c_str());
 	GraphicsSystem::Get().GetScene()->AddChild(StrongSceneNodePtr(m_debugText));
 	return success;
 }

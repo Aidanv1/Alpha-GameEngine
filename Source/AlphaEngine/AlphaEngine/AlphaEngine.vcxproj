@@ -59,20 +59,19 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\BulletPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\BulletPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
       <DisableSpecificWarnings>4251;4244;4305</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml\Debugtinyxml;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;$(DEV)\Alpha\Source\3rdParty\DevIL\lib;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\lib;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\BulletPhysics\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;BulletSoftBody_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;ILU.lib;BulletCollision_Debug.lib;BulletDynamics_Debug.lib;BulletSoftBody_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMTD %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86\SDL2.dll $(TargetDir)
-xcopy /y $(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\bin\Assimp32d.dll $(TargetDir)
 xcopy /y $(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\bin\Release\Win32\glew32.dll $(TargetDir)
 xcopy /y $(DEV)\Alpha\Source\3rdParty\DevIL\lib\DevIL.dll $(TargetDir)
 xcopy /y $(DEV)\Alpha\Source\3rdParty\DevIL\lib\ILU.dll $(TargetDir)
@@ -87,7 +86,7 @@ xcopy /y $(DEV)\Alpha\Source\AlphaEngine\AlphaEngine\Config $(TargetDir)Config /
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\include;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\BulletPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\include;$(DEV)\Alpha\Source\3rdParty\opengl\glm;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\include;$(DEV)\Alpha\Source\3rdParty\DevIL\include;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\BulletPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnablePREfast>false</EnablePREfast>
       <DisableSpecificWarnings>4244;4316;4101;4251;4244;4305</DisableSpecificWarnings>
     </ClCompile>
@@ -95,14 +94,13 @@ xcopy /y $(DEV)\Alpha\Source\AlphaEngine\AlphaEngine\Config $(TargetDir)Config /
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;assimp.lib;ILU.lib;BulletCollision.lib;BulletDynamics.lib;BulletSoftBody.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tinyxml.lib;SDL2.lib;SDL2main.lib;glew32.lib;opengl32.lib;DevIL.lib;ILU.lib;BulletCollision.lib;BulletDynamics.lib;BulletSoftBody.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(DEV)\Alpha\Source\3rdParty\tinyxml\Releasetinyxml;$(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86;$(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\lib\Release\Win32;$(DEV)\Alpha\Source\3rdParty\DevIL\lib;$(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\lib;$(DEV)\Alpha\Source\3rdParty\bullet3-2.83.4\BulletPhysics\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>NotSet</SubSystem>
       <AdditionalOptions>/NODEFAULTLIB:LIBCMT %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(DEV)\Alpha\Source\3rdParty\SDL2-2.0.3\lib\x86\SDL2.dll $(TargetDir)
-xcopy /y $(DEV)\Alpha\Source\3rdParty\Assimp3.0.1\bin\Assimp32d.dll $(TargetDir)
 xcopy /y $(DEV)\Alpha\Source\3rdParty\opengl\glew-1.11.0\bin\Release\Win32\glew32.dll $(TargetDir)
 xcopy /y $(DEV)\Alpha\Source\3rdParty\DevIL\lib\DevIL.dll $(TargetDir)
 xcopy /y $(DEV)\Alpha\Source\3rdParty\DevIL\lib\ILU.dll $(TargetDir)
